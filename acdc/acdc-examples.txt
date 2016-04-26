@@ -1,0 +1,113 @@
+
+// behavior of the scanner ------------------------------------------
+
+f a i b a = 3.4 b = 3 a = a - b p a
+
+0 
+6 a
+1 
+6 b
+6 a
+3 
+7 3.4
+6 b
+3 
+8 3
+6 a
+3 
+6 a
+5 
+6 b
+2 
+6 a
+
+// behavior of the parser ------------------------------------------
+
+f a i b i c a = 3.4 b = 3 c = 1 b = b - c a = a + b p a
+
+PROGRAM
+     DECLARATION       FLOAT a
+     DECLARATION       INT   b
+     DECLARATION       INT   c
+     STATEMENT         ASSIGN a 3.4
+     STATEMENT         ASSIGN b 3
+     STATEMENT         ASSIGN c 1
+     STATEMENT         ASSIGN b b - c
+     STATEMENT         ASSIGN a a + b
+     STATEMENT         PRINT  a
+
+f a i b i c a = 3.4 b = 3 c = 1 a = a + b - c p a
+
+PROGRAM
+     DECLARATION       FLOAT a
+     DECLARATION       INT   b
+     DECLARATION       INT   c
+     STATEMENT         ASSIGN a 3.4
+     STATEMENT         ASSIGN b 3
+     STATEMENT         ASSIGN c 1
+     STATEMENT         ASSIGN a a + b - c
+     STATEMENT         PRINT  a
+
+// behavior of the symbol table builder -----------------------------
+
+f a i b f c i d a = 1 b = 2 c = 3 d = a + b - c p d
+
+{a=IdentifierType@float,
+ c=IdentifierType@float,
+ b=IdentifierType@integer,
+ d=IdentifierType@integer}
+
+// behavior of the type checker -------------------------------------
+
+f a i b i c a = 3.4 b = 3 c = 1 b = b - c a = a + b p a
+
+     PROGRAM
+     DECLARATION float a (type none)
+     DECLARATION integer b (type none)
+     DECLARATION integer c (type none)
+
+     ASSIGN a (type float) = 3.4 (type float)
+     ASSIGN b (type int) = 3 (type int)
+     ASSIGN c (type int) = 1 (type int)
+     ASSIGN b (type int) = [ b (type int) - c (type int) ] (type int)
+     ASSIGN a (type float)
+            = a (type float) +
+              Int to float conversion of [b (type int)] (type float)
+     PRINT a (type float)
+
+f a i b i c a = 3.4 b = 3 c = 1 a = a + b - c p a
+
+     PROGRAM
+     DECLARATION float a (type none)
+     DECLARATION integer b (type none)
+     DECLARATION integer c (type none)
+
+     ASSIGN a (type float) = 3.4 (type float)
+     ASSIGN b (type int) = 3 (type int)
+     ASSIGN c (type int) = 1 (type int)
+     ASSIGN a (type float)
+            = a (type float) + 
+              Int to float conversion of
+                  [b (type int) - c (type int) (type int)] (type float)
+     PRINT a (type float)
+
+f a i b f c i d a = 1 b = 2 c = 3 d = a + b - c p d
+                                  ^^^^^^^^^^^^^
+     SEMANTIC EXCEPTION -- SemanticException: cannot convert float to int
+
+// behavior of the code generator -------------------------------------
+
+i a f b a = 5 b = a + 3.2 p b
+
+5
+sa
+0 k
+la
+5 k
+3.2
++
+sb
+0 k
+lb
+p
+si

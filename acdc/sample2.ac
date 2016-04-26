@@ -1,0 +1,9 @@
+f a
+i b
+i c
+a = 3.4
+b = 3
+c = 1
+b = b - c
+a = a + b
+p a
