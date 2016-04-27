@@ -1,0 +1,224 @@
+<HTML>
+<TITLE> CS 4550 -- Homework 2 </TITLE>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<HR/>
+<H2 ALIGN="center"> Homework 2                             </H2>
+<H3 ALIGN="center"> Processing a Simple Mark-Up Language   </H3>
+<HR/>
+<H4 ALIGN="center"> CS 4550                                <BR/>
+                    Translation of Programming Languages   </H4>
+<HR/>
+
+<P ALIGN="center">
+   <BR/><EM>OUT: Friday, September 4</EM>
+   <BR/><EM>DUE: Friday, September 11</EM>  </P>
+<BR/>
+<HR/>
+
+<H4> Background </H4>
+
+<P> We often find ourselves in need of a way to customize a piece
+    of text.  For instance, every semester, I generate web pages
+    for my courses that have a common header and footer style.
+    Or we might need to generate form letters based on the values
+    of names, addresses, and the like.  Writing a full-fledged
+    program for the task seems like overkill, especially when the
+    program is the same in general but different in details from
+    project to project.  </P>
+
+<P> What we need is a markup language tailored to the expansion
+    of templates.  </P>
+
+<P> Here is the grammar for a simple template mark-up language:
+<PRE>
+          &lt;exp&gt; ::= &lt;string&gt; &lt;exp&gt;
+                  | &lt;variable&gt; &lt;exp&gt;
+                  | &lt;open-tag&gt; &lt;exp&gt; &lt;close-tag&gt; &lt;exp&gt;
+                  | <B>&#949;</B>
+
+     &lt;variable&gt; ::= <B>{{</B> &lt;string&gt; <B>}</B>
+     &lt;open-tag&gt; ::= <B>{?</B> &lt;string&gt; <B>}</B>
+    &lt;close-tag&gt; ::= <B>{!</B> &lt;string&gt; <B>}</B>
+</PRE>  </P>
+
+<P> The variable template, <B>{{&lt;string&gt;}</B>, is expanded
+    by replacing it with the value associated with
+    <B>&lt;string&gt;</B> in a collection of name/value pairs.
+    (Python offers dictionaries; Java offers maps.  From here on,
+    I will refer to dictionaries.)  </P>
+
+<P> The template forms <B>{?&lt;string&gt;}</B> and
+    <B>{!&lt;string&gt;}</B> create paired tags.  The text between
+    this tags is expanded only if the value associated with
+    <B>&lt;string&gt;</B> in the dictionary is true.  </P>
+
+<P> All text not in a template or within a <B>{?}/{!}</B> pair
+    is expanded literally.  </P>
+
+<P> For example, given this dictionary:
+<PRE>
+     {
+       "name"        : "Chris",
+       "value"       : 10000,
+       "taxed_value" : 10000 - 10000 * 0.4,
+       "in_CA"       : false
+     }
+</PRE>  </P>
+
+<P> this template:
+<PRE>
+     Hello, {{name}.
+     You have just won ${{value}!
+     {?in_CA}
+     Well, ${{taxed_value}, after taxes.
+     {!in_CA}
+</PRE>  </P>
+
+<P> produces the following text:
+<PRE>
+     Hello, Chris.
+     You have just won $10000!
+</PRE>  </P>
+
+<P> If the value of <TT>in_CA</TT> were true, the template would
+    produce:
+<PRE>
+     Hello, Chris.
+     You have just won $10000!
+     Well, $6000, after taxes.
+</PRE>  </P>
+
+<P> This assignment asks you to implement a template processor for
+    this language.  Its goals are to let you:
+    <UL>
+    <LI> refresh your programming skills, and </LI>
+    <LI> confront some of the challenges of scanning and parsing
+         by using simple search in text </LI>
+    </UL>
+    with a simple language, before we dive head-first into your
+    compiler project.  It also gives you, if you wish, a chance to
+    reintroduce yourself to the ideas of:
+    <UL>
+    <LI> abstract syntax, </LI>
+    <LI> <A HREF="http://www.cs.uni.edu/~wallingf/patterns/recursion.html">
+            structural recursion</A>
+         over inductive tree structures, and </LI>
+    <LI> environments, which map variables to values.  </LI>
+    </UL>  </P>
+<BR/>
+<HR/>
+
+<H4> Tasks </H4>
+
+<UL>
+<LI> <B>Required</B>: Implement a program that expands templates
+     that contain strings and variables.
+
+     <P> Note that this is a subset of the full language, omitting
+     the paired boolean tags.  </P>
+
+     <P> On the task:
+         <UL>
+         <LI> Your interpreter should use a template and a dictionary
+              to print the expanded text.  </LI>
+         <BR/>
+         <LI> You may define your template and dictionary as strings
+              in code, or you may read them from files whose names are
+              given as command-line arguments.  </LI>
+         </UL>  </P>
+
+     <P> On the implementation:
+         <UL>
+         <LI> For this assignment, you have the option of working in
+              any high-level language.  If you choose to use a language
+              other than Python, Java, Racket, Ada, C/C++, or Ruby,
+              then run your idea by me by e-mail before the end of
+              the day Monday.  </LI>
+         <BR/>
+         <LI> You may work on this as <EM>an individual</EM> or <EM>in
+              a pair</EM>.  Again, let me know before the end of the
+              day Monday with whom you are working, if anyone.  </LI>
+         <BR/>
+         <LI> While you may certainly discuss the assignment with me
+              and your classmates (please do!), you or your partner
+              <B>must write all your own code</B>.  </LI>
+         <BR/>
+         <LI> The archive
+              <A HREF="homework02.tar.gz">
+                 homework02.tar.gz</A>
+              contains a sample template file, a sample output file,
+              and the framework of a Java program that processes
+              templates.  It is only an example.  Other languages
+              may provide better support for hashes and other data
+              structures.  You don't even have to use my code if
+              you program in Java.  </LI>
+         </UL>  </P>  </LI>
+<BR/>
+<LI> <B>Extra credit</B>: Here are a some opportunities to earn a
+     few extra points at the start of the semester.  You must do #1
+     before I will consider the others.
+     <OL>
+     <BR/>
+     <LI> Handle the full mark-up language, including the boolean
+          tags.  </LI>
+     <BR/>
+     <LI> Extend the mark-up language with other template
+          forms.
+
+          <P> For example, you might allow the dictionary to
+              include lists of items, and provide a form for
+              expanding the as a bullet list.  Or you might have
+              an inverse boolean test that expands only when a
+              dictionary value is false.  Or you might allow
+              "comment" tags that are never expanded.  </P>  </LI>
+     <!BR/>
+     <LI> Read the dictionary from a text file.
+
+          <P> This enable us to decouple the dictionary from the
+              code that uses it.  </P>  </LI>
+     <!BR/>
+     <LI> Allow the dictionary value to be code in your
+          implementation language.
+
+          <P> On expansion of the form, execute the code!  </P>  </LI>
+     </OL>  </P>
+
+     <P> If you have other ideas, let me know!  </P>  </LI>
+</UL>
+<BR/>
+<HR/>
+
+<H4> Deliverables </H4>
+
+<P> By 4:00 PM on Friday, September 11, submit the following:
+    <UL>
+    <LI> <EM>(electronically)</EM> &nbsp; a compressed file named
+         <TT>homework02.zip</TT> or <TT>homework02.tar.gz</TT>
+         consisting of a folder that contains all of your code
+         and test files for the assignment </LI>
+    <LI> <EM>(hardcopy)</EM> &nbsp; a print-out of the source
+         file that contains your "main" function </LI>
+    </UL>  </P>
+
+<P> Make your electronic submission using
+    <A HREF="https://www.cs.uni.edu/~schafer/submit/which_course.cgi">
+       the on-line submission system</A>.  </P>
+<BR/>
+<HR/>
+
+<CENTER>
+<ADDRESS>
+   <A HREF="../../">Eugene Wallingford</A> .....
+   <A HREF="mailto:wallingf@cs.uni.edu">wallingf@cs.uni.edu</A> .....
+   September 9, 2015
+</ADDRESS>
+</CENTER>
+
+<HR/>
+
+</BODY>
+</HTML>
+
+

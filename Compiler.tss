@@ -2,7 +2,22 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\acdc\sample3.dc</string>
+      <string>c:\github\compiler\texttemplating\parsertest.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\github\Compiler\TextTemplating\Parser.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\github\compiler\texttemplating\templater.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\github\compiler\texttemplating\token.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\github\compiler\acdc\src\token.java</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\github\compiler\acdc\src\parser.java</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
