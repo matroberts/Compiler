@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using NUnit.Framework;
 
@@ -7,8 +7,6 @@ namespace TextTemplating
     [TestFixture]
     public class ParserTest
     {
-        //unicode
-
         [Test]
         public void AStringLiteral_IsParsedAs_SingleLiteral()
         {
@@ -80,5 +78,15 @@ namespace TextTemplating
 
             Assert.That(tokens.ToString(), Is.EqualTo("L:'Hello, ', V:'{{name}', L:'.'"));
         }
+
+        [Test]
+        public void TemplateParser_ShouldWorkWithUnicodeCharacters()
+        {
+            var tokens = Parser.Parse("Pound£, Knifeナイフ");
+
+            Assert.That(tokens.ToString(), Is.EqualTo("L:'Pound£, Knifeナイフ'"));
+        }
+
+        // What about {{{{
     }
 }

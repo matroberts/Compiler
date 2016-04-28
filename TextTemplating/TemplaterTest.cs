@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace TextTemplating
 {
     [TestFixture]
-    public class TestTemplating
+    public class TemplaterTest
     {
         [Test]
         public void Test()

@@ -48,7 +48,7 @@
     <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templater.cs" />
-    <Compile Include="TestTemplating.cs" />
+    <Compile Include="TemplaterTest.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>
   <ItemGroup>
