@@ -50,6 +50,7 @@
     <Compile Include="Templater.cs" />
     <Compile Include="TemplaterTest.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="TokenTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Homework 2.html" />

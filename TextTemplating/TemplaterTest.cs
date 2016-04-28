@@ -9,7 +9,7 @@ namespace TextTemplating
     public class TemplaterTest
     {
         [Test]
-        public void Test()
+        public void Templater_ShouldFillIn_TemplateVariableValues()
         {
             string template = "Hello, {{name}.";
             var templateParameters = new Dictionary<string, string>()
@@ -20,6 +20,20 @@ namespace TextTemplating
             string result = Templater.Build(template, templateParameters);
 
             Assert.That(result, Is.EqualTo("Hello, John."));
+        }
+
+        [Test]
+        public void Templater_ShouldWriteAnErrorMessageIntoTheOutput_IfATemplteVariableIsMissing()
+        {
+            string template = "Hello, {{name}.";
+            var templateParameters = new Dictionary<string, string>()
+            {
+                ["WrongName"] = "John",
+            };
+
+            string result = Templater.Build(template, templateParameters);
+
+            Assert.That(result, Is.EqualTo("Hello, !!!MISSING TEMPLATE PARAMETER 'name'!!!."));
         }
     }
 

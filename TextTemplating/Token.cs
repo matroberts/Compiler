@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -39,5 +40,7 @@ namespace TextTemplating
         {
             return $"V:'{Value}'";
         }
+
+        public string Name => Value.Substring(2, Value.Length-3);
     }
 }
