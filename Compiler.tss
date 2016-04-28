@@ -2,10 +2,10 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>c:\github\compiler\texttemplating\parsertest.cs</string>
+      <string>C:\github\Compiler\TextTemplating\ParserTest.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\TextTemplating\Parser.cs</string>
+      <string>c:\github\compiler\texttemplating\parser.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>c:\github\compiler\texttemplating\templater.cs</string>

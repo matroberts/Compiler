@@ -15,18 +15,15 @@ namespace TextTemplating
     {
         public string Value { get; protected set; }
 
-        public void Append(string more)
+        public Token Append(int ch)
         {
-            Value = Value + more;
+            Value = Value + (char)ch;
+            return this;
         }
     }
 
     public class LiteralToken : Token
     {
-        public LiteralToken(string value)
-        {
-            Value = value;
-        }
         public override string ToString()
         {
             return $"L:'{Value}'";
@@ -35,10 +32,6 @@ namespace TextTemplating
 
     public class VariableToken : Token
     {
-        public VariableToken(string value)
-        {
-            Value = value;
-        }
         public override string ToString()
         {
             return $"V:'{Value}'";

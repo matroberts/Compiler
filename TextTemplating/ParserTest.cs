@@ -48,15 +48,15 @@ namespace TextTemplating
         {
             var tokens = Parser.Parse("text}moretext");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("L:'text', L:'}moretext'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("L:'text}', L:'moretext'"));
         }
 
         [Test]
-        public void AVariable_IsParsedAs_SingleVarible()
+        public void AVariable_IsParsedAs_ButHasAnEmptyTrailingLiteral()
         {
             var tokens = Parser.Parse("{{name}");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("V:'name'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("V:'{{name}', L:''"));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace TextTemplating
         {
             var tokens = Parser.Parse("{{name}hello");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("V:'name', L:'hello'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("V:'{{name}', L:'hello'"));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace TextTemplating
         {
             var tokens = Parser.Parse("hello{{name}");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("L:'hello', V:'name'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("L:'hello', V:'{{name}', L:''"));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace TextTemplating
         {
             var tokens = Parser.Parse("Hello, {{name}.");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("L:'Hello, ', V:'name', L:'.'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("L:'Hello, ', V:'{{name}', L:'.'"));
         }
     }
 }

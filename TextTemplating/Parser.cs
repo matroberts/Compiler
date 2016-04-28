@@ -14,28 +14,17 @@ namespace TextTemplating
                 var ch = (char) reader.Read();
                 if (reader.Peek() == '{')
                 {
-                    reader.Read(); // throw away the {'s
-                    return new VariableToken("");
+                    return new VariableToken().Append(ch).Append(reader.Read());
                 }
                 else
                 {
-                    return new LiteralToken("{");
+                    return new LiteralToken().Append(ch);
                 }
             }
             else
             {
-                return new LiteralToken("");
+                return new LiteralToken();
             }
-        }
-
-        public static void CompleteToken(Token token, StringBuilder sb, StringReader reader)
-        {
-            if (token is VariableToken)
-            {
-                reader.Read(); //skip past closing }
-            }
-            token.Append(sb.ToString());
-            sb.Clear();
         }
 
         public static TokenList Parse(string template)
@@ -44,33 +33,24 @@ namespace TextTemplating
             using (var reader = new StringReader(template))
             {
                 Token token = GetToken(reader);
-                var sb = new StringBuilder();
                 int ch;
                 while ((ch = reader.Read()) != -1)
                 {
-                    sb.Append((char)ch);
-
+                    token.Append(ch);
                     if (reader.Peek() == '{')
                     {
-                        token.Append(sb.ToString());
                         tokens.Add(token);
-                        sb.Clear();
-
                         token = GetToken(reader);
                     }
                     else if (reader.Peek() == '}')
                     {
-                        CompleteToken(token, sb, reader);
+                        token.Append(reader.Read());
                         tokens.Add(token);
                         token = GetToken(reader);
                     }
                 }
 
-                if (token.Value.Length > 0 || sb.Length > 0)
-                {
-                    token.Append(sb.ToString());
-                    tokens.Add(token);
-                }
+                tokens.Add(token);
             }
             return tokens;
         }
