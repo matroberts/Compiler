@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace TextTemplating
 {
@@ -13,11 +14,13 @@ namespace TextTemplating
 
     public class Token
     {
-        public string Value { get; protected set; }
+        private readonly StringBuilder _stringBuilder = new StringBuilder();
+
+        public string Value => _stringBuilder.ToString();
 
         public Token Append(int ch)
         {
-            Value = Value + (char)ch;
+            _stringBuilder.Append((char) ch);
             return this;
         }
     }

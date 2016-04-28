@@ -8,8 +8,6 @@ namespace TextTemplating
     public class ParserTest
     {
         //unicode
-        //starts with a variable
-        // ends with a variable
 
         [Test]
         public void AStringLiteral_IsParsedAs_SingleLiteral()

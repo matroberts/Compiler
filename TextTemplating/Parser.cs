@@ -33,24 +33,24 @@ namespace TextTemplating
             using (var reader = new StringReader(template))
             {
                 Token token = GetToken(reader);
+                tokens.Add(token);
+
                 int ch;
                 while ((ch = reader.Read()) != -1)
                 {
                     token.Append(ch);
                     if (reader.Peek() == '{')
                     {
-                        tokens.Add(token);
                         token = GetToken(reader);
+                        tokens.Add(token);
                     }
                     else if (reader.Peek() == '}')
                     {
                         token.Append(reader.Read());
-                        tokens.Add(token);
                         token = GetToken(reader);
+                        tokens.Add(token);
                     }
                 }
-
-                tokens.Add(token);
             }
             return tokens;
         }
