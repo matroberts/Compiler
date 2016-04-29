@@ -26,12 +26,12 @@ namespace TextTemplating
             while ((ch = reader.Read()) != -1)
             {
                 token.Append(ch);
-                if (reader.Peek() == '{')
+                if (reader.Peek() == '{' && token is LiteralToken)
                 {
                     token = GetToken(reader);
                     tokens.Add(token);
                 }
-                else if (reader.Peek() == '}')
+                else if (reader.Peek() == '}' && token is VariableToken)
                 {
                     token.Append(reader.Read());
                     token = GetToken(reader);

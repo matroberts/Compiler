@@ -37,5 +37,13 @@ namespace TextTemplating
         }
     }
 
+    // What about malformed tags like {{{{
+
+    // What about nested variable tags like {{var1{{var2}}
+
+    // What about leading and trailing space is variable name {{ var }
+
+    // What about processing errors/warnings - indication of where happened....errors and warnings at beginning....and unprocessed tags just left in text?
+
 
 }

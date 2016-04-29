@@ -40,11 +40,11 @@ namespace TextTemplating
         }
 
         [Test]
-        public void ALiteralWithAClosingCurleyInIt_IsParsedAs_TwoLiterals()
+        public void ALiteralWithAClosingCurleyInIt_IsParsedAs_SingleLiterals()
         {
             var tokens = Parser.Parse("text}moretext");
 
-            Assert.That(tokens.ToString(), Is.EqualTo("L:'text}', L:'moretext'"));
+            Assert.That(tokens.ToString(), Is.EqualTo("L:'text}moretext'"));
         }
 
         [Test]
@@ -87,6 +87,12 @@ namespace TextTemplating
             Assert.That(tokens.ToString(), Is.EqualTo("L:'Pound£, Knifeナイフ'"));
         }
 
-        // What about {{{{
+        [Test]
+        public void NestedVariableTags_ShouldParseAsASingleVariable_IeOnceStartParsingAVariableCarryOnUntilClosingCurley()
+        {
+            var tokens = Parser.Parse("{{var1{{var2}}");
+
+            Assert.That(tokens.ToString(), Is.EqualTo("V:'{{var1{{var2}', L:'}'"));
+        }
     }
 }
