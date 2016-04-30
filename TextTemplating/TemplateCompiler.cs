@@ -3,9 +3,9 @@ using System.Text;
 
 namespace TextTemplating
 {
-    public class Templater
+    public class TemplateCompiler
     {
-        public static string Build(string template, Dictionary<string, string> dictionary)
+        public static string Compile(string template, Dictionary<string, string> dictionary, CompileErrors errors)
         {
             var tokens = Parser.Parse(template);
             var output = new StringBuilder();

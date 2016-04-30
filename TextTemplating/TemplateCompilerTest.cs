@@ -6,42 +6,44 @@ using NUnit.Framework;
 namespace TextTemplating
 {
     [TestFixture]
-    public class TemplaterTest
+    public class TemplateCompilerTest
     {
         [Test]
         public void Templater_ShouldFillIn_TemplateVariableValues()
         {
+            var compileErrors = new CompileErrors();
             string template = "Hello, {{name}.";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["name"] = "John",
             };
 
-            string result = Templater.Build(template, templateParameters);
+            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
 
             Assert.That(result, Is.EqualTo("Hello, John."));
+            Assert.That(compileErrors.HasErrors, Is.False);
         }
 
         [Test]
         public void Templater_ShouldWriteAnErrorMessageIntoTheOutput_IfATemplteVariableIsMissing()
         {
+            var compileErrors = new CompileErrors();
             string template = "Hello, {{name}.";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["WrongName"] = "John",
             };
 
-            string result = Templater.Build(template, templateParameters);
+            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
 
             Assert.That(result, Is.EqualTo("Hello, !!!MISSING TEMPLATE PARAMETER 'name'!!!."));
+            Assert.That(compileErrors.HasErrors, Is.False);
         }
     }
 
-    // What about malformed tags like {{{{
-
-    // What about nested variable tags like {{var1{{var2}}
-
-    // What about leading and trailing space is variable name {{ var }
+    // Check for malformed tags, i.e. no closing }
+    // Strip whitespace from tag name
+    // Report errors seperatly from output
 
     // What about processing errors/warnings - indication of where happened....errors and warnings at beginning....and unprocessed tags just left in text?
 
