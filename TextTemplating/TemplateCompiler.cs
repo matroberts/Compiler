@@ -11,6 +11,12 @@ namespace TextTemplating
             var output = new StringBuilder();
             foreach (var token in tokens)
             {
+                string errorMessage;
+                if (!token.IsValid(out errorMessage))
+                {
+                    errors.Add(errorMessage);
+                }
+
                 if (token is LiteralToken)
                 {
                     output.Append(token.Value);
@@ -25,7 +31,7 @@ namespace TextTemplating
                     }
                     else
                     {
-                        errors.Add($"Template dictionary parameter '{variable.Name}' missing");
+                        errors.Add($"Missing dictionary parameter '{variable.Name.TruncateWithElipses(25)}'");
                         output.Append(variable.Value);
                     }
                 }

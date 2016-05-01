@@ -24,6 +24,12 @@ namespace TextTemplating
             _stringBuilder.Append((char) ch);
             return this;
         }
+
+        public virtual bool IsValid(out string errorMessage)
+        {
+            errorMessage = null;
+            return true;
+        }
     }
 
     public class LiteralToken : Token
@@ -41,6 +47,20 @@ namespace TextTemplating
             return $"V:'{Value}'";
         }
 
-        public string Name => Value.Substring(2, Value.Length-3);
+        public string Name
+        {
+            get { return Value.TrimStart('{').TrimEnd('}').Trim(); }
+        }
+
+        public override bool IsValid(out string errorMessage)
+        {
+            if (!Value.EndsWith("}"))
+            {
+                errorMessage = $"Tempate variable not terminated with }}, problem text near '{Value.TruncateWithElipses(25)}'";
+                return false;
+            }
+            errorMessage = null;
+            return true;
+        }
     }
 }
