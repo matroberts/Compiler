@@ -77,7 +77,7 @@ namespace TextTemplating
         [Test]
         public void IfAnOpenTagIsTrue_TheTextWithinTheOpenCloseTags_ShouldBeInserted()
         {
-            string template = "{?showtext}Optional Text{!showtext}";
+            string template = "{?showtext}Optional Text {!showtext}Text After";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["showtext"] = "true",
@@ -86,14 +86,14 @@ namespace TextTemplating
             var compiler = new TemplateCompiler();
             string result = compiler.Compile(template, templateParameters);
 
-            Assert.That(result, Is.EqualTo("Optional Text"));
+            Assert.That(result, Is.EqualTo("Optional Text Text After"));
             Assert.That(compiler.Errors.HasErrors, Is.False);
         }
 
-        [Test, Ignore("")]
+        [Test]
         public void IfAnOpenTagIsFalse_TheTextWithinTheOpenCloseTags_ShouldNotBeInserted()
         {
-            string template = "{?showtext}Optional Text{!showtext}";
+            string template = "{?showtext}Optional Text {!showtext}Text After";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["showtext"] = "false",
@@ -102,13 +102,11 @@ namespace TextTemplating
             var compiler = new TemplateCompiler();
             string result = compiler.Compile(template, templateParameters);
 
-            Assert.That(result, Is.EqualTo(""));
+            Assert.That(result, Is.EqualTo("Text After"));
             Assert.That(compiler.Errors.HasErrors, Is.False);
         }
 
-        // move all error checking to happen at the start
-
-        // boolean tag
+        // open/close tags only accept true/false case insensitive
 
         // non-matced boolean tag
 
