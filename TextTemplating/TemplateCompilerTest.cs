@@ -11,68 +11,108 @@ namespace TextTemplating
         [Test]
         public void Templater_ShouldFillIn_TemplateVariableValues()
         {
-            var compileErrors = new Errors();
             string template = "Hello, {{name}.";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["name"] = "John",
             };
 
-            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
 
             Assert.That(result, Is.EqualTo("Hello, John."));
-            Assert.That(compileErrors.HasErrors, Is.False);
+            Assert.That(compiler.Errors.HasErrors, Is.False);
         }
 
         [Test]
         public void IfATemplateVariableIsMissing_AnErrorShouldBeReturned_AndTheUnmodifiedTextWrittenIntoTheOutput()
         {
-            var compileErrors = new Errors();
             string template = "Hello, {{name}.";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["WrongName"] = "John",
             };
 
-            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
 
             Assert.That(result, Is.EqualTo("Hello, {{name}."));
-            Assert.That(compileErrors.HasErrors, Is.True);
-            Assert.That(compileErrors.Messages[0], Is.EqualTo("Missing dictionary parameter 'name'"));
+            Assert.That(compiler.Errors.HasErrors, Is.True);
+            Assert.That(compiler.Errors.Messages[0], Is.EqualTo("Missing dictionary parameter 'name'"));
         }
 
         [Test]
         public void IfATemplateVariableIsMissingAClosingCurley_AndErrorShouldBeRetured_AndTheUnmodifiedTextWrittenIntoTheOutput()
         {
-            var compileErrors = new Errors();
             string template = "Hello, {{name. Lots and lots of text following the missing curley";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["name"] = "John",
             };
 
-            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
 
             Assert.That(result, Is.EqualTo("Hello, {{name. Lots and lots of text following the missing curley"));
-            Assert.That(compileErrors.HasErrors, Is.True);
-            Assert.That(compileErrors.Messages[0], Is.EqualTo("Tempate variable not terminated with }, problem text near '{{name. Lots and lots ...'"));
-            Assert.That(compileErrors.Messages[1], Is.EqualTo("Missing dictionary parameter 'name. Lots and lots of...'"));
+            Assert.That(compiler.Errors.HasErrors, Is.True);
+            Assert.That(compiler.Errors.Messages[0], Is.EqualTo("Tempate tag not terminated with }, problem text near '{{name. Lots and lots ...'"));
+            Assert.That(compiler.Errors.Messages[1], Is.EqualTo("Missing dictionary parameter 'name. Lots and lots of...'"));
         }
 
         [Test]
         public void Templater_WhitespaceShouldBeStripedFrom_TemplateVariableValues()
         {
-            var compileErrors = new Errors();
             string template = "Hello, {{ name }.";
             var templateParameters = new Dictionary<string, string>()
             {
                 ["name"] = "John",
             };
 
-            string result = TemplateCompiler.Compile(template, templateParameters, compileErrors);
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
 
             Assert.That(result, Is.EqualTo("Hello, John."));
-            Assert.That(compileErrors.HasErrors, Is.False);
+            Assert.That(compiler.Errors.HasErrors, Is.False);
         }
+
+        [Test]
+        public void IfAnOpenTagIsTrue_TheTextWithinTheOpenCloseTags_ShouldBeInserted()
+        {
+            string template = "{?showtext}Optional Text{!showtext}";
+            var templateParameters = new Dictionary<string, string>()
+            {
+                ["showtext"] = "true",
+            };
+
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
+
+            Assert.That(result, Is.EqualTo("Optional Text"));
+            Assert.That(compiler.Errors.HasErrors, Is.False);
+        }
+
+        [Test, Ignore("")]
+        public void IfAnOpenTagIsFalse_TheTextWithinTheOpenCloseTags_ShouldNotBeInserted()
+        {
+            string template = "{?showtext}Optional Text{!showtext}";
+            var templateParameters = new Dictionary<string, string>()
+            {
+                ["showtext"] = "false",
+            };
+
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
+
+            Assert.That(result, Is.EqualTo(""));
+            Assert.That(compiler.Errors.HasErrors, Is.False);
+        }
+
+        // move all error checking to happen at the start
+
+        // boolean tag
+
+        // non-matced boolean tag
+
+        // nested boolean tag
     }
 }
