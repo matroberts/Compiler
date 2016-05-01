@@ -106,10 +106,42 @@ namespace TextTemplating
             Assert.That(compiler.Errors.HasErrors, Is.False);
         }
 
+        [Test]
+        public void NestedBools_OnceTheTextIsSwitchedOff_ItDoesNotSwitchOnAgain_UntilTheTagCloses()
+        {
+            string template = "{?first}Begin{?second}Middle{!second}End{!first}";
+            var templateParameters = new Dictionary<string, string>()
+            {
+                ["first"] = "false",
+                ["second"] = "true"
+            };
+
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
+
+            Assert.That(compiler.Errors.HasErrors, Is.False);
+            Assert.That(result, Is.EqualTo(""));
+        }
+
+        [Test]
+        public void NestedBools_IfTheInnerTagIsFalse_ItsContentIsNotDisplayed()
+        {
+            string template = "{?first}Begin{?second}Middle{!second}End{!first}";
+            var templateParameters = new Dictionary<string, string>()
+            {
+                ["first"] = "true",
+                ["second"] = "false"
+            };
+
+            var compiler = new TemplateCompiler();
+            string result = compiler.Compile(template, templateParameters);
+
+            Assert.That(compiler.Errors.HasErrors, Is.False);
+            Assert.That(result, Is.EqualTo("BeginEnd"));
+        }
+
         // open/close tags only accept true/false case insensitive
 
         // non-matced boolean tag
-
-        // nested boolean tag
     }
 }

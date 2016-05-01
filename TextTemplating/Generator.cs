@@ -9,24 +9,28 @@ namespace TextTemplating
         public string Generate(TokenList tokens, Dictionary<string, string> parameters, Errors errors)
         {
             var output = new StringBuilder();
-            bool outputIsOn = true;
+            string offTag = null;
 
             foreach (var token in tokens)
             {
                 if (token is OpenToken)
                 {
                     var open = token as OpenToken;
-                    if (parameters[open.Name] != "true")
+                    if (parameters[open.Name] == "false" && offTag == null)
                     {
-                        outputIsOn = false;
+                        offTag = open.Name;
                     }
                 }
                 else if (token is CloseToken)
                 {
-                    outputIsOn = true;
+                    var close = token as CloseToken;
+                    if (offTag == close.Name)
+                    {
+                        offTag = null;
+                    }
                 }
 
-                if(!outputIsOn)
+                if(offTag != null)
                     continue;
 
                 if (token is LiteralToken)
