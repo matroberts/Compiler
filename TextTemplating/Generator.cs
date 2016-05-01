@@ -5,7 +5,7 @@ namespace TextTemplating
 {
     public class Generator
     {
-        public string Generate(TokenList tokens, Dictionary<string, string> dictionary, Errors errors)
+        public string Generate(TokenList tokens, Dictionary<string, string> parameters, Errors errors)
         {
             var output = new StringBuilder();
 
@@ -18,16 +18,7 @@ namespace TextTemplating
                 else if (token is VariableToken)
                 {
                     var variable = token as VariableToken;
-                    string name;
-                    if (dictionary.TryGetValue(variable.Name, out name))
-                    {
-                        output.Append(name);
-                    }
-                    else
-                    {
-                        errors.Add($"Missing dictionary parameter '{variable.Name.TruncateWithElipses(25)}'");
-                        output.Append(variable.Value);
-                    }
+                    output.Append(parameters[variable.Name]);
                 }
             }
             return output.ToString();

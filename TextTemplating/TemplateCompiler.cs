@@ -7,11 +7,11 @@ namespace TextTemplating
     {
         public Errors Errors { get; } = new Errors();
 
-        public string Compile(string template, Dictionary<string, string> dictionary)
+        public string Compile(string template, Dictionary<string, string> parameters)
         {
             var tokens = Parser.Parse(template);
-            new Checker().Check(tokens, Errors);
-            return new Generator().Generate(tokens, dictionary, Errors);
+            new Checker().Check(tokens, parameters, Errors);
+            return new Generator().Generate(tokens, parameters, Errors);
         }
     }
 }
