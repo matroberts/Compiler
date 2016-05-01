@@ -11,6 +11,12 @@ namespace TextTemplating
         {
             return string.Join(", ", this.Select(t => t.ToString()));
         }
+
+        public new TokenList Add(Token token)
+        {
+            base.Add(token);
+            return this;
+        }
     }
 
     public class Token
@@ -25,9 +31,8 @@ namespace TextTemplating
             return this;
         }
 
-        public virtual bool IsValid(out string errorMessage)
+        public virtual bool IsClosed()
         {
-            errorMessage = null;
             return true;
         }
 
@@ -56,22 +61,21 @@ namespace TextTemplating
     {
         public string Name => Value.Substring(2, Value.Length - 3).Trim();
 
-        public override bool IsValid(out string errorMessage)
+        public override bool IsClosed()
         {
-            if (!Value.EndsWith("}"))
-            {
-                errorMessage = $"Tempate tag not terminated with }}, problem text near '{Value.TruncateWithElipses(25)}'";
-                return false;
-            }
-            errorMessage = null;
-            return true;
+            return Value.EndsWith("}");
         }
-
-
     }
 
     public class VariableToken : TagToken
     {
+        public VariableToken()
+        {
+        }
+        public VariableToken(string value)
+        {
+            _stringBuilder.Append(value);
+        }
         public override string ToString()
         {
             return $"V:'{Value}'";
@@ -80,6 +84,13 @@ namespace TextTemplating
 
     public class OpenToken : TagToken
     {
+        public OpenToken()
+        {
+        }
+        public OpenToken(string value)
+        {
+            _stringBuilder.Append(value);
+        }
         public override string ToString()
         {
             return $"O:'{Value}'";
@@ -88,6 +99,13 @@ namespace TextTemplating
 
     public class CloseToken : TagToken
     {
+        public CloseToken()
+        {
+        }
+        public CloseToken(string value)
+        {
+            _stringBuilder.Append(value);
+        }
         public override string ToString()
         {
             return $"C:'{Value}'";

@@ -7,10 +7,9 @@
             for (int i=0; i<tokens.Count; i++)
             {
                 var token = tokens[i];
-                string errorMessage;
-                if (!token.IsValid(out errorMessage))
+                if (!token.IsClosed())
                 {
-                    errors.Add(errorMessage);
+                    errors.Add($"Tempate tag not terminated with }}, problem text near '{token.Value.TruncateWithElipses(25)}'");
                     tokens[i] = token.ToLiteral();
                 }
             }

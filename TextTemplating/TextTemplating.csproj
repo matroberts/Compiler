@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Checker.cs" />
+    <Compile Include="CheckerTests.cs" />
     <Compile Include="Errors.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Parser.cs" />
