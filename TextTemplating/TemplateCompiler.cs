@@ -10,6 +10,7 @@ namespace TextTemplating
         public string Compile(string template, Dictionary<string, string> dictionary)
         {
             var tokens = Parser.Parse(template);
+            new Checker().Check(tokens, Errors);
             return new Generator().Generate(tokens, dictionary, Errors);
         }
     }

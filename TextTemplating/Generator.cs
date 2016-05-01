@@ -11,12 +11,6 @@ namespace TextTemplating
 
             foreach (var token in tokens)
             {
-                string errorMessage;
-                if (!token.IsValid(out errorMessage))
-                {
-                    errors.Add(errorMessage);
-                }
-
                 if (token is LiteralToken)
                 {
                     output.Append(token.Value);

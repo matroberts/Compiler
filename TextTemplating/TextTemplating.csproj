@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Checker.cs" />
     <Compile Include="Errors.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Parser.cs" />

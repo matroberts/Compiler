@@ -15,7 +15,7 @@ namespace TextTemplating
 
     public class Token
     {
-        private readonly StringBuilder _stringBuilder = new StringBuilder();
+        protected readonly StringBuilder _stringBuilder = new StringBuilder();
 
         public string Value => _stringBuilder.ToString();
 
@@ -30,10 +30,22 @@ namespace TextTemplating
             errorMessage = null;
             return true;
         }
+
+        public LiteralToken ToLiteral()
+        {
+            return new LiteralToken(Value);
+        }
     }
 
     public class LiteralToken : Token
     {
+        public LiteralToken()
+        {
+        }
+        public LiteralToken(string value)
+        {
+            _stringBuilder.Append(value);
+        }
         public override string ToString()
         {
             return $"L:'{Value}'";
@@ -54,6 +66,8 @@ namespace TextTemplating
             errorMessage = null;
             return true;
         }
+
+
     }
 
     public class VariableToken : TagToken

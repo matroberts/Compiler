@@ -56,7 +56,6 @@ namespace TextTemplating
             Assert.That(result, Is.EqualTo("Hello, {{name. Lots and lots of text following the missing curley"));
             Assert.That(compiler.Errors.HasErrors, Is.True);
             Assert.That(compiler.Errors.Messages[0], Is.EqualTo("Tempate tag not terminated with }, problem text near '{{name. Lots and lots ...'"));
-            Assert.That(compiler.Errors.Messages[1], Is.EqualTo("Missing dictionary parameter 'name. Lots and lots of...'"));
         }
 
         [Test]
