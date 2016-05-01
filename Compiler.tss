@@ -2,22 +2,19 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\TextTemplating\TemplaterTest.cs</string>
+      <string>C:\github\Compiler\TextTemplating\TemplateCompilerTest.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>c:\github\compiler\texttemplating\templater.cs</string>
+      <string>C:\github\Compiler\TextTemplating\TemplateCompiler.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\TextTemplating\ParserTest.cs</string>
+      <string>c:\github\compiler\texttemplating\parsertest.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>c:\github\compiler\texttemplating\parser.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>c:\github\compiler\texttemplating\token.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\github\Compiler\TextTemplating\TokenTest.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

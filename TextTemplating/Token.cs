@@ -40,27 +40,43 @@ namespace TextTemplating
         }
     }
 
-    public class VariableToken : Token
+    public class TagToken : Token
     {
-        public override string ToString()
-        {
-            return $"V:'{Value}'";
-        }
-
-        public string Name
-        {
-            get { return Value.TrimStart('{').TrimEnd('}').Trim(); }
-        }
+        public string Name => Value.Substring(2, Value.Length - 3).Trim();
 
         public override bool IsValid(out string errorMessage)
         {
             if (!Value.EndsWith("}"))
             {
-                errorMessage = $"Tempate variable not terminated with }}, problem text near '{Value.TruncateWithElipses(25)}'";
+                errorMessage = $"Tempate tag not terminated with }}, problem text near '{Value.TruncateWithElipses(25)}'";
                 return false;
             }
             errorMessage = null;
             return true;
+        }
+    }
+
+    public class VariableToken : TagToken
+    {
+        public override string ToString()
+        {
+            return $"V:'{Value}'";
+        }
+    }
+
+    public class OpenToken : TagToken
+    {
+        public override string ToString()
+        {
+            return $"O:'{Value}'";
+        }
+    }
+
+    public class CloseToken : TagToken
+    {
+        public override string ToString()
+        {
+            return $"C:'{Value}'";
         }
     }
 }

@@ -10,32 +10,44 @@ namespace TextTemplating
     public class TokenTest
     {
         [Test]
-        public void VariableToken_Name_StripsOpeningAndClosingCurlies()
+        public void TagToken_Name_StripsOpeningAndClosingCurlies()
         {
-            var variable = new VariableToken();
+            var variable = new VariableToken() as TagToken;
             variable.Append('{').Append('{').Append('a').Append('}');
 
             Assert.That(variable.Name, Is.EqualTo("a"));
         }
 
         [Test]
-        public void VariableToken_Name_TrimsWhitespace()
+        public void TagToken_Name_TrimsWhitespace()
         {
-            var variable = new VariableToken();
+            var variable = new VariableToken() as TagToken;
             variable.Append('{').Append('{').Append(' ').Append('a').Append(' ').Append('}');
 
             Assert.That(variable.Name, Is.EqualTo("a"));
         }
 
         [Test]
-        public void IsValid_ReturnsFalse_IfAVariableDoesNotEndWithCurley()
+        public void VariableToken_IsValid_ReturnsFalse_IfAVariableDoesNotEndWithCurley()
         {
             var variable = new VariableToken();
             variable.Append('{').Append('{').Append('a');
 
             string errorMessage;
             Assert.That(variable.IsValid(out errorMessage),  Is.False);
-            Assert.That(errorMessage, Is.EqualTo("Tempate variable not terminated with }, problem text near '{{a'"));
+            Assert.That(errorMessage, Is.EqualTo("Tempate tag not terminated with }, problem text near '{{a'"));
         }
+
+        [Test]
+        public void OpenToken_IsValid_ReturnsFalse_IfAVariableDoesNotEndWithCurley()
+        {
+            var variable = new OpenToken();
+            variable.Append('{').Append('{').Append('a');
+
+            string errorMessage;
+            Assert.That(variable.IsValid(out errorMessage), Is.False);
+            Assert.That(errorMessage, Is.EqualTo("Tempate tag not terminated with }, problem text near '{{a'"));
+        }
+
     }
 }

@@ -31,7 +31,7 @@ namespace TextTemplating
                     token = GetToken(reader);
                     tokens.Add(token);
                 }
-                else if (reader.Peek() == '}' && token is VariableToken)
+                else if (reader.Peek() == '}' && token is TagToken)
                 {
                     token.Append(reader.Read());
                     token = GetToken(reader);
@@ -49,6 +49,14 @@ namespace TextTemplating
                 if (reader.Peek() == '{')
                 {
                     return new VariableToken().Append(ch).Append(reader.Read());
+                }
+                else if (reader.Peek() == '?')
+                {
+                    return new OpenToken().Append(ch).Append(reader.Read());
+                }
+                else if (reader.Peek() == '!')
+                {
+                    return new CloseToken().Append(ch).Append(reader.Read());
                 }
                 else
                 {

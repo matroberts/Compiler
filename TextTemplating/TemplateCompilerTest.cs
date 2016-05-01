@@ -75,8 +75,4 @@ namespace TextTemplating
             Assert.That(compileErrors.HasErrors, Is.False);
         }
     }
-
-    // What about processing errors/warnings - indication of where happened....errors and warnings at beginning....and unprocessed tags just left in text?
-
-
 }

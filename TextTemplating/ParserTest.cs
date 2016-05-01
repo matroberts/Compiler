@@ -94,5 +94,21 @@ namespace TextTemplating
 
             Assert.That(tokens.ToString(), Is.EqualTo("V:'{{var1{{var2}', L:'}'"));
         }
+
+        [Test]
+        public void AnOpenTag_ShouldBeParsedAs_AnOpenTag()
+        {
+            var tokens = Parser.Parse("{?name}more text");
+
+            Assert.That(tokens.ToString(), Is.EqualTo("O:'{?name}', L:'more text'"));
+        }
+
+        [Test]
+        public void ACloseTag_ShouldBeParsedAs_ACloseTag()
+        {
+            var tokens = Parser.Parse("{!name}more text");
+
+            Assert.That(tokens.ToString(), Is.EqualTo("C:'{!name}', L:'more text'"));
+        }
     }
 }
