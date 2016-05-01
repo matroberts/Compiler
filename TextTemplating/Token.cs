@@ -30,16 +30,6 @@ namespace TextTemplating
             _stringBuilder.Append((char) ch);
             return this;
         }
-
-        public virtual bool IsClosed()
-        {
-            return true;
-        }
-
-        public LiteralToken ToLiteral()
-        {
-            return new LiteralToken(Value);
-        }
     }
 
     public class LiteralToken : Token
@@ -61,9 +51,13 @@ namespace TextTemplating
     {
         public string Name => Value.Substring(2, Value.Length - 3).Trim();
 
-        public override bool IsClosed()
+        public bool IsClosed()
         {
             return Value.EndsWith("}");
+        }
+        public LiteralToken ToLiteral()
+        {
+            return new LiteralToken(Value);
         }
     }
 
