@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TextTemplating
 {
@@ -30,6 +31,15 @@ namespace TextTemplating
                 }
 
                 // open tags only accept the parameters "true"/"false"
+                if (token is OpenToken)
+                {
+                    var open = token as OpenToken;
+                    if (!new[] {"true", "false"}.Contains(parameters[open.Name]))
+                    {
+                        errors.Add($"Boolean tag '{open.Name}' supplied with dictionary parameter '{parameters[open.Name]}'.  Only allowed values are 'true' or 'false'");
+                    }
+                    continue;
+                }
             }
 
             var stack = new Stack<OpenToken>();

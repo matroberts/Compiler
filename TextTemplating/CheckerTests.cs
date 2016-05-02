@@ -113,5 +113,33 @@ namespace TextTemplating
             Assert.That(errors.Messages[0], Is.EqualTo("Boolean tag 'b' should be closed before tag 'a' is closed."));
             Console.WriteLine(errors.Messages[1]);
         }
+
+        [TestCase("true")]
+        [TestCase("false")]
+        public void OpenTags_AcceptParameters_true_or_false(string parameter)
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}")).Add(new CloseToken("{!a}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = parameter };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void OpenTags_DoNotAccept_OtherParameterValues()
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}")).Add(new CloseToken("{!a}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = "other" };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.HasErrors, Is.True);
+            Assert.That(errors.Messages[0], Is.EqualTo("Boolean tag 'a' supplied with dictionary parameter 'other'.  Only allowed values are 'true' or 'false'"));
+        }
     }
 }
