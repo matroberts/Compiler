@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace TextTemplating
@@ -50,6 +51,67 @@ namespace TextTemplating
 
             Assert.That(errors.HasErrors, Is.False);
             Assert.That(tokens.ToString(), Is.EqualTo("L:'begin', V:'{{closed}', L:'end'"));
+        }
+
+        [Test]
+        public void ASingleOpenTag_ShouldBePairedWithACloseTags()
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}")).Add(new CloseToken("{!a}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = "true" };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void IfAnOpenTag_IsNotClosed_AnErrorisRaised()
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = "true" };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.Messages.Count, Is.EqualTo(1));
+            Assert.That(errors.Messages[0], Is.EqualTo("Boolean tag 'a' is not closed"));
+        }
+
+        [Test]
+        public void BooleanTags_CanNest()
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}"))
+                                        .Add(new OpenToken("{?b}"))
+                                        .Add(new CloseToken("{!b}"))
+                                        .Add(new CloseToken("{!a}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = "true", ["b"] = "true" };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void NestedTags_MustBeClosedInTheCorrectOrder()
+        {
+            var tokens = new TokenList().Add(new OpenToken("{?a}"))
+                                        .Add(new OpenToken("{?b}"))
+                                        .Add(new CloseToken("{!a}"))
+                                        .Add(new CloseToken("{!b}"));
+            var parameters = new Dictionary<string, string>() { ["a"] = "true", ["b"] = "true" };
+            var errors = new Errors();
+
+            var checker = new Checker();
+            checker.Check(tokens, parameters, errors);
+
+            Assert.That(errors.HasErrors, Is.True);
+            Assert.That(errors.Messages[0], Is.EqualTo("Boolean tag 'b' should be closed before tag 'a' is closed."));
+            Console.WriteLine(errors.Messages[1]);
         }
     }
 }

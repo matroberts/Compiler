@@ -139,9 +139,5 @@ namespace TextTemplating
             Assert.That(compiler.Errors.HasErrors, Is.False);
             Assert.That(result, Is.EqualTo("BeginEnd"));
         }
-
-        // open/close tags only accept true/false case insensitive
-
-        // non-matced boolean tag
     }
 }
