@@ -11,7 +11,7 @@ namespace TextTemplating
         {
             var tokens = Parser.Parse(template);
             new Checker().Check(tokens, parameters, Errors);
-            return new Generator().Generate(tokens, parameters, Errors);
+            return new Generator().Generate(tokens, parameters);
         }
     }
 }

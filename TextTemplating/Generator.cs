@@ -6,7 +6,7 @@ namespace TextTemplating
 {
     public class Generator
     {
-        public string Generate(TokenList tokens, Dictionary<string, string> parameters, Errors errors)
+        public string Generate(TokenList tokens, Dictionary<string, string> parameters)
         {
             var output = new StringBuilder();
             string offTag = null;
