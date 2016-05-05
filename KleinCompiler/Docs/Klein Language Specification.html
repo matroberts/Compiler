@@ -1,0 +1,409 @@
+<HTML>
+<TITLE> 810:155 Language Specification </TITLE>
+
+<BODY BACKGROUND="#FFFFFF" VLINK="#404050">
+
+<HR>
+<H2 ALIGN="center"> The Klein Language Specification     </H2>
+<HR>
+<H4 ALIGN="center"> CS 4550                              <BR/>
+                    Translation of Programming Languages </H4>
+<HR>
+
+     <A NAME="introduction"></A>
+<H2> Introduction </H2>
+
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"
+        STYLE="float: right; margin-left: 3em; margin-right: 1em;">
+<TBODY><TR><TD>
+<A HREF="#endnotes">
+   <IMG SRC="../media/klein.png"
+        ALT="the logo of the Klein programming language"
+        WIDTH="150"
+        ALIGN="right">
+</A>
+</TD></TR></TBODY>
+</TABLE>
+
+<P> Klein is a small, mostly functional programming language that
+    is designed specifically to be used as a manageable source
+    language in a course on compiler design and implementation.
+    Though small and simple, the language is Turing-complete.
+    Klein was motivated by Doug Baldwin's old teaching language
+    MinimL.  </P>
+
+<P> For more on the name <B>Klein</B> and its logo, see
+    <A HREF="#endnotes">
+       the endnotes</A>.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="language-spec"></A>
+<H2> Language Specification </H2>
+
+<P> Here are
+    <A HREF="#grammar">
+       a complete grammar</A>
+    for Klein and
+    <A HREF="#syntax-features">
+       a list of syntax features</A>
+    not included in the grammar.  </P>
+
+<P> Following the grammar and list of syntax features are
+    <EM>informal</EM> and possibly <EM>incomplete</EM> textual
+    descriptions of many of the language's features.  The purpose
+    of these sections is to clarify the syntax of the language.
+    They are not sufficient on their own; they complement the
+    formal definition.  If you have any questions, please ask
+    sooner rather than later.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="grammar"></A>
+<H2> Grammar </H2>
+
+<P> Here is the grammar for Klein.  In this grammar,
+    <B><TT>&#949;</TT></B>, the lowercase Greek letter epsilon,
+    stands for the empty string.  It indicates that nothing is a
+    legal alternative.
+<PRE>
+            &lt;PROGRAM&gt; ::= &lt;DEFINITIONS&gt;
+
+        &lt;DEFINITIONS&gt; ::= &lt;DEF&gt;
+                        | &lt;DEF&gt; &lt;DEFINITIONS&gt;
+
+                &lt;DEF&gt; ::= &lt;IDENTIFIER&gt; <B>(</B> &lt;FORMALS&gt; <B>) :</B> &lt;TYPE&gt; &lt;BODY&gt;
+
+            &lt;FORMALS&gt; ::= <B>&#949;</B>
+                        | &lt;NONEMPTYFORMALS&gt;
+
+    &lt;NONEMPTYFORMALS&gt; ::= &lt;FORMAL&gt;
+                        | &lt;FORMAL&gt; <B>,</B> &lt;NONEMPTYFORMALS&gt;
+
+             &lt;FORMAL&gt; ::= &lt;IDENTIFIER&gt; <B>:</B> &lt;TYPE&gt;
+
+               &lt;BODY&gt; ::= &lt;PRINT&gt; &lt;BODY&gt;
+                        | &lt;EXPR&gt;
+
+               &lt;TYPE&gt; ::= <B>integer</B>
+                        | <B>boolean</B>
+
+               &lt;EXPR&gt; ::= &lt;EXPR&gt; <B>&lt;</B> &lt;SIMPLE-EXPR&gt;
+                        | &lt;EXPR&gt; <B>=</B> &lt;SIMPLE-EXPR&gt;
+                        | &lt;SIMPLE-EXPR&gt;
+
+        &lt;SIMPLE-EXPR&gt; ::= &lt;SIMPLE-EXPR&gt; <B>or</B> &lt;TERM&gt;
+                        | &lt;SIMPLE-EXPR&gt; <B>+</B> &lt;TERM&gt;
+                        | &lt;SIMPLE-EXPR&gt; <B>-</B> &lt;TERM&gt;
+                        | &lt;TERM&gt;
+
+               &lt;TERM&gt; ::= &lt;TERM&gt; <B>and</B> &lt;FACTOR&gt;
+                        | &lt;TERM&gt; <B>*</B> &lt;FACTOR&gt;
+                        | &lt;TERM&gt; <B>/</B> &lt;FACTOR&gt;
+                        | &lt;FACTOR&gt;
+
+             &lt;FACTOR&gt; ::= <B>if</B> &lt;EXPR&gt; <B>then</B> &lt;EXPR&gt; <B>else</B> &lt;EXPR&gt;
+                        | <B>not</B> &lt;FACTOR&gt;
+                        | &lt;IDENTIFIER&gt; <B>(</B> &lt;ACTUALS&gt; <B>)</B>
+                        | &lt;IDENTIFIER&gt;
+                        | &lt;LITERAL&gt;
+                        | <B>-</B> &lt;FACTOR&gt;
+                        | <B>(</B> &lt;EXPR&gt; <B>)</B>
+
+            &lt;ACTUALS&gt; ::= <B>&#949;</B>
+                        | &lt;NONEMPTYACTUALS&gt;
+
+    &lt;NONEMPTYACTUALS&gt; ::= &lt;EXPR&gt;
+                        | &lt;EXPR&gt; <B>,</B> &lt;NONEMPTYACTUALS&gt;
+
+            &lt;LITERAL&gt; ::= &lt;NUMBER&gt;
+                        | &lt;BOOLEAN&gt;
+
+              &lt;PRINT&gt; ::= <B>print (</B> &lt;EXPR&gt; <B>)</B>
+
+</PRE>  </P>
+
+<P> Note:  The whitespace in the grammar is intended to aid
+    readability.  It is not significant.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="syntax-features"></A>
+<H2> Syntax Features </H2>
+
+<P> These are the reserved words and symbols of Klein:
+<PRE><B>
+    integer   boolean   true   false
+    +         -         *      /
+    &lt;         =         (      )
+    if        then      else
+    not       or        and
+    //        {         }
+    main      print     ,      :
+</B></PRE>  </P>
+
+<P> Integers must be in the range -2<SUP>32</SUP> to
+    2<SUP>32</SUP>-1.  </P>
+
+<P> Identifiers must be no longer than 256 characters.  </P>
+
+<P> Klein identifiers are case-sensitive; upper- and lower-case
+    letters are <EM>not</EM> considered equivalent.  </P>
+
+<P> <B><TT>main</TT></B> and <B><TT>print</TT></B> are primitive
+    identifiers.  </P>
+
+<P> There are two ways to make a comment in Klein.  A single-line
+    comment begins with two slashes, <B><TT>//</TT></B>, and
+    continues up to the end of the line.  A multiple-line comment
+    begins with a left curly brace, <B><TT>{</TT></B>, and
+    continues up to the matching left curly brace, <B><TT>}</TT></B>.
+    Any characters in a comment are ignored.  </P>
+
+<P> Klein operators and punctuation are self-delimiting.  </P>
+
+<P> A function may have zero or more formal parameters.  The scope
+    of a formal parameter is the body of the function.  Arguments
+    are passed by value.  </P>
+
+<P> Binary operators and function calls evaluate their arguments
+    from left to right.  </P>
+
+<P> Whitespace consists of blanks, tabs, and end-of-line characters.
+    It serves to separate tokens.  Whitespace characters may
+    <EM>not</EM> appear inside a literal, identifier, keyword, or
+    operator.  Otherwise, whitespace is insignificant.  </P>
+
+<P> A Klein source file contains a sequence of function definitions.
+    Each declaration consists of the function's name, its formal
+    parameters and their types, its type, and its body, which is an
+    expression.  Function names are unique.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="data-types"></A>
+<H2> Data </H2>
+
+<P> All data in Klein are integers or booleans, and nearly every
+    element in a program is an expression that produces an integer
+    result or a boolean result.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="atomic-expressions"></A>
+<H2> Atomic Expressions </H2>
+
+<P> There are only two boolean values.  The two primitive boolean
+    literals are <B><TT>true</TT></B>  and <B><TT>false</TT></B>.  </P>
+
+<P> Integer literals are strings of digits.  There are no leading
+    plus or minus signs to indicate positive or negative values;
+    all integer literals are positive.  Leading zeros are not
+    permitted for non-zero integer literals.  </P>
+
+<P> User-defined identifiers are strings beginning with a letter
+    and consisting of letters and digits.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="compound-expressions"></A>
+<H2> Compound Expressions </H2>
+
+<P> The language provides the following kinds of expression.  </P>
+
+<P> <EM>Arithmetic</EM>  </P>
+
+<P> Adds, subtracts, multiplies or divides two integers.
+<PRE>
+     x + y
+     x - y
+     x * y
+     x / y
+</PRE>  </P>
+
+<P> <EM>Comparison</EM>
+
+<P> Compares two integers, yielding one of the boolean values
+    <B><TT>true</TT></B> or <B><TT>false</TT></B>.
+    <B><TT>&lt;</TT></B> yields <B><TT>true</TT></B> if its left
+    operand is less than its right operand, and
+    <B><TT>false</TT></B> otherwise.  <B><TT>=</TT></B> yields
+    <B><TT>true</TT></B> if its left operand has the same value as
+    its right operand, and <B><TT>false</TT></B> otherwise.
+<PRE>
+     x &lt; y
+     x = y
+</PRE>  </P>
+
+<P> <EM>Boolean Connective</EM>  </P>
+
+<P> Negates a single boolean value, or computes the disjunction of
+    two booleans.  The unary <B><TT>not</TT></B> yields
+    <B><TT>true</TT></B> if its operand is <B><TT>false</TT></B>,
+    and <B><TT>false</TT></B> otherwise.  <B><TT>or</TT></B> yields
+    <B><TT>true</TT></B> if either its left operand or its right
+    operand yields <B><TT>true</TT></B>, and <B><TT>false</TT></B>
+    otherwise.  <B><TT>and</TT></B> yields <B><TT>true</TT></B> if
+    both its left operand and its right operand yield
+    <B><TT>true</TT></B>, and <B><TT>false</TT></B> otherwise.
+<PRE>
+     not x
+     x or y
+     x and y
+</PRE>  </P>
+
+<P> <B><TT>or</TT></B> and <B><TT>and</TT></B> short-circuit
+    evaluation when possible.  </P>
+
+<P> <EM>Conditional Selection</EM>  </P>
+
+<P> Evaluates a test expression, and uses its value to select one
+    of two other expressions to evaluate.  Yields the value of the
+    first of these expressions if the test expression produces a
+    true value, and the value of the second if the test expression
+    yields a false value.  The <B>else</B> clause is required.  </P>
+
+<P> For example:
+<PRE>
+     if flag < 0 then
+        x + y
+     else
+        x - y
+</PRE>  </P>
+
+<P> produces the sum of x and y if flag is less than 0; otherwise,
+    it produces their difference.  </P>
+
+<P> <EM>Function Call</EM>  </P>
+
+<P> Applies a function to zero or more arguments, and yields the
+    result.  All functions return either an integer result or a
+    boolean value; Klein has no notion of a "void" function.
+<PRE>
+     f( x+y, 1 )
+</PRE>  </P>
+
+<P> <EM>Miscellaneous</EM>  </P>
+
+<P> Compound expressions can be nested to any depth.  Klein does
+    not support the use of parentheses to override the order of
+    precedence.  </P>
+
+<P> Note that the only user-defined identifiers in Klein are the
+    names of functions and the names of formal parameters to
+    functions.  There are no "variables".  </P>
+<BR/>
+<HR/>
+
+     <A NAME="primitive-functions"></A>
+<H2> Primitive Functions </H2>
+
+<P> For the purposes of user interaction, Klein provides the
+    primitive function <B><TT>print(<EM>expression</EM>)</TT></B>.
+    For example:
+<PRE>
+     print( x+y )
+</PRE>  </P>
+
+<P> <B><TT>print</TT></B> writes its argument on standard output,
+    followed by a new line character.  </P>
+
+<P> Unlike all user-defined functions, the value of a call to
+    <B><TT>print</TT></B> is undefined.  For this reason, if a
+    function contains a call to <B><TT>print</TT></B>, that call
+    must come at the top of the function body.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="programs"></A>
+<H2> Programs </H2>
+
+<P> A Klein program is a sequence of function definitions.  Every
+    program must define a function named <B><TT>main</TT></B>,
+    which is called first when the program runs.  </P>
+
+<P> A Klein function may refer only to its formal parameters and to
+    other functions.  A Klein function may call itself.  </P>
+
+<P> Users can provide arguments to <B><TT>main</TT></B> on the
+    command line.  The result returned by <B><TT>main</TT></B>
+    is printed on standard output.  </P>
+
+<P> For example, here is a complete Klein program that computes the
+    absolute value of its argument:
+<PRE>
+     main( x : integer ) : integer
+        if x &lt; 0
+           then - x
+           else x
+</PRE>  </P>
+
+<P> If this program were compiled into an executable file named
+    <B><TT>abs</TT></B>, then running it under Unix might look
+    something like this:
+<PRE>
+    <B>mac os x &gt;</B> abs -3
+    3
+</PRE>  </P>
+<BR/>
+<HR/>
+
+     <A NAME="endnotes"></A>
+<H2> Endnotes </H2>
+
+<P> <B>The Language's Name</B>
+
+    <BLOCKQUOTE>
+    I chose the name to indicate the size of the language.
+    <A HREF="http://www.dict.cc/german-english/klein.html">
+       <B>klein</B></A>
+    is the German word for "small" or "little".  It is one of the
+    first German words I learned back in the eighth grade.
+
+    <P> There are a number of projects in the software world named
+    "Klein".  In particular, this language is not affiliated in
+    anyway with the Klein project at Sun Microsystems, which was
+    "a Self virtual machine written fully in Self".
+    <A HREF="https://en.wikipedia.org/wiki/Self_(programming_language)">
+        Self</A>
+    is a very cool prototype-based object-oriented programming
+    language -- check it out.  </P>
+    </BLOCKQUOTE>  </P>
+
+<P> <B>The Language's Logo</B>
+
+    <BLOCKQUOTE>
+    The Klein logo is a picture of
+    <A HREF="../media/klein.png">
+       a bottle whose neck feeds in on itself</A>.
+    This is an example of
+    <A HREF="http://en.wikipedia.org/wiki/Klein_bottle">
+       a Klein bottle</A>,
+    "<EM>a non-orientable surface ... in which notions of left and
+    right cannot be consistently defined</EM>".  A M&ouml;bius
+    strip is a non-orientable surface with boundary; a Klein
+    bottle is a non-orientable surface without a boundary.
+
+    <P> The bottle is not called "Klein" because it is small.  It
+    shares its name with German mathematician
+    <A HREF="https://en.wikipedia.org/wiki/Felix_Klein">
+       Felix Klein</A>,
+    who first described this mathematical object in 1882.  I chose
+    the logo because it happens to have an attractive visual
+    representation.  </P>
+    </BLOCKQUOTE>  </P>
+<BR/>
+<HR/>
+
+<CENTER>
+<ADDRESS>
+   <A HREF="../../">Eugene Wallingford</A> .....
+   <A HREF="mailto:wallingf@cs.uni.edu">wallingf@cs.uni.edu</A> .....
+   October 26, 2015
+</ADDRESS>
+</CENTER>
+
+<HR/>
+
+</BODY>
+</HTML>

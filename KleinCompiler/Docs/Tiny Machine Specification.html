@@ -1,0 +1,337 @@
+<HTML>
+<TITLE> CS 4550 Target Machine Specification </TITLE>
+
+<BODY BACKGROUND="#FFFFFF" VLINK="#404050">
+
+<HR/>
+<H2 ALIGN="center"> The TM Machine Specification         </H2>
+<HR/>
+<H4 ALIGN="center"> CS 4550                              <BR/>
+                    Translation of Programming Languages </H4>
+<HR/>
+
+     <A NAME="introduction"></A>
+<H2> Introduction </H2>
+
+<P> TM is a simple target machine.
+    <A HREF="http://www.cs.sjsu.edu/faculty/louden/">
+       Kenneth Louden</A>
+    created <B>T</B>iny <B>M</B>achine for his textbook,
+    <A HREF="http://www.cs.sjsu.edu/faculty/louden/cmptext/">
+       Compiler Construction: Principles and Practice</A>.
+    TM has an architecture and instruction set complex enough to
+    illustrate the important issues faced when writing a compiler,
+    yet simple enough not to distract us with unnecessary details.  </P>
+<BR/>
+<HR/>
+
+    <A NAME="architecture"></A>
+<H2> Architecture </H2>
+
+<P> TM provides two kinds of memory:
+    <UL>
+    <LI> instruction memory, which is read-only </LI>
+    <LI> data memory </LI>
+    </UL>
+    Memory addresses are non-negative integers.  When the machine
+    is started, all data memory is set to 0, except for the first
+    memory location.  That location contains the value of the
+    highest legal address.  </P>
+
+<P> We use an extended version of the TM interpreter that accepts
+    <A HREF="#extended-interpreter">
+       command-line arguments</A>
+    to the TM program and stores them in memory locations 1 through
+    <B><TT>n</TT></B>.  </P>
+
+<P> TM provides eight registers, numbered 0 through 7.  Register 7
+    is the program counter.  The other seven registers are available
+    for program use.  When the machine is started, all registers
+    are set to 0.  </P>
+
+<P> When the machine is started, after memory and registers have
+    been initialized, TM begins execution of the program beginning
+    in the first location of instruction memory.  The machine
+    follows a standard fetch-execute cycle:
+    <UL>
+    <LI> fetch the current instruction from the address indicated
+         by the program counter </LI>
+    <LI> increment the program counter </LI>
+    <LI> execute the instruction </LI>
+    </UL>  </P>
+
+<P> The loop terminates when it reaches a <B><TT>HALT</TT></B>
+    instruction or when an error occurs.  TM has three native
+    error conditions:
+    <UL>
+    <LI> <B><TT>IMEM_ERR</TT></B>, which occurs in the fetch step
+         whenever the address of the next instruction to be executed
+         is out of bounds </LI>
+    <LI> <B><TT>DMEM_ERR</TT></B>, which occurs in the execute step
+         whenever the address of a memory access is out of bounds </LI>
+    <LI> <B><TT>ZERO_DIV</TT></B>, which occurs in the execute step
+         whenever the divisor to a <B><TT>DIV</TT></B> is zero </LI>
+    </UL>  </P>
+<BR/>
+<HR/>
+
+    <A NAME="instruction-set"></A>
+<H2> Instruction Set </H2>
+
+<P> TM provides two kinds of instructions: <B>register-only</B> and
+    <B>register-memory</B>.  </P>
+
+<P> Register-only (RO) instructions are of the form
+<PRE>
+    opcode r1,r2,r3
+</PRE>  </P>
+
+<P> where the <B><TT>r<I>i</I></TT></B> are legal registers.  These
+    are the RO opcodes:
+    <BLOCKQUOTE><TABLE>
+    <TR> <TD><B><TT>IN</TT></B></TD>
+         <TD>read an integer from stdin and place result in
+             <B><TT>r1</TT></B>; ignore operands <B><TT>r2</TT></B>
+             and <B><TT>r3</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>OUT</TT></B></TD>
+         <TD>write contents of <B><TT>r1</TT></B> to stdout; ignore
+             operands <B><TT>r2</TT></B> and <B><TT>r3</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>ADD</TT></B></TD>
+         <TD>add contents of <B><TT>r2</TT></B> and <B><TT>r3</TT></B>
+             and place result in <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>SUB</TT></B></TD>
+         <TD>subtract contents of <B><TT>r3</TT></B> from contents of
+             <B><TT>r2</TT></B> and place result in
+             <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>MUL</TT></B></TD>
+         <TD>multiply contents of <B><TT>r2</TT></B> and contents of
+             <B><TT>r3</TT></B> and place result in
+             <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>DIV</TT></B></TD>
+         <TD>divide contents of <B><TT>r2</TT></B> by contents of
+             <B><TT>r3</TT></B> and place result in
+             <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>HALT</TT></B></TD>
+         <TD>ignore operands and terminate the machine</TD>
+         </TR>
+    </TABLE></BLOCKQUOTE>  </P>
+
+<P> Register-memory (RM) instructions are of the form
+<PRE>
+    opcode r1,offset(r2)
+</PRE>  </P>
+
+<P> where the <B><TT>r<I>i</I></TT></B> are legal registers and
+    <B><TT>offset</TT></B> is an integer offset.
+    <B><TT>offset</TT></B> may be negative.  With the exception of
+    the <B><TT>LDC</TT></B> instruction, the expression
+    <B><TT>offset(r2)</TT></B> is used to compute the address of
+    a memory location:
+<PRE>
+    address = (contents of r2) + offset
+</PRE>  </P>
+
+<P> There are four RM opcodes for memory manipulation:
+    <BLOCKQUOTE><TABLE>
+    <TR> <TD><B><TT>LDC</TT></B></TD>
+         <TD>place the constant <B><TT>offset</TT></B> in
+         <B><TT>r1</TT></B>; ignore <B><TT>r2</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>LDA</TT></B></TD>
+         <TD>place the address <B><TT>address</TT></B> in
+         <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>LD</TT></B></TD>
+         <TD>place the contents of data memory location
+             <B><TT>address</TT></B> in <B><TT>r1</TT></B></TD>
+         </TR>
+    <TR> <TD><B><TT>ST</TT></B></TD>
+         <TD>place the contents of <B><TT>r1</TT></B> to data memory
+             location <B><TT>address</TT></B></TD>
+         </TR>
+    </TABLE></BLOCKQUOTE>  </P>
+
+<P> There are six RM opcodes for branching.  If the value of
+    <B><TT>r1</TT></B> satisfies the opcode's condition, then
+    branch to the instruction at instruction memory location
+    <B><TT>address</TT></B></TD>.
+    <BLOCKQUOTE><TABLE>
+    <TR> <TD><B><TT>JEQ</TT></B></TD>
+         <TD>equal to 0</TD>
+         </TR>
+    <TR> <TD><B><TT>JNE</TT></B></TD>
+         <TD>not equal to 0</TD>
+         </TR>
+    <TR> <TD><B><TT>JLT</TT></B></TD>
+         <TD>less than 0</TD>
+         </TR>
+    <TR> <TD><B><TT>JLE</TT></B></TD>
+         <TD>less than or eual to 0</TD>
+         </TR>
+    <TR> <TD><B><TT>JGT</TT></B></TD>
+         <TD>greater than 0</TD>
+         </TR>
+    <TR> <TD><B><TT>JGE</TT></B></TD>
+         <TD>greater than or equal to 0</TD>
+         </TR>
+    </TABLE></BLOCKQUOTE>  </P>
+
+<P> Note:
+    <UL>
+    <LI> All arithmetic is done with registers (not memory locations)
+         and on integers.  Floating-point numbers must be simulated
+         in the run-time system.  </LI>
+    <BR/>
+    <LI> There are no restrictions on the usage of registers.  For
+         example, the source and target registers for an operation
+         can be the same.  </LI>
+    <BR/>
+    <LI> This is also true of the program counter, Register 7.  For
+         example,
+         <UL>
+         <LI> To branch unconditionally to an instruction, a program
+              can load the target address into the PC using an
+              <B><TT>LDA</TT></B> instruction.  </LI>
+         <LI> To branch unconditionally to an instruction whose
+              address is stored in data memory, a program can load
+              the target address into the PC using an
+              <B><TT>LD</TT></B> instruction.  </LI>
+         <LI> To branch conditionally to an instruction whose address
+              is relative to the current position in the program, a
+              program can use the PC as <B><TT>r2</TT></B> in any of
+              the <B><TT>J<I>xx</I></TT></B> instructions.  </LI>
+         </UL>
+    </UL>  </P>
+<BR/>
+<HR/>
+
+     <A NAME="simulator"></A>
+<H2> The TM Simulator </H2>
+
+<P> We do not have a hardware realization of the TM architecture.  We
+    do have a TM virtual machine, implemented as a C program.  This
+    program accepts assembly language programs written for TM and
+    executes them according to the machine's specification.  </P>
+
+<H4> Input to the VM </H4>
+
+<P> The VM accepts programs as text files of the following form:
+    <UL>
+    <LI> Program commands consist of a line number, a colon, an
+         assembly language instruction, and an optional comment.
+<PRE>
+    [line number]<B>:</B> [instruction] [comment]
+</PRE>
+         <P> For example:
+<PRE>
+    5<B>:</B> SUB 0,0,2     r0 = r0 - r2
+</PRE> </P> </LI>
+    <LI> Program commands do not need to appear in the order of
+         their line numbers.  The simulator will execute them in
+         line-number order, regardless of the order in which they
+         appear in the file.  </LI>
+    <LI> Any line beginning with an asterisk is treated as a
+         comment and ignored.  </LI>
+    <LI> Any line that is completely blank is ignored.  </LI>
+    <LI> A line in any other form is an error.  </LI>
+    </UL>  </P>
+
+<H4> Interaction with the VM </H4>
+
+<P> Invoke the virtual machine with the name of a TM assembly
+    language program as an argument.  If the filename does not have
+    an extension, the simulator assumes <B><TT>.tm</TT></B>.  </P>
+
+<P> The simulator then requests a command.  The basic commands for
+    running the program are:
+    <UL>
+    <LI> <B><TT>g</TT></B> -- runs the assembly language program.
+         This will execute the program until it reaches a
+         <B><TT>HALT</TT></B> instruction.  </LI>
+    <LI> <B><TT>s <I>n</I></TT></B> -- steps through the execution
+         of the next <I>n</I> instructions.  <I>n</I> defaults to 1.  </LI>
+    <LI> <B><TT>c</TT></B> -- clears the simulator, so that the
+         program can be run fresh.  </LI>
+    </UL>  </P>
+
+<P> Several other commands accepted by the simulator provide
+    rudimentary debugging capabilities:
+    <UL>
+    <LI> <B><TT>p</TT></B> -- toggles the printing of the number of
+         instructions executed for each <B><TT>g</TT></B> run.  </LI>
+    <LI> <B><TT>t</TT></B> -- toggles the printing of an instruction
+         trace for each <B><TT>g</TT></B> run. </LI>
+    <LI> <B><TT>r</TT></B> -- prints the current contents of the
+         registers.  </LI>
+    <LI> <B><TT>i loc</TT></B> -- prints the contents of the instruction
+         memory <B><TT>loc</TT></B>, which defaults to 0.  You may give
+         a second argument <B><TT>n</TT></B> to print <B><TT>n</TT></B>
+         instructions at one time.  </LI>
+    <LI> <B><TT>d loc</TT></B> -- prints the contents of the data
+         memory <B><TT>loc</TT></B>, which defaults to 0.  Again, you
+         may give a second argument <B><TT>n</TT></B> to print
+         <B><TT>n</TT></B> data locations at one time.  </LI>
+    </UL>  </P>
+
+<P> Finally are these commands:
+    <UL>
+    <LI> <B><TT>h</TT></B> -- prints a list of all the commands
+         accepted by the simulator.  </LI>
+    <LI> <B><TT>q</TT></B> -- quits the simulator.  </LI>
+    </UL>  </P>
+
+     <A NAME="extended-interpreter"></A>
+<H4> Command-Line Arguments </H4>
+
+<P> We use a version of the TM VM that is identical to the machine
+    described in
+    <A HREF="http://www.cs.sjsu.edu/faculty/louden/cmptext/">
+       Louden's textbook</A>,
+    with one exception.  Our simulator has been extended to accept
+    command-line arguments to assembly-language programs.  These
+    arguments are placed by the VM at the base of the data memory.  </P>
+
+<P> For example, we can invoke the TM VM as follows:
+<PRE>
+    office &gt; <B>tm factorial-cli.tm 10</B>
+    TM simulation (enter h for help)...
+    Enter command: <B>g</B>
+    OUT instruction prints: 3628800
+    HALT: 0,0,0
+    Halted
+</PRE>  </P>
+
+<P> This instruction loads the command-line argument 10 into
+    register 0:
+<PRE>
+    2:     LD  0,1(0)    ; loads arg from DMEM location 1
+</PRE>  </P>
+
+<P> If user provides multiple command-line arguments, they will be
+    be placed in consecutive data memory locations beginning at
+    location 1.  </P>
+
+<P> Note: If a TM program expects <I>n</I> command-line arguments,
+    then the program should <I>not</I> place any static data
+    objects in the first <I>n</I> spots of data memory.  </P>
+<BR/>
+<HR/>
+
+<CENTER>
+<ADDRESS>
+   <A HREF="../../">Eugene Wallingford</A> .....
+   <A HREF="mailto:wallingf@cs.uni.edu">wallingf@cs.uni.edu</A> .....
+   August 24, 2015
+</ADDRESS>
+</CENTER>
+
+<HR/>
+
+</BODY>
+</HTML>

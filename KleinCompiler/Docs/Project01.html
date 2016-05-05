@@ -1,0 +1,165 @@
+<HTML>
+<TITLE> CS 4550 Compiler Project </TITLE>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<HR/>
+<H2 ALIGN="center"> A Scanner for Klein                    </H2>
+<HR/>
+<H4 ALIGN="center"> CS 4550                                <BR/>
+                    Translation of Programming Languages   </H4>
+<HR/>
+
+<P ALIGN="center">
+   Stage 1 of the
+    <A HREF="index.html">
+       Klein compiler project</A>
+   <BR/>
+   <BR/><EM>OUT: Friday, September 11</EM>
+   <BR/><EM>DUE: Friday, September 25</EM></P>
+<!BR/>
+<HR/>
+
+     <A NAME="task"></A>
+<H4> A Lexical Analyzer </H4>
+
+<P> This stage consists of one component of your Klein compiler
+    and three auxiliary programs.  </P>
+
+<UL>
+<LI> Your primary task is:
+     <BLOCKQUOTE><STRONG>
+     Write a scanner for Klein.
+     </STRONG></BLOCKQUOTE>
+
+    <P> A scanner is a function or object that takes as input a
+    string or sequence of characters and produces as output a
+    sequence of Klein tokens.  </P>
+
+    <P> Implement your scanner as one or more deterministic
+    finite-state machines.  Be sure that your analyzer detects and
+    reports lexical errors, such as numbers out of range or format.
+    </P>  </LI>
+<BR/>
+<LI> Once your scanner produces a sequences of tokens:
+     <BLOCKQUOTE><STRONG>
+     Write a program that uses your scanner to produce a listing
+     of all the tokens in a valid Klein program.
+     </STRONG></BLOCKQUOTE>
+
+    <P> Display one token per line.  For tokens with semantic
+    content, such as an identifier or a number, display the content,
+    too.  For example:
+<PRE>
+    &lt;program&gt;
+    &lt;identifier&gt; HelloWorld
+    &lt;leftparen&gt;
+    &lt;identifier&gt; print
+    &lt;rightparen&gt;
+    &lt;separator&gt;
+    &lt;integer&gt;    42
+</PRE>  </P>  </LI>
+<BR/>
+<LI> In order to test your scanner,
+     <BLOCKQUOTE><STRONG>
+     Produce at least one meaningful program written in Klein.
+     </STRONG></BLOCKQUOTE>
+     Your test program should be at the level of an early CS1
+     program.
+
+     <P> You should, of course, produce as many tests as necessary
+     in order to ensure that your scanner works correctly.  You
+     are also encouraged to use any test programs available on the
+     project home page.  </P>  </LI>
+<BR/>
+<LI> Finally,
+     <BLOCKQUOTE><STRONG>
+     Create a Unix command-line script named
+     <FONT SIZE="+1"><TT>kleins</TT></FONT>
+     that takes the name of a Klein program as an argument and
+     runs your token-listing program on it.
+     </STRONG></BLOCKQUOTE>
+
+     <P> This will be the first in a series of tools that makes up
+     the command-line suite of your Klein compiler.  </P>  </LI>
+</UL>
+
+<P> 
+<BR/>
+<HR/>
+
+<H4> Submission </H4>
+
+<P> By 5:00 PM on Friday, September 25, submit
+    <A HREF="#deliverables">your deliverables</A>
+    as follows:
+    <UL>
+    <LI> <EM>(electronically)</EM> &nbsp; a zipped file named
+         <TT>project01.zip</TT> or <TT>project01.tar.gz</TT>
+         containing all of your code files for the assignment
+    <LI> <EM>(hardcopy)</EM> &nbsp; a print-out of the README
+         file from your code submission folder
+    </UL>  </P>
+
+<P> Make your electronic submission using
+    <A HREF="https://www.cs.uni.edu/~schafer/submit/which_course.cgi">
+       the on-line submission system</A>.  </P>
+<BR/>
+<HR/>
+
+     <A NAME="deliverables"></A>
+<H4> Deliverables </H4>
+
+<P> Submit only one copy of each assignment per team, both
+    electronically and on paper.  </P>
+
+<P> Submit a directory containing <B>all</B> of the source code for
+    your scanner and any Klein programs that you use for testing.
+    You may include other files, such as data files that document
+    your regular expressions and FSAs or the output of sample runs
+    of your programs.  Organize your project directory in a way
+    that works for your team but also that makes the directory
+    easy for readers to navigate.  </P>
+
+<P> You must also submit a README file that explains the design
+    of your solution, including any classes or modules and their
+    interfaces, and any design decisions that you think will help
+    the reader understand your program better.  </P>
+
+<P> The README file and sample programs are important!  They define
+    the scope of your work and will play an important role in how I
+    approach your code.  </P>
+<BR/>
+<HR/>
+
+<H4> Miscellaneous Notes </H4>
+
+<UL>
+<LI> The code for your compiler must be written only by you and your
+     partners.  However, I encourage you to discuss the assignment
+     with others in the course, and with me.  Learning how to think
+     about big programming problems is an important part of this
+     course, and we learn best what we describe, interpret, and do.  </LI>
+<BR/>
+<LI> Please adopt the programming standards of whichever language
+     you are using.  If you are writing your program in Java,
+     please use reasonable object-oriented style where appropriate.
+     If you are writing your program in Python, please use standard
+     Python programming style.  If you are writing your program in
+     Racket, please use good functional programming style.  </LI>
+</UL>
+<BR/>
+<HR/>
+
+<CENTER>
+<ADDRESS>
+   <A HREF="../../">Eugene Wallingford</A> .....
+   <A HREF="mailto:wallingf@cs.uni.edu">wallingf@cs.uni.edu</A> .....
+   September 10, 2015
+</ADDRESS>
+</CENTER>
+
+<HR/>
+
+</BODY>
+</HTML>
