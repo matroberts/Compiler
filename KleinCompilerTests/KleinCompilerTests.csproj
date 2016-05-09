@@ -44,7 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lexer\LexerTests.cs" />
+    <Compile Include="ExtensionTests.cs" />
+    <Compile Include="Lexer\TokenizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lexer\Tokens.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KleinCompiler\KleinCompiler.csproj">
+      <Project>{82136ab9-ec0f-4dbb-825c-0255c12ff04f}</Project>
+      <Name>KleinCompiler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
