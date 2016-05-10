@@ -10,51 +10,81 @@ namespace KleinCompilerTests.Lexer
     public class TokenizerTests
     {
         [Test]
-        public void GetTokens_GivenAnEmptyString_ReturnsEmptyList()
+        public void GetNextToken_ReturnsNull_WhenThereAreNoMoreTokens()
         {
-            var token = new Tokenizer(string.Empty).GetNextToken();
+            var input = string.Empty;
 
-            Assert.That(token, Is.Null);
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
-        // Single white space
+        [Test]
+        public void GetNextToken_ReturnsNull_WhenTheInputIsWhitespace()
+        {
+            var input = "    ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
 
         [Test]
-        public void ASingleCharacter_IsAnIdentifier()
+        public void Identifier_ASingleCharacter_IsAnIdentifier()
         {
             var input = "a";
 
-            var token = new Tokenizer(input).GetNextToken();
+            var tokenizer = new Tokenizer(input);
 
-            Assert.That(token, Is.InstanceOf<IdentifierToken>());
-            Assert.That(token.Value, Is.EqualTo("a"));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         [Test]
-        public void AStringOfCharacters_IsAnIdentifier()
+        public void Identifier_AStringOfCharacters_IsAnIdentifier()
         {
             var input = "aa";
 
-            var token = new Tokenizer(input).GetNextToken();
+            var tokenizer = new Tokenizer(input);
 
-            Assert.That(token, Is.InstanceOf<IdentifierToken>());
-            Assert.That(token.Value, Is.EqualTo("aa"));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         [Test]
-        public void WhiteSpace_ShouldBeThrownAway()
+        public void Identifier_LeadingWhiteSpace_ShouldBeThrownAway()
         {
             var input = " a";
 
-            var token = new Tokenizer(input).GetNextToken();
+            var tokenizer = new Tokenizer(input);
 
-            Assert.That(token, Is.InstanceOf<IdentifierToken>());
-            Assert.That(token.Value, Is.EqualTo("a"));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
+        [Test]
+        public void Identifier_TrailingWhiteSpace_ShouldBeThrownAway()
+        {
+            var input = "abc ";
 
-        // "a b"
+            var tokenizer = new Tokenizer(input);
 
-        // throw away input which is not tokens
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("abc")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void Identifier_SeriesOfIdentifiers_SeparatedByWhiteSpace()
+        {
+            var input = " aa bb c ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("bb")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("c")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
     }
 }

@@ -16,35 +16,42 @@ namespace KleinCompiler
 
         public Token GetNextToken()
         {
-            // identifier [A-Za-z]+
-            var token = StateMachine.State0(_input, 0);
-            return token;
+            while (_startPos < _input.Length)
+            {
+                var token = StateMachine.IdentifierState0(_input, _startPos);
+
+                if (token == null)
+                {
+                    _startPos++; // advance over unknown token
+                }
+                else
+                {
+                    _startPos += token.Lenth;  // move start position to after recognised token
+                    return token;
+                }
+            }
+            return null; // return null when no more tokens
         }
-
-
     }
 
     public class StateMachine
     {
-        public static Token State0(string input, int pos)
+        // identifier [A-Za-z]+
+        // (0 IsAlpha) -> (1 IsAlpha) <>
+        public static Token IdentifierState0(string input, int startPos)
         {
-            if (pos >= input.Length)
-                return null;
-            else if (input[pos].IsAlpha())
-                return State1(input, pos + 1);
-            throw new ArgumentException();
-            //            return null;
+            if (input[startPos].IsAlpha())
+                return IdentifierState1(input, startPos, startPos + 1);
+            return null;
         }
 
-        public static Token State1(string input, int pos)
+        public static Token IdentifierState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new IdentifierToken(input);
+                return new IdentifierToken(input.Substring(startPos, pos-startPos));
             else if (input[pos].IsAlpha())
-                return State1(input, pos + 1);
-            throw new ArgumentException();
-            //            else
-            //                return new IdentifierToken(input.Substring(0, pos - 1));
+                return IdentifierState1(input, startPos, pos + 1);
+            return new IdentifierToken(input.Substring(startPos, pos-startPos));
         }
     }
 }

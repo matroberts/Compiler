@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="Lexer\TokenizerTests.cs" />
+    <Compile Include="Lexer\TokenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
