@@ -12,9 +12,9 @@ namespace KleinCompilerTests.Lexer
         [Test]
         public void GetTokens_GivenAnEmptyString_ReturnsEmptyList()
         {
-            var tokens = new Tokenizer().GetTokens(String.Empty);
+            var token = new Tokenizer(string.Empty).GetNextToken();
 
-            Assert.That(tokens, Is.Empty);
+            Assert.That(token, Is.Null);
         }
 
         // Single white space
@@ -24,11 +24,10 @@ namespace KleinCompilerTests.Lexer
         {
             var input = "a";
 
-            var tokens = new Tokenizer().GetTokens(input);
+            var token = new Tokenizer(input).GetNextToken();
 
-            Assert.That(tokens.Count, Is.EqualTo(1));
-            Assert.That(tokens[0], Is.InstanceOf<IdentifierToken>());
-            Assert.That(tokens[0].Value, Is.EqualTo("a"));
+            Assert.That(token, Is.InstanceOf<IdentifierToken>());
+            Assert.That(token.Value, Is.EqualTo("a"));
         }
 
         [Test]
@@ -36,12 +35,23 @@ namespace KleinCompilerTests.Lexer
         {
             var input = "aa";
 
-            var tokens = new Tokenizer().GetTokens(input);
+            var token = new Tokenizer(input).GetNextToken();
 
-            Assert.That(tokens.Count, Is.EqualTo(1));
-            Assert.That(tokens[0], Is.InstanceOf<IdentifierToken>());
-            Assert.That(tokens[0].Value, Is.EqualTo("aa"));
+            Assert.That(token, Is.InstanceOf<IdentifierToken>());
+            Assert.That(token.Value, Is.EqualTo("aa"));
         }
+
+        [Test]
+        public void WhiteSpace_ShouldBeThrownAway()
+        {
+            var input = " a";
+
+            var token = new Tokenizer(input).GetNextToken();
+
+            Assert.That(token, Is.InstanceOf<IdentifierToken>());
+            Assert.That(token.Value, Is.EqualTo("a"));
+        }
+
 
         // "a b"
 

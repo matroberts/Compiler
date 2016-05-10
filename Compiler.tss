@@ -2,7 +2,13 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\KleinCompiler\Tokens.txt</string>
+      <string>C:\github\Compiler\KleinCompilerTests\Lexer\TokenizerTests.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\github\Compiler\KleinCompiler\Lexer\Tokenizer.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\github\Compiler\KleinCompiler\Lexer\Token.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
