@@ -9,6 +9,8 @@ namespace KleinCompilerTests.Lexer
     [TestFixture]
     public class TokenizerTests
     {
+        #region empty
+
         [Test]
         public void GetNextToken_ReturnsNull_WhenThereAreNoMoreTokens()
         {
@@ -29,6 +31,10 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.Null);
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
+
+        #endregion
+
+        #region identifiers
 
         [Test]
         public void Identifier_ASingleCharacter_IsAnIdentifier()
@@ -86,5 +92,45 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("c")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
+
+        #endregion
+
+        #region keywords
+
+        [Test]
+        public void IntegerKeyword_ShouldBeRecognised()
+        {
+            var input = "integer";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void Keyword_PartialKeyword_DelimitedByEndOfFile_ShouldBeRecognisedAsAnIdentifier()
+        {
+            var input = "intege";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void Keyword_PartialKeyword_DelimitedByWhitespace_ShouldBeRecognisedAsAnIdentifier()
+        {
+            var input = "intege ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        #endregion
+
     }
 }

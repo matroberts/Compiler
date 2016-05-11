@@ -18,7 +18,10 @@ namespace KleinCompiler
         {
             while (_startPos < _input.Length)
             {
-                var token = StateMachine.IdentifierState0(_input, _startPos);
+                Token token;
+                token = StateMachine.KeywordState0(_input, _startPos);
+                if(token == null)  // this is wrong
+                    token = StateMachine.IdentifierState0(_input, _startPos);
 
                 if (token == null)
                 {
@@ -45,13 +48,42 @@ namespace KleinCompiler
             return null;
         }
 
-        public static Token IdentifierState1(string input, int startPos, int pos)
+        private static Token IdentifierState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new IdentifierToken(input.Substring(startPos, pos-startPos));
             else if (input[pos].IsAlpha())
                 return IdentifierState1(input, startPos, pos + 1);
             return new IdentifierToken(input.Substring(startPos, pos-startPos));
+        }
+
+        public static Token KeywordState0(string input, int startPos)
+        {
+            string keyword = "integer";
+            if (input[startPos] == keyword[0])
+                return KeywordState1(keyword, input, startPos, startPos + 1);
+            return null;
+        }
+
+        private static Token KeywordState1(string keyword, string input, int startPos, int pos)
+        {
+            if (pos >= input.Length)
+                return null;
+            if (input[pos] == keyword[pos - startPos])
+            {
+                if (keyword.Length == pos - startPos + 1)
+                {
+                    return new KeywordToken(input.Substring(startPos, pos - startPos + 1));
+                }
+                else
+                {
+                    return KeywordState1(keyword, input, startPos, pos + 1);
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
