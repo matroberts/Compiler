@@ -174,5 +174,81 @@ namespace KleinCompilerTests.Lexer
 
         #endregion
 
+        #region line comments
+
+        [Test]
+        public void ASingleForwardSlash_AtTheEndOfTheFile_IsNothing_AndIsIgnored()
+        {
+            var input = "    /";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void ASingleForwardSlash_InTheMiddleOfAFile_IsNothing_AndIsIgnored()
+        {
+            var input = "    /    ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void LineComment_TwoForwardSlashed_StartALineComment()
+        {
+            var input = "//";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("//")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void LineComment_EndOfFile_EndsTheComment()
+        {
+            var input = "// comment";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void LineComment_EndOfLine_EndsTheComment_AndTheCommentDoesNotIncludeTheNewLine()
+        {
+            var input = @"// comment
+identifier";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("identifier")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void LineComment_ALineComment_CanStartInTheMiddleOfALine()
+        {
+            var input = @"hey
+hey // my
+my";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// my")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("my")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        #endregion
+
+
     }
 }

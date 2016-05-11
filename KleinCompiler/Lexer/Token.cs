@@ -44,4 +44,9 @@ namespace KleinCompiler
     {
         public KeywordToken(string value) : base(value) { }
     }
+
+    public class LineCommentToken : Token
+    {
+        public LineCommentToken(string value) : base(value) { }
+    }
 }

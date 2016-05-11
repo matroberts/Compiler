@@ -51,29 +51,30 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                  .AddIfNotNull(KeywordState0("integer", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("boolean", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("if", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("then", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("else", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("not", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("or", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("main", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("+", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("-", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("*", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("\\", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("<", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("=", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0("(", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0(")", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
-                  .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
-                  .AddIfNotNull(IdentifierState0(input, startPos));
+                .AddIfNotNull(KeywordState0("integer", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("boolean", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("if", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("then", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("else", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("not", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("or", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("main", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("+", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("-", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("*", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("\\", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("<", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("=", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("(", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0(")", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
+                .AddIfNotNull(IdentifierState0(input, startPos))
+                .AddIfNotNull(LineCommentState0(input, startPos));
             return tokens;
         }
 
@@ -95,6 +96,7 @@ namespace KleinCompiler
             return new IdentifierToken(input.Substring(startPos, pos-startPos));
         }
 
+        // keyword pattern is an exact match to the string passed in in keyword
         private static Token KeywordState0(string keyword, string input, int startPos, int pos)
         {
             if (pos >= input.Length)
@@ -114,6 +116,32 @@ namespace KleinCompiler
             {
                 return null;
             }
+        }
+
+        // line comment is // start the comment till the end of line
+        private static Token LineCommentState0(string input, int startPos)
+        {
+            if (input[startPos] == '/')
+                return LineCommentState1(input, startPos, startPos + 1);
+            return null;
+        }
+
+        private static Token LineCommentState1(string input, int startPos, int pos)
+        {
+            if (pos >= input.Length)
+                return null;
+            if (input[pos] == '/')
+                return LineCommentState2(input, startPos, pos + 1);
+            return null;
+        }
+
+        private static Token LineCommentState2(string input, int startPos, int pos)
+        {
+            if (pos >= input.Length)
+                return new LineCommentToken(input.Substring(startPos, pos-startPos));
+            if (input[pos] == '\n')
+                return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'));
+            return LineCommentState2(input, startPos, pos+1);
         }
     }
 }
