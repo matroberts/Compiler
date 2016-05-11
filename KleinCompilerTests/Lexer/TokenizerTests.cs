@@ -107,7 +107,9 @@ namespace KleinCompilerTests.Lexer
         [TestCase("and")]
         [TestCase("main")]
         [TestCase("print")]
-        public void IntegerKeyword_ShouldBeRecognised(string keyword)
+        [TestCase("true")]
+        [TestCase("false")]
+        public void Keywords_ShouldBeRecognised_AsKeywords(string keyword)
         {
             var tokenizer = new Tokenizer(keyword);
 
@@ -145,6 +147,18 @@ namespace KleinCompilerTests.Lexer
             var tokenizer = new Tokenizer(input);
 
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("integerr")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void IdentifierAndKeyword_ShouldBeRecognised()
+        {
+            var input = " woot integer ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("woot")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 

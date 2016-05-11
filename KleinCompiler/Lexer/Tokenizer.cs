@@ -33,6 +33,7 @@ namespace KleinCompiler
                 if (token == null)
                 {
                     _startPos++; // advance over unknown token
+                    // add error if not whitespace?
                 }
                 else
                 {
@@ -60,6 +61,8 @@ namespace KleinCompiler
                   .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
                   .AddIfNotNull(KeywordState0("main", input, startPos, startPos))
                   .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
                   .AddIfNotNull(IdentifierState0(input, startPos));
             return tokens;
         }

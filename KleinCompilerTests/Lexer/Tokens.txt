@@ -10,9 +10,9 @@ Identifier                   - Up to 256 characters case sensitive.  main and pr
 Literal
     IntegerLiteral           - -2^32 to 2^32-1
                              - (-)?[0-9]+
+Keyword
     BooleanLiteral           - true or false
                              - (true|false)
-Keyword
     IntegerType              - integer
     BooleanType              - boolean
     IfKeyword                - if
