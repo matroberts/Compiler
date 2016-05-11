@@ -50,7 +50,7 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                  .AddIfNotNull(KeywordState0(input, startPos))
+                  .AddIfNotNull(KeywordState0("integer", input, startPos, startPos))
                   .AddIfNotNull(IdentifierState0(input, startPos));
             return tokens;
         }
@@ -73,15 +73,7 @@ namespace KleinCompiler
             return new IdentifierToken(input.Substring(startPos, pos-startPos));
         }
 
-        private static Token KeywordState0(string input, int startPos)
-        {
-            string keyword = "integer";
-            if (input[startPos] == keyword[0])
-                return KeywordState1(keyword, input, startPos, startPos + 1);
-            return null;
-        }
-
-        private static Token KeywordState1(string keyword, string input, int startPos, int pos)
+        private static Token KeywordState0(string keyword, string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return null;
@@ -93,7 +85,7 @@ namespace KleinCompiler
                 }
                 else
                 {
-                    return KeywordState1(keyword, input, startPos, pos + 1);
+                    return KeywordState0(keyword, input, startPos, pos + 1);
                 }
             }
             else
