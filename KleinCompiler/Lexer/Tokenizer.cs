@@ -18,10 +18,17 @@ namespace KleinCompiler
         {
             while (_startPos < _input.Length)
             {
-                Token token;
-                token = StateMachine.KeywordState0(_input, _startPos);
-                if(token == null)  // this is wrong
-                    token = StateMachine.IdentifierState0(_input, _startPos);
+                Token token = null;
+
+                var tokens = StateMachine.GetCandidateTokens(_input, _startPos);
+                foreach (var t in tokens)
+                {
+                    if (token == null)
+                        token = t;
+                    if (t.Length > token.Length)
+                        token = t;
+                }
+
 
                 if (token == null)
                 {
@@ -29,7 +36,7 @@ namespace KleinCompiler
                 }
                 else
                 {
-                    _startPos += token.Lenth;  // move start position to after recognised token
+                    _startPos += token.Length;  // move start position to after recognised token
                     return token;
                 }
             }
@@ -39,9 +46,18 @@ namespace KleinCompiler
 
     public class StateMachine
     {
+        public static List<Token> GetCandidateTokens(string input, int startPos)
+        {
+            var tokens = new List<Token>();
+            tokens
+                  .AddIfNotNull(KeywordState0(input, startPos))
+                  .AddIfNotNull(IdentifierState0(input, startPos));
+            return tokens;
+        }
+
         // identifier [A-Za-z]+
         // (0 IsAlpha) -> (1 IsAlpha) <>
-        public static Token IdentifierState0(string input, int startPos)
+        private static Token IdentifierState0(string input, int startPos)
         {
             if (input[startPos].IsAlpha())
                 return IdentifierState1(input, startPos, startPos + 1);
@@ -57,7 +73,7 @@ namespace KleinCompiler
             return new IdentifierToken(input.Substring(startPos, pos-startPos));
         }
 
-        public static Token KeywordState0(string input, int startPos)
+        private static Token KeywordState0(string input, int startPos)
         {
             string keyword = "integer";
             if (input[startPos] == keyword[0])

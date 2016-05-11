@@ -10,7 +10,7 @@ namespace KleinCompiler
         }
         public string Value { get; }
 
-        public int Lenth => Value.Length;
+        public int Length => Value.Length;
 
         public override bool Equals(object obj)
         {

@@ -130,6 +130,17 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
+        [Test]
+        public void Keyword_ExtendedKeyword_ShouldBeRecognisedAsAnIdentifier_Ie_LongestTokenIsPreferred()
+        {
+            var input = "integerr";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("integerr")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
         #endregion
 
     }
