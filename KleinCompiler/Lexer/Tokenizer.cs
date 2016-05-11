@@ -51,6 +51,15 @@ namespace KleinCompiler
             var tokens = new List<Token>();
             tokens
                   .AddIfNotNull(KeywordState0("integer", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("boolean", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("if", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("then", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("else", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("not", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("or", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("main", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
                   .AddIfNotNull(IdentifierState0(input, startPos));
             return tokens;
         }

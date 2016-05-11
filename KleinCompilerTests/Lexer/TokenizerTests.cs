@@ -97,14 +97,21 @@ namespace KleinCompilerTests.Lexer
 
         #region keywords
 
-        [Test]
-        public void IntegerKeyword_ShouldBeRecognised()
+        [TestCase("integer")]
+        [TestCase("boolean")]
+        [TestCase("if")]
+        [TestCase("then")]
+        [TestCase("else")]
+        [TestCase("not")]
+        [TestCase("or")]
+        [TestCase("and")]
+        [TestCase("main")]
+        [TestCase("print")]
+        public void IntegerKeyword_ShouldBeRecognised(string keyword)
         {
-            var input = "integer";
+            var tokenizer = new Tokenizer(keyword);
 
-            var tokenizer = new Tokenizer(input);
-
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(keyword)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
