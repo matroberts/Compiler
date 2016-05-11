@@ -63,6 +63,16 @@ namespace KleinCompiler
                   .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
                   .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
                   .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("+", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("-", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("*", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("\\", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("<", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("=", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0("(", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0(")", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
+                  .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
                   .AddIfNotNull(IdentifierState0(input, startPos));
             return tokens;
         }

@@ -109,6 +109,16 @@ namespace KleinCompilerTests.Lexer
         [TestCase("print")]
         [TestCase("true")]
         [TestCase("false")]
+        [TestCase("+")]
+        [TestCase("-")]
+        [TestCase("*")]
+        [TestCase("\\")]
+        [TestCase("<")]
+        [TestCase("=")]
+        [TestCase("(")]
+        [TestCase(")")]
+        [TestCase(",")]
+        [TestCase(":")]
         public void Keywords_ShouldBeRecognised_AsKeywords(string keyword)
         {
             var tokenizer = new Tokenizer(keyword);
