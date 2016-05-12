@@ -122,6 +122,7 @@ namespace KleinCompiler
                 .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
                 .AddIfNotNull(IdentifierState0(input, startPos))
+                .AddIfNotNull(IntegerLiteralState0(input, startPos))
                 .AddIfNotNull(LineCommentState0(input, startPos))
                 .AddIfNotNull(BlockCommentState0(input, startPos));
             return tokens;
@@ -189,7 +190,7 @@ namespace KleinCompiler
             return LineCommentState2(input, startPos, pos+1);
         }
 
-        public static Token BlockCommentState0(string input, int startPos)
+        private static Token BlockCommentState0(string input, int startPos)
         {
             if (input[startPos] == '{')
                 return BlockCommentState1(input, startPos, startPos + 1);
@@ -203,6 +204,22 @@ namespace KleinCompiler
             if (input[pos] == '}')
                 return new BlockCommentToken(input.Substring(startPos, pos-startPos+1));
             return BlockCommentState1(input, startPos, pos+1);
+        }
+
+        private static Token IntegerLiteralState0(string input, int startPos)
+        {
+            if (input[startPos].IsNumeric())
+                return IntegerLiteralState1(input, startPos, startPos + 1);
+            return null;
+        }
+
+        private static Token IntegerLiteralState1(string input, int startPos, int pos)
+        {
+            if (pos >= input.Length)
+                return new IntegerLiteralToken(input.Substring(startPos, pos - startPos));
+            if (input[pos].IsNumeric())
+                return IntegerLiteralState1(input, startPos, pos + 1);
+            return new IntegerLiteralToken(input.Substring(startPos, pos-startPos));
         }
     }
 }

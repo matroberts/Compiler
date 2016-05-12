@@ -6,8 +6,6 @@ using NUnit.Framework;
 
 namespace KleinCompilerTests.Lexer
 {
-
-
     [TestFixture]
     public class TokenizerTests
     {
@@ -307,10 +305,36 @@ my";
         #region integer literal
 
         [Test]
-        public void Test()
+        public void ASingleNumber_AtTheEndOfTheFile_IsANumberLiteral()
         {
-            int x = 0;
-            int y = x + -3;
+            var input = "0";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void ASingleNumber_DelimitedByWhitespace_IsANumberLiteral()
+        {
+            var input = "0 ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void AStringOfNumbers_IsANumberLiteral()
+        {
+            var input = "0123456789 ";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0123456789")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         #endregion

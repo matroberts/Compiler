@@ -54,4 +54,9 @@ namespace KleinCompiler
     {
         public BlockCommentToken(string value) : base(value) { }
     }
+
+    public class IntegerLiteralToken : Token
+    {
+        public IntegerLiteralToken(string value) : base(value) { }
+    }
 }

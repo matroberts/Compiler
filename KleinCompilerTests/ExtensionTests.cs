@@ -9,7 +9,7 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ExtensionTests
     {
-        #region IsAlpa
+        #region IsAlpha
 
         [TestCase('a')]
         [TestCase('b')]
@@ -34,6 +34,28 @@ namespace KleinCompilerTests
         }
 
         #endregion
+
+        #region IsNumeric
+
+        [TestCase('0')]
+        [TestCase('1')]
+        [TestCase('8')]
+        [TestCase('9')]
+        public void IsNumeric_ShouldReturnTrue_For0to9characters(char character)
+        {
+            Assert.That(character.IsNumeric(), Is.True);
+        }
+
+        [TestCase('/')]
+        [TestCase(':')]
+        public void IsNumeric_ShouldReturnFalse_ForNonNumerals(char character)
+        {
+            Assert.That(character.IsNumeric(), Is.False);
+        }
+
+
+        #endregion
+
 
         #region AddIfNotNull
 

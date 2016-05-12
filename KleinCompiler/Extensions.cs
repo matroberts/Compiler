@@ -8,6 +8,11 @@ public static class Extensions
         return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
     }
 
+    public static bool IsNumeric(this char ch)
+    {
+        return (ch >= '0' && ch <= '9');
+    }
+
     public static List<Token> AddIfNotNull(this List<Token> list, Token token)
     {
         if (token != null)
