@@ -6,51 +6,7 @@ using NUnit.Framework;
 
 namespace KleinCompilerTests.Lexer
 {
-/*
-Tokens
-======
-LineComment                  - // continues to end of line
-                             - //.*\n
 
-BlockComment                 - { all the text within the curleys is comment }
-                             - {[^}]*}
-
-Identifier                   - Up to 256 characters case sensitive.  main and print are primitive identifiers
-                             - [a-zA-Z]+
-Literal
-    IntegerLiteral           - -2^32 to 2^32-1
-                             - (-)?[0-9]+
-Keyword
-    BooleanLiteral           - true or false
-                             - (true|false)
-    IntegerType              - integer
-    BooleanType              - boolean
-    IfKeyword                - if
-    ThenKeyword              - then
-    ElseKeyword              - else
-    NotOperator              - not
-    OrOperator               - or
-    AndOperator              - and
-    MainIdentifier           - main
-    PrintIdentifier          - print
-
-    PlusOperator             - +
-    MinusOperator            - -
-    MultiplicationOperator   - *
-    DivisionOperator         - \
-    LessThanOperator         - <
-    EqualityOperator         - =
-    OpenBracket              - (
-    CloseBracket             - )
-    Comma                    - ,
-    Colon                    - :
-
-
-Notes
-=====
-minus (-)  is used twice
-
-*/
 
     [TestFixture]
     public class TokenizerTests
@@ -348,6 +304,15 @@ my";
 
         #endregion
 
-        // numbers
+        #region integer literal
+
+        [Test]
+        public void Test()
+        {
+            int x = 0;
+            int y = x + -3;
+        }
+
+        #endregion
     }
 }

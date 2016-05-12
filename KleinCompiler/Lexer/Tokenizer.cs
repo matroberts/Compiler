@@ -3,6 +3,54 @@ using System.Collections.Generic;
 
 namespace KleinCompiler
 {
+    /*
+    Tokens
+    ======
+    LineComment                  - // continues to end of line
+                                 - //.*\n
+
+    BlockComment                 - { all the text within the curleys is comment }
+                                 - {[^}]*}
+
+    Identifier                   - Up to 256 characters case sensitive.  
+                                 - main and print are primitive identifiers, but i don't know what that means so treat them as keywords
+                                 - [a-zA-Z]+
+    
+    IntegerLiteral               - integers have the range -2^32 to 2^32-1, 
+                                 - but in the tokenizer ignore the minus sign and have only positive literals
+                                 - treat the minus always as a MinusOperator 
+                                 - [0-9]+      
+
+    Keyword                        the keyword pattern is an exact match to the string of charcters
+
+        BooleanTrue              - true
+        BooleanFalse             - false
+        IntegerType              - integer
+        BooleanType              - boolean
+        IfKeyword                - if
+        ThenKeyword              - then
+        ElseKeyword              - else
+        NotOperator              - not
+        OrOperator               - or
+        AndOperator              - and
+        MainIdentifier           - main
+        PrintIdentifier          - print
+        PlusOperator             - +
+        MinusOperator            - -
+        MultiplicationOperator   - *
+        DivisionOperator         - \
+        LessThanOperator         - <
+        EqualityOperator         - =
+        OpenBracket              - (
+        CloseBracket             - )
+        Comma                    - ,
+        Colon                    - :
+
+
+    * If two tokens match the input the longer token is taken
+    * If two tokens of the same length match the input, keywords are chosen in preference to identifiers
+
+    */
     public class Tokenizer
     {
         private readonly string _input;
@@ -79,8 +127,6 @@ namespace KleinCompiler
             return tokens;
         }
 
-        // identifier [A-Za-z]+
-        // (0 IsAlpha) -> (1 IsAlpha) <>
         private static Token IdentifierState0(string input, int startPos)
         {
             if (input[startPos].IsAlpha())
@@ -97,7 +143,6 @@ namespace KleinCompiler
             return new IdentifierToken(input.Substring(startPos, pos-startPos));
         }
 
-        // keyword pattern is an exact match to the string passed in in keyword
         private static Token KeywordState0(string keyword, string input, int startPos, int pos)
         {
             if (pos >= input.Length)
@@ -119,7 +164,6 @@ namespace KleinCompiler
             }
         }
 
-        // line comment is // start the comment till the end of line
         private static Token LineCommentState0(string input, int startPos)
         {
             if (input[startPos] == '/')
@@ -145,7 +189,6 @@ namespace KleinCompiler
             return LineCommentState2(input, startPos, pos+1);
         }
 
-        // Block comment is formed by {}
         public static Token BlockCommentState0(string input, int startPos)
         {
             if (input[startPos] == '{')

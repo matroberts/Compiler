@@ -5,13 +5,10 @@
       <string>c:\github\compiler\kleincompilertests\lexer\tokenizertests.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>c:\github\compiler\kleincompiler\lexer\tokenizer.cs</string>
+      <string>C:\github\Compiler\KleinCompiler\Lexer\Tokenizer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\github\Compiler\KleinCompiler\Lexer\Token.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\github\Compiler\KleinCompilerTests\Lexer\Tokens.txt</string>
+      <string>c:\github\compiler\kleincompiler\lexer\token.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
