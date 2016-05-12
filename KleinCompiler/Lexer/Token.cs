@@ -49,4 +49,9 @@ namespace KleinCompiler
     {
         public LineCommentToken(string value) : base(value) { }
     }
+
+    public class BlockCommentToken : Token
+    {
+        public BlockCommentToken(string value) : base(value) { }
+    }
 }

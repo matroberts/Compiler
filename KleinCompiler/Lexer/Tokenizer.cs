@@ -74,7 +74,8 @@ namespace KleinCompiler
                 .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
                 .AddIfNotNull(IdentifierState0(input, startPos))
-                .AddIfNotNull(LineCommentState0(input, startPos));
+                .AddIfNotNull(LineCommentState0(input, startPos))
+                .AddIfNotNull(BlockCommentState0(input, startPos));
             return tokens;
         }
 
@@ -142,6 +143,23 @@ namespace KleinCompiler
             if (input[pos] == '\n')
                 return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'));
             return LineCommentState2(input, startPos, pos+1);
+        }
+
+        // Block comment is formed by {}
+        public static Token BlockCommentState0(string input, int startPos)
+        {
+            if (input[startPos] == '{')
+                return BlockCommentState1(input, startPos, startPos + 1);
+            return null;
+        }
+
+        private static Token BlockCommentState1(string input, int startPos, int pos)
+        {
+            if (pos >= input.Length)
+                return new BlockCommentToken(input.Substring(startPos, pos - startPos)); // malformed block comment with no closing }
+            if (input[pos] == '}')
+                return new BlockCommentToken(input.Substring(startPos, pos-startPos+1));
+            return BlockCommentState1(input, startPos, pos+1);
         }
     }
 }
