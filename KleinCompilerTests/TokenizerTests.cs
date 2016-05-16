@@ -43,7 +43,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -54,7 +54,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -65,7 +65,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("a", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -76,7 +76,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("abc")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("abc", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -87,9 +87,9 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("bb")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("c")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("aa", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("bb", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("c", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -123,7 +123,7 @@ namespace KleinCompilerTests.Lexer
         {
             var tokenizer = new Tokenizer(keyword);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(keyword)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(keyword, 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -134,7 +134,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -145,7 +145,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("intege", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -156,7 +156,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("integerr")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("integerr", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -167,8 +167,8 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("woot")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("woot", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -183,7 +183,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", "missing / in line comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", 0, "missing / in line comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -194,7 +194,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", "missing / in line comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", 0, "missing / in line comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -205,7 +205,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("//")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("//", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -216,7 +216,7 @@ namespace KleinCompilerTests.Lexer
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -228,8 +228,8 @@ identifier";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("identifier")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("identifier", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -242,10 +242,10 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// my")));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("my")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("hey", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// my", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("my", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -260,7 +260,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{}")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{}", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -271,7 +271,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("{", "missing } in block comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("{", 0, "missing } in block comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -282,7 +282,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{text}")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{text}", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -298,7 +298,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken(input)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken(input, 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -313,7 +313,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -324,7 +324,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -335,24 +335,44 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0123456789")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0123456789", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         #endregion
 
-        #region unknown token
+        #region position
 
-//        [Test]
-//        public void IfAnUnknownCharacterIsEncountered_AnUnknownToken_IsSignalled()
-//        {
-//            var input = "!";
-//
-//            var tokenizer = new Tokenizer(input);
-//
-//            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new UnknownToken("!")));
-//            Assert.That(tokenizer.GetNextToken(), Is.Null);
-//        }
+        [Test]
+        public void Postion_EachTypeOfToken_ShouldRecordItsPostionInTheInputStream_ZeroBasedIndexing()
+        {
+            var input = "  23 variable true {bc} //lc";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(2));
+            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(5));
+            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(14));
+            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(19));
+            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(24));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        #endregion
+
+
+        #region error token
+
+        //        [Test]
+        //        public void IfAnUnknownCharacterIsEncountered_AnUnknownToken_IsSignalled()
+        //        {
+        //            var input = "!";
+        //
+        //            var tokenizer = new Tokenizer(input);
+        //
+        //            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new UnknownToken("!")));
+        //            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        //        }
 
 
         #endregion

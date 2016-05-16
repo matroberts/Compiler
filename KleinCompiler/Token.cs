@@ -4,11 +4,14 @@ namespace KleinCompiler
 {
     public class Token
     {
-        public Token(string value)
+        public Token(string value, int position)
         {
             Value = value;
+            Position = position;
         }
+
         public string Value { get; }
+        public int Position { get; }
 
         public int Length => Value.Length;
 
@@ -37,32 +40,32 @@ namespace KleinCompiler
 
     public class IdentifierToken : Token
     {
-        public IdentifierToken(string value) : base(value) { }
+        public IdentifierToken(string value, int position) : base(value, position) { }
     }
 
     public class KeywordToken : Token
     {
-        public KeywordToken(string value) : base(value) { }
+        public KeywordToken(string value, int position) : base(value, position) { }
     }
 
     public class LineCommentToken : Token
     {
-        public LineCommentToken(string value) : base(value) { }
+        public LineCommentToken(string value, int position) : base(value, position) { }
     }
 
     public class BlockCommentToken : Token
     {
-        public BlockCommentToken(string value) : base(value) { }
+        public BlockCommentToken(string value, int position) : base(value, position) { }
     }
 
     public class IntegerLiteralToken : Token
     {
-        public IntegerLiteralToken(string value) : base(value) { }
+        public IntegerLiteralToken(string value, int position) : base(value, position) { }
     }
 
     public class ErrorToken : Token
     {
-        public ErrorToken(string value, string errorMessage) : base(value)
+        public ErrorToken(string value, int position, string errorMessage) : base(value, position)
         {
             Message = errorMessage;
         }

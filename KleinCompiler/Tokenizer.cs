@@ -140,10 +140,10 @@ namespace KleinCompiler
         private static Token IdentifierState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new IdentifierToken(input.Substring(startPos, pos-startPos));
+                return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
             else if (input[pos].IsAlpha())
                 return IdentifierState1(input, startPos, pos + 1);
-            return new IdentifierToken(input.Substring(startPos, pos-startPos));
+            return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
         }
 
         private static Token KeywordState0(string keyword, string input, int startPos, int pos)
@@ -154,7 +154,7 @@ namespace KleinCompiler
             {
                 if (keyword.Length == pos - startPos + 1)
                 {
-                    return new KeywordToken(input.Substring(startPos, pos - startPos + 1));
+                    return new KeywordToken(input.Substring(startPos, pos - startPos + 1), startPos);
                 }
                 else
                 {
@@ -177,18 +177,18 @@ namespace KleinCompiler
         private static Token LineCommentState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new ErrorToken(input.Substring(startPos, pos - startPos), "missing / in line comment");
+                return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing / in line comment");
             if (input[pos] == '/')
                 return LineCommentState2(input, startPos, pos + 1);
-            return new ErrorToken(input.Substring(startPos, pos - startPos), "missing / in line comment"); ;
+            return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing / in line comment"); ;
         }
 
         private static Token LineCommentState2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new LineCommentToken(input.Substring(startPos, pos-startPos));
+                return new LineCommentToken(input.Substring(startPos, pos-startPos), startPos);
             if (input[pos] == '\n')
-                return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'));
+                return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
             return LineCommentState2(input, startPos, pos+1);
         }
 
@@ -202,9 +202,9 @@ namespace KleinCompiler
         private static Token BlockCommentState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new ErrorToken(input.Substring(startPos, pos - startPos), "missing } in block comment"); // malformed block comment with no closing }
+                return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing } in block comment"); // malformed block comment with no closing }
             if (input[pos] == '}')
-                return new BlockCommentToken(input.Substring(startPos, pos-startPos+1));
+                return new BlockCommentToken(input.Substring(startPos, pos-startPos+1), startPos);
             return BlockCommentState1(input, startPos, pos+1);
         }
 
@@ -218,10 +218,10 @@ namespace KleinCompiler
         private static Token IntegerLiteralState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new IntegerLiteralToken(input.Substring(startPos, pos - startPos));
+                return new IntegerLiteralToken(input.Substring(startPos, pos - startPos), startPos);
             if (input[pos].IsNumeric())
                 return IntegerLiteralState1(input, startPos, pos + 1);
-            return new IntegerLiteralToken(input.Substring(startPos, pos-startPos));
+            return new IntegerLiteralToken(input.Substring(startPos, pos-startPos), startPos);
         }
     }
 }
