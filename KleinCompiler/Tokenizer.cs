@@ -79,11 +79,9 @@ namespace KleinCompiler
                         token = t;
                 }
 
-
                 if (token == null)
                 {
-                    _startPos++; // advance over unknown token
-                    // add error if not whitespace?
+                    _startPos++;  // advance over whitespace
                 }
                 else
                 {
@@ -127,6 +125,10 @@ namespace KleinCompiler
                 .AddIfNotNull(IntegerLiteralState0(input, startPos))
                 .AddIfNotNull(LineCommentState0(input, startPos))
                 .AddIfNotNull(BlockCommentState0(input, startPos));
+
+            if(tokens.Count == 0 && input[startPos].IsWhitespace()==false)
+                tokens.Add(new ErrorToken(input.Substring(startPos, 1), startPos, $"Unknown character '{input[startPos]}'"));
+
             return tokens;
         }
 

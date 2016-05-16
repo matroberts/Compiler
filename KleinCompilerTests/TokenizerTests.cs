@@ -360,26 +360,22 @@ my";
 
         #endregion
 
-
         #region error token
 
-        //        [Test]
-        //        public void IfAnUnknownCharacterIsEncountered_AnUnknownToken_IsSignalled()
-        //        {
-        //            var input = "!";
-        //
-        //            var tokenizer = new Tokenizer(input);
-        //
-        //            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new UnknownToken("!")));
-        //            Assert.That(tokenizer.GetNextToken(), Is.Null);
-        //        }
+        [Test]
+        public void IfAnUnknownCharacterIsEncountered_AnErrorToken_IsProduced()
+        {
+            var input = "!";
+        
+            var tokenizer = new Tokenizer(input);
+        
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("!", 0, "Unknown character '!'")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
 
 
         #endregion
 
-        // keep track of where token found in file
-
-        // how to signal an error - return an error token in the stream
 
         // number out of range should be an error
 

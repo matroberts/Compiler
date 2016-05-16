@@ -88,5 +88,10 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name} : '{Message}'";
+        }
     }
 }

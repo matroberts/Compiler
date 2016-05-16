@@ -13,6 +13,11 @@ public static class Extensions
         return (ch >= '0' && ch <= '9');
     }
 
+    public static bool IsWhitespace(this char ch)
+    {
+        return char.IsWhiteSpace(ch);
+    }
+
     public static List<Token> AddIfNotNull(this List<Token> list, Token token)
     {
         if (token != null)
