@@ -30,5 +30,20 @@ namespace KleinCompilerTests.Lexer
             Assert.That(token1.Equals(token2), Is.False);
             Assert.That(token2.Equals(token1), Is.False);
         }
+
+        [Test]
+        public void ErrorToken_Equality_ConsidersTheMessage_AsWellAsValue()
+        {
+            var token = new ErrorToken("{", "message");
+
+            Assert.That(token.Equals(null), Is.False);
+            Assert.That(token.Equals("identifier"), Is.False);
+            Assert.That(token.Equals(new IdentifierToken("{")), Is.False);
+
+            Assert.That(token.Equals(token), Is.True);
+            Assert.That(token.Equals(new ErrorToken("{", "different message")), Is.False);
+            Assert.That(token.Equals(new ErrorToken("/", "message")), Is.False);
+            Assert.That(token.Equals(new ErrorToken("{", "message")), Is.True);
+        }
     }
 }

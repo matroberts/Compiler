@@ -59,4 +59,31 @@ namespace KleinCompiler
     {
         public IntegerLiteralToken(string value) : base(value) { }
     }
+
+    public class ErrorToken : Token
+    {
+        public ErrorToken(string value, string errorMessage) : base(value)
+        {
+            Message = errorMessage;
+        }
+
+        public string Message { get; }
+
+        public override bool Equals(object obj)
+        {
+            var token = obj as ErrorToken;
+            if (token == null)
+                return false;
+
+            if (this.GetType() != obj.GetType())
+                return false;
+
+            return Value == token.Value && Message == token.Message;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
 }

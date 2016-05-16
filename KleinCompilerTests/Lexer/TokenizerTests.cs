@@ -177,22 +177,24 @@ namespace KleinCompilerTests.Lexer
         #region line comments
 
         [Test]
-        public void ASingleForwardSlash_AtTheEndOfTheFile_IsNothing_AndIsIgnored()
+        public void ASingleForwardSlash_AtTheEndOfTheFile_IsAnError()
         {
             var input = "    /";
 
             var tokenizer = new Tokenizer(input);
 
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", "missing / in line comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         [Test]
-        public void ASingleForwardSlash_InTheMiddleOfAFile_IsNothing_AndIsIgnored()
+        public void ASingleForwardSlash_InTheMiddleOfAFile_IsAnError()
         {
             var input = "    /    ";
 
             var tokenizer = new Tokenizer(input);
 
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", "missing / in line comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -263,13 +265,13 @@ my";
         }
 
         [Test]
-        public void BlockComment_WhichIsOpened_ButWhereTheFileEndsWithoutAClose_CountsAsABlockComment()
+        public void BlockComment_WhichIsOpened_ButWhereTheFileEndsWithoutAClose_IsAnError()
         {
             var input = "{";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("{", "missing } in block comment")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -338,5 +340,34 @@ my";
         }
 
         #endregion
+
+        #region unknown token
+
+//        [Test]
+//        public void IfAnUnknownCharacterIsEncountered_AnUnknownToken_IsSignalled()
+//        {
+//            var input = "!";
+//
+//            var tokenizer = new Tokenizer(input);
+//
+//            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new UnknownToken("!")));
+//            Assert.That(tokenizer.GetNextToken(), Is.Null);
+//        }
+
+
+        #endregion
+
+        // keep track of where token found in file
+
+        // how to signal an error - return an error token in the stream
+
+        // number out of range should be an error
+
+        // program to produce list of tokens
+        // program written in klein
+
+        // readme file
+
     }
 }
+

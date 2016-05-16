@@ -8,9 +8,11 @@ namespace KleinCompiler
     ======
     LineComment                  - // continues to end of line
                                  - //.*\n
+                                 - if a single / is encountered an error is produced
 
     BlockComment                 - { all the text within the curleys is comment }
                                  - {[^}]*}
+                                 - if a block comment is not closed by the end of the file, an error is produced
 
     Identifier                   - Up to 256 characters case sensitive.  
                                  - main and print are primitive identifiers, but i don't know what that means so treat them as keywords
@@ -175,10 +177,10 @@ namespace KleinCompiler
         private static Token LineCommentState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return null;
+                return new ErrorToken(input.Substring(startPos, pos - startPos), "missing / in line comment");
             if (input[pos] == '/')
                 return LineCommentState2(input, startPos, pos + 1);
-            return null;
+            return new ErrorToken(input.Substring(startPos, pos - startPos), "missing / in line comment"); ;
         }
 
         private static Token LineCommentState2(string input, int startPos, int pos)
@@ -200,7 +202,7 @@ namespace KleinCompiler
         private static Token BlockCommentState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new BlockCommentToken(input.Substring(startPos, pos - startPos)); // malformed block comment with no closing }
+                return new ErrorToken(input.Substring(startPos, pos - startPos), "missing } in block comment"); // malformed block comment with no closing }
             if (input[pos] == '}')
                 return new BlockCommentToken(input.Substring(startPos, pos-startPos+1));
             return BlockCommentState1(input, startPos, pos+1);
