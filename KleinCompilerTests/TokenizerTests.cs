@@ -93,6 +93,16 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
+        [TestCase("print")]
+        [TestCase("main")]
+        public void Identifier_Print_and_Main_areIdentifiers(string input)
+        {
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken(input, 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
         #endregion
 
         #region keywords
@@ -105,8 +115,6 @@ namespace KleinCompilerTests.Lexer
         [TestCase("not")]
         [TestCase("or")]
         [TestCase("and")]
-        [TestCase("main")]
-        [TestCase("print")]
         [TestCase("true")]
         [TestCase("false")]
         [TestCase("+")]

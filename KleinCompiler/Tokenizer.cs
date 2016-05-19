@@ -15,7 +15,7 @@ namespace KleinCompiler
                                  - if a block comment is not closed by the end of the file, an error is produced
 
     Identifier                   - Up to 256 characters case sensitive.  
-                                 - main and print are primitive identifiers, but i don't know what that means so treat them as keywords
+                                 - main and print are primitive identifiers
                                  - [a-zA-Z]+
     
     IntegerLiteral               - integers have the range -2^32 to 2^32-1, 
@@ -35,8 +35,6 @@ namespace KleinCompiler
         NotOperator              - not
         OrOperator               - or
         AndOperator              - and
-        MainIdentifier           - main
-        PrintIdentifier          - print
         PlusOperator             - +
         MinusOperator            - -
         MultiplicationOperator   - *
@@ -107,8 +105,6 @@ namespace KleinCompiler
                 .AddIfNotNull(KeywordState0("not", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("or", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("main", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("print", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("+", input, startPos, startPos))

@@ -1,6 +1,8 @@
-﻿Import-Module 'C:\github\Compiler\KleinCmdlets\bin\Debug\KleinCmdlets.dll'
+﻿param([string]$Path)
 
-Get-KleinTokens C:\github\Compiler\KleinPrograms\Programs\circular-prime.kln | foreach {
+Import-Module 'C:\github\Compiler\KleinCmdlets\bin\Debug\KleinCmdlets.dll'
+
+Get-KleinTokens $Path | foreach {
     if($_.GetType().Name -eq 'ErrorToken') {
         Write-Host -ForegroundColor Red $_.ToString()
     } else {
