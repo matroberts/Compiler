@@ -376,8 +376,16 @@ my";
 
         #endregion
 
+        [Test]
+        public void Test()
+        {
+//            var x = 3/2;
+        }
 
+        // identifier should allow numbers
+        // forward / is allowed!!! its a divide?
         // number out of range should be an error
+        // print and main should be identifiers
 
         // program to produce list of tokens
         // program written in klein

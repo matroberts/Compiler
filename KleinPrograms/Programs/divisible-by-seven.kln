@@ -1,0 +1,21 @@
+﻿main( n : integer ) : boolean
+  divisibleByParts( n / 10 , MOD(n, 10) )
+
+divisibleByParts( left : integer, right : integer ) : boolean
+  divisibleByDifference( left - right * 2 )
+
+divisibleByDifference( diff : integer ) : boolean
+  if ((diff = 7) or (diff = 0) or (diff = -7) or (diff = -14)) then
+     true
+  else
+     if diff < 14 then
+        false
+     else
+        main(diff)
+
+{ ------------------------------
+  recurring utility from lib.kln
+  ------------------------------ }
+
+MOD( m : integer, n : integer ) : integer
+  m - m/n * n

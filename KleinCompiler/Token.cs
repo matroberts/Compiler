@@ -12,6 +12,7 @@ namespace KleinCompiler
 
         public string Value { get; }
         public int Position { get; }
+        public virtual bool IsError => false;
 
         public int Length => Value.Length;
 
@@ -34,7 +35,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return $"{this.GetType().Name} : '{Value}'";
+            return $"{this.GetType().Name.PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
         }
     }
 
@@ -70,6 +71,7 @@ namespace KleinCompiler
             Message = errorMessage;
         }
 
+        public override bool IsError => true;
         public string Message { get; }
 
         public override bool Equals(object obj)
@@ -91,7 +93,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return $"{this.GetType().Name} : '{Message}'";
+            return base.ToString() + $" '{Message}'";
         }
     }
 }
