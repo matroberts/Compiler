@@ -1,0 +1,9 @@
+// this program tests trying to put characters in an integer...
+// or starting an identifier with a digit
+// should break at "123a"
+
+main(y021a :integer, n:boolean):boolean
+    if x < 0 and y021a = true then
+       n 
+    else
+       123a

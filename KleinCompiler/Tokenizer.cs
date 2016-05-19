@@ -14,7 +14,8 @@ namespace KleinCompiler
                                  - {[^}]*}
                                  - if a block comment is not closed by the end of the file, an error is produced
 
-    Identifier                   - Up to 256 characters case sensitive.  Numbers are not allowed for the first character, but are allowed after that 
+    Identifier                   - Up to 256 characters case sensitive.  
+                                 - Numbers are not allowed for the first character, but are allowed after that 
                                  - main and print are primitive identifiers
                                  - [a-zA-Z][a-zA-Z0-9]*
     

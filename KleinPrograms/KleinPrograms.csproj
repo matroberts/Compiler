@@ -67,9 +67,18 @@
     <None Include="Programs\print-one.tm" />
     <None Include="Programs\public-private.kln" />
     <None Include="Programs\russian-peasant.kln" />
+    <None Include="Programs\scanner\testcases\bad-identifier.kln" />
+    <None Include="Programs\scanner\testcases\bad-number.kln" />
+    <None Include="Programs\scanner\testcases\empty-file.kln" />
+    <None Include="Programs\scanner\testcases\greater-than.kln" />
+    <None Include="Programs\scanner\testcases\identifier-too-long.kln" />
+    <None Include="Programs\scanner\testcases\int-with-char.kln" />
+    <None Include="Programs\scanner\testcases\leading-zero.kln" />
+    <None Include="Programs\scanner\testcases\reserved-words-and-symbols.kln" />
     <None Include="Programs\sieve.kln" />
     <None Include="Programs\square-root.kln" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

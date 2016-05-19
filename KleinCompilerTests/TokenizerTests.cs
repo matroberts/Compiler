@@ -427,8 +427,9 @@ my";
 
         #endregion
 
-        // readme file
+        // identifiers cannot exceed 256 charaters
 
+        // should a number be delimited by whitespace?
     }
 }
 

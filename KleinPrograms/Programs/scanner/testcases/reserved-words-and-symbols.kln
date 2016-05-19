@@ -1,0 +1,7 @@
+integer   boolean   true   false
++         -         *      /
+<         =         (      )
+if        then      else
+not       or        and
+//        {         }
+main      print     ,      :
