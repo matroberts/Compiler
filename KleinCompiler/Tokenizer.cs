@@ -14,9 +14,9 @@ namespace KleinCompiler
                                  - {[^}]*}
                                  - if a block comment is not closed by the end of the file, an error is produced
 
-    Identifier                   - Up to 256 characters case sensitive.  
+    Identifier                   - Up to 256 characters case sensitive.  Numbers are not allowed for the first character, but are allowed after that 
                                  - main and print are primitive identifiers
-                                 - [a-zA-Z]+
+                                 - [a-zA-Z][a-zA-Z0-9]*
     
     IntegerLiteral               - integers have the range -2^32 to 2^32-1, 
                                  - but in the tokenizer ignore the minus sign and have only positive literals
@@ -139,7 +139,7 @@ namespace KleinCompiler
         {
             if (pos >= input.Length)
                 return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
-            else if (input[pos].IsAlpha())
+            else if (input[pos].IsAlpha() || input[pos].IsNumeric())
                 return IdentifierState1(input, startPos, pos + 1);
             return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
         }

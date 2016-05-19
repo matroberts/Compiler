@@ -103,6 +103,17 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
+        [Test]
+        public void Identifiers_NumbersAreAllowedInAnIdentifier_AfterTheInitialCharacter()
+        {
+            var input = "log10";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("log10", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
         #endregion
 
         #region keywords
@@ -390,9 +401,7 @@ my";
 //            var x = 3/2;
         }
 
-        // identifier should allow numbers
         // number out of range should be an error
-        // print and main should be identifiers
 
         // program to produce list of tokens
         // program written in klein
