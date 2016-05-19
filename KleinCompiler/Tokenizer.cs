@@ -19,9 +19,10 @@ namespace KleinCompiler
                                  - [a-zA-Z][a-zA-Z0-9]*
     
     IntegerLiteral               - integers have the range -2^32 to 2^32-1, 
-                                 - but in the tokenizer ignore the minus sign and have only positive literals
-                                 - treat the minus always as a MinusOperator 
-                                 - [0-9]+      
+                                 - an integer literal is a string of digits.
+                                 - there is no leading + or - to indicate sign, all integer literals are positive
+                                 - leading zeros are not allowed for non-zero literals
+                                 - 0 | [1-9][0-9]*      
 
     Keyword                        the keyword pattern is an exact match to the string of charcters
 
@@ -208,17 +209,36 @@ namespace KleinCompiler
 
         private static Token IntegerLiteralState0(string input, int startPos)
         {
+            var token = IntegerLiteralState1(input, startPos);
+            if (token == null)
+                return null;
+
+            if(token.Value.StartsWith("0") && token.Length >1)
+                return new ErrorToken(token.Value, token.Position, "Number literals are not allowed leading zeros");
+
+            // this seems a bit bizarre
+            // the max size of interger literal according to the spec is 2^32-1
+            // but this is the size of a c# uint, not a c# int
+            uint result = 0;
+            if(!uint.TryParse(token.Value, out result))
+                return new ErrorToken(token.Value, token.Position, "Maximum size of integer literal is 4294967295");
+
+            return token;
+        }
+
+        private static Token IntegerLiteralState1(string input, int startPos)
+        {
             if (input[startPos].IsNumeric())
-                return IntegerLiteralState1(input, startPos, startPos + 1);
+                return IntegerLiteralState2(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token IntegerLiteralState1(string input, int startPos, int pos)
+        private static Token IntegerLiteralState2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new IntegerLiteralToken(input.Substring(startPos, pos - startPos), startPos);
             if (input[pos].IsNumeric())
-                return IntegerLiteralState1(input, startPos, pos + 1);
+                return IntegerLiteralState2(input, startPos, pos + 1);
             return new IntegerLiteralToken(input.Substring(startPos, pos-startPos), startPos);
         }
     }

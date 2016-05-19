@@ -350,11 +350,43 @@ my";
         [Test]
         public void AStringOfNumbers_IsANumberLiteral()
         {
-            var input = "0123456789 ";
+            var input = "1234567890 ";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0123456789", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("1234567890", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [TestCase("00")]
+        [TestCase("09")]
+        public void IntegerLiteralsAreNotAllowedLeadingZeros_IfTheyDoAnErrorIsRaised(string input)
+        {
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(input, 0, "Number literals are not allowed leading zeros")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void MaxiumSizeOfIntegerLiteralIs_2Power32minus1_ie_4294967295()
+        {
+            var input = "4294967295";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("4294967295", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void IfMaxIntegerSizeIfExceeded_AnErrorTokenIsGenerated()
+        {
+            var input = "4294967296";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("4294967296", 0, "Maximum size of integer literal is 4294967295")));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -394,17 +426,6 @@ my";
 
 
         #endregion
-
-        [Test]
-        public void Test()
-        {
-//            var x = 3/2;
-        }
-
-        // number out of range should be an error
-
-        // program to produce list of tokens
-        // program written in klein
 
         // readme file
 
