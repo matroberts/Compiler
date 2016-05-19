@@ -12,7 +12,6 @@ namespace KleinCompiler
 
         public string Value { get; }
         public int Position { get; }
-        public virtual bool IsError => false;
 
         public int Length => Value.Length;
 
@@ -71,7 +70,6 @@ namespace KleinCompiler
             Message = errorMessage;
         }
 
-        public override bool IsError => true;
         public string Message { get; }
 
         public override bool Equals(object obj)

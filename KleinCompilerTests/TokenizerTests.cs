@@ -112,7 +112,7 @@ namespace KleinCompilerTests.Lexer
         [TestCase("+")]
         [TestCase("-")]
         [TestCase("*")]
-        [TestCase("\\")]
+        [TestCase("/")]
         [TestCase("<")]
         [TestCase("=")]
         [TestCase("(")]
@@ -177,24 +177,24 @@ namespace KleinCompilerTests.Lexer
         #region line comments
 
         [Test]
-        public void ASingleForwardSlash_AtTheEndOfTheFile_IsAnError()
+        public void ASingleForwardSlash_AtTheEndOfTheFile_IsADivide()
         {
             var input = "    /";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", 0, "missing / in line comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
         [Test]
-        public void ASingleForwardSlash_InTheMiddleOfAFile_IsAnError()
+        public void ASingleForwardSlash_InTheMiddleOfAFile_IsADivide()
         {
             var input = "    /    ";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("/", 0, "missing / in line comment")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -383,7 +383,6 @@ my";
         }
 
         // identifier should allow numbers
-        // forward / is allowed!!! its a divide?
         // number out of range should be an error
         // print and main should be identifiers
 

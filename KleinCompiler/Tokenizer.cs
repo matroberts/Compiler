@@ -40,7 +40,7 @@ namespace KleinCompiler
         PlusOperator             - +
         MinusOperator            - -
         MultiplicationOperator   - *
-        DivisionOperator         - \
+        DivisionOperator         - /
         LessThanOperator         - <
         EqualityOperator         - =
         OpenBracket              - (
@@ -114,7 +114,7 @@ namespace KleinCompiler
                 .AddIfNotNull(KeywordState0("+", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("-", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("*", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("\\", input, startPos, startPos))
+                .AddIfNotNull(KeywordState0("/", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("<", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("=", input, startPos, startPos))
                 .AddIfNotNull(KeywordState0("(", input, startPos, startPos))
@@ -179,10 +179,10 @@ namespace KleinCompiler
         private static Token LineCommentState1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing / in line comment");
+                return null;
             if (input[pos] == '/')
                 return LineCommentState2(input, startPos, pos + 1);
-            return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing / in line comment"); ;
+            return null;
         }
 
         private static Token LineCommentState2(string input, int startPos, int pos)
