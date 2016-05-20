@@ -1,0 +1,28 @@
+﻿{ 
+  print nth row of pascals triangle
+  http://stackoverflow.com/a/15580400
+   C(n, k+1) = C(n,k) * (n-k)/(k+1)
+=> C(n, k) = C(n, k-1) * (n-k+1)/k
+   C(n, 0) = 1
+}
+
+main ( n : integer ) : boolean
+  reportPascal(n, 0)
+
+reportPascal(n: integer, k: integer) : boolean
+  report(pascal(n,k))
+  if(n=k)
+    true
+  else
+    reportPascal(n, k+1)
+
+report(x:integer):boolean
+  print(x)
+  true
+
+pascal(n: integer, k: integer) : integer
+  if(k = 0)
+    1
+  else
+    pascal(n, k-1) * (n-k+1) / k
+    

@@ -62,6 +62,7 @@
     <None Include="Programs\is-excellent.kln" />
     <None Include="Programs\lib.kln" />
     <None Include="Programs\modulus-by-hand.kln" />
+    <None Include="Programs\myprogs\pascal.kln" />
     <None Include="Programs\palindrome.kln" />
     <None Include="Programs\print-one.kln" />
     <None Include="Programs\print-one.tm" />
