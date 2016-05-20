@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using KleinCompiler;
+﻿using KleinCompiler;
 using NUnit.Framework;
 
-namespace KleinCompilerTests.Lexer
+namespace KleinCompilerTests
 {
     [TestFixture]
     public class TokenizerTests
