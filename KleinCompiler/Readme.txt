@@ -18,8 +18,8 @@ Scanner
    Tokens are retrieved one at a time with the method
    public Token GetNextToken()
 
-   The tokeniser is implemented as a series of simple finite state machines,
-   in the StateMachine class.  ....procedural....
+   The tokeniser is implemented as a series of procedural finite state machines
+   in the StateMachine class.
 
 2) Tokens all derive from a common base class, Token.
    Tokens have value equality.
