@@ -114,6 +114,28 @@ namespace KleinCompilerTests.Lexer
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
+        [Test]
+        public void Identifier_MaxLengthIs256_Characters()
+        {
+            var input = new string('a', 256);
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken(new string('a', 256), 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
+        [Test]
+        public void Identifier_IfMaxLengthOf256IsExceeded_AnErrorTokenIsReturned()
+        {
+            var input = new string('a', 257);
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(new string('a', 257), 0, "Max length of a token is 256 characters")));
+            Assert.That(tokenizer.GetNextToken(), Is.Null);
+        }
+
         #endregion
 
         #region keywords
@@ -426,8 +448,6 @@ my";
 
 
         #endregion
-
-        // identifiers cannot exceed 256 charaters
 
         // should a number be delimited by whitespace?
     }

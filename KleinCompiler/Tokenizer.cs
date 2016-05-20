@@ -132,17 +132,28 @@ namespace KleinCompiler
 
         private static Token IdentifierState0(string input, int startPos)
         {
+            var token = IdentifierState1(input, startPos);
+            if (token == null)
+                return null;
+            else if(token.Value.Length>256)
+                return new ErrorToken(token.Value, token.Position, "Max length of a token is 256 characters");
+            else
+                return token;
+        }
+
+        private static Token IdentifierState1(string input, int startPos)
+        {
             if (input[startPos].IsAlpha())
-                return IdentifierState1(input, startPos, startPos + 1);
+                return IdentifierState2(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token IdentifierState1(string input, int startPos, int pos)
+        private static Token IdentifierState2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
             else if (input[pos].IsAlpha() || input[pos].IsNumeric())
-                return IdentifierState1(input, startPos, pos + 1);
+                return IdentifierState2(input, startPos, pos + 1);
             return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
         }
 
