@@ -99,30 +99,30 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                .AddIfNotNull(KeywordState0("integer", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("boolean", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("if", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("then", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("else", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("not", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("or", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("and", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("true", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("false", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("+", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("-", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("*", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("/", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("<", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("=", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0("(", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0(")", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0(",", input, startPos, startPos))
-                .AddIfNotNull(KeywordState0(":", input, startPos, startPos))
-                .AddIfNotNull(IdentifierState0(input, startPos))
-                .AddIfNotNull(IntegerLiteralState0(input, startPos))
-                .AddIfNotNull(LineCommentState0(input, startPos))
-                .AddIfNotNull(BlockCommentState0(input, startPos));
+                .AddIfNotNull(GetKeyword("integer", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("boolean", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("if", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("then", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("else", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("not", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("or", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("and", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("true", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("false", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("+", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("-", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("*", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("/", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("<", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("=", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword("(", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(")", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(",", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(":", input, startPos, startPos))
+                .AddIfNotNull(GetIdentifier(input, startPos))
+                .AddIfNotNull(GetIntegerLiteral(input, startPos))
+                .AddIfNotNull(GetLineComment(input, startPos))
+                .AddIfNotNull(GetBlockComment(input, startPos));
 
             if(tokens.Count == 0 && input[startPos].IsWhitespace()==false)
                 tokens.Add(new ErrorToken(input.Substring(startPos, 1), startPos, $"Unknown character '{input[startPos]}'"));
@@ -130,9 +130,9 @@ namespace KleinCompiler
             return tokens;
         }
 
-        private static Token IdentifierState0(string input, int startPos)
+        private static Token GetIdentifier(string input, int startPos)
         {
-            var token = IdentifierState1(input, startPos);
+            var token = GetIdentifier1(input, startPos);
             if (token == null)
                 return null;
             else if(token.Value.Length>256)
@@ -141,23 +141,23 @@ namespace KleinCompiler
                 return token;
         }
 
-        private static Token IdentifierState1(string input, int startPos)
+        private static Token GetIdentifier1(string input, int startPos)
         {
             if (input[startPos].IsAlpha())
-                return IdentifierState2(input, startPos, startPos + 1);
+                return GetIdentifier2(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token IdentifierState2(string input, int startPos, int pos)
+        private static Token GetIdentifier2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
             else if (input[pos].IsAlpha() || input[pos].IsNumeric())
-                return IdentifierState2(input, startPos, pos + 1);
+                return GetIdentifier2(input, startPos, pos + 1);
             return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
         }
 
-        private static Token KeywordState0(string keyword, string input, int startPos, int pos)
+        private static Token GetKeyword(string keyword, string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return null;
@@ -169,7 +169,7 @@ namespace KleinCompiler
                 }
                 else
                 {
-                    return KeywordState0(keyword, input, startPos, pos + 1);
+                    return GetKeyword(keyword, input, startPos, pos + 1);
                 }
             }
             else
@@ -178,50 +178,50 @@ namespace KleinCompiler
             }
         }
 
-        private static Token LineCommentState0(string input, int startPos)
+        private static Token GetLineComment(string input, int startPos)
         {
             if (input[startPos] == '/')
-                return LineCommentState1(input, startPos, startPos + 1);
+                return GetLineComment1(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token LineCommentState1(string input, int startPos, int pos)
+        private static Token GetLineComment1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return null;
             if (input[pos] == '/')
-                return LineCommentState2(input, startPos, pos + 1);
+                return GetLineComment2(input, startPos, pos + 1);
             return null;
         }
 
-        private static Token LineCommentState2(string input, int startPos, int pos)
+        private static Token GetLineComment2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new LineCommentToken(input.Substring(startPos, pos-startPos), startPos);
             if (input[pos] == '\n')
                 return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
-            return LineCommentState2(input, startPos, pos+1);
+            return GetLineComment2(input, startPos, pos+1);
         }
 
-        private static Token BlockCommentState0(string input, int startPos)
+        private static Token GetBlockComment(string input, int startPos)
         {
             if (input[startPos] == '{')
-                return BlockCommentState1(input, startPos, startPos + 1);
+                return GetBlockComment1(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token BlockCommentState1(string input, int startPos, int pos)
+        private static Token GetBlockComment1(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing } in block comment"); // malformed block comment with no closing }
             if (input[pos] == '}')
                 return new BlockCommentToken(input.Substring(startPos, pos-startPos+1), startPos);
-            return BlockCommentState1(input, startPos, pos+1);
+            return GetBlockComment1(input, startPos, pos+1);
         }
 
-        private static Token IntegerLiteralState0(string input, int startPos)
+        private static Token GetIntegerLiteral(string input, int startPos)
         {
-            var token = IntegerLiteralState1(input, startPos);
+            var token = GetIntegerLiteral1(input, startPos);
             if (token == null)
                 return null;
 
@@ -238,19 +238,19 @@ namespace KleinCompiler
             return token;
         }
 
-        private static Token IntegerLiteralState1(string input, int startPos)
+        private static Token GetIntegerLiteral1(string input, int startPos)
         {
             if (input[startPos].IsNumeric())
-                return IntegerLiteralState2(input, startPos, startPos + 1);
+                return GetIntegerLiteral2(input, startPos, startPos + 1);
             return null;
         }
 
-        private static Token IntegerLiteralState2(string input, int startPos, int pos)
+        private static Token GetIntegerLiteral2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return new IntegerLiteralToken(input.Substring(startPos, pos - startPos), startPos);
             if (input[pos].IsNumeric())
-                return IntegerLiteralState2(input, startPos, pos + 1);
+                return GetIntegerLiteral2(input, startPos, pos + 1);
             return new IntegerLiteralToken(input.Substring(startPos, pos-startPos), startPos);
         }
     }
