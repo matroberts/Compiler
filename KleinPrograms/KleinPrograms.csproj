@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestTokenizer.cs" />
+    <Compile Include="Tests\Noop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="kleins.ps1" />
@@ -62,7 +62,7 @@
     <None Include="Programs\is-excellent.kln" />
     <None Include="Programs\lib.kln" />
     <None Include="Programs\modulus-by-hand.kln" />
-    <None Include="Programs\myprogs\pascal.kln" />
+    <None Include="pascal.kln" />
     <None Include="Programs\palindrome.kln" />
     <None Include="Programs\print-one.kln" />
     <None Include="Programs\print-one.tm" />
@@ -79,7 +79,9 @@
     <None Include="Programs\sieve.kln" />
     <None Include="Programs\square-root.kln" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,12 +5,12 @@ using NUnit.Framework;
 namespace KleinPrograms
 {
     [TestFixture]
-    public class TestTokenizer
+    public class Noop
     {
         [Test]
         public void Test()
         {
-            
+            // currently this file just exists to make the project compile
         }
     }
 }
