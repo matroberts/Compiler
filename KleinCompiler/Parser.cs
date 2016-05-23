@@ -17,17 +17,20 @@
                             | <Expr>
     <Type>                ::= integer
                             | boolean
-    <Expr>                ::= <Expr> < <Simple-Expr>                                     <-- left recursion
-                            | <Expr> = <Simple-Expr>
-                            | <Simple-Expr>
-    <Simple-Expr>         ::= <Simple-Expr> or <Term>                                    <-- left recursion
-                            | <Simple-Expr> + <Term>
-                            | <Simple-Expr> - <Term>
-                            | <Term>
-    <Term>                ::= <Term> and <Factor>                                        <-- left recursion
-                            | <Term> * <Factor>
-                            | <Term> / <Factor>
-                            | <Factor>
+    <Expr>                ::= <Simple-Expr> <SimpleExprTail>                             * removed left recursion and left factored
+    <SimpleExprTail>      ::= < <Expr>
+                            | = <Expr>
+                            | e
+    <Simple-Expr>         ::= <Term> <TermTail>                                          * removed left recursion and left factored
+    <TermTail>            ::= or <Simple-Expr>
+                            | + <Simple-Expr>
+                            | - <Simple-Expr>
+                            | e
+    <Term>                ::= <Factor><FactorTail>                                       * removed left recursion and left factored
+    <FactorTail>          ::= and <Term>
+                            | * <Term>
+                            | / <Term>
+                            | e
     <Factor>              ::= if <Expr> then <Expr> else <Expr>
                             | not <Factor>
                             | <Identifier> ( <Actuals> )                                 <-- function call. this should be fine with one token lookahead, cos after an identifier can see if there is a bracket to decide between this rule and the one after
