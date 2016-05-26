@@ -40,12 +40,6 @@ namespace KleinCompiler
         }
     }
 
-    public class KeywordToken : Token
-    {
-        public KeywordToken(SymbolName name, string value, int position) : base(name, value, position) { }
-    }
-
-
     public class ErrorToken : Token
     {
         public ErrorToken(string value, int position, string errorMessage) : base(SymbolName.Error, value, position)

@@ -166,7 +166,7 @@ namespace KleinCompiler
             {
                 if (keyword.Length == pos - startPos + 1)
                 {
-                    return new KeywordToken(name, input.Substring(startPos, pos - startPos + 1), startPos);
+                    return new Token(name, input.Substring(startPos, pos - startPos + 1), startPos);
                 }
                 else
                 {
