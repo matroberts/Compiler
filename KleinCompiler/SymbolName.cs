@@ -9,6 +9,7 @@
         BlockComment,
         Identifier,
         IntegerLiteral,
+        [Keyword("true")]
         BooleanTrue,
         BooleanFalse,
         IntegerType,

@@ -9,6 +9,28 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ExtensionTests
     {
+        #region Keyword Attribute
+
+        public enum TestEnum
+        {
+            NoKeyword,
+            [System.ComponentModel.Description("desc")]
+            Description,
+            [Keyword("key")]
+            WithKeyword,
+
+        }
+
+        [Test]
+        public void ToKeyword_ShouldReturnTheKeywordIfItExists_OtherWiseReturnEmptyString()
+        {
+            Assert.That(TestEnum.NoKeyword.ToKeyword(), Is.EqualTo(string.Empty));
+            Assert.That(TestEnum.Description.ToKeyword(), Is.EqualTo(string.Empty));
+            Assert.That(TestEnum.WithKeyword.ToKeyword(), Is.EqualTo("key"));
+        }
+
+        #endregion
+
         #region IsAlpha
 
         [TestCase('a')]

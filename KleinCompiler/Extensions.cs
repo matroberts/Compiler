@@ -2,8 +2,27 @@
 using System.Collections.Generic;
 using KleinCompiler;
 
+[AttributeUsage(AttributeTargets.Field)]
+public class KeywordAttribute : Attribute
+{
+    public string Keyword { get; }
+
+    public KeywordAttribute(string keyword)
+    {
+        Keyword = keyword;
+    }
+}
+
 public static class Extensions
 {
+    public static string ToKeyword(this Enum symbolName)
+    {
+        var attributes = symbolName.GetType().GetMember(symbolName.ToString())[0].GetCustomAttributes(typeof(KeywordAttribute), false);
+        if (attributes.Length > 0)
+            return ((KeywordAttribute)attributes[0]).Keyword;
+        return string.Empty;
+    }
+
     public static bool IsAlpha(this char ch)
     {
         return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
