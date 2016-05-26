@@ -19,7 +19,6 @@ namespace KleinCompiler
 
         public override bool Equals(object obj)
         {
-            // todo
             var token = obj as Token;
             if (token == null)
                 return false;
@@ -27,7 +26,7 @@ namespace KleinCompiler
             if (this.GetType() != obj.GetType())
                 return false;
 
-            return Value == token.Value;
+            return Name == token.Name && Value == token.Value;
         }
 
         public override int GetHashCode()
@@ -37,7 +36,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return $"{this.GetType().Name.PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
+            return $"{this.Name.ToString().PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
         }
     }
 

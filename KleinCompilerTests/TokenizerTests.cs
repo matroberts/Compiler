@@ -149,8 +149,8 @@ namespace KleinCompilerTests
         [TestCase(SymbolName.BooleanFalse, "false")]
         [TestCase(SymbolName.Plus, "+")]
         [TestCase(SymbolName.Minus, "-")]
-        [TestCase(SymbolName.Times, "*")]
-        [TestCase(SymbolName.Division, "/")]
+        [TestCase(SymbolName.Multiply, "*")]
+        [TestCase(SymbolName.Divide, "/")]
         [TestCase(SymbolName.LessThan, "<")]
         [TestCase(SymbolName.Equality, "=")]
         [TestCase(SymbolName.OpenBracket, "(")]
@@ -221,7 +221,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Division, "/", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Divide, "/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -232,7 +232,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Division, "/", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Divide, "/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 

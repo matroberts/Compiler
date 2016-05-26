@@ -21,8 +21,8 @@
         And,
         Plus,            // + 
         Minus,           // - 
-        Times,           // *
-        Division,        // / 
+        Multiply,        // *
+        Divide,          // / 
         LessThan,        // <
         Equality,        // = 
         OpenBracket,     // (

@@ -99,7 +99,7 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                .AddIfNotNull(GetKeyword(SymbolName.IntegerLiteral, "integer", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.IntegerType, "integer", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.BooleanType, "boolean", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.If, "if", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.Then, "then", input, startPos, startPos))
@@ -111,8 +111,8 @@ namespace KleinCompiler
                 .AddIfNotNull(GetKeyword(SymbolName.BooleanFalse, "false", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.Plus, "+", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.Minus, "-", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Times, "*", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Division, "/", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Multiply, "*", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Divide, "/", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.LessThan, "<", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.Equality, "=", input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(SymbolName.OpenBracket, "(", input, startPos, startPos))
