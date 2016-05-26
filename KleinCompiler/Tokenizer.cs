@@ -151,10 +151,10 @@ namespace KleinCompiler
         private static Token GetIdentifier2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
+                return new Token(SymbolName.Identifier, input.Substring(startPos, pos-startPos), startPos);
             else if (input[pos].IsAlpha() || input[pos].IsNumeric())
                 return GetIdentifier2(input, startPos, pos + 1);
-            return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
+            return new Token(SymbolName.Identifier, input.Substring(startPos, pos-startPos), startPos);
         }
 
         private static Token GetKeyword(SymbolName name, string keyword, string input, int startPos, int pos)

@@ -37,7 +37,7 @@ namespace KleinCompilerTests
 
             Assert.That(token.Equals(null), Is.False);
             Assert.That(token.Equals("identifier"), Is.False);
-            Assert.That(token.Equals(new IdentifierToken("{", 0)), Is.False);
+            Assert.That(token.Equals(new Token(SymbolName.Identifier, "{", 0)), Is.False);
 
             Assert.That(token.Equals(token), Is.True);
             Assert.That(token.Equals(new ErrorToken("{", 0, "different message")), Is.False);

@@ -40,11 +40,6 @@ namespace KleinCompiler
         }
     }
 
-    public class IdentifierToken : Token
-    {
-        public IdentifierToken(string value, int position) : base(SymbolName.Identifier, value, position) { }
-    }
-
     public class KeywordToken : Token
     {
         public KeywordToken(SymbolName name, string value, int position) : base(name, value, position) { }

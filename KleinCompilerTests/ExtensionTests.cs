@@ -73,7 +73,7 @@ namespace KleinCompilerTests
         {
             var tokens = new List<Token>();
 
-            tokens.AddIfNotNull(new IdentifierToken("a", 0));
+            tokens.AddIfNotNull(new Token(SymbolName.Identifier, "a", 0));
 
             Assert.That(tokens.Count, Is.EqualTo(1));
         }
