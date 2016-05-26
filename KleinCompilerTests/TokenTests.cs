@@ -23,7 +23,7 @@ namespace KleinCompilerTests
         public void Token_Equality_ShouldAccountForSubType()
         {
             var token1 = new IdentifierToken("word", 0);
-            var token2 = new KeywordToken("word", 0);
+            var token2 = new BlockCommentToken("word", 0);
 
             Assert.That(token1.Equals(token2), Is.False);
             Assert.That(token2.Equals(token1), Is.False);

@@ -99,26 +99,26 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                .AddIfNotNull(GetKeyword("integer", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("boolean", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("if", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("then", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("else", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("not", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("or", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("and", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("true", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("false", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("+", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("-", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("*", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("/", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("<", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("=", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword("(", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(")", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(",", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(":", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.IntegerLiteral, "integer", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanType, "boolean", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.If, "if", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Then, "then", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Else, "else", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Not, "not", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Or, "or", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.And, "and", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanTrue, "true", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanFalse, "false", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Plus, "+", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Minus, "-", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Times, "*", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Division, "/", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.LessThan, "<", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Equality, "=", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.OpenBracket, "(", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.CloseBracket, ")", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Comma, ",", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Colon, ":", input, startPos, startPos))
                 .AddIfNotNull(GetIdentifier(input, startPos))
                 .AddIfNotNull(GetIntegerLiteral(input, startPos))
                 .AddIfNotNull(GetLineComment(input, startPos))
@@ -157,7 +157,7 @@ namespace KleinCompiler
             return new IdentifierToken(input.Substring(startPos, pos-startPos), startPos);
         }
 
-        private static Token GetKeyword(string keyword, string input, int startPos, int pos)
+        private static Token GetKeyword(SymbolName name, string keyword, string input, int startPos, int pos)
         {
             if (pos >= input.Length)
                 return null;
@@ -165,11 +165,11 @@ namespace KleinCompiler
             {
                 if (keyword.Length == pos - startPos + 1)
                 {
-                    return new KeywordToken(input.Substring(startPos, pos - startPos + 1), startPos);
+                    return new KeywordToken(name, input.Substring(startPos, pos - startPos + 1), startPos);
                 }
                 else
                 {
-                    return GetKeyword(keyword, input, startPos, pos + 1);
+                    return GetKeyword(name, keyword, input, startPos, pos + 1);
                 }
             }
             else

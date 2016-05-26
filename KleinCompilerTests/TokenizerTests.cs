@@ -137,31 +137,31 @@ namespace KleinCompilerTests
 
         #region keywords
 
-        [TestCase("integer")]
-        [TestCase("boolean")]
-        [TestCase("if")]
-        [TestCase("then")]
-        [TestCase("else")]
-        [TestCase("not")]
-        [TestCase("or")]
-        [TestCase("and")]
-        [TestCase("true")]
-        [TestCase("false")]
-        [TestCase("+")]
-        [TestCase("-")]
-        [TestCase("*")]
-        [TestCase("/")]
-        [TestCase("<")]
-        [TestCase("=")]
-        [TestCase("(")]
-        [TestCase(")")]
-        [TestCase(",")]
-        [TestCase(":")]
-        public void Keywords_ShouldBeRecognised_AsKeywords(string keyword)
+        [TestCase(SymbolName.IntegerType, "integer")]
+        [TestCase(SymbolName.BooleanType, "boolean")]
+        [TestCase(SymbolName.If, "if")]
+        [TestCase(SymbolName.Then, "then")]
+        [TestCase(SymbolName.Else, "else")]
+        [TestCase(SymbolName.Not, "not")]
+        [TestCase(SymbolName.Or, "or")]
+        [TestCase(SymbolName.And, "and")]
+        [TestCase(SymbolName.BooleanTrue, "true")]
+        [TestCase(SymbolName.BooleanFalse, "false")]
+        [TestCase(SymbolName.Plus, "+")]
+        [TestCase(SymbolName.Minus, "-")]
+        [TestCase(SymbolName.Times, "*")]
+        [TestCase(SymbolName.Division, "/")]
+        [TestCase(SymbolName.LessThan, "<")]
+        [TestCase(SymbolName.Equality, "=")]
+        [TestCase(SymbolName.OpenBracket, "(")]
+        [TestCase(SymbolName.CloseBracket, ")")]
+        [TestCase(SymbolName.Comma, ",")]
+        [TestCase(SymbolName.Colon, ":")]
+        public void Keywords_ShouldBeRecognised_AsKeywords(SymbolName name, string keyword)
         {
             var tokenizer = new Tokenizer(keyword);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(keyword, 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(name, keyword, 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -206,7 +206,7 @@ namespace KleinCompilerTests
             var tokenizer = new Tokenizer(input);
 
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IdentifierToken("woot", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("integer", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.IntegerType, "integer", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -221,7 +221,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("/", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Division, "/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -232,7 +232,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken("/", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new KeywordToken(SymbolName.Division, "/", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 

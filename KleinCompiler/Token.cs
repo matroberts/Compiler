@@ -4,12 +4,14 @@ namespace KleinCompiler
 {
     public class Token
     {
-        public Token(string value, int position)
+        public Token(SymbolName name, string value, int position)
         {
+            Name = name;
             Value = value;
             Position = position;
         }
 
+        public SymbolName Name { get; }
         public string Value { get; }
         public int Position { get; }
 
@@ -17,6 +19,7 @@ namespace KleinCompiler
 
         public override bool Equals(object obj)
         {
+            // todo
             var token = obj as Token;
             if (token == null)
                 return false;
@@ -40,32 +43,32 @@ namespace KleinCompiler
 
     public class IdentifierToken : Token
     {
-        public IdentifierToken(string value, int position) : base(value, position) { }
+        public IdentifierToken(string value, int position) : base(SymbolName.Identifier, value, position) { }
     }
 
     public class KeywordToken : Token
     {
-        public KeywordToken(string value, int position) : base(value, position) { }
+        public KeywordToken(SymbolName name, string value, int position) : base(name, value, position) { }
     }
 
     public class LineCommentToken : Token
     {
-        public LineCommentToken(string value, int position) : base(value, position) { }
+        public LineCommentToken(string value, int position) : base(SymbolName.LineComment, value, position) { }
     }
 
     public class BlockCommentToken : Token
     {
-        public BlockCommentToken(string value, int position) : base(value, position) { }
+        public BlockCommentToken(string value, int position) : base(SymbolName.BlockComment, value, position) { }
     }
 
     public class IntegerLiteralToken : Token
     {
-        public IntegerLiteralToken(string value, int position) : base(value, position) { }
+        public IntegerLiteralToken(string value, int position) : base(SymbolName.IntegerLiteral, value, position) { }
     }
 
     public class ErrorToken : Token
     {
-        public ErrorToken(string value, int position, string errorMessage) : base(value, position)
+        public ErrorToken(string value, int position, string errorMessage) : base(SymbolName.Error, value, position)
         {
             Message = errorMessage;
         }
