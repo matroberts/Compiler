@@ -45,11 +45,6 @@ namespace KleinCompiler
         public KeywordToken(SymbolName name, string value, int position) : base(name, value, position) { }
     }
 
-    public class LineCommentToken : Token
-    {
-        public LineCommentToken(string value, int position) : base(SymbolName.LineComment, value, position) { }
-    }
-
     public class BlockCommentToken : Token
     {
         public BlockCommentToken(string value, int position) : base(SymbolName.BlockComment, value, position) { }

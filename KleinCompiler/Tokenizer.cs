@@ -197,9 +197,9 @@ namespace KleinCompiler
         private static Token GetLineComment2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new LineCommentToken(input.Substring(startPos, pos-startPos), startPos);
+                return new Token(SymbolName.LineComment, input.Substring(startPos, pos-startPos), startPos);
             if (input[pos] == '\n')
-                return new LineCommentToken(input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
+                return new Token(SymbolName.LineComment, input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
             return GetLineComment2(input, startPos, pos+1);
         }
 

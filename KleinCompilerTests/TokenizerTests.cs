@@ -243,7 +243,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("//", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.LineComment, "//", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -254,7 +254,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.LineComment, "// comment", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -266,7 +266,7 @@ identifier";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// comment", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.LineComment, "// comment", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.Identifier, "identifier", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
@@ -282,7 +282,7 @@ my";
 
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.Identifier, "hey", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.Identifier, "hey", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new LineCommentToken("// my", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.LineComment, "// my", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.Identifier, "my", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
