@@ -351,7 +351,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.IntegerLiteral, "0", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -362,7 +362,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("0", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.IntegerLiteral, "0", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -373,7 +373,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("1234567890", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.IntegerLiteral, "1234567890", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -394,7 +394,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new IntegerLiteralToken("4294967295", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.IntegerLiteral, "4294967295", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 

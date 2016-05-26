@@ -248,10 +248,10 @@ namespace KleinCompiler
         private static Token GetIntegerLiteral2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new IntegerLiteralToken(input.Substring(startPos, pos - startPos), startPos);
+                return new Token(SymbolName.IntegerLiteral, input.Substring(startPos, pos - startPos), startPos);
             if (input[pos].IsNumeric())
                 return GetIntegerLiteral2(input, startPos, pos + 1);
-            return new IntegerLiteralToken(input.Substring(startPos, pos-startPos), startPos);
+            return new Token(SymbolName.IntegerLiteral, input.Substring(startPos, pos-startPos), startPos);
         }
     }
 }
