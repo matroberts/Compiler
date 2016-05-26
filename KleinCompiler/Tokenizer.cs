@@ -99,26 +99,26 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                .AddIfNotNull(GetKeyword(SymbolName.IntegerType, "integer", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanType, "boolean", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.If, "if", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Then, "then", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Else, "else", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Not, "not", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Or, "or", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.And, "and", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanTrue, "true", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanFalse, "false", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Plus, "+", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Minus, "-", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Multiply, "*", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Divide, "/", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.LessThan, "<", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Equality, "=", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.OpenBracket, "(", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.CloseBracket, ")", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Comma, ",", input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Colon, ":", input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.IntegerType, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanType, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.If, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Then, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Else, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Not, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Or, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.And, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanTrue, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.BooleanFalse, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Plus, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Minus, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Multiply, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Divide, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.LessThan, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Equality, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.OpenBracket, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.CloseBracket, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Comma, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(SymbolName.Colon, input, startPos, startPos))
                 .AddIfNotNull(GetIdentifier(input, startPos))
                 .AddIfNotNull(GetIntegerLiteral(input, startPos))
                 .AddIfNotNull(GetLineComment(input, startPos))
@@ -157,8 +157,9 @@ namespace KleinCompiler
             return new Token(SymbolName.Identifier, input.Substring(startPos, pos-startPos), startPos);
         }
 
-        private static Token GetKeyword(SymbolName name, string keyword, string input, int startPos, int pos)
+        private static Token GetKeyword(SymbolName name, string input, int startPos, int pos)
         {
+            string keyword = name.ToKeyword();
             if (pos >= input.Length)
                 return null;
             if (input[pos] == keyword[pos - startPos])
@@ -169,7 +170,7 @@ namespace KleinCompiler
                 }
                 else
                 {
-                    return GetKeyword(name, keyword, input, startPos, pos + 1);
+                    return GetKeyword(name, input, startPos, pos + 1);
                 }
             }
             else
