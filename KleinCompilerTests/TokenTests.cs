@@ -9,25 +9,21 @@ namespace KleinCompilerTests
         [Test]
         public void Token_HasValueEquality()
         {
-            var token = new Token(SymbolName.Identifier, "identifier", 0);
+            var token = new Token(SymbolName.BooleanFalse, "false", 0);
 
+            // null
             Assert.That(token.Equals(null), Is.False);
-            Assert.That(token.Equals("identifier"), Is.False);
-            Assert.That(token.Equals(new Token(SymbolName.Identifier, "different", 0)), Is.False);
-            Assert.That(token.Equals(new Token(SymbolName.IntegerLiteral, "identifier", 0)), Is.False);
+            // different type
+            Assert.That(token.Equals("false"), Is.False);
+            // different name
+            Assert.That(token.Equals(new Token(SymbolName.Identifier, "false", 0)), Is.False);
+            // different value
+            Assert.That(token.Equals(new Token(SymbolName.BooleanFalse, "false", 0)), Is.True);
 
+            // same object
             Assert.That(token.Equals(token), Is.True);
-            Assert.That(token.Equals(new Token(SymbolName.Identifier, "identifier", 0)), Is.True);
-        }
-
-        [Test]
-        public void Token_Equality_ShouldAccountForSubType()
-        {
-            var token1 = new Token(SymbolName.Identifier, "word", 0);
-            var token2 = new BlockCommentToken("word", 0);
-
-            Assert.That(token1.Equals(token2), Is.False);
-            Assert.That(token2.Equals(token1), Is.False);
+            // same name and value
+            Assert.That(new Token(SymbolName.Identifier, "false", 0).Equals(new Token(SymbolName.Identifier, "true", 0)), Is.False);
         }
 
         [Test]

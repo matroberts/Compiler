@@ -215,7 +215,7 @@ namespace KleinCompiler
             if (pos >= input.Length)
                 return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing } in block comment"); // malformed block comment with no closing }
             if (input[pos] == '}')
-                return new BlockCommentToken(input.Substring(startPos, pos-startPos+1), startPos);
+                return new Token(SymbolName.BlockComment, input.Substring(startPos, pos-startPos+1), startPos);
             return GetBlockComment1(input, startPos, pos+1);
         }
 

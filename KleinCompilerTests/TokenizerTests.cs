@@ -298,7 +298,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{}", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.BlockComment, "{}", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -320,7 +320,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken("{text}", 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.BlockComment, "{text}", 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
@@ -336,7 +336,7 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new BlockCommentToken(input, 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(SymbolName.BlockComment, input, 0)));
             Assert.That(tokenizer.GetNextToken(), Is.Null);
         }
 
