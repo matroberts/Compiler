@@ -100,12 +100,14 @@ namespace KleinCompiler
 
             while (symbolStack.Count != 0)
             {
+                ToConsole(tokenizer.Peek(), symbolStack);
+                
                 Symbol symbol = symbolStack.Pop();
 
                 Token token = tokenizer.Peek();
                 if (symbol == token.Symbol)
                 {
-                    tokenizer.Pop();  // consume symbol
+                    tokenizer.Pop();
                 }
                 else
                 {
@@ -119,45 +121,18 @@ namespace KleinCompiler
                         symbolStack.Push(rule.Reverse);
                     }
                 }
-/*
-                if (symbol is NonTerminalSymbol)
-                {
-                    var rule = parsingTable.Rule(symbol, token);
-                    if (rule == null)
-                    {
-                        // error
-                    }
-                    else
-                    {
-                        //symbolStack.Push(rule.Reversed());
-                    }
-                }
-                else if (symbol is Token)
-                {
-                    if (symbol == token)
-                    {
-                        // great
-                    }
-                    else
-                    {
-                        // error
-                        return false;
-                    }
-                }
-                else if (symbol == null)
-                {
-                    if (token == null)
-                    {
-                        // great
-                    }
-                    else
-                    {
-                        // fail - program stack is empty, but there are still tokens in the stream
-                        return false;
-                    }
-                }*/
             }
             return true;
+        }
+
+        private static void ToConsole(Token token, Stack<Symbol> stack)
+        {
+            Console.Write(token.Symbol.ToString().PadRight(20));
+            foreach (var symbol in stack)
+            {
+                Console.Write(symbol + " ");
+            }
+            Console.WriteLine();
         }
     }
 }
