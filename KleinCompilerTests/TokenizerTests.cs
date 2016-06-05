@@ -447,6 +447,61 @@ my";
 
         #endregion
 
+        #region Pop
+
+        [Test]
+        public void Pop_ShouldReturnTheNextToken()
+        {
+            var input = "main () : boolean";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "main", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.OpenBracket, "(", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.CloseBracket, ")", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Colon, ":", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BooleanType, "boolean", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        [Test]
+        public void Pop_ShouldIgnoreLineComments()
+        {
+            var input = @"// begin line comment
+                          main () // middle line comment
+                          : boolean
+                          // end line comment";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "main", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.OpenBracket, "(", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.CloseBracket, ")", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Colon, ":", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BooleanType, "boolean", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        [Test]
+        public void Pop_ShouldIgnoreBlockComments()
+        {
+            var input = @"{ begin block comment }
+                          main () { middle block comment }
+                          : boolean
+                          { end block comment }";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "main", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.OpenBracket, "(", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.CloseBracket, ")", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Colon, ":", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BooleanType, "boolean", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        #endregion
+
         #region Peek
 
         [Test]
@@ -457,8 +512,34 @@ my";
             var tokenizer = new Tokenizer(input);
 
             Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        [Test]
+        public void Peek_ShouldIgnoreLineComments()
+        {
+            var input = @"// line comment
+                          a";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        [Test]
+        public void Peek_ShouldIgnoreBlockComments()
+        {
+            var input = @"{ line comment }
+                          a";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -468,10 +549,10 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "aaa", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "aaa", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
             Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.End, "", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion

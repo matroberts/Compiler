@@ -34,10 +34,13 @@ namespace KleinCompiler
         public Parser(IParsingTable parsingTable)
         {
             this.parsingTable = parsingTable;
+            this.Error = string.Empty;
         }
 
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
         private IParsingTable parsingTable;
+
+        public string Error { get; private set; }
 
         public bool Parse(Tokenizer tokenizer)
         {
@@ -53,13 +56,14 @@ namespace KleinCompiler
                 Token token = tokenizer.Peek();
                 if (symbol == token.Symbol)
                 {
-                    tokenizer.GetNextToken();
+                    tokenizer.Pop();
                 }
                 else
                 {
                     var rule = parsingTable[symbol, token.Symbol];
                     if (rule == null)
                     {
+                        Error = $"Attempting to parse symbol '{symbol.ToString()}' found token {token.ToString()}";
                         return false;
                     }
                     else

@@ -92,9 +92,20 @@ namespace KleinCompiler
             return new Token(Symbol.End, "", _input.Length);
         }
 
+        public Token Pop()
+        {
+            while (true)
+            {
+                var token = GetNextToken();
+                if (token.Symbol == Symbol.LineComment || token.Symbol == Symbol.BlockComment)
+                    continue;
+                return token;
+            }
+        }
+
         public Token Peek()
         {
-            var token = GetNextToken();
+            var token = Pop();
             _startPos -= token.Length;
             return token;
         }
