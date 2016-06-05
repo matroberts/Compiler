@@ -56,4 +56,12 @@ public static class Extensions
         }
         return text;
     }
+
+    public static void Push(this Stack<Symbol> stack, IEnumerable<Symbol> symbols)
+    {
+        foreach (var symbol in symbols)
+        {
+            stack.Push(symbol);
+        }
+    }
 }

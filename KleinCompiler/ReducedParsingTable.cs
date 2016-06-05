@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace KleinCompiler
 {
@@ -62,7 +61,13 @@ R12                            | boolean
     M[Type, integer]                = R11
     M[Type, boolean]                = R12
     */
-    public class ReducedParsingTable
+
+    public interface IParsingTable
+    {
+        Rule this[Symbol symbol, Symbol token] { get; }
+    }
+
+    public class ReducedParsingTable : IParsingTable
     {
         private readonly Rule[,] table;
         public ReducedParsingTable()
@@ -85,16 +90,5 @@ R12                            | boolean
         }
 
         public Rule this[Symbol symbol, Symbol token] => table[(int)symbol, (int)token];
-    }
-
-    public class Rule
-    {
-        public string Name { get; }
-        public List<Symbol> Symbols { get; } = new List<Symbol>();
-        public Rule(string name, params Symbol[] symbols)
-        {
-            Name = name;
-            Symbols.AddRange(symbols);
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace KleinCompiler
 {
@@ -83,8 +84,14 @@ namespace KleinCompiler
 
         until A == $.
         */
+
+        public Parser(IParsingTable parsingTable)
+        {
+            this.parsingTable = parsingTable;
+        }
+
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
-        private ReducedParsingTable parsingTable = new ReducedParsingTable();
+        private IParsingTable parsingTable;
 
         public bool Parse(Tokenizer tokenizer)
         {
@@ -94,6 +101,7 @@ namespace KleinCompiler
             Token token = null;
             while ((token = tokenizer.GetNextToken()) != null)
             {
+                Start:
                 Symbol symbol = symbolStack.Pop();
 
                 if (symbol == token.Symbol)
@@ -105,13 +113,14 @@ namespace KleinCompiler
                     var rule = parsingTable[symbol, token.Symbol];
                     if (rule == null)
                     {
-                        // error
+                        return false;
                     }
                     else
                     {
-//                        symbolStack.Push(rule.Symbols.Reverse());
+                        symbolStack.Push(rule.Reverse);
+                        goto Start;
+                        // should not consume the token
                     }
-
                 }
 /*
                 if (symbol is NonTerminalSymbol)

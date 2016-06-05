@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionTests.cs" />
+    <Compile Include="ParserTests.cs" />
     <Compile Include="ReducedParsingTableTests.cs" />
     <Compile Include="TokenizerTests.cs" />
     <Compile Include="TokenTests.cs" />
