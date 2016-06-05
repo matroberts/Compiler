@@ -64,7 +64,7 @@ namespace KleinCompiler
             _startPos = 0;
         }
 
-        public Token Pop()
+        public Token GetNextToken()
         {
             while (_startPos < _input.Length)
             {
@@ -94,7 +94,7 @@ namespace KleinCompiler
 
         public Token Peek()
         {
-            var token = Pop();
+            var token = GetNextToken();
             _startPos -= token.Length;
             return token;
         }
