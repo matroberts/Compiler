@@ -9,24 +9,24 @@ namespace KleinCompilerTests
         #region empty
 
         [Test]
-        public void GetNextToken_ReturnsNull_WhenThereAreNoMoreTokens()
+        public void GetNextToken_ReturnsEnd_WhenThereAreNoMoreTokens()
         {
             var input = string.Empty;
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
-        public void GetNextToken_ReturnsNull_WhenTheInputIsWhitespace()
+        public void GetNextToken_ReturnsEnd_WhenTheInputIsWhitespace()
         {
             var input = "    ";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -40,8 +40,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "aa", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "aa", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -62,8 +62,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -73,8 +73,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "abc", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "abc", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -84,10 +84,10 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "aa", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "bb", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "c", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "aa", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "bb", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "c", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [TestCase("print")]
@@ -96,8 +96,8 @@ namespace KleinCompilerTests
         {
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, input, 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, input, 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -107,8 +107,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "log10", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "log10", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -118,8 +118,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, new string('a', 256), 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, new string('a', 256), 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -129,8 +129,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(new string('a', 257), 0, "Max length of a token is 256 characters")));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new ErrorToken(new string('a', 257), 0, "Max length of a token is 256 characters")));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -161,8 +161,8 @@ namespace KleinCompilerTests
         {
             var tokenizer = new Tokenizer(name.ToKeyword());
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(name, name.ToKeyword(), 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(name, name.ToKeyword(), 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -172,8 +172,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "intege", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "intege", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -183,8 +183,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "intege", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "intege", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -194,8 +194,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "integerr", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "integerr", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -205,9 +205,9 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "woot", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.IntegerType, "integer", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "woot", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.IntegerType, "integer", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -221,8 +221,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Divide, "/", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Divide, "/", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -232,8 +232,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Divide, "/", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Divide, "/", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -243,8 +243,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.LineComment, "//", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.LineComment, "//", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -254,8 +254,8 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.LineComment, "// comment", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.LineComment, "// comment", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -266,9 +266,9 @@ identifier";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.LineComment, "// comment", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "identifier", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.LineComment, "// comment", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "identifier", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -280,11 +280,11 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "hey", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "hey", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.LineComment, "// my", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.Identifier, "my", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "hey", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "hey", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.LineComment, "// my", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "my", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -298,8 +298,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.BlockComment, "{}", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BlockComment, "{}", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -309,8 +309,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("{", 0, "missing } in block comment")));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new ErrorToken("{", 0, "missing } in block comment")));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -320,8 +320,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.BlockComment, "{text}", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BlockComment, "{text}", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -336,8 +336,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.BlockComment, input, 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.BlockComment, input, 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -351,8 +351,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "0", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "0", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -362,8 +362,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "0", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "0", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -373,8 +373,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "1234567890", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "1234567890", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [TestCase("00")]
@@ -383,8 +383,8 @@ my";
         {
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(input, 0, "Number literals are not allowed leading zeros")));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new ErrorToken(input, 0, "Number literals are not allowed leading zeros")));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -394,8 +394,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "4294967295", 0)));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.IntegerLiteral, "4294967295", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         [Test]
@@ -405,8 +405,8 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("4294967296", 0, "Maximum size of integer literal is 4294967295")));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new ErrorToken("4294967296", 0, "Maximum size of integer literal is 4294967295")));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
         #endregion
@@ -420,12 +420,12 @@ my";
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(2));
-            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(5));
-            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(14));
-            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(19));
-            Assert.That(tokenizer.GetNextToken().Position, Is.EqualTo(24));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(2));
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(5));
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(14));
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(19));
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(24));
+            Assert.That(tokenizer.Pop().Position, Is.EqualTo(28)); //End token
         }
 
         #endregion
@@ -439,14 +439,28 @@ my";
         
             var tokenizer = new Tokenizer(input);
         
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken("!", 0, "Unknown character '!'")));
-            Assert.That(tokenizer.GetNextToken(), Is.Null);
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new ErrorToken("!", 0, "Unknown character '!'")));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
 
         #endregion
 
-        // should a number be delimited by whitespace?
+        #region Peek
+
+        [Test]
+        public void Peek_ShouldReturnTheNextToken_WithoutAdvancingTheStream()
+        {
+            var input = "a";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        #endregion
     }
 }
 

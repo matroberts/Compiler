@@ -98,15 +98,14 @@ namespace KleinCompiler
             symbolStack.Push(Symbol.End);
             symbolStack.Push(Symbol.Program);
 
-            Token token = null;
-            while ((token = tokenizer.GetNextToken()) != null)
+            while (symbolStack.Count != 0)
             {
-                Start:
                 Symbol symbol = symbolStack.Pop();
 
+                Token token = tokenizer.Peek();
                 if (symbol == token.Symbol)
                 {
-                    // great symbol matches token, all is well proceed
+                    tokenizer.Pop();  // consume symbol
                 }
                 else
                 {
@@ -118,8 +117,6 @@ namespace KleinCompiler
                     else
                     {
                         symbolStack.Push(rule.Reverse);
-                        goto Start;
-                        // should not consume the token
                     }
                 }
 /*
