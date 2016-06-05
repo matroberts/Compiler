@@ -1,4 +1,5 @@
-﻿using KleinCompiler;
+﻿using System;
+using KleinCompiler;
 using NUnit.Framework;
 
 namespace KleinCompilerTests
@@ -457,6 +458,19 @@ my";
 
             Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
             Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "a", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+        }
+
+        [Test]
+        public void Peek_ShouldNotScrewUp_IfPeekAtTheEndOfTheStream()
+        {
+            var input = " aaa";
+
+            var tokenizer = new Tokenizer(input);
+
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.Identifier, "aaa", 0)));
+            Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
+            Assert.That(tokenizer.Peek(), Is.EqualTo(new Token(Symbol.End, "", 0)));
             Assert.That(tokenizer.Pop(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
