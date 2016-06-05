@@ -2,6 +2,17 @@
 {
     public enum SymbolName
     {
+        // Non Terminals
+        End,             // i.e. $
+        Program,          
+        DefTail,          
+        Def,              
+        Formals,          
+        NonEmptyFormals,  
+        FormalsTail,      
+        Formal,           
+        Type,             
+
         // Error
         Error,
         // Tokens / Terminals

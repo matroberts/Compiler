@@ -144,11 +144,7 @@ namespace KleinCompiler
         } 
     }
 
-    public class Rule
-    {
-        public List<Symbol> Get() { return null;}
-        public List<Symbol> Reversed() { return null; }
-    }
+
 
     public interface Symbol
     {

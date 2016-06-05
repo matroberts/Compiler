@@ -1,16 +1,19 @@
-﻿namespace KleinCompiler
+﻿using System;
+using System.Collections.Generic;
+
+namespace KleinCompiler
 {
     /*
      * This is a reduced set of the Klien grammar, with only declarations
      * So can get started and test somthing quicker
      * 
-R1     <Program>             ::= <Def> <DefTail>                                            * left factored the original definitions rule
+R1     <Program>             ::= <Def> <DefTail>                                      
 R2     <DefTail>             ::= <Def> <DefTail>
-R3                             | e                                                        <-- here 'e' means no more tokens at all
-R4     <Def>                 ::= <Identifier> ( <Formals> ) : <Type>                      <-- body remved from this rule, to truncate the grammar
+R3                             | e                                                    
+R4     <Def>                 ::= <Identifier> ( <Formals> ) : <Type>                  
 R5     <Formals>             ::= e
 R6                             | <NonEmptyFormals>
-R7     <NonEmptyFormals>     ::= <Formal> <FormalsTail>                                     * left factored the original rule
+R7     <NonEmptyFormals>     ::= <Formal> <FormalsTail>                                                             
 R8     <FormalsTail>         ::= , <Formal><FormalsTail>
 R9                             | e
 R10    <Formal>              ::= < Identifier > : <Type>
@@ -61,6 +64,37 @@ R12                            | boolean
     */
     public class ReducedParsingTable
     {
-        
+        private readonly Rule[,] table;
+        public ReducedParsingTable()
+        {
+            int numberSymbols = Enum.GetNames(typeof(SymbolName)).Length;
+            table = new Rule[numberSymbols, numberSymbols];
+
+            table[(int)SymbolName.Program,          (int)SymbolName.Identifier]      = new Rule("R1", SymbolName.Def, SymbolName.DefTail);
+            table[(int)SymbolName.DefTail,          (int)SymbolName.Identifier]      = new Rule("R2", SymbolName.Def, SymbolName.DefTail);
+            table[(int)SymbolName.DefTail,          (int)SymbolName.End]             = new Rule("R3" );
+            table[(int)SymbolName.Def,              (int)SymbolName.Identifier]      = new Rule("R4", SymbolName.Identifier, SymbolName.OpenBracket, SymbolName.Formals, SymbolName.CloseBracket, SymbolName.Colon, SymbolName.Type); //< Identifier > ( < Formals > ) : < Type >
+            table[(int)SymbolName.Formals,          (int)SymbolName.CloseBracket]    = new Rule("R5" );
+            table[(int)SymbolName.Formals,          (int)SymbolName.Identifier]      = new Rule("R6", SymbolName.NonEmptyFormals);
+            table[(int)SymbolName.NonEmptyFormals,  (int)SymbolName.Identifier]      = new Rule("R7", SymbolName.Formal, SymbolName.FormalsTail);
+            table[(int)SymbolName.FormalsTail,      (int)SymbolName.Comma]           = new Rule("R8", SymbolName.Comma, SymbolName.Formal, SymbolName.FormalsTail);
+            table[(int)SymbolName.FormalsTail,      (int)SymbolName.CloseBracket]    = new Rule("R9" );
+            table[(int)SymbolName.Formal,           (int)SymbolName.Identifier]      = new Rule("R10", SymbolName.Identifier, SymbolName.Colon, SymbolName.Type);
+            table[(int)SymbolName.Type,             (int)SymbolName.IntegerType]     = new Rule("R11", SymbolName.IntegerType);
+            table[(int)SymbolName.Type,             (int)SymbolName.BooleanType]     = new Rule("R12", SymbolName.BooleanType);
+        }
+
+        public Rule this[SymbolName symbol, SymbolName token] => table[(int)symbol, (int)token];
+    }
+
+    public class Rule
+    {
+        public string Name { get; }
+        public List<SymbolName> Symbols { get; } = new List<SymbolName>();
+        public Rule(string name, params SymbolName[] symbols)
+        {
+            Name = name;
+            Symbols.AddRange(symbols);
+        }
     }
 }
