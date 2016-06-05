@@ -1,6 +1,6 @@
 ﻿namespace KleinCompiler
 {
-    public enum SymbolName
+    public enum Symbol
     {
         // Non Terminals
         End,             // i.e. $
@@ -15,6 +15,7 @@
 
         // Error
         Error,
+
         // Tokens / Terminals
         LineComment,
         BlockComment,

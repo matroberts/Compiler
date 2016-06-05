@@ -43,7 +43,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ReducedParsingTable.cs" />
-    <Compile Include="SymbolName.cs" />
+    <Compile Include="Symbol.cs" />
     <Compile Include="Tokenizer.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

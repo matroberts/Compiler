@@ -14,7 +14,7 @@ namespace KleinCompilerTests
             var parsingTable = new ReducedParsingTable();
 
             Assert.That(parsingTable[0,0], Is.Null);
-            Assert.That(parsingTable[SymbolName.Equality, SymbolName.Identifier], Is.Null);
+            Assert.That(parsingTable[Symbol.Equality, Symbol.Identifier], Is.Null);
         }
 
         [Test]
@@ -34,9 +34,9 @@ namespace KleinCompilerTests
             //    M[Type, boolean] = R12
 
             var table = new ReducedParsingTable();
-            Assert.That(table[SymbolName.Program, SymbolName.Identifier].Name, Is.EqualTo("R1"));
-            Assert.That(table[SymbolName.DefTail, SymbolName.Identifier].Name, Is.EqualTo("R2"));
-            Assert.That(table[SymbolName.DefTail, SymbolName.End].Name, Is.EqualTo("R3"));
+            Assert.That(table[Symbol.Program, Symbol.Identifier].Name, Is.EqualTo("R1"));
+            Assert.That(table[Symbol.DefTail, Symbol.Identifier].Name, Is.EqualTo("R2"));
+            Assert.That(table[Symbol.DefTail, Symbol.End].Name, Is.EqualTo("R3"));
         }
 
         [Test]
@@ -56,18 +56,18 @@ namespace KleinCompilerTests
             // R12                          | boolean
             var table = new ReducedParsingTable();
 
-            Assert.That(table[SymbolName.Program, SymbolName.Identifier].Symbols, Is.EqualTo(new[] { SymbolName.Def, SymbolName.DefTail, }));
-            Assert.That(table[SymbolName.DefTail, SymbolName.Identifier].Symbols, Is.EqualTo(new[] { SymbolName.Def, SymbolName.DefTail, }));
-            Assert.That(table[SymbolName.DefTail, SymbolName.End].Symbols, Is.Empty);
-            Assert.That(table[SymbolName.Def, SymbolName.Identifier].Symbols, Is.EqualTo(new [] {SymbolName.Identifier, SymbolName.OpenBracket, SymbolName.Formals, SymbolName.CloseBracket, SymbolName.Colon, SymbolName.Type, }));
-            Assert.That(table[SymbolName.Formals, SymbolName.CloseBracket].Symbols, Is.Empty);
-            Assert.That(table[SymbolName.Formals, SymbolName.Identifier].Symbols, Is.EqualTo(new [] {SymbolName.NonEmptyFormals}));
-            Assert.That(table[SymbolName.NonEmptyFormals, SymbolName.Identifier].Symbols, Is.EqualTo(new [] { SymbolName.Formal, SymbolName.FormalsTail, }));
-            Assert.That(table[SymbolName.FormalsTail, SymbolName.Comma].Symbols, Is.EqualTo(new [] {SymbolName.Comma, SymbolName.Formal, SymbolName.FormalsTail, }));
-            Assert.That(table[SymbolName.FormalsTail, SymbolName.CloseBracket].Symbols, Is.Empty);
-            Assert.That(table[SymbolName.Formal, SymbolName.Identifier].Symbols, Is.EqualTo(new [] {SymbolName.Identifier, SymbolName.Colon, SymbolName.Type, }));
-            Assert.That(table[SymbolName.Type, SymbolName.IntegerType].Symbols, Is.EqualTo(new [] {SymbolName.IntegerType}));
-            Assert.That(table[SymbolName.Type, SymbolName.BooleanType].Symbols, Is.EqualTo(new [] {SymbolName.BooleanType}));
+            Assert.That(table[Symbol.Program, Symbol.Identifier].Symbols, Is.EqualTo(new[] { Symbol.Def, Symbol.DefTail, }));
+            Assert.That(table[Symbol.DefTail, Symbol.Identifier].Symbols, Is.EqualTo(new[] { Symbol.Def, Symbol.DefTail, }));
+            Assert.That(table[Symbol.DefTail, Symbol.End].Symbols, Is.Empty);
+            Assert.That(table[Symbol.Def, Symbol.Identifier].Symbols, Is.EqualTo(new [] {Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, }));
+            Assert.That(table[Symbol.Formals, Symbol.CloseBracket].Symbols, Is.Empty);
+            Assert.That(table[Symbol.Formals, Symbol.Identifier].Symbols, Is.EqualTo(new [] {Symbol.NonEmptyFormals}));
+            Assert.That(table[Symbol.NonEmptyFormals, Symbol.Identifier].Symbols, Is.EqualTo(new [] { Symbol.Formal, Symbol.FormalsTail, }));
+            Assert.That(table[Symbol.FormalsTail, Symbol.Comma].Symbols, Is.EqualTo(new [] {Symbol.Comma, Symbol.Formal, Symbol.FormalsTail, }));
+            Assert.That(table[Symbol.FormalsTail, Symbol.CloseBracket].Symbols, Is.Empty);
+            Assert.That(table[Symbol.Formal, Symbol.Identifier].Symbols, Is.EqualTo(new [] {Symbol.Identifier, Symbol.Colon, Symbol.Type, }));
+            Assert.That(table[Symbol.Type, Symbol.IntegerType].Symbols, Is.EqualTo(new [] {Symbol.IntegerType}));
+            Assert.That(table[Symbol.Type, Symbol.BooleanType].Symbols, Is.EqualTo(new [] {Symbol.BooleanType}));
         }
     }
 }

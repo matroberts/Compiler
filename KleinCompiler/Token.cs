@@ -4,14 +4,14 @@ namespace KleinCompiler
 {
     public class Token
     {
-        public Token(SymbolName name, string value, int position)
+        public Token(Symbol symbol, string value, int position)
         {
-            Name = name;
+            Symbol = symbol;
             Value = value;
             Position = position;
         }
 
-        public SymbolName Name { get; }
+        public Symbol Symbol { get; }
         public string Value { get; }
         public int Position { get; }
 
@@ -26,7 +26,7 @@ namespace KleinCompiler
             if (this.GetType() != obj.GetType())
                 return false;
 
-            return Name == token.Name && Value == token.Value;
+            return Symbol == token.Symbol && Value == token.Value;
         }
 
         public override int GetHashCode()
@@ -36,13 +36,13 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return $"{this.Name.ToString().PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
+            return $"{this.Symbol.ToString().PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
         }
     }
 
     public class ErrorToken : Token
     {
-        public ErrorToken(string value, int position, string errorMessage) : base(SymbolName.Error, value, position)
+        public ErrorToken(string value, int position, string errorMessage) : base(Symbol.Error, value, position)
         {
             Message = errorMessage;
         }

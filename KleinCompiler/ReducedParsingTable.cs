@@ -67,31 +67,31 @@ R12                            | boolean
         private readonly Rule[,] table;
         public ReducedParsingTable()
         {
-            int numberSymbols = Enum.GetNames(typeof(SymbolName)).Length;
+            int numberSymbols = Enum.GetNames(typeof(Symbol)).Length;
             table = new Rule[numberSymbols, numberSymbols];
 
-            table[(int)SymbolName.Program,          (int)SymbolName.Identifier]      = new Rule("R1", SymbolName.Def, SymbolName.DefTail);
-            table[(int)SymbolName.DefTail,          (int)SymbolName.Identifier]      = new Rule("R2", SymbolName.Def, SymbolName.DefTail);
-            table[(int)SymbolName.DefTail,          (int)SymbolName.End]             = new Rule("R3" );
-            table[(int)SymbolName.Def,              (int)SymbolName.Identifier]      = new Rule("R4", SymbolName.Identifier, SymbolName.OpenBracket, SymbolName.Formals, SymbolName.CloseBracket, SymbolName.Colon, SymbolName.Type); //< Identifier > ( < Formals > ) : < Type >
-            table[(int)SymbolName.Formals,          (int)SymbolName.CloseBracket]    = new Rule("R5" );
-            table[(int)SymbolName.Formals,          (int)SymbolName.Identifier]      = new Rule("R6", SymbolName.NonEmptyFormals);
-            table[(int)SymbolName.NonEmptyFormals,  (int)SymbolName.Identifier]      = new Rule("R7", SymbolName.Formal, SymbolName.FormalsTail);
-            table[(int)SymbolName.FormalsTail,      (int)SymbolName.Comma]           = new Rule("R8", SymbolName.Comma, SymbolName.Formal, SymbolName.FormalsTail);
-            table[(int)SymbolName.FormalsTail,      (int)SymbolName.CloseBracket]    = new Rule("R9" );
-            table[(int)SymbolName.Formal,           (int)SymbolName.Identifier]      = new Rule("R10", SymbolName.Identifier, SymbolName.Colon, SymbolName.Type);
-            table[(int)SymbolName.Type,             (int)SymbolName.IntegerType]     = new Rule("R11", SymbolName.IntegerType);
-            table[(int)SymbolName.Type,             (int)SymbolName.BooleanType]     = new Rule("R12", SymbolName.BooleanType);
+            table[(int)Symbol.Program,          (int)Symbol.Identifier]      = new Rule("R1", Symbol.Def, Symbol.DefTail);
+            table[(int)Symbol.DefTail,          (int)Symbol.Identifier]      = new Rule("R2", Symbol.Def, Symbol.DefTail);
+            table[(int)Symbol.DefTail,          (int)Symbol.End]             = new Rule("R3" );
+            table[(int)Symbol.Def,              (int)Symbol.Identifier]      = new Rule("R4", Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type);
+            table[(int)Symbol.Formals,          (int)Symbol.CloseBracket]    = new Rule("R5" );
+            table[(int)Symbol.Formals,          (int)Symbol.Identifier]      = new Rule("R6", Symbol.NonEmptyFormals);
+            table[(int)Symbol.NonEmptyFormals,  (int)Symbol.Identifier]      = new Rule("R7", Symbol.Formal, Symbol.FormalsTail);
+            table[(int)Symbol.FormalsTail,      (int)Symbol.Comma]           = new Rule("R8", Symbol.Comma, Symbol.Formal, Symbol.FormalsTail);
+            table[(int)Symbol.FormalsTail,      (int)Symbol.CloseBracket]    = new Rule("R9" );
+            table[(int)Symbol.Formal,           (int)Symbol.Identifier]      = new Rule("R10", Symbol.Identifier, Symbol.Colon, Symbol.Type);
+            table[(int)Symbol.Type,             (int)Symbol.IntegerType]     = new Rule("R11", Symbol.IntegerType);
+            table[(int)Symbol.Type,             (int)Symbol.BooleanType]     = new Rule("R12", Symbol.BooleanType);
         }
 
-        public Rule this[SymbolName symbol, SymbolName token] => table[(int)symbol, (int)token];
+        public Rule this[Symbol symbol, Symbol token] => table[(int)symbol, (int)token];
     }
 
     public class Rule
     {
         public string Name { get; }
-        public List<SymbolName> Symbols { get; } = new List<SymbolName>();
-        public Rule(string name, params SymbolName[] symbols)
+        public List<Symbol> Symbols { get; } = new List<Symbol>();
+        public Rule(string name, params Symbol[] symbols)
         {
             Name = name;
             Symbols.AddRange(symbols);

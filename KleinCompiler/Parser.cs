@@ -84,17 +84,36 @@ namespace KleinCompiler
         until A == $.
         */
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
-        private ParsingTable parsingTable = new ParsingTable();
+        private ReducedParsingTable parsingTable = new ReducedParsingTable();
 
         public bool Parse(Tokenizer tokenizer)
         {
-            symbolStack.Push(null);
-            symbolStack.Push(new NonTerminalSymbol("Program"));
+            symbolStack.Push(Symbol.End);
+            symbolStack.Push(Symbol.Program);
 
             Token token = null;
             while ((token = tokenizer.GetNextToken()) != null)
             {
                 Symbol symbol = symbolStack.Pop();
+
+                if (symbol == token.Symbol)
+                {
+                    // great symbol matches token, all is well proceed
+                }
+                else
+                {
+                    var rule = parsingTable[symbol, token.Symbol];
+                    if (rule == null)
+                    {
+                        // error
+                    }
+                    else
+                    {
+//                        symbolStack.Push(rule.Symbols.Reverse());
+                    }
+
+                }
+/*
                 if (symbol is NonTerminalSymbol)
                 {
                     var rule = parsingTable.Rule(symbol, token);
@@ -130,33 +149,9 @@ namespace KleinCompiler
                         // fail - program stack is empty, but there are still tokens in the stream
                         return false;
                     }
-                }
+                }*/
             }
             return true;
         }
-    }
-
-    public class ParsingTable
-    {
-        public Rule Rule(Symbol nonTerminal, Token token)
-        {
-            return null;
-        } 
-    }
-
-
-
-    public interface Symbol
-    {
-        string Name { get; }
-    }
-
-    public class NonTerminalSymbol : Symbol
-    {
-        public NonTerminalSymbol(string name)
-        {
-            Name = name;
-        }
-        public string Name { get; set; }
     }
 }

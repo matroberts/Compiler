@@ -99,26 +99,26 @@ namespace KleinCompiler
         {
             var tokens = new List<Token>();
             tokens
-                .AddIfNotNull(GetKeyword(SymbolName.IntegerType, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanType, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.If, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Then, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Else, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Not, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Or, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.And, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanTrue, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.BooleanFalse, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Plus, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Minus, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Multiply, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Divide, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.LessThan, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Equality, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.OpenBracket, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.CloseBracket, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Comma, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(SymbolName.Colon, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.IntegerType, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.BooleanType, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.If, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Then, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Else, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Not, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Or, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.And, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.BooleanTrue, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.BooleanFalse, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Plus, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Minus, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Multiply, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Divide, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.LessThan, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Equality, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.OpenBracket, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.CloseBracket, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Comma, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.Colon, input, startPos, startPos))
                 .AddIfNotNull(GetIdentifier(input, startPos))
                 .AddIfNotNull(GetIntegerLiteral(input, startPos))
                 .AddIfNotNull(GetLineComment(input, startPos))
@@ -151,13 +151,13 @@ namespace KleinCompiler
         private static Token GetIdentifier2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new Token(SymbolName.Identifier, input.Substring(startPos, pos-startPos), startPos);
+                return new Token(Symbol.Identifier, input.Substring(startPos, pos-startPos), startPos);
             else if (input[pos].IsAlpha() || input[pos].IsNumeric())
                 return GetIdentifier2(input, startPos, pos + 1);
-            return new Token(SymbolName.Identifier, input.Substring(startPos, pos-startPos), startPos);
+            return new Token(Symbol.Identifier, input.Substring(startPos, pos-startPos), startPos);
         }
 
-        private static Token GetKeyword(SymbolName name, string input, int startPos, int pos)
+        private static Token GetKeyword(Symbol name, string input, int startPos, int pos)
         {
             string keyword = name.ToKeyword();
             if (pos >= input.Length)
@@ -198,9 +198,9 @@ namespace KleinCompiler
         private static Token GetLineComment2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new Token(SymbolName.LineComment, input.Substring(startPos, pos-startPos), startPos);
+                return new Token(Symbol.LineComment, input.Substring(startPos, pos-startPos), startPos);
             if (input[pos] == '\n')
-                return new Token(SymbolName.LineComment, input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
+                return new Token(Symbol.LineComment, input.Substring(startPos, pos - startPos).TrimEnd('\r', '\n'), startPos);
             return GetLineComment2(input, startPos, pos+1);
         }
 
@@ -216,7 +216,7 @@ namespace KleinCompiler
             if (pos >= input.Length)
                 return new ErrorToken(input.Substring(startPos, pos - startPos), startPos, "missing } in block comment"); // malformed block comment with no closing }
             if (input[pos] == '}')
-                return new Token(SymbolName.BlockComment, input.Substring(startPos, pos-startPos+1), startPos);
+                return new Token(Symbol.BlockComment, input.Substring(startPos, pos-startPos+1), startPos);
             return GetBlockComment1(input, startPos, pos+1);
         }
 
@@ -249,10 +249,10 @@ namespace KleinCompiler
         private static Token GetIntegerLiteral2(string input, int startPos, int pos)
         {
             if (pos >= input.Length)
-                return new Token(SymbolName.IntegerLiteral, input.Substring(startPos, pos - startPos), startPos);
+                return new Token(Symbol.IntegerLiteral, input.Substring(startPos, pos - startPos), startPos);
             if (input[pos].IsNumeric())
                 return GetIntegerLiteral2(input, startPos, pos + 1);
-            return new Token(SymbolName.IntegerLiteral, input.Substring(startPos, pos-startPos), startPos);
+            return new Token(Symbol.IntegerLiteral, input.Substring(startPos, pos-startPos), startPos);
         }
     }
 }
