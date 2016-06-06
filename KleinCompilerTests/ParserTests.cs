@@ -1,5 +1,7 @@
-﻿using KleinCompiler;
+﻿using System;
+using KleinCompiler;
 using NUnit.Framework;
+using NUnit.Framework.Api;
 
 namespace KleinCompilerTests
 {
@@ -33,6 +35,22 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result, Is.True, parser.Error);
+        }
+
+        [Test]
+        public void Parser_ShouldReport_GrammarErrors()
+        {
+            // arrange
+            var input = "";
+
+            // act
+            var parser = new Parser(new ReducedParsingTable());
+            var result = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(result, Is.False);
+            Console.WriteLine(parser.Error);
+
         }
     }
 }
