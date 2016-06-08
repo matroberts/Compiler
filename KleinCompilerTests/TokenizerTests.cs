@@ -91,9 +91,8 @@ namespace KleinCompilerTests
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 
-        [TestCase("print")]
         [TestCase("main")]
-        public void Identifier_Print_and_Main_areIdentifiers(string input)
+        public void Identifier_Main_IsAnIdentifiers(string input)
         {
             var tokenizer = new Tokenizer(input);
 
@@ -158,6 +157,7 @@ namespace KleinCompilerTests
         [TestCase(Symbol.CloseBracket)]
         [TestCase(Symbol.Comma)]
         [TestCase(Symbol.Colon)]
+        [TestCase(Symbol.PrintKeyword)]
         public void Keywords_ShouldBeRecognised_AsKeywords(Symbol name)
         {
             var tokenizer = new Tokenizer(name.ToKeyword());

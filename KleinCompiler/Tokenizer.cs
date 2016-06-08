@@ -137,6 +137,7 @@ namespace KleinCompiler
                 .AddIfNotNull(GetKeyword(Symbol.CloseBracket, input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(Symbol.Comma, input, startPos, startPos))
                 .AddIfNotNull(GetKeyword(Symbol.Colon, input, startPos, startPos))
+                .AddIfNotNull(GetKeyword(Symbol.PrintKeyword, input, startPos, startPos))
                 .AddIfNotNull(GetIdentifier(input, startPos))
                 .AddIfNotNull(GetIntegerLiteral(input, startPos))
                 .AddIfNotNull(GetLineComment(input, startPos))

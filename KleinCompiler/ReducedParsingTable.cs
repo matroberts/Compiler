@@ -75,18 +75,18 @@ R12                            | boolean
             int numberSymbols = Enum.GetNames(typeof(Symbol)).Length;
             table = new Rule[numberSymbols, numberSymbols];
 
-            table[(int)Symbol.Program,          (int)Symbol.Identifier]      = new Rule("R1", Symbol.Def, Symbol.DefTail);
-            table[(int)Symbol.DefTail,          (int)Symbol.Identifier]      = new Rule("R2", Symbol.Def, Symbol.DefTail);
-            table[(int)Symbol.DefTail,          (int)Symbol.End]             = new Rule("R3" );
-            table[(int)Symbol.Def,              (int)Symbol.Identifier]      = new Rule("R4", Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type);
-            table[(int)Symbol.Formals,          (int)Symbol.CloseBracket]    = new Rule("R5" );
-            table[(int)Symbol.Formals,          (int)Symbol.Identifier]      = new Rule("R6", Symbol.NonEmptyFormals);
-            table[(int)Symbol.NonEmptyFormals,  (int)Symbol.Identifier]      = new Rule("R7", Symbol.Formal, Symbol.FormalsTail);
-            table[(int)Symbol.FormalsTail,      (int)Symbol.Comma]           = new Rule("R8", Symbol.Comma, Symbol.Formal, Symbol.FormalsTail);
-            table[(int)Symbol.FormalsTail,      (int)Symbol.CloseBracket]    = new Rule("R9" );
-            table[(int)Symbol.Formal,           (int)Symbol.Identifier]      = new Rule("R10", Symbol.Identifier, Symbol.Colon, Symbol.Type);
-            table[(int)Symbol.Type,             (int)Symbol.IntegerType]     = new Rule("R11", Symbol.IntegerType);
-            table[(int)Symbol.Type,             (int)Symbol.BooleanType]     = new Rule("R12", Symbol.BooleanType);
+            table[(int)Symbol.Program,          (int)Symbol.Identifier]      = new Rule(Symbol.Def, Symbol.DefTail);
+            table[(int)Symbol.DefTail,          (int)Symbol.Identifier]      = new Rule(Symbol.Def, Symbol.DefTail);
+            table[(int)Symbol.DefTail,          (int)Symbol.End]             = new Rule();
+            table[(int)Symbol.Def,              (int)Symbol.Identifier]      = new Rule(Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type);
+            table[(int)Symbol.Formals,          (int)Symbol.CloseBracket]    = new Rule();
+            table[(int)Symbol.Formals,          (int)Symbol.Identifier]      = new Rule(Symbol.NonEmptyFormals);
+            table[(int)Symbol.NonEmptyFormals,  (int)Symbol.Identifier]      = new Rule(Symbol.Formal, Symbol.FormalTail);
+            table[(int)Symbol.FormalTail,      (int)Symbol.Comma]           = new Rule(Symbol.Comma, Symbol.Formal, Symbol.FormalTail);
+            table[(int)Symbol.FormalTail,      (int)Symbol.CloseBracket]    = new Rule();
+            table[(int)Symbol.Formal,           (int)Symbol.Identifier]      = new Rule(Symbol.Identifier, Symbol.Colon, Symbol.Type);
+            table[(int)Symbol.Type,             (int)Symbol.IntegerType]     = new Rule(Symbol.IntegerType);
+            table[(int)Symbol.Type,             (int)Symbol.BooleanType]     = new Rule(Symbol.BooleanType);
         }
 
         public Rule this[Symbol symbol, Symbol token] => table[(int)symbol, (int)token];

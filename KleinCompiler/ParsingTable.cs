@@ -1,56 +1,57 @@
 ﻿namespace KleinCompiler
 {
+    /*
+ M[Program, Identifier]         = R1
+ M[DefTail, Identifier]         = R2
+ M[DefTail, End]                = R3
+ M[Def, Identifier]             = R4
+ M[Formals, )]                  = R5
+ M[Formals, Identifier]         = R6
+ M[NonEmptyFormals, Identifier] = R7
+ M[FormalTail, ","]             = R8
+ M[FormalTail, )]               = R9
+ M[Formal, Identifier]          = R10
+ M[Body, print]                 = R11
+ M[Body, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R12
+ M[Type, integer]               = R13
+ M[Type, boolean]               = R14
+ M[Expr, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R15
+ M[SimpleExprTail, <]           = R16
+ M[SimpleExprTail, =]           = R17
+ M[SimpleExprTail, then else ) and * /  or + - < = , ] = R18
+ M[Simple-Expr, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R19
+ M[TermTail, or]                = R20
+ M[TermTail, +]                 = R21
+ M[TermTail, -]                 = R22
+ M[TermTail, then else ) and * /  or + - < = , ] = R23
+ M[Term, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R24
+ M[FactorTail, and ]            = R25
+ M[FactorTail, *]               = R26
+ M[FactorTail, /]               = R27
+ M[FactorTail, then else ) and * /  or + - < = ,] = R28
+ M[Factor, if]                  = R29
+ M[Factor, not]                 = R30
+ M[Factor, Identifier]          = R31
+ M[Factor, IntegerLiteral BooleanTrue BooleanFalse] = R32
+ M[Factor, -]                   = R33
+ M[Factor, (]                   = R34
+ M[Func, Identifier]            = R35
+ M[FuncTail, (]                 = R36
+ M[FuncTail, then else ) and * /  or + - < = , ] = R37
+ M[Actuals, ) ]                 = R38
+ N[NonEmptyActuals, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R39
+ M[NonEmptyActuals, if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( ] = R40
+ M[ActualsTail, ","]            = R41
+ M[ActualsTail, ) ]             = R42
+ M[Literal, IntegerLiteral]     = R43
+ M[Literal, BooleanTrue]        = R44
+ M[Literal,  BooleanFalse]      = R45
+ M[Print, print]                = R46 
+
+
+ */
     public class ParsingTable
     {
-        /*
- Klein Grammar
- =============
-R1      <Program>             ::= <Def> <DefTail>                                            * left factored the original definitions rule
-R2      <DefTail>             ::= <Def> <DefTail>
-R3                              | e                                                          <-- here 'e' means no more tokens at all
-R4      <Def>                 ::= <Identifier> ( <Formals> ) : <Type> <Body>                 <-- function declaration
-R5      <Formals>             ::= e
-R6                              | <NonEmptyFormals>
-R7      <NonEmptyFormals>     ::= <Formal><FormalTail>                                       <-- left factored original rule
-R8      <FormalTail>          ::= , <Formal><FormalTail>
-R9                              | e
-R10     <Formal>              ::= <Identifier> : <Type>
-R11     <Body>                ::= <Print> <Body>
-R12                             | <Expr>
-R13     <Type>                ::= integer
-R14                             | boolean
-R15     <Expr>                ::= <Simple-Expr> <SimpleExprTail>                             * removed left recursion and left factored
-R16     <SimpleExprTail>      ::= < <Simple-Expr> <SimpleExprTail>
-R17                             | = <Simple-Expr> <SimpleExprTail>
-R18                             | e
-R19     <Simple-Expr>         ::= <Term> <TermTail>                                          * removed left recursion and left factored
-R20     <TermTail>            ::= or <Term> <TermTail>
-R21                             | + <Term> <TermTail>
-R22                             | - <Term> <TermTail>
-R23                             | e
-R24     <Term>                ::= <Factor><FactorTail>                                       * removed left recursion and left factored
-R25     <FactorTail>          ::= and <Factor><FactorTail>
-R26                             | * <Factor><FactorTail>
-R27                             | / <Factor><FactorTail>
-R28                             | e
-R29     <Factor>              ::= if <Expr> then <Expr> else <Expr>
-R30                             | not <Factor>
-R31                             | <Func>
-R32                             | <Literal>
-R33                             | - <Factor>
-R34                             | ( <Expr> )
-R35    <Func>                 ::= <Identifier><FuncTail>
-R36    <FuncTail>             ::= ( <Actuals> )
-R37                             | e
-R38     <Actuals>             ::= e
-R39                             | <NonEmptyActuals>
-R40     <NonEmptyActuals>     ::= <Expr><ActualsTail>                                        * left factored original rule
-R41     <ActualsTail>         ::= , <Expr><ActualsTail>
-R42                             | e
-R43     <Literal>             ::= <Number>
-R44                             | <Boolean>
-R45     <Print>               ::= print ( <Expr> )                                                                         
-    
- */
+
     }
 }

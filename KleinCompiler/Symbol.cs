@@ -9,9 +9,24 @@
         Def,              
         Formals,          
         NonEmptyFormals,  
-        FormalsTail,      
+        FormalTail,      
         Formal,           
-        Type,             
+        Body,               
+        Type,               
+        Expr,               
+        SimpleExprTail,     
+        SimpleExpr,        
+        TermTail,           
+        Term,               
+        FactorTail,         
+        Factor,             
+        Func,                
+        FuncTail,            
+        Actuals,            
+        NonEmptyActuals,    
+        ActualsTail,        
+        Literal,            
+        Print,                   
 
         // Error
         Error,
@@ -61,6 +76,8 @@
         [Keyword(",")]
         Comma,           
         [Keyword(":")]
-        Colon,              
+        Colon,
+        [Keyword("print")]
+        PrintKeyword,
     }
 }
