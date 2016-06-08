@@ -42,7 +42,7 @@ namespace KleinCompiler
 
     public class ErrorToken : Token
     {
-        public ErrorToken(string value, int position, string errorMessage) : base(Symbol.Error, value, position)
+        public ErrorToken(string value, int position, string errorMessage) : base(Symbol.LexicalError, value, position)
         {
             Message = errorMessage;
         }

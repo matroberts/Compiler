@@ -2,8 +2,11 @@
 {
     public enum Symbol
     {
+        // Error 
+        LexicalError,
+        // End of tokens marker 
+        End,
         // Non Terminals
-        End,             // i.e. $
         Program,          
         DefTail,          
         Def,              
@@ -27,16 +30,11 @@
         ActualsTail,        
         Literal,            
         Print,                   
-
-        // Error
-        Error,
-
         // Tokens / Terminals
         LineComment,
         BlockComment,
         Identifier,
         IntegerLiteral,
-
         [Keyword("true")]
         BooleanTrue,
         [Keyword("false")]
