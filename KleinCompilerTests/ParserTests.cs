@@ -1,7 +1,6 @@
 ﻿using System;
 using KleinCompiler;
 using NUnit.Framework;
-using NUnit.Framework.Api;
 
 namespace KleinCompilerTests
 {
@@ -50,7 +49,8 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result, Is.False);
             Console.WriteLine(parser.Error);
-
         }
+
+
     }
 }
