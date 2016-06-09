@@ -62,11 +62,6 @@ R12                            | boolean
     M[Type, boolean]                = R12
     */
 
-    public interface IParsingTable
-    {
-        Rule this[Symbol symbol, Symbol token] { get; }
-    }
-
     public class ReducedParsingTable : IParsingTable
     {
         private readonly Rule[,] table;
