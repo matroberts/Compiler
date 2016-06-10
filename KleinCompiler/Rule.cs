@@ -14,7 +14,7 @@ namespace KleinCompiler
         //R3                              | e                                                          <-- here 'e' means no more tokens at all
         public static Rule R3 => new Rule();
         //R4      <Def>                 ::= <Identifier> ( <Formals> ) : <Type> <Body>                 <-- function declaration
-        public static Rule R4 => new Rule(Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.Colon, Symbol.Type, Symbol.Body);
+        public static Rule R4 => new Rule(Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.Body);
         //R5      <Formals>             ::= e
         public static Rule R5 => new Rule();
         //R6                              | <NonEmptyFormals>

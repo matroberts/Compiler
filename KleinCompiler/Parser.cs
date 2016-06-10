@@ -78,6 +78,7 @@ namespace KleinCompiler
         private static void ToConsole(Token token, Stack<Symbol> stack)
         {
             Console.Write(token.Symbol.ToString().PadRight(20));
+            Console.Write(token.Value.ToString().PadRight(20));
             foreach (var symbol in stack)
             {
                 Console.Write(symbol + " ");
