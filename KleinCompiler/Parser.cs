@@ -31,14 +31,14 @@ namespace KleinCompiler
         until A == $.
         */
 
-        public Parser(IParsingTable parsingTable)
+        public Parser(ParsingTable parsingTable)
         {
             this.parsingTable = parsingTable;
             this.Error = string.Empty;
         }
 
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
-        private IParsingTable parsingTable;
+        private ParsingTable parsingTable;
 
         public string Error { get; private set; }
 

@@ -41,10 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
-    <Compile Include="IParsingTable.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParsingTable.cs" />
-    <Compile Include="ReducedParsingTable.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="Tokenizer.cs" />

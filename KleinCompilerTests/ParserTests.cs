@@ -97,5 +97,7 @@ circularPrimesTo(x: integer):integer
                 }
             }
         }
+
+        // parser should halt on lexical errors
     }
 }

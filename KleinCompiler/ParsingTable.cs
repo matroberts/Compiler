@@ -3,7 +3,7 @@
 namespace KleinCompiler
 {
  
-    public class ParsingTable : IParsingTable
+    public class ParsingTable
     {
         private readonly Rule[,] table;
         public ParsingTable()
@@ -63,7 +63,10 @@ namespace KleinCompiler
         {
             foreach (var terminal in terminals)
             {
-                table[(int) nonTerminal, (int) terminal] = rule;
+//                if(table[(int)nonTerminal, (int)terminal] != null)
+//                    throw new ArgumentException("Ambiguous grammar rule detected");
+//                else
+                    table[(int) nonTerminal, (int) terminal] = rule;
             }
         }
 
