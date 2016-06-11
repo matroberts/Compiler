@@ -1,4 +1,5 @@
-﻿First(Number)          = IntegerLiteral
+﻿First(Print)           = print
+First(Number)          = IntegerLiteral
 First(Boolean)         = BooleanTrue BooleanFalse
 First(Literal)         = IntegerLiteral BooleanTrue BooleanFalse
 First(ActualsTail>     = , e
@@ -46,41 +47,42 @@ Follow(FormalTail)     = Follow(NonEmptyFormals)
                        = )
 Follow(Formal)         = First(FormalTail - e) Follow(NonEmptyFormals) Follow(FormalTail)
                        = , )
-Follow(Body)           = 
+Follow(Body)           = Follow(Def)
+                       = Identifier End
 Follow(Type)           = First(Body - e) Follow(Formal)
                        = print if not Identfier IntegerLiteral BooleanTrue BooleanFalse - ( , )
-Follow(Expr)           = Follow(Body) then else ) Follow(Factor) First(ActualsTail - e) Follow(NonEmptyActuals) Follow(ActualsTail)
-                       =              then else ) Follow(Factor) , Follow(NonEmptyActuals) Follow(ActualsTail)
-                       =              then else ) and * /  or + - < = , 
+Follow(Expr)           = Follow(Body)   then else ) Follow(Factor) First(ActualsTail - e) Follow(NonEmptyActuals) Follow(ActualsTail)
+                       = Identifier End then else ) Follow(Factor) , Follow(NonEmptyActuals) Follow(ActualsTail)
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(SimpleExprTail) = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Simple-Expr)    = First(SimpleExprTail - e) Follow(Expr) Follow(SimpleExprTail)
                        = < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(TermTail)       = Follow(Simple-Expr) 
                        = < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Term)           = First(TermTail) Follow(Simple-Expr) Follow(TermTail) 
                        = or + - < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(FactorTail)     = Follow(Term) 
                        = or + - < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Factor)         = First(FactorTail -e) Follow(Term) 
                        = and * /  or + - < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Func)           = Follow(Factor)
                        = and * /  or + - < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(FuncTail)       = Follow(Func)
                        = and * /  or + - < = Follow(Expr)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Actuals)        = )
 Follow(NonEmptyActuals)= Follow(Actuals)
                        = )
 Follow(ActualsTail)    = Follow(NonEmptyActuals) 
                        = )
 Follow(Literal)        = Follow(Factor)
-                       = then else ) and * /  or + - < = , 
+                       = Identifier End then else ) and * /  or + - < = , 
 Follow(Print)          = First(Body - e) 
                        = print if not Identfier IntegerLiteral BooleanTrue BooleanFalse - (

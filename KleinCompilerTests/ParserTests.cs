@@ -12,10 +12,12 @@ namespace KleinCompilerTests
         public void Parser_ShouldCorrectlyParse_SuperSimpleFile()
         {
             // arrange
-            var input = "main () : boolean";
+            var input = @"
+main () : boolean
+    true";
 
             // act
-            var parser = new Parser(new ReducedParsingTable());
+            var parser = new Parser(new ParsingTable());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -23,14 +25,16 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Parser_ShouldIgnore_LineComment()
+        public void Parser_ShouldIgnore_Comments()
         {
             //arrange
-            var input = @"//line comment should be ignored
-                        main () : boolean";
+            var input = @"
+//line comment should be ignored
+main () : boolean
+    true";
 
             //act
-            var parser = new Parser(new ReducedParsingTable());
+            var parser = new Parser(new ParsingTable());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -44,7 +48,7 @@ namespace KleinCompilerTests
             var input = "";
 
             // act
-            var parser = new Parser(new ReducedParsingTable());
+            var parser = new Parser(new ParsingTable());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -52,7 +56,26 @@ namespace KleinCompilerTests
             Console.WriteLine(parser.Error);
         }
 
-        [Test, Ignore("")]
+        [Test]
+        public void ParserShould_ParseSlightlyMoreComplexProgram()
+        {
+            // arrange
+            var input = @"
+main(x: integer):integer
+    circularPrimesTo(x)
+circularPrimesTo(x: integer):integer
+    true";
+
+            // act
+            var parser = new Parser(new ParsingTable());
+            var result = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(result, Is.True, parser.Error);
+
+        }
+
+        [Test, Ignore("WIP")]
         public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
         {
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
