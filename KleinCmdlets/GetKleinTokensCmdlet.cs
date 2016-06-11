@@ -21,7 +21,7 @@ namespace KleinCmdlets
             var input = File.ReadAllText(Path);
             var tokenizer = new Tokenizer(input);
             Token token = null;
-            while ((token = tokenizer.GetNextToken()) != null)
+            while ((token = tokenizer.GetNextToken()).Symbol != Symbol.End)
             {
                 WriteObject(token);
             }

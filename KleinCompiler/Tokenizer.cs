@@ -155,7 +155,7 @@ namespace KleinCompiler
             if (token == null)
                 return null;
             else if(token.Value.Length>256)
-                return new ErrorToken(token.Value, token.Position, "Max length of a token is 256 characters");
+                return new ErrorToken(token.Value, token.Position, "Max length of an identifier is 256 characters");
             else
                 return token;
         }

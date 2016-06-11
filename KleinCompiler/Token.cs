@@ -36,7 +36,12 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return $"{this.Symbol.ToString().PadRight(25)} : '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(25)}'";
+            if (Symbol == Symbol.End)
+                return $"{Symbol}";
+            else if (Symbol == Symbol.LineComment || Symbol == Symbol.BlockComment)
+                return $"{this.Symbol} '{Value.Replace("\r", "").Replace("\n", "").TruncateWithElipses(50)}'";
+            else
+                return $"{this.Symbol} '{Value}'";
         }
     }
 
@@ -68,7 +73,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            return base.ToString() + $" '{Message}'";
+            return $"{Symbol} {Message}";
         }
     }
 }

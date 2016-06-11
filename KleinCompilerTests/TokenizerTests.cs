@@ -129,7 +129,7 @@ namespace KleinCompilerTests
 
             var tokenizer = new Tokenizer(input);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(new string('a', 257), 0, "Max length of a token is 256 characters")));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new ErrorToken(new string('a', 257), 0, "Max length of an identifier is 256 characters")));
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 

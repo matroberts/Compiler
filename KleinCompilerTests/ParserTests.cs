@@ -43,6 +43,25 @@ main () : boolean
         }
 
         [Test]
+        public void Parser_ShouldHalt_OnLexicalErrors()
+        {
+            //arrange
+            var input = @"
+// ! is an illegal token
+main () : boolean
+    !true";
+
+            //act
+            var parser = new Parser(new ParsingTable());
+            var result = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(result, Is.False, parser.Error);
+            Console.WriteLine(parser.Error);
+            Console.WriteLine(parser.SymbolStackTrace);
+        }
+
+        [Test]
         public void Parser_ShouldReport_GrammarErrors()
         {
             // arrange

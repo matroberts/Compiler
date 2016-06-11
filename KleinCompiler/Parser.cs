@@ -7,27 +7,27 @@ using System.Threading;
 namespace KleinCompiler
 {
     /*
-   The parser acts on the basis of the current token i in the input stream and 
-   the symbol A on top of the stack, until it reaches the end of the input stream, denoted by $.
-
-   Push the end of stream symbol, $, onto the stack.
-   Push the start symbol onto the stack.
-
-   Repeat
-   A is a terminal.
-   If A == i, then
-      Pop A from the stack and consume i.
-   Else we have a token mismatch. 
-      Fail.
-
-   A is a non-terminal.
-   If table entry [A, i] contains a rule A := Y1, Y2, ... Yn, then
-      Pop A from the stack. Push Yn, Yn-1, ... Y1 onto the stack, in that order.
-   Else there is no transition for this pair. 
-      Fail.
-
-   until A == $.
-   */
+    The parser acts on the basis of the current token i in the input stream and 
+    the symbol A on top of the stack, until it reaches the end of the input stream, denoted by $.
+ 
+    Push the end of stream symbol, $, onto the stack.
+    Push the start symbol onto the stack.
+ 
+    Repeat
+    A is a terminal.
+    If A == i, then
+       Pop A from the stack and consume i.
+    Else we have a token mismatch. 
+       Fail.
+ 
+    A is a non-terminal.
+    If table entry [A, i] contains a rule A := Y1, Y2, ... Yn, then
+       Pop A from the stack. Push Yn, Yn-1, ... Y1 onto the stack, in that order.
+    Else there is no transition for this pair. 
+       Fail.
+ 
+    until A == $.
+    */
     public class Parser
     {
         public Parser(ParsingTable parsingTable)
