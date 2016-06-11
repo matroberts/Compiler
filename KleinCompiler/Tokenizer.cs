@@ -16,7 +16,7 @@ namespace KleinCompiler
 
     Identifier                   - Up to 256 characters case sensitive.  
                                  - Numbers are not allowed for the first character, but are allowed after that 
-                                 - main and print are primitive identifiers
+                                 - main is a primitive identifiers
                                  - [a-zA-Z][a-zA-Z0-9]*
     
     IntegerLiteral               - integers have the range -2^32 to 2^32-1, 
@@ -47,6 +47,7 @@ namespace KleinCompiler
         CloseBracket             - )
         Comma                    - ,
         Colon                    - :
+        PrintKeyword             - print
 
 
     * If two tokens match the input the longer token is taken
