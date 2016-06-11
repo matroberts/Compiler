@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using KleinCompiler;
 using NUnit.Framework;
 
@@ -75,11 +76,11 @@ circularPrimesTo(x: integer):integer
 
         }
 
-        [Test, Ignore("WIP")]
+        [Test]
         public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
         {
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
-            var files = Directory.GetFiles(folder);
+            var files = Directory.GetFiles(folder, "*.kln");
             foreach (var file in files)
             {
                 var parser = new Parser(new ParsingTable());
