@@ -28,17 +28,17 @@ namespace KleinCompiler
             MakeEntry(Rule.R15, Symbol.Expr, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             MakeEntry(Rule.R16, Symbol.SimpleExprTail, Symbol.LessThan);
             MakeEntry(Rule.R17, Symbol.SimpleExprTail, Symbol.Equality);
-            MakeEntry(Rule.R18, Symbol.SimpleExprTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
+            MakeEntry(Rule.R18, Symbol.SimpleExprTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.Comma);
             MakeEntry(Rule.R19, Symbol.SimpleExpr, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             MakeEntry(Rule.R20, Symbol.TermTail, Symbol.Or);
-            MakeEntry(Rule.R21, Symbol.TermTail, Symbol.Equality);
+            MakeEntry(Rule.R21, Symbol.TermTail, Symbol.Plus);
             MakeEntry(Rule.R22, Symbol.TermTail, Symbol.Minus);
-            MakeEntry(Rule.R23, Symbol.TermTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
+            MakeEntry(Rule.R23, Symbol.TermTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
             MakeEntry(Rule.R24, Symbol.Term, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             MakeEntry(Rule.R25, Symbol.FactorTail, Symbol.And);
             MakeEntry(Rule.R26, Symbol.FactorTail, Symbol.Multiply);
             MakeEntry(Rule.R27, Symbol.FactorTail, Symbol.Divide);
-            MakeEntry(Rule.R28, Symbol.FactorTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
+            MakeEntry(Rule.R28, Symbol.FactorTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
             MakeEntry(Rule.R29, Symbol.Factor, Symbol.If);
             MakeEntry(Rule.R30, Symbol.Factor, Symbol.Not);
             MakeEntry(Rule.R31, Symbol.Factor, Symbol.Identifier);
@@ -63,9 +63,10 @@ namespace KleinCompiler
         {
             foreach (var terminal in terminals)
             {
-//                if(table[(int)nonTerminal, (int)terminal] != null)
-//                    throw new ArgumentException("Ambiguous grammar rule detected");
-//                else
+                var existingRule = table[(int) nonTerminal, (int) terminal];
+                if (existingRule != null)
+                    throw new ArgumentException($"Ambiguity detected in parser table [{nonTerminal}, {terminal}] rule '{existingRule.Name}' conflicts with '{rule.Name}'.");
+                else
                     table[(int) nonTerminal, (int) terminal] = rule;
             }
         }
