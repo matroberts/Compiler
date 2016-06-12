@@ -39,7 +39,7 @@ main () : boolean
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.True, parser.Error);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -56,9 +56,8 @@ main () : boolean
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.False, parser.Error);
-            Console.WriteLine(parser.Error);
-            Console.WriteLine(parser.SymbolStackTrace);
+            Assert.That(result, Is.False);
+            Assert.That(parser.Error.Message, Is.EqualTo($"Unknown character '!'"));
         }
 
         [Test]
@@ -73,7 +72,7 @@ main () : boolean
 
             // assert
             Assert.That(result, Is.False);
-            Console.WriteLine(parser.Error);
+            Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'Program' found token End"));
         }
 
         [Test]
@@ -91,7 +90,7 @@ circularPrimesTo(x: integer):integer
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.True, parser.Error);
+            Assert.That(result, Is.True);
 
         }
 
@@ -104,20 +103,8 @@ circularPrimesTo(x: integer):integer
             {
                 var parser = new Parser(new ParsingTable());
                 var isValid = parser.Parse(new Tokenizer(File.ReadAllText(file)));
-
-                var filename = Path.GetFileName(file);
-                if (isValid)
-                {
-                    Console.WriteLine($"File {filename} valid");
-                }
-                else
-                {
-                    Console.WriteLine($"File {filename} invalid");
-                    Assert.That(isValid, Is.True, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
-                }
+                Assert.That(isValid, Is.True, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
             }
         }
-
-        // parser should halt on lexical errors
     }
 }

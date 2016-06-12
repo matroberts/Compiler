@@ -33,12 +33,12 @@ namespace KleinCompiler
         public Parser(ParsingTable parsingTable)
         {
             this.parsingTable = parsingTable;
-            this.Error = string.Empty;
+            this.Error = null;
         }
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
         private ParsingTable parsingTable;
 
-        public string Error { get; private set; }
+        public Error Error { get; private set; }
 
         private readonly StringBuilder symbolStackTraceBuilder = new StringBuilder();
         public string SymbolStackTrace => symbolStackTraceBuilder.ToString();
@@ -50,12 +50,16 @@ namespace KleinCompiler
 
             while (symbolStack.Count != 0)
             {
-                TraceStack(tokenizer.Peek(), symbolStack);
-                
+//                TraceStack(tokenizer.Peek(), symbolStack);
                 Symbol symbol = symbolStack.Pop();
-
                 Token token = tokenizer.Peek();
-                if (symbol == token.Symbol)
+
+                if (token is ErrorToken)
+                {
+                    Error = Error.CreateLexicalError(token as ErrorToken);
+                    return false;
+                }
+                else if (symbol == token.Symbol)
                 {
                     tokenizer.Pop();
                 }
@@ -64,7 +68,7 @@ namespace KleinCompiler
                     var rule = parsingTable[symbol, token.Symbol];
                     if (rule == null)
                     {
-                        Error = $"Attempting to parse symbol '{symbol.ToString()}' found token {token.ToString()}";
+                        Error = Error.CreateSyntaxError(symbol, token);
                         return false;
                     }
                     else
