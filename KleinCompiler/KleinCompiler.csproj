@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="FilePositionCalculator.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParsingTable.cs" />
     <Compile Include="Rule.cs" />
