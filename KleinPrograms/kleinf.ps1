@@ -2,4 +2,10 @@
 
 Import-Module 'C:\github\Compiler\KleinCmdlets\bin\Debug\KleinCmdlets.dll'
 
-Parse-KleinProgram $Path
+$result = Test-KleinProgram $Path
+if($result -eq $true){
+    "Valid Program"
+} else {
+    "Invalid Program"
+}
+
