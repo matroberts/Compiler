@@ -48,6 +48,7 @@
     <Compile Include="Tests\Noop.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="kleinf.ps1" />
     <None Include="kleins.ps1" />
     <None Include="packages.config" />
     <None Include="Programs\fullprograms\circular-prime.kln" />
