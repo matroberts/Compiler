@@ -50,7 +50,7 @@ namespace KleinCompiler
 
             while (symbolStack.Count != 0)
             {
-//                TraceStack(tokenizer.Peek(), symbolStack);
+                TraceStack(tokenizer.Peek(), symbolStack);
                 Symbol symbol = symbolStack.Pop();
                 Token token = tokenizer.Peek();
 
