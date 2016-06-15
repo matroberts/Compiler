@@ -40,6 +40,8 @@ namespace KleinCompiler
 
         public Error Error { get; private set; }
 
+
+        public bool EnableStackTrace { get; set; } = false;
         private readonly StringBuilder symbolStackTraceBuilder = new StringBuilder();
         public string SymbolStackTrace => symbolStackTraceBuilder.ToString();
 
@@ -50,7 +52,11 @@ namespace KleinCompiler
 
             while (symbolStack.Count != 0)
             {
-                TraceStack(tokenizer.Peek(), symbolStack);
+                if (EnableStackTrace)
+                {
+                    TraceStack(tokenizer.Peek(), symbolStack);
+                }
+
                 Symbol symbol = symbolStack.Pop();
                 Token token = tokenizer.Peek();
 

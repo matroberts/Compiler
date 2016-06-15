@@ -97,8 +97,6 @@ circularPrimesTo(x: integer):integer
         [Test]
         public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
         {
-            // before optimize 4.7 and 4.5 seconds
-            // after optimisation 0.148, 0.148
             var start = DateTime.UtcNow;
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
             var files = Directory.GetFiles(folder, "*.kln");
