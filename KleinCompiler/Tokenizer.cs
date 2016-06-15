@@ -69,16 +69,7 @@ namespace KleinCompiler
         {
             while (_startPos < _input.Length)
             {
-                Token token = null;
-
-                var tokens = StateMachine.GetCandidateTokens(_input, _startPos);
-                foreach (var t in tokens)
-                {
-                    if (token == null)
-                        token = t;
-                    if (t.Length > token.Length)
-                        token = t;
-                }
+                var token = StateMachine.GetCandidateTokens(_input, _startPos);
 
                 if (token == null)
                 {
@@ -114,40 +105,71 @@ namespace KleinCompiler
 
     public class StateMachine
     {
-        public static List<Token> GetCandidateTokens(string input, int startPos)
+        private static Dictionary<string, Symbol> keywords = new Dictionary<string, Symbol>()
         {
-            var tokens = new List<Token>();
-            tokens
-                .AddIfNotNull(GetKeyword(Symbol.IntegerType, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.BooleanType, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.If, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Then, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Else, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Not, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Or, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.And, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.BooleanTrue, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.BooleanFalse, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Plus, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Minus, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Multiply, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Divide, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.LessThan, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Equality, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.OpenBracket, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.CloseBracket, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Comma, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.Colon, input, startPos, startPos))
-                .AddIfNotNull(GetKeyword(Symbol.PrintKeyword, input, startPos, startPos))
-                .AddIfNotNull(GetIdentifier(input, startPos))
-                .AddIfNotNull(GetIntegerLiteral(input, startPos))
-                .AddIfNotNull(GetLineComment(input, startPos))
-                .AddIfNotNull(GetBlockComment(input, startPos));
+            ["true"] = Symbol.BooleanTrue,
+            ["false"] = Symbol.BooleanFalse,
+            ["integer"] = Symbol.IntegerType,
+            ["boolean"] = Symbol.BooleanType,
+            ["if"] = Symbol.If,
+            ["then"] = Symbol.Then,
+            ["else"] = Symbol.Else,
+            ["not"] = Symbol.Not,
+            ["or"] = Symbol.Or,
+            ["and"] = Symbol.And,
+            ["print"] = Symbol.PrintKeyword,
+        };
 
-            if(tokens.Count == 0 && input[startPos].IsWhitespace()==false)
-                tokens.Add(new ErrorToken(input.Substring(startPos, 1), startPos, $"Unknown character '{input[startPos]}'"));
+        private static Dictionary<string, Symbol> operators = new Dictionary<string, Symbol>()
+        {
+            ["+"]=Symbol.Plus,
+            ["-"]=Symbol.Minus,
+            ["*"]=Symbol.Multiply,
+            ["/"]=Symbol.Divide,
+            ["<"]=Symbol.LessThan,
+            ["="]=Symbol.Equality,
+            ["("]=Symbol.OpenBracket,
+            [")"]=Symbol.CloseBracket,
+            [","]=Symbol.Comma,
+            [":"]=Symbol.Colon,
+        };
 
-            return tokens;
+        public static Token GetCandidateTokens(string input, int startPos)
+        {
+            Token token = null;
+            if ((token = GetIdentifier(input, startPos)) != null)
+            {
+                Symbol keyword;
+                if (keywords.TryGetValue(token.Value, out keyword))
+                {
+                    token = new Token(keyword, token.Value, token.Position);
+                }
+                return token;
+            }
+
+
+            if ((token = GetIntegerLiteral(input, startPos)) != null)
+            {
+                return token;
+            }
+            if ((token = GetLineComment(input, startPos)) != null)
+            {
+                return token;
+            }
+            if ((token = GetBlockComment(input, startPos)) != null)
+            {
+                return token;
+            }
+            Symbol opSymbol;
+            if (operators.TryGetValue(input[startPos].ToString(), out opSymbol))
+            {
+                return new Token(opSymbol, input[startPos].ToString(), startPos);
+            }
+
+            if (input[startPos].IsWhitespace()==false)
+                return new ErrorToken(input.Substring(startPos, 1), startPos, $"Unknown character '{input[startPos]}'");
+
+            return null;
         }
 
         private static Token GetIdentifier(string input, int startPos)

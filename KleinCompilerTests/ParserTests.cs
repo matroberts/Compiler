@@ -97,6 +97,9 @@ circularPrimesTo(x: integer):integer
         [Test]
         public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
         {
+            // before optimize 4.7 and 4.5 seconds
+            // after optimisation 0.148, 0.148
+            var start = DateTime.UtcNow;
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
             var files = Directory.GetFiles(folder, "*.kln");
             foreach (var file in files)
@@ -105,6 +108,7 @@ circularPrimesTo(x: integer):integer
                 var isValid = parser.Parse(new Tokenizer(File.ReadAllText(file)));
                 Assert.That(isValid, Is.True, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
             }
+            Console.WriteLine(DateTime.UtcNow - start);
         }
     }
 }
