@@ -1,0 +1,50 @@
+﻿{
+    print the prime factors of the given number
+}
+
+
+main( n : integer ) : boolean
+    findafactor(2, n, n)
+
+
+findafactor(current :integer, max: integer, numerator: integer) : boolean
+    if(max < current) then
+        true
+    else
+    (
+        if(isPrime(current)) then
+            testforprimefactor(current, max, numerator)
+        else
+            findafactor(current+1, max, numerator)
+    )
+
+testforprimefactor(current :integer, max :integer, numerator :integer) : boolean
+    if(Mod(numerator, current) = 0) then
+        printAndContinue(current, max, numerator)
+    else
+        findafactor(current+1, max, numerator)
+
+printAndContinue(current :integer, max :integer, numerator :integer) : boolean
+    print(numerator)
+    findafactor(current+1, max, numerator)
+
+isPrime( n : integer ) : boolean
+   not hasDivisorFrom(2, n)
+
+hasDivisorFrom( i : integer, n : integer) : boolean
+   if i < n then
+      divides(i, n) or hasDivisorFrom(i+1, n)
+   else
+      false
+
+divides( a : integer, b : integer) : boolean
+   rem(b, a) = 0
+
+rem( num : integer, den : integer) : integer
+   if num < den then
+      num
+   else
+      rem( num-den, den)
+
+Mod( m : integer, n : integer ) : integer
+    m - m/n * n

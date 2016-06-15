@@ -51,6 +51,7 @@
     <None Include="kleinf.ps1" />
     <None Include="kleins.ps1" />
     <None Include="packages.config" />
+    <None Include="primefactor.kln" />
     <None Include="Programs\fullprograms\circular-prime.kln" />
     <None Include="Programs\fullprograms\divisible-by-seven.kln" />
     <None Include="Programs\fullprograms\euclid.kln" />

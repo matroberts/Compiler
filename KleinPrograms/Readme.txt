@@ -12,5 +12,9 @@ eg: powershell C:\github\Compiler\KleinPrograms\kleins.ps1 C:\github\Compiler\Kl
 a script which check for syntax errors in a klein program
 Usage: powershell C:\github\Compiler\KleinPrograms\kleinf.ps1 C:\github\Compiler\KleinPrograms\Programs\scanner\reserved-words-and-symbols.kln
        powershell C:\github\Compiler\KleinPrograms\kleinf.ps1 C:\github\Compiler\KleinPrograms\Programs\fullprograms\circular-prime.kln
-2) pascal.kln
+
+3) pascal.kln
 klein program to print the nth row of pascals triangle
+
+4) primefactor.kln
+program to print the primefactors of a number
