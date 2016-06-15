@@ -9,28 +9,6 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ExtensionTests
     {
-        #region Keyword Attribute
-
-        public enum TestEnum
-        {
-            NoKeyword,
-            [System.ComponentModel.Description("desc")]
-            Description,
-            [Keyword("key")]
-            WithKeyword,
-
-        }
-
-        [Test]
-        public void ToKeyword_ShouldReturnTheKeywordIfItExists_OtherWiseReturnEmptyString()
-        {
-            Assert.That(TestEnum.NoKeyword.ToKeyword(), Is.EqualTo(string.Empty));
-            Assert.That(TestEnum.Description.ToKeyword(), Is.EqualTo(string.Empty));
-            Assert.That(TestEnum.WithKeyword.ToKeyword(), Is.EqualTo("key"));
-        }
-
-        #endregion
-
         #region IsAlpha
 
         [TestCase('a')]
@@ -75,30 +53,6 @@ namespace KleinCompilerTests
             Assert.That(character.IsNumeric(), Is.False);
         }
 
-
-        #endregion
-
-        #region AddIfNotNull
-
-        [Test]
-        public void IfItemIsNull_NothingIsAddedToList()
-        {
-            var tokens = new List<Token>();
-
-            tokens.AddIfNotNull(null);
-
-            Assert.That(tokens.Count, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void IfItemIsNotNull_TokenIsAddedToList()
-        {
-            var tokens = new List<Token>();
-
-            tokens.AddIfNotNull(new Token(Symbol.Identifier, "a", 0));
-
-            Assert.That(tokens.Count, Is.EqualTo(1));
-        }
 
         #endregion
 

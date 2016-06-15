@@ -137,32 +137,32 @@ namespace KleinCompilerTests
 
         #region keywords
 
-        [TestCase(Symbol.IntegerType)]
-        [TestCase(Symbol.BooleanType)]
-        [TestCase(Symbol.If)]
-        [TestCase(Symbol.Then)]
-        [TestCase(Symbol.Else)]
-        [TestCase(Symbol.Not)]
-        [TestCase(Symbol.Or)]
-        [TestCase(Symbol.And)]
-        [TestCase(Symbol.BooleanTrue)]
-        [TestCase(Symbol.BooleanFalse)]
-        [TestCase(Symbol.Plus)]
-        [TestCase(Symbol.Minus)]
-        [TestCase(Symbol.Multiply)]
-        [TestCase(Symbol.Divide)]
-        [TestCase(Symbol.LessThan)]
-        [TestCase(Symbol.Equality)]
-        [TestCase(Symbol.OpenBracket)]
-        [TestCase(Symbol.CloseBracket)]
-        [TestCase(Symbol.Comma)]
-        [TestCase(Symbol.Colon)]
-        [TestCase(Symbol.PrintKeyword)]
-        public void Keywords_ShouldBeRecognised_AsKeywords(Symbol name)
+        [TestCase(Symbol.IntegerType, "integer")]
+        [TestCase(Symbol.BooleanType, "boolean")]
+        [TestCase(Symbol.If, "if")]
+        [TestCase(Symbol.Then, "then")]
+        [TestCase(Symbol.Else, "else")]
+        [TestCase(Symbol.Not, "not")]
+        [TestCase(Symbol.Or, "or")]
+        [TestCase(Symbol.And, "and")]
+        [TestCase(Symbol.BooleanTrue, "true")]
+        [TestCase(Symbol.BooleanFalse, "false")]
+        [TestCase(Symbol.Plus, "+")]
+        [TestCase(Symbol.Minus, "-")]
+        [TestCase(Symbol.Multiply, "*")]
+        [TestCase(Symbol.Divide, "/")]
+        [TestCase(Symbol.LessThan, "<")]
+        [TestCase(Symbol.Equality, "=")]
+        [TestCase(Symbol.OpenBracket, "(")]
+        [TestCase(Symbol.CloseBracket, ")")]
+        [TestCase(Symbol.Comma, ",")]
+        [TestCase(Symbol.Colon, ":")]
+        [TestCase(Symbol.PrintKeyword, "print")]
+        public void KeywordsAndOperators_ShouldBeRecognised_AsKeywords(Symbol symbol, string text)
         {
-            var tokenizer = new Tokenizer(name.ToKeyword());
+            var tokenizer = new Tokenizer(text);
 
-            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(name, name.ToKeyword(), 0)));
+            Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(symbol, text, 0)));
             Assert.That(tokenizer.GetNextToken(), Is.EqualTo(new Token(Symbol.End, "", 0)));
         }
 

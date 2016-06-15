@@ -49,7 +49,7 @@ namespace KleinCompilerTests
             Console.WriteLine(new Token(Symbol.Identifier, "identifier", 0));
             Console.WriteLine(new Token(Symbol.Identifier, "longIdentifierHasNoTruncationInToStringEvenIfItsReallyLong", 0));
             Console.WriteLine(new ErrorToken(new string('a', 257), 0, "Max length of a token is 256 characters"));
-            Console.WriteLine(new Token(Symbol.IntegerType, Symbol.IntegerType.ToKeyword(), 0));
+            Console.WriteLine(new Token(Symbol.IntegerType, "integer", 0));
             Console.WriteLine(new Token(Symbol.LineComment, "// comment", 0));
             Console.WriteLine(new Token(Symbol.LineComment, "// line comment truncates if its longer than 50 characters", 0));
             Console.WriteLine(new Token(Symbol.BlockComment, "{}", 0));

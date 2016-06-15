@@ -37,6 +37,9 @@ namespace KleinCompiler
         NotOperator              - not
         OrOperator               - or
         AndOperator              - and
+        PrintKeyword             - print
+
+    Operator
         PlusOperator             - +
         MinusOperator            - -
         MultiplicationOperator   - *
@@ -47,7 +50,6 @@ namespace KleinCompiler
         CloseBracket             - )
         Comma                    - ,
         Colon                    - :
-        PrintKeyword             - print
 
 
     * If two tokens match the input the longer token is taken
@@ -69,7 +71,7 @@ namespace KleinCompiler
         {
             while (_startPos < _input.Length)
             {
-                var token = StateMachine.GetCandidateTokens(_input, _startPos);
+                var token = StateMachine.GetToken(_input, _startPos);
 
                 if (token == null)
                 {
@@ -134,7 +136,7 @@ namespace KleinCompiler
             [":"]=Symbol.Colon,
         };
 
-        public static Token GetCandidateTokens(string input, int startPos)
+        public static Token GetToken(string input, int startPos)
         {
             Token token = null;
             if ((token = GetIdentifier(input, startPos)) != null)
@@ -146,7 +148,6 @@ namespace KleinCompiler
                 }
                 return token;
             }
-
 
             if ((token = GetIntegerLiteral(input, startPos)) != null)
             {
@@ -197,28 +198,6 @@ namespace KleinCompiler
             else if (input[pos].IsAlpha() || input[pos].IsNumeric())
                 return GetIdentifier2(input, startPos, pos + 1);
             return new Token(Symbol.Identifier, input.Substring(startPos, pos-startPos), startPos);
-        }
-
-        private static Token GetKeyword(Symbol name, string input, int startPos, int pos)
-        {
-            string keyword = name.ToKeyword();
-            if (pos >= input.Length)
-                return null;
-            if (input[pos] == keyword[pos - startPos])
-            {
-                if (keyword.Length == pos - startPos + 1)
-                {
-                    return new Token(name, input.Substring(startPos, pos - startPos + 1), startPos);
-                }
-                else
-                {
-                    return GetKeyword(name, input, startPos, pos + 1);
-                }
-            }
-            else
-            {
-                return null;
-            }
         }
 
         private static Token GetLineComment(string input, int startPos)
