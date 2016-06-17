@@ -9,6 +9,29 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ExtensionTests
     {
+        #region SymbolType Attribute
+
+        public enum TestEnum
+        {
+            [SymbolType(SymbolType.NonTerminal)]
+            Program,
+            [SymbolType(SymbolType.Token)]
+            Identifier,
+            [SymbolType(SymbolType.Semantic)]
+            MakeDefinition,
+            WillThrowExceptionBecauseNoSymbolType
+        }
+
+        [Test]
+        public void ToSymbolType_ShouldReturnTheKeywordIfItExists_OtherWiseReturnEmptyString()
+        {
+            Assert.That(TestEnum.Program.ToSymbolType(), Is.EqualTo(SymbolType.NonTerminal));
+            Assert.That(TestEnum.Identifier.ToSymbolType(), Is.EqualTo(SymbolType.Token));
+            Assert.That(TestEnum.MakeDefinition.ToSymbolType(), Is.EqualTo(SymbolType.Semantic));
+            Assert.That(() => TestEnum.WillThrowExceptionBecauseNoSymbolType.ToSymbolType(), Throws.ArgumentException.With.Message.EqualTo("Add SymbolTypeAttribute to TestEnum.WillThrowExceptionBecauseNoSymbolType if you want to call ToSymbolType()."));
+        }
+
+        #endregion
         #region IsAlpha
 
         [TestCase('a')]

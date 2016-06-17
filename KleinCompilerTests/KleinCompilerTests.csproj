@@ -49,6 +49,7 @@
     <Compile Include="ParserTests.cs" />
     <Compile Include="ParsingTableTests.cs" />
     <Compile Include="RuleTests.cs" />
+    <Compile Include="SymbolTests.cs" />
     <Compile Include="TokenizerTests.cs" />
     <Compile Include="TokenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

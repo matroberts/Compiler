@@ -35,8 +35,11 @@ namespace KleinCompiler
             this.parsingTable = parsingTable;
             this.Error = null;
         }
-        private Stack<Symbol> symbolStack = new Stack<Symbol>();
         private ParsingTable parsingTable;
+
+        private Stack<Symbol> symbolStack = new Stack<Symbol>();
+
+        private Stack<Ast> semanticStack = new Stack<Ast>();
 
         public Error Error { get; private set; }
 

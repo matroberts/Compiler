@@ -2,8 +2,26 @@
 using System.Collections.Generic;
 using KleinCompiler;
 
+[AttributeUsage(AttributeTargets.Field)]
+public class SymbolTypeAttribute : Attribute
+{
+    public SymbolType SymbolType { get; }
+
+    public SymbolTypeAttribute(SymbolType symbolType)
+    {
+        SymbolType = symbolType;
+    }
+}
 public static class Extensions
 {
+    public static SymbolType ToSymbolType(this Enum symbolName)
+    {
+        var attributes = symbolName.GetType().GetMember(symbolName.ToString())[0].GetCustomAttributes(typeof(SymbolTypeAttribute), false);
+        if (attributes.Length > 0)
+            return ((SymbolTypeAttribute)attributes[0]).SymbolType;
+        throw new ArgumentException($"Add SymbolTypeAttribute to {symbolName.GetType().Name}.{symbolName} if you want to call ToSymbolType().");
+    }
+
     public static bool IsAlpha(this char ch)
     {
         return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
