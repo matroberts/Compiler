@@ -61,7 +61,7 @@ main () : boolean
         }
 
         [Test]
-        public void Parser_ShouldReport_GrammarErrors()
+        public void Parser_AnErrorIsRaised_WhenNonTerminalAtTopOfTheSymbolStack_ButTheParsingTableHasNoRuleForTheNextTokenInTheStream()
         {
             // arrange
             var input = "";
@@ -73,6 +73,21 @@ main () : boolean
             // assert
             Assert.That(result, Is.False);
             Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'Program' found token End"));
+        }
+
+        [Test]
+        public void Parser_AnErrorIsRaised_WhenTokenAtTopOfTheSymbolStack_AndTheNextTokenInStreamDoesNotMatch()
+        {
+            // arrange
+            var input = "main secondary";
+
+            // act
+            var parser = new Parser(new ParsingTable());
+            var result = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(result, Is.False);
+            Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
         }
 
         [Test]

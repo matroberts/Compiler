@@ -68,11 +68,20 @@ namespace KleinCompiler
                     Error = Error.CreateLexicalError(token as ErrorToken);
                     return false;
                 }
-                else if (symbol == token.Symbol)
+
+                if (symbol.ToSymbolType() == SymbolType.Token)
                 {
-                    tokenizer.Pop();
+                    if (symbol == token.Symbol)
+                    {
+                        tokenizer.Pop();
+                    }
+                    else
+                    {
+                        Error = Error.CreateSyntaxError(symbol, token);
+                        return false;
+                    }
                 }
-                else
+                else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
                 {
                     var rule = parsingTable[symbol, token.Symbol];
                     if (rule == null)
