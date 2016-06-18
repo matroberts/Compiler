@@ -49,6 +49,7 @@
     <Compile Include="ParsingTable.cs" />
     <Compile Include="ParsingTableFactory.cs" />
     <Compile Include="Rule.cs" />
+    <Compile Include="RuleFactory.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="Tokenizer.cs" />
     <Compile Include="Token.cs" />
