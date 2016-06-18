@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
+using KleinCompiler;
 using NUnit.Framework;
 
 namespace KleinCompilerTests
 {
-    /*
-        Arithmetic Grammar
-        ==================
+    /* Arithmetic Grammar
+        
 R1      Expr                   := Term SimpleExprTail
 R2      SimpleExprTail         := + Term SimpleExprTail
 R3                              | ε
@@ -15,8 +15,9 @@ R5      TermTail               := * Factor TermTail
 R6                              | ε
 R7      Factor                 := ( Expr )
 R8                              | identifier   
-                               
-
+    */
+    
+    /* First and Follow                           
 
         First(Factor)          =  ( identifier
         First(TermTail)        = * ε 
@@ -36,6 +37,10 @@ R8                              | identifier
         Follow(Factor)         = First(TermTail - ε) Follow(Term) Follow(TermTail)
                                = * + END )
 
+    */
+
+    /* Parsing Table
+
         M[Expr, ( identifier]     = R1
         M[SimpleExprTail, + ]     = R2
         M[SimpleExprTail, END ) ] = R3
@@ -43,9 +48,38 @@ R8                              | identifier
         M[TermTail, * ]           = R5
         M[TermTail, + END ) ]     = R6
         M[Factor, ( ]             = R7
-        M[Ractor, identifier]     = R8 
+        M[Factor, identifier]     = R8 
       
      */
+
+    public class ArithmeticGrammarParserTableFactory
+    {
+        private static Rule R1 => new Rule("R1", Symbol.Term, Symbol.SimpleExprTail);
+        private static Rule R2 => new Rule("R2", Symbol.Plus, Symbol.Term, Symbol.SimpleExprTail);
+        private static Rule R3 => new Rule("R3");
+        private static Rule R4 => new Rule("R4", Symbol.Factor, Symbol.TermTail);
+        private static Rule R5 => new Rule("R5", Symbol.Factor, Symbol.TermTail);
+        private static Rule R6 => new Rule("R6");
+        private static Rule R7 => new Rule("R7", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
+        private static Rule R8 => new Rule("R7", Symbol.Identifier);
+
+        public static ParsingTable Create()
+        {
+            var parsingTable = new ParsingTable();
+
+            parsingTable.AddRule(R1, Symbol.Expr, Symbol.OpenBracket, Symbol.Identifier);
+            parsingTable.AddRule(R2, Symbol.SimpleExprTail, Symbol.Plus);
+            parsingTable.AddRule(R3, Symbol.SimpleExprTail, Symbol.End, Symbol.CloseBracket);
+            parsingTable.AddRule(R4, Symbol.Term, Symbol.OpenBracket, Symbol.Identifier);
+            parsingTable.AddRule(R5, Symbol.TermTail, Symbol.Multiply);
+            parsingTable.AddRule(R6, Symbol.TermTail, Symbol.Plus, Symbol.End, Symbol.CloseBracket);
+            parsingTable.AddRule(R7, Symbol.Factor, Symbol.OpenBracket);
+            parsingTable.AddRule(R8, Symbol.Factor, Symbol.Identifier);
+
+            return parsingTable;
+        }
+    }
+
     [TestFixture]
     public class ArithmeticGrammarTests
     {
