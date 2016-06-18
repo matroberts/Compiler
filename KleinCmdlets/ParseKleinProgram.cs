@@ -16,7 +16,7 @@ namespace KleinCmdlets
         protected override void ProcessRecord()
         {
             var input = File.ReadAllText(Path);
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var isValid = parser.Parse(new Tokenizer(input));
 
             if (isValid == false)

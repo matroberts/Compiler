@@ -30,12 +30,12 @@ namespace KleinCompiler
     */
     public class Parser
     {
-        public Parser(IParsingTable parsingTable)
+        public Parser(ParsingTable parsingTable)
         {
             this.parsingTable = parsingTable;
             this.Error = null;
         }
-        private IParsingTable parsingTable;
+        private ParsingTable parsingTable;
 
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
 

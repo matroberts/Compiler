@@ -9,7 +9,7 @@ namespace KleinCompilerTests
         [Test]
         public void TheParsingTable_ChecksForAmbiguousRules_OnConstruction()
         {
-            Assert.That(()=> new ParsingTable(), Throws.Nothing);
+            Assert.That(()=> ParsingTableFactory.Create(), Throws.Nothing);
         }
     }
 }

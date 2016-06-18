@@ -18,7 +18,7 @@ main () : boolean
     true";
 
             // act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -35,7 +35,7 @@ main () : boolean
     true";
 
             //act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -52,7 +52,7 @@ main () : boolean
     !true";
 
             //act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -67,7 +67,7 @@ main () : boolean
             var input = "";
 
             // act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -82,7 +82,7 @@ main () : boolean
             var input = "main secondary";
 
             // act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -101,7 +101,7 @@ circularPrimesTo(x: integer):integer
     true";
 
             // act
-            var parser = new Parser(new ParsingTable());
+            var parser = new Parser(ParsingTableFactory.Create());
             var result = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -117,7 +117,7 @@ circularPrimesTo(x: integer):integer
             var files = Directory.GetFiles(folder, "*.kln");
             foreach (var file in files)
             {
-                var parser = new Parser(new ParsingTable());
+                var parser = new Parser(ParsingTableFactory.Create());
                 var isValid = parser.Parse(new Tokenizer(File.ReadAllText(file)));
                 Assert.That(isValid, Is.True, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
             }

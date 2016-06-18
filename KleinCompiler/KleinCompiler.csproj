@@ -47,6 +47,7 @@
     <Compile Include="FilePositionCalculator.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParsingTable.cs" />
+    <Compile Include="ParsingTableFactory.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="Tokenizer.cs" />

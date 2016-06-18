@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArithmeticGrammarTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="FilePositionCalculatorTest.cs" />
     <Compile Include="ParserTests.cs" />
