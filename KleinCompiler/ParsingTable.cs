@@ -2,8 +2,12 @@
 
 namespace KleinCompiler
 {
- 
-    public class ParsingTable
+    public interface IParsingTable
+    {
+        Rule this[Symbol symbol, Symbol token] { get; }
+    }
+
+    public class ParsingTable : IParsingTable
     {
         private readonly Rule[,] table;
         public ParsingTable()
