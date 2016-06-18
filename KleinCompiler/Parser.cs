@@ -94,6 +94,10 @@ namespace KleinCompiler
                         symbolStack.Push(rule.Reverse);
                     }
                 }
+                else if (symbol.ToSymbolType() == SymbolType.Semantic)
+                {
+                    
+                }
             }
             return true;
         }
