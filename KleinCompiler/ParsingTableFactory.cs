@@ -51,7 +51,7 @@
 
         public static ParsingTable Create()
         {
-            var parsingTable = new ParsingTable();
+            var parsingTable = new ParsingTable(Symbol.Program, Symbol.End);
 
             parsingTable.AddRule(R1, Symbol.Program, Symbol.Identifier);
             parsingTable.AddRule(R2, Symbol.DefTail, Symbol.Identifier);

@@ -65,7 +65,7 @@ R8                              | identifier
 
         public static ParsingTable Create()
         {
-            var parsingTable = new ParsingTable();
+            var parsingTable = new ParsingTable(Symbol.Expr, Symbol.End);
 
             parsingTable.AddRule(R1, Symbol.Expr, Symbol.OpenBracket, Symbol.Identifier);
             parsingTable.AddRule(R2, Symbol.SimpleExprTail, Symbol.Plus);
@@ -84,9 +84,18 @@ R8                              | identifier
     public class ArithmeticGrammarTests
     {
         [Test]
-        public void Test()
+        public void ParserShould_ParseSlightlyMoreComplexProgram()
         {
-            
+            // arrange
+            var input = @"x + y";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) {EnableStackTrace = true};
+            var result = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(result, Is.True, parser.SymbolStackTrace);
+
         }
     }
 }

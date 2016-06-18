@@ -5,8 +5,10 @@ namespace KleinCompiler
     public class ParsingTable
     {
         private readonly Rule[,] table;
-        public ParsingTable()
+        public ParsingTable(Symbol firstSymbol, Symbol lastSymbol)
         {
+            FirstSymbol = firstSymbol;
+            LastSymbol = lastSymbol;
             int numberSymbols = Enum.GetNames(typeof(Symbol)).Length;
             table = new Rule[numberSymbols, numberSymbols];
         }
@@ -22,6 +24,9 @@ namespace KleinCompiler
                     table[(int) nonTerminal, (int) terminal] = rule;
             }
         }
+
+        public Symbol FirstSymbol { get; }
+        public Symbol LastSymbol { get; }
 
         public Rule this[Symbol symbol, Symbol token] => table[(int)symbol, (int)token];
     }

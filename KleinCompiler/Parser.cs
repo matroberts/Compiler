@@ -50,8 +50,8 @@ namespace KleinCompiler
 
         public bool Parse(Tokenizer tokenizer)
         {
-            symbolStack.Push(Symbol.End);
-            symbolStack.Push(Symbol.Program);
+            symbolStack.Push(parsingTable.LastSymbol);
+            symbolStack.Push(parsingTable.FirstSymbol);
 
             while (symbolStack.Count != 0)
             {
