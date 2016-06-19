@@ -8,7 +8,6 @@ namespace KleinCompiler
     {
         public static void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token token)
         {
-            TraceStack(semanticStack, symbol, token);
             switch (symbol)
             {
                 case Symbol.MakePlus:
@@ -37,18 +36,6 @@ namespace KleinCompiler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }
-        }
-        private static void TraceStack(Stack<Ast> semanticStack, Symbol symbol, Token token)
-        {
-            var semanticTraceBuilder = new StringBuilder();
-            semanticTraceBuilder.Append(symbol.ToString().PadRight(20));
-            semanticTraceBuilder.Append(token.ToString().PadRight(20));
-            foreach (var item in semanticStack)
-            {
-                semanticTraceBuilder.Append(item + " ");
-            }
-            semanticTraceBuilder.AppendLine();
-            Console.WriteLine(semanticTraceBuilder.ToString());
         }
     }
 }

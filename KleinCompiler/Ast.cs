@@ -50,7 +50,7 @@
 
         public override string ToString()
         {
-            return $"{GetType().Name}({Operator})" + Left + Right;
+            return $"{GetType().Name}({Operator})[{Left}, {Right}]";
         }
 
         public override bool Equals(object obj)

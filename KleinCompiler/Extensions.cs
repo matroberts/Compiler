@@ -48,6 +48,15 @@ public static class Extensions
         return text;
     }
 
+    public static string PadAndTruncate(this string text, int length)
+    {
+        if (text.Length > length)
+        {
+            return text.Substring(0, length);
+        }
+        return text.PadRight(length);
+    }
+
     public static void Push(this Stack<Symbol> stack, IEnumerable<Symbol> symbols)
     {
         foreach (var symbol in symbols)

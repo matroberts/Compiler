@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -45,8 +46,8 @@ namespace KleinCompiler
 
 
         public bool EnableStackTrace { get; set; } = false;
-        private readonly StringBuilder symbolStackTraceBuilder = new StringBuilder();
-        public string SymbolStackTrace => symbolStackTraceBuilder.ToString();
+        private readonly StringBuilder stackTraceBuilder = new StringBuilder();
+        public string StackTrace => stackTraceBuilder.ToString();
 
         public Ast Ast => semanticStack.Pop();
 
@@ -60,7 +61,7 @@ namespace KleinCompiler
             {
                 if (EnableStackTrace)
                 {
-                    TraceStack(tokenizer.Peek(), symbolStack);
+                    TraceStack(tokenizer.Peek(), symbolStack, semanticStack);
                 }
 
                 Symbol symbol = symbolStack.Pop();
@@ -105,15 +106,14 @@ namespace KleinCompiler
             return true;
         }
 
-        private void TraceStack(Token token, Stack<Symbol> stack)
+        private void TraceStack(Token token, Stack<Symbol> symStack, Stack<Ast> semStack)
         {
-            symbolStackTraceBuilder.Append(token.Symbol.ToString().PadRight(20));
-            symbolStackTraceBuilder.Append(token.Value.ToString().PadRight(20));
-            foreach (var symbol in stack)
-            {
-                symbolStackTraceBuilder.Append(symbol + " ");
-            }
-            symbolStackTraceBuilder.AppendLine();
+            stackTraceBuilder.Append(token.Symbol.ToString().PadRight(15));
+            stackTraceBuilder.Append(token.Value.ToString().PadRight(10));
+            stackTraceBuilder.Append(string.Join(" ", symStack.ToArray()).PadAndTruncate(60));
+            stackTraceBuilder.Append(" ");
+            stackTraceBuilder.Append(string.Join(" ", semStack.Select(t => t.GetType().Name)).PadAndTruncate(30));
+            stackTraceBuilder.AppendLine();
         }
     }
 }

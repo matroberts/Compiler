@@ -94,13 +94,15 @@ R8                              | identifier MakeIdentifier
             var isValid = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.SymbolStackTrace);
+            Assert.That(isValid, Is.True, parser.StackTrace);
             Assert.That(parser.Ast, Is.EqualTo(new BinaryOperator()
                                                 {
                                                     Left = new Identifier() {Value = "x"},
                                                     Operator = "+",
                                                     Right = new Identifier() {Value = "y"}
                                                 }));
+
+            Console.WriteLine(parser.StackTrace);
 
         }
     }
