@@ -109,5 +109,11 @@
         LexicalError,
         [SymbolType(SymbolType.Token)]
         End,           // End of tokens marker
+        [SymbolType(SymbolType.Semantic)]
+        MakePlus,
+        [SymbolType(SymbolType.Semantic)]
+        MakeTimes,
+        [SymbolType(SymbolType.Semantic)]
+        MakeIdentifier,
     }
 }

@@ -48,11 +48,14 @@ namespace KleinCompiler
         private readonly StringBuilder symbolStackTraceBuilder = new StringBuilder();
         public string SymbolStackTrace => symbolStackTraceBuilder.ToString();
 
+        public Ast Ast => semanticStack.Pop();
+
         public bool Parse(Tokenizer tokenizer)
         {
             symbolStack.Push(parsingTable.LastSymbol);
             symbolStack.Push(parsingTable.FirstSymbol);
 
+            Token lastToken = null;
             while (symbolStack.Count != 0)
             {
                 if (EnableStackTrace)
@@ -73,7 +76,7 @@ namespace KleinCompiler
                 {
                     if (symbol == token.Symbol)
                     {
-                        tokenizer.Pop();
+                        lastToken = tokenizer.Pop();
                     }
                     else
                     {
@@ -96,7 +99,7 @@ namespace KleinCompiler
                 }
                 else if (symbol.ToSymbolType() == SymbolType.Semantic)
                 {
-                    
+                    AstFactory.ProcessAction(semanticStack, symbol, lastToken);
                 }
             }
             return true;
