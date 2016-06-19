@@ -49,7 +49,7 @@ namespace KleinCompiler
         private readonly StringBuilder stackTraceBuilder = new StringBuilder();
         public string StackTrace => stackTraceBuilder.ToString();
 
-        public Ast Ast => semanticStack.Pop();
+        public Ast Ast => semanticStack.Peek();
 
         public bool Parse(Tokenizer tokenizer)
         {

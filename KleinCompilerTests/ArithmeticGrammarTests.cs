@@ -102,8 +102,8 @@ R8                              | identifier MakeIdentifier
                                                     Right = new Identifier() {Value = "y"}
                                                 }));
 
-            Console.WriteLine(parser.StackTrace);
-
+            //Console.WriteLine(parser.StackTrace);
+            AstPrettyPrinter.ToConsole(parser.Ast);
         }
     }
 }

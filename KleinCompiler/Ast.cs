@@ -23,23 +23,34 @@
         {
             return this.GetType().Name.GetHashCode();
         }
+
+        public abstract void Accept(IAstVisitor visior);
     }
 
     public class Definition : Ast
     {
         public Definition Next { get; set; }
 
-
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
     public class Program : Definition
     {
-
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
     public class Expr : Ast
     {
-
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
     public class BinaryOperator : Expr
@@ -75,6 +86,10 @@
         {
             return base.GetHashCode();
         }
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
     public class UnaryOperator : Expr
@@ -82,22 +97,10 @@
         public string Operator { get; set; }
         public Expr Right { get; set; }
 
-
-    }
-
-    public class IfThenElse : Expr
-    {
-        public Expr IfExpr { get; set; }
-        public Expr ThenExpr { get; set; }
-        public Expr ElseExpr { get; set; }
-
-
-    }
-
-    public class FunctionCall : Expr
-    {
-        
-
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
     public class Identifier : Expr
@@ -125,11 +128,11 @@
         {
             return base.GetHashCode();
         }
-    }
 
-    public class Literal : Expr
-    {
-        
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
     }
 
 }
