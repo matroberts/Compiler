@@ -2,11 +2,6 @@
 {
     public abstract class Ast
     {
-        public override string ToString()
-        {
-            return $"{GetType().Name}";
-        }
-
         public override bool Equals(object obj)
         {
             var token = obj as Ast;
@@ -19,12 +14,17 @@
             return true;
         }
 
-        public override int GetHashCode()
+        public abstract void Accept(IAstVisitor visior);
+
+        public override string ToString()
         {
-            return this.GetType().Name.GetHashCode();
+            return $"{GetType().Name}";
         }
 
-        public abstract void Accept(IAstVisitor visior);
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
     }
 
     public class Definition : Ast
@@ -59,11 +59,6 @@
         public string Operator { get; set; }
         public Expr Right { get; set; }
 
-        public override string ToString()
-        {
-            return $"{GetType().Name}({Operator})[{Left}, {Right}]";
-        }
-
         public override bool Equals(object obj)
         {
             var node = obj as BinaryOperator;
@@ -82,13 +77,18 @@
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Operator})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 
@@ -107,11 +107,6 @@
     {
         public string Value { get; set; }
 
-        public override string ToString()
-        {
-            return $"{GetType().Name}({Value})";
-        }
-
         public override bool Equals(object obj)
         {
             var node = obj as Identifier;
@@ -124,14 +119,19 @@
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Value})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 
