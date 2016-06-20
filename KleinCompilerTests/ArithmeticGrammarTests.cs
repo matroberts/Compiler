@@ -95,15 +95,12 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.EqualTo(new BinaryOperator()
-                                                {
-                                                    Left = new Identifier() {Value = "x"},
-                                                    Operator = "+",
-                                                    Right = new Identifier() {Value = "y"}
-                                                }));
-
-            //Console.WriteLine(parser.StackTrace);
-            PrettyPrinter.ToConsole(parser.Ast);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+            {
+                Left = new Identifier() { Value = "x" },
+                Operator = "+",
+                Right = new Identifier() { Value = "y" }
+            }));
         }
     }
 }
