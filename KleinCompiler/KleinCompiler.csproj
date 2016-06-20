@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Ast.cs" />
     <Compile Include="AstFactory.cs" />
-    <Compile Include="AstPrettyPrinter.cs" />
+    <Compile Include="PrettyPrinter.cs" />
     <Compile Include="IAstVisitor.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Extensions.cs" />

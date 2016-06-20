@@ -103,7 +103,7 @@ R8                              | identifier MakeIdentifier
                                                 }));
 
             //Console.WriteLine(parser.StackTrace);
-            AstPrettyPrinter.ToConsole(parser.Ast);
+            PrettyPrinter.ToConsole(parser.Ast);
         }
     }
 }

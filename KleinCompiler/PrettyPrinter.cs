@@ -4,18 +4,16 @@ using System.Text;
 
 namespace KleinCompiler
 {
-    public class AstPrettyPrinter : IAstVisitor
+    public class PrettyPrinter : IAstVisitor
     {
         public static void ToConsole(Ast ast)
         {
-            var printer = new AstPrettyPrinter();
-            ast.Accept(printer);
-            Console.WriteLine(printer);    
+            Console.WriteLine(ToString(ast));    
         }
 
         public static string ToString(Ast ast)
         {
-            var printer = new AstPrettyPrinter();
+            var printer = new PrettyPrinter();
             ast.Accept(printer);
             return printer.ToString();
         }
@@ -62,17 +60,17 @@ namespace KleinCompiler
     public class TabbedStringBuilder
     {
         private StringBuilder builder = new StringBuilder();
-        private int tabs = 0;
-        private int spacesPerTab = 4;
+        private int indent = 0;
+        private int spacesPerIndent = 4;
 
         public TabbedStringBuilder AppendLine(string text)
         {
-            builder.Append(' ', tabs * spacesPerTab).AppendLine(text);
+            builder.Append(' ', indent * spacesPerIndent).AppendLine(text);
             return this;
         }
 
-        public void Indent() { tabs += 1; }
-        public void Outdent() { tabs -= 1; }
+        public void Indent() { indent += 1; }
+        public void Outdent() { indent -= 1; }
         public override string ToString() => builder.ToString();
     }
 }
