@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace KleinCompiler
@@ -22,38 +21,47 @@ namespace KleinCompiler
 
         public override string ToString() => builder.ToString();
 
-        public void Visit(Definition definition)
+        public void Visit(Definition node)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Visit(Program definition)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Visit(Expr expr)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Visit(BinaryOperator expr)
-        {
-            builder.AppendLine($"BinaryOperator({expr.Operator})");
+            builder.AppendLine($"Definition");
             builder.Indent();
-            expr.Left.Accept(this);
-            expr.Right.Accept(this);
+            node.Identifier.Accept(this);
+            node.Type.Accept(this);
             builder.Outdent();
         }
 
-        public void Visit(UnaryOperator expr)
+        public void Visit(Program node)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Visit(Identifier expr)
+        public void Visit(Expr node)
         {
-            builder.AppendLine($"Identifier({expr.Value})");
+            throw new System.NotImplementedException();
+        }
+
+        public void Visit(BinaryOperator node)
+        {
+            builder.AppendLine($"BinaryOperator({node.Operator})");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(UnaryOperator node)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Visit(Identifier node)
+        {
+            builder.AppendLine($"Identifier({node.Value})");
+        }
+
+        public void Visit(KleinType node)
+        {
+            builder.AppendLine($"Type({node.Value})");
         }
     }
 

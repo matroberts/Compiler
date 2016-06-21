@@ -18,6 +18,15 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void KleinType_Equals_ShouldWorkCorrectly()
+        {
+            Assert.That(new KleinType() { Value = "a" }.Equals(null), Is.False);
+            Assert.That(new KleinType() { Value = "a" }.Equals(new Identifier() {Value = "a"}), Is.False);
+            Assert.That(new KleinType() { Value = "a" }.Equals(new KleinType() { Value = "b" }), Is.False);
+            Assert.That(new KleinType() { Value = "a" }.Equals(new KleinType() { Value = "a" }), Is.True);
+        }
+
+        [Test]
         public void BinaryOperator_Equals_ShouldWorkCorrectly()
         {
             var binaryOperator = new BinaryOperator()
@@ -53,6 +62,37 @@ namespace KleinCompilerTests
                 Operator = "*",
                 Right = new Identifier() { Value = "right" }
             }), Is.True);
+        }
+        
+        [Test]
+        public void Definition_Equals_ShouldWorkCorrectly()
+        {
+            var definition = new Definition()
+            {
+                Identifier = new Identifier() { Value = "def" },
+                Type = new KleinType() {Value = "boolean"},
+            };
+
+            Assert.That(definition.Equals(null), Is.False);
+            Assert.That(definition.Equals(new Identifier()), Is.False);
+            Assert.That(definition.Equals(new Definition()
+            {
+                Identifier = new Identifier() { Value = "wrong" },
+                Type = new KleinType() { Value = "boolean" },
+            }), Is.False);
+            Assert.That(definition.Equals(new Definition()
+            {
+                Identifier = new Identifier() { Value = "def" },
+                Type = new KleinType() { Value = "integer" },
+            }), Is.False);
+
+            Assert.That(definition.Equals(new Definition()
+            {
+                Identifier = new Identifier() { Value = "def" },
+                Type = new KleinType() { Value = "boolean" },
+            }), Is.True);
+
+            // not implemented Next() yet....don't know if I should
         }
     }
 }

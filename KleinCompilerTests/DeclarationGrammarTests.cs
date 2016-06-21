@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
 using KleinCompiler;
 using NUnit.Framework;
 
@@ -12,7 +11,7 @@ namespace KleinCompilerTests
 R1      <Program>             ::= <Def> <DefTail>                       
 R2      <DefTail>             ::= <Def> <DefTail>
 R3                              | ε                                     
-R4      <Def>                 ::= <Identifier> ( <Formals> ) : <Type>   
+R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> MakeType MakeDefinition
 R5      <Formals>             ::= ε
 R6                              | <NonEmptyFormals>
 R7      <NonEmptyFormals>     ::= <Formal><FormalTail>                                         
@@ -75,7 +74,7 @@ R12                             | boolean
         private static Rule R1 => new Rule("R1", Symbol.Def, Symbol.DefTail);
         private static Rule R2 => new Rule("R2", Symbol.Def, Symbol.DefTail);
         private static Rule R3 => new Rule("R3");
-        private static Rule R4 => new Rule("R4", Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type);
+        private static Rule R4 => new Rule("R4", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeType, Symbol.MakeDefinition);
         private static Rule R5 => new Rule("R5");
         private static Rule R6 => new Rule("R6", Symbol.NonEmptyFormals);
         private static Rule R7 => new Rule("R7", Symbol.Formal, Symbol.FormalTail);
@@ -111,9 +110,23 @@ R12                             | boolean
     public class DeclarationGrammarTests
     {
         [Test]
-        public void Test()
+        public void SimplestPossible_Program()
         {
-            
+            // arrange
+            var input = @"main() : boolean";
+
+            // act
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Definition()
+                                                {
+                                                    Identifier = new Identifier() { Value = "main" },
+                                                    Type = new KleinType() { Value = "boolean" }
+                                                }
+            ));
         }
     }
 }

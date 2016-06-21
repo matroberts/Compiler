@@ -115,5 +115,9 @@
         MakeTimes,
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,
+        [SymbolType(SymbolType.Semantic)]
+        MakeType,
+        [SymbolType(SymbolType.Semantic)]
+        MakeDefinition,
     }
 }

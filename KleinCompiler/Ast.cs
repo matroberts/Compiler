@@ -30,6 +30,23 @@
     public class Definition : Ast
     {
         public Definition Next { get; set; }
+        public Identifier Identifier { get; set; }
+        public KleinType Type { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var definition = obj as Definition;
+            if (definition == null)
+                return false;
+
+            if (Identifier.Equals(definition.Identifier) == false)
+                return false;
+
+            if (Type.Equals(definition.Type) == false)
+                return false;
+
+            return true;
+        }
 
         public override void Accept(IAstVisitor visior)
         {
@@ -135,4 +152,35 @@
         }
     }
 
+    public class KleinType : Ast
+    {
+        public string Value { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as KleinType;
+            if (node == null)
+                return false;
+
+            if (this.Value != node.Value)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Value})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
 }

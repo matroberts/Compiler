@@ -24,5 +24,29 @@ namespace KleinCompilerTests
     Identifier(y)
 "));
         }
+
+        [Test]
+        public void KleinType_ShouldPrintCorrectly()
+        {
+            var ast = new KleinType() {Value = "boolean"};
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(boolean)\r\n"));
+        }
+
+        [Test]
+        public void KleinDefinition_ShouldPrint()
+        {
+            var ast = new Definition()
+            {
+                Identifier = new Identifier() {Value = "main"},
+                Type = new KleinType() { Value = "boolean"},
+            };
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Definition
+    Identifier(main)
+    Type(boolean)
+"));
+
+        }
     }
 }

@@ -10,6 +10,14 @@ namespace KleinCompiler
         {
             switch (symbol)
             {
+                case Symbol.MakeDefinition:
+                {
+                    var type = semanticStack.Pop();
+                    var identifier = semanticStack.Pop();
+                    var node = new Definition() {Identifier = (Identifier)identifier, Type = (KleinType)type };
+                    semanticStack.Push(node);
+                    return;
+                }
                 case Symbol.MakePlus:
                 {
                     var right = semanticStack.Pop();
@@ -30,6 +38,13 @@ namespace KleinCompiler
                 {
                     var value = token.Value;
                     var node = new Identifier() {Value = value};
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeType:
+                {
+                    var value = token.Value;
+                    var node = new KleinType() {Value = value};
                     semanticStack.Push(node);
                     return;
                 }
