@@ -8,10 +8,10 @@ namespace KleinCompilerTests
     /* Arithmetic Grammar
         
 R1      Expr                   := Term SimpleExprTail
-R2      SimpleExprTail         := + Term SimpleExprTail MakePlus
+R2      SimpleExprTail         := + Term MakePlus SimpleExprTail 
 R3                              | ε
 R4      Term                   := Factor TermTail
-R5      TermTail               := * Factor TermTail MakeTimes
+R5      TermTail               := * Factor MakeTimes TermTail 
 R6                              | ε
 R7      Factor                 := ( Expr )
 R8                              | identifier MakeIdentifier 
@@ -55,10 +55,10 @@ R8                              | identifier MakeIdentifier
     public class ArithmeticGrammarParserTableFactory
     {
         private static Rule R1 => new Rule("R1", Symbol.Term, Symbol.SimpleExprTail);
-        private static Rule R2 => new Rule("R2", Symbol.Plus, Symbol.Term, Symbol.SimpleExprTail, Symbol.MakePlus);
+        private static Rule R2 => new Rule("R2", Symbol.Plus, Symbol.Term, Symbol.MakePlus, Symbol.SimpleExprTail);
         private static Rule R3 => new Rule("R3");
         private static Rule R4 => new Rule("R4", Symbol.Factor, Symbol.TermTail);
-        private static Rule R5 => new Rule("R5", Symbol.Factor, Symbol.TermTail, Symbol.MakeTimes);
+        private static Rule R5 => new Rule("R5", Symbol.Multiply, Symbol.Factor, Symbol.MakeTimes, Symbol.TermTail);
         private static Rule R6 => new Rule("R6");
         private static Rule R7 => new Rule("R7", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
         private static Rule R8 => new Rule("R7", Symbol.Identifier, Symbol.MakeIdentifier);
@@ -84,7 +84,7 @@ R8                              | identifier MakeIdentifier
     public class ArithmeticGrammarTests
     {
         [Test]
-        public void ParserShould_ParseSlightlyMoreComplexProgram()
+        public void ParserShould_GenerateAstFor_Addition()
         {
             // arrange
             var input = @"x + y";
@@ -96,11 +96,178 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-            {
-                Left = new Identifier() { Value = "x" },
-                Operator = "+",
-                Right = new Identifier() { Value = "y" }
-            }));
+                                                {
+                                                    Left = new Identifier() { Value = "x" },
+                                                    Operator = "+",
+                                                    Right = new Identifier() { Value = "y" }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAstFor_Multiplication()
+        {
+            // arrange
+            var input = @"x * y";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new Identifier() { Value = "x" },
+                                                    Operator = "*",
+                                                    Right = new Identifier() { Value = "y" }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_ParseExpression_WithBrackets()
+        {
+            // arrange
+            var input = @"(x)";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Identifier() { Value = "x" }));
+        }
+
+        [Test]
+        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_1()
+        {
+            // arrange
+            var input = @"x + y * z";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True, parser.StackTrace);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new Identifier() { Value = "x" },
+                                                    Operator = "+",
+                                                    Right = new BinaryOperator()
+                                                            {
+                                                                Left = new Identifier() {Value = "y"},
+                                                                Operator = "*",
+                                                                Right = new Identifier() { Value = "z" },
+                                                            }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_2()
+        {
+            // arrange
+            var input = @"x * y + z";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True, parser.StackTrace);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new BinaryOperator()
+                                                    {
+                                                        Left = new Identifier() { Value = "x" },
+                                                        Operator = "*",
+                                                        Right = new Identifier() { Value = "y" },
+                                                    },
+                                                    Operator = "+",
+                                                    Right = new Identifier() { Value = "z" }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_GetPrecedence_OfBracketedExpressionCorrect()
+        {
+            // arrange
+            var input = @"(x + y) * z";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True, parser.StackTrace);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new BinaryOperator()
+                                                    {
+                                                        Left = new Identifier() { Value = "x" },
+                                                        Operator = "+",
+                                                        Right = new Identifier() { Value = "y" },
+                                                    },
+                                                    Operator = "*",
+                                                    Right = new Identifier() { Value = "z" }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAst_WithLeftAssociativeMultiplication()
+        {
+            // arrange
+            var input = @"x * y * z";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True, parser.StackTrace);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new BinaryOperator()
+                                                    {
+                                                        Left = new Identifier() { Value = "x" },
+                                                        Operator = "*",
+                                                        Right = new Identifier() { Value = "y" },
+                                                    },
+                                                    Operator = "*",
+                                                    Right = new Identifier() { Value = "z" }
+                                                }
+            ));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAst_WithLeftAssociativeAddition()
+        {
+            // arrange
+            var input = @"x + y + z";
+
+            // act
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True, parser.StackTrace);
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
+                                                {
+                                                    Left = new BinaryOperator()
+                                                    {
+                                                        Left = new Identifier() { Value = "x" },
+                                                        Operator = "+",
+                                                        Right = new Identifier() { Value = "y" },
+                                                    },
+                                                    Operator = "+",
+                                                    Right = new Identifier() { Value = "z" }
+                                                }
+            ));
         }
     }
 }
