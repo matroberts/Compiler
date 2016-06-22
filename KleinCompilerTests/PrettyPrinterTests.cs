@@ -13,9 +13,9 @@ namespace KleinCompilerTests
         {
             var ast = new BinaryOperator()
             {
-                Left = new Identifier() {Value = "x"},
+                Left = new Identifier("x"),
                 Operator = "+",
-                Right = new Identifier() {Value = "y"}
+                Right = new Identifier("y")
             };
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -37,7 +37,7 @@ namespace KleinCompilerTests
         {
             var ast = new Definition()
             {
-                Identifier = new Identifier() {Value = "main"},
+                Identifier = new Identifier("main"),
                 Type = new KleinType("boolean"),
             };
 

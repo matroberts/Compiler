@@ -37,7 +37,7 @@ namespace KleinCompiler
                 case Symbol.MakeIdentifier:
                 {
                     var value = token.Value;
-                    var node = new Identifier() {Value = value};
+                    var node = new Identifier(value);
                     semanticStack.Push(node);
                     return;
                 }

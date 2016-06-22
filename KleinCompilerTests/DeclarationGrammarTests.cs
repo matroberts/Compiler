@@ -123,7 +123,7 @@ R12                             | boolean
             Assert.That(isValid, Is.True);
             Assert.That(parser.Ast, Is.AstEqual(new Definition()
                                                 {
-                                                    Identifier = new Identifier() { Value = "main" },
+                                                    Identifier = new Identifier("main"),
                                                     Type = new KleinType("boolean") 
                                                 }
             ));

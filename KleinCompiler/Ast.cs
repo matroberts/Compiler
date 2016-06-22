@@ -132,7 +132,11 @@
 
     public class Identifier : Expr
     {
-        public string Value { get; set; }
+        public Identifier(string value)
+        {
+            Value = value;
+        }
+        public string Value { get; }
 
         public override bool Equals(object obj)
         {

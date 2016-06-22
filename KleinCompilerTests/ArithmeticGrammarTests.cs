@@ -97,9 +97,9 @@ R8                              | identifier MakeIdentifier
             Assert.That(isValid, Is.True, parser.StackTrace);
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
                                                 {
-                                                    Left = new Identifier() { Value = "x" },
+                                                    Left = new Identifier("x"),
                                                     Operator = "+",
-                                                    Right = new Identifier() { Value = "y" }
+                                                    Right = new Identifier("y")
                                                 }
             ));
         }
@@ -118,9 +118,9 @@ R8                              | identifier MakeIdentifier
             Assert.That(isValid, Is.True);
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
                                                 {
-                                                    Left = new Identifier() { Value = "x" },
+                                                    Left = new Identifier("x"),
                                                     Operator = "*",
-                                                    Right = new Identifier() { Value = "y" }
+                                                    Right = new Identifier("y")
                                                 }
             ));
         }
@@ -137,7 +137,7 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Identifier() { Value = "x" }));
+            Assert.That(parser.Ast, Is.AstEqual(new Identifier("x")));
         }
 
         [Test]
@@ -154,13 +154,13 @@ R8                              | identifier MakeIdentifier
             Assert.That(isValid, Is.True, parser.StackTrace);
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
                                                 {
-                                                    Left = new Identifier() { Value = "x" },
+                                                    Left = new Identifier("x"),
                                                     Operator = "+",
                                                     Right = new BinaryOperator()
                                                             {
-                                                                Left = new Identifier() {Value = "y"},
+                                                                Left = new Identifier("y"),
                                                                 Operator = "*",
-                                                                Right = new Identifier() { Value = "z" },
+                                                                Right = new Identifier("z"),
                                                             }
                                                 }
             ));
@@ -182,12 +182,12 @@ R8                              | identifier MakeIdentifier
                                                 {
                                                     Left = new BinaryOperator()
                                                     {
-                                                        Left = new Identifier() { Value = "x" },
+                                                        Left = new Identifier("x"),
                                                         Operator = "*",
-                                                        Right = new Identifier() { Value = "y" },
+                                                        Right = new Identifier("y"),
                                                     },
                                                     Operator = "+",
-                                                    Right = new Identifier() { Value = "z" }
+                                                    Right = new Identifier("z")
                                                 }
             ));
         }
@@ -208,12 +208,12 @@ R8                              | identifier MakeIdentifier
                                                 {
                                                     Left = new BinaryOperator()
                                                     {
-                                                        Left = new Identifier() { Value = "x" },
+                                                        Left = new Identifier("x"),
                                                         Operator = "+",
-                                                        Right = new Identifier() { Value = "y" },
+                                                        Right = new Identifier("y"),
                                                     },
                                                     Operator = "*",
-                                                    Right = new Identifier() { Value = "z" }
+                                                    Right = new Identifier("z")
                                                 }
             ));
         }
@@ -234,12 +234,12 @@ R8                              | identifier MakeIdentifier
                                                 {
                                                     Left = new BinaryOperator()
                                                     {
-                                                        Left = new Identifier() { Value = "x" },
+                                                        Left = new Identifier("x"),
                                                         Operator = "*",
-                                                        Right = new Identifier() { Value = "y" },
+                                                        Right = new Identifier("y"),
                                                     },
                                                     Operator = "*",
-                                                    Right = new Identifier() { Value = "z" }
+                                                    Right = new Identifier("z")
                                                 }
             ));
         }
@@ -260,12 +260,12 @@ R8                              | identifier MakeIdentifier
                                                 {
                                                     Left = new BinaryOperator()
                                                     {
-                                                        Left = new Identifier() { Value = "x" },
+                                                        Left = new Identifier("x"),
                                                         Operator = "+",
-                                                        Right = new Identifier() { Value = "y" },
+                                                        Right = new Identifier("y"),
                                                     },
                                                     Operator = "+",
-                                                    Right = new Identifier() { Value = "z" }
+                                                    Right = new Identifier("z")
                                                 }
             ));
         }
