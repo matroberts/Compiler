@@ -44,7 +44,7 @@ namespace KleinCompiler
                 case Symbol.MakeType:
                 {
                     var value = token.Value;
-                    var node = new KleinType() {Value = value};
+                    var node = new KleinType(value);
                     semanticStack.Push(node);
                     return;
                 }

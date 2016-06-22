@@ -124,9 +124,11 @@ R12                             | boolean
             Assert.That(parser.Ast, Is.AstEqual(new Definition()
                                                 {
                                                     Identifier = new Identifier() { Value = "main" },
-                                                    Type = new KleinType() { Value = "boolean" }
+                                                    Type = new KleinType("boolean") 
                                                 }
             ));
         }
+
+        // ToDo - formals
     }
 }

@@ -20,10 +20,10 @@ namespace KleinCompilerTests
         [Test]
         public void KleinType_Equals_ShouldWorkCorrectly()
         {
-            Assert.That(new KleinType() { Value = "a" }.Equals(null), Is.False);
-            Assert.That(new KleinType() { Value = "a" }.Equals(new Identifier() {Value = "a"}), Is.False);
-            Assert.That(new KleinType() { Value = "a" }.Equals(new KleinType() { Value = "b" }), Is.False);
-            Assert.That(new KleinType() { Value = "a" }.Equals(new KleinType() { Value = "a" }), Is.True);
+            Assert.That(new KleinType("a").Equals(null), Is.False);
+            Assert.That(new KleinType("a").Equals(new Identifier() {Value = "a"}), Is.False);
+            Assert.That(new KleinType("a").Equals(new KleinType("b")), Is.False);
+            Assert.That(new KleinType("a").Equals(new KleinType("a")), Is.True);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace KleinCompilerTests
             var definition = new Definition()
             {
                 Identifier = new Identifier() { Value = "def" },
-                Type = new KleinType() {Value = "boolean"},
+                Type = new KleinType("boolean"),
             };
 
             Assert.That(definition.Equals(null), Is.False);
@@ -78,18 +78,18 @@ namespace KleinCompilerTests
             Assert.That(definition.Equals(new Definition()
             {
                 Identifier = new Identifier() { Value = "wrong" },
-                Type = new KleinType() { Value = "boolean" },
+                Type = new KleinType("boolean"),
             }), Is.False);
             Assert.That(definition.Equals(new Definition()
             {
                 Identifier = new Identifier() { Value = "def" },
-                Type = new KleinType() { Value = "integer" },
+                Type = new KleinType("integer"),
             }), Is.False);
 
             Assert.That(definition.Equals(new Definition()
             {
                 Identifier = new Identifier() { Value = "def" },
-                Type = new KleinType() { Value = "boolean" },
+                Type = new KleinType("boolean"),
             }), Is.True);
 
             // not implemented Next() yet....don't know if I should

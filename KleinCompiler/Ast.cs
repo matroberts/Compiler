@@ -48,6 +48,16 @@
             return true;
         }
 
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
@@ -154,7 +164,11 @@
 
     public class KleinType : Ast
     {
-        public string Value { get; set; }
+        public KleinType(string value)
+        {
+            Value = value;
+        }
+        public string Value { get; }
 
         public override bool Equals(object obj)
         {
