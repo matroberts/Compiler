@@ -95,13 +95,13 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new Identifier("x"),
-                                                    Operator = "+",
-                                                    Right = new Identifier("y")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new Identifier("x"),
+                                                        op: "+",
+                                                        right: new Identifier("y")
+                                                    )
+                                                ));
         }
 
         [Test]
@@ -116,13 +116,13 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new Identifier("x"),
-                                                    Operator = "*",
-                                                    Right = new Identifier("y")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new Identifier("x"),
+                                                        op: "*",
+                                                        right: new Identifier("y")
+                                                    )
+                                                ));
         }
 
         [Test]
@@ -152,18 +152,17 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new Identifier("x"),
-                                                    Operator = "+",
-                                                    Right = new BinaryOperator()
-                                                            {
-                                                                Left = new Identifier("y"),
-                                                                Operator = "*",
-                                                                Right = new Identifier("z"),
-                                                            }
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new Identifier("x"),
+                                                        op: "+",
+                                                        right: new BinaryOperator
+                                                                   (
+                                                                        left: new Identifier("y"),
+                                                                        op: "*",
+                                                                        right: new Identifier("z"))
+                                                                   )
+                                                    ));
         }
 
         [Test]
@@ -178,18 +177,17 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new BinaryOperator()
-                                                    {
-                                                        Left = new Identifier("x"),
-                                                        Operator = "*",
-                                                        Right = new Identifier("y"),
-                                                    },
-                                                    Operator = "+",
-                                                    Right = new Identifier("z")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new BinaryOperator
+                                                                  (
+                                                                      left: new Identifier("x"),
+                                                                      op: "*",
+                                                                      right: new Identifier("y")
+                                                                  ),
+                                                        op: "+",
+                                                        right : new Identifier("z")
+                                                    )));
         }
 
         [Test]
@@ -204,18 +202,17 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new BinaryOperator()
-                                                    {
-                                                        Left = new Identifier("x"),
-                                                        Operator = "+",
-                                                        Right = new Identifier("y"),
-                                                    },
-                                                    Operator = "*",
-                                                    Right = new Identifier("z")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new BinaryOperator
+                                                                  (
+                                                                      left: new Identifier("x"),
+                                                                      op: "+",
+                                                                      right: new Identifier("y")
+                                                                  ),
+                                                        op: "*",
+                                                        right: new Identifier("z")
+                                                    )));
         }
 
         [Test]
@@ -230,18 +227,17 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new BinaryOperator()
-                                                    {
-                                                        Left = new Identifier("x"),
-                                                        Operator = "*",
-                                                        Right = new Identifier("y"),
-                                                    },
-                                                    Operator = "*",
-                                                    Right = new Identifier("z")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new BinaryOperator
+                                                                  (
+                                                                      left: new Identifier("x"),
+                                                                      op: "*",
+                                                                      right: new Identifier("y")
+                                                                  ),
+                                                        op: "*",
+                                                        right: new Identifier("z")
+                                                    )));
         }
 
         [Test]
@@ -256,18 +252,17 @@ R8                              | identifier MakeIdentifier
 
             // assert
             Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator()
-                                                {
-                                                    Left = new BinaryOperator()
-                                                    {
-                                                        Left = new Identifier("x"),
-                                                        Operator = "+",
-                                                        Right = new Identifier("y"),
-                                                    },
-                                                    Operator = "+",
-                                                    Right = new Identifier("z")
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+                                                    (
+                                                        left: new BinaryOperator
+                                                                  (
+                                                                      left: new Identifier("x"),
+                                                                      op: "+",
+                                                                      right: new Identifier("y")
+                                                                  ),
+                                                        op: "+",
+                                                        right: new Identifier("z")
+                                                    )));
         }
     }
 }

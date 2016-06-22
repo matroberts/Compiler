@@ -11,12 +11,12 @@ namespace KleinCompilerTests
         [Test]
         public void BinaryOperator_ShouldPrintCorrectly()
         {
-            var ast = new BinaryOperator()
-            {
-                Left = new Identifier("x"),
-                Operator = "+",
-                Right = new Identifier("y")
-            };
+            var ast = new BinaryOperator
+                          (
+                              left: new Identifier("x"),
+                              op: "+",
+                              right: new Identifier("y")
+                          );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"BinaryOperator(+)

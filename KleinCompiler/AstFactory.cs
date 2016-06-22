@@ -22,7 +22,7 @@ namespace KleinCompiler
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new BinaryOperator() {Left = (Expr) left, Operator = "+", Right = (Expr) right};
+                    var node = new BinaryOperator(left: (Expr)left, op: "+", right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }
@@ -30,7 +30,7 @@ namespace KleinCompiler
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new BinaryOperator() {Left = (Expr) left, Operator = "*", Right = (Expr) right};
+                    var node = new BinaryOperator(left: (Expr)left, op: "*", right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }

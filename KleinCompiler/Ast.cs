@@ -82,9 +82,15 @@
 
     public class BinaryOperator : Expr
     {
-        public Expr Left { get; set; }
-        public string Operator { get; set; }
-        public Expr Right { get; set; }
+        public BinaryOperator(Expr left, string op, Expr right)
+        {
+            Left = left;
+            Operator = op;
+            Right = right;
+        }
+        public Expr Left { get; }
+        public string Operator { get; }
+        public Expr Right { get; }
 
         public override bool Equals(object obj)
         {
