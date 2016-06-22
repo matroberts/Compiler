@@ -121,12 +121,11 @@ R12                             | boolean
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Definition()
-                                                {
-                                                    Identifier = new Identifier("main"),
-                                                    Type = new KleinType("boolean") 
-                                                }
-            ));
+            Assert.That(parser.Ast, Is.AstEqual(new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType("boolean")
+                                                    )));
         }
 
         // ToDo - formals

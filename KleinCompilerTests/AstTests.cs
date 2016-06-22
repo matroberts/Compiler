@@ -67,30 +67,30 @@ namespace KleinCompilerTests
         [Test]
         public void Definition_Equals_ShouldWorkCorrectly()
         {
-            var definition = new Definition()
-            {
-                Identifier = new Identifier("def"),
-                Type = new KleinType("boolean"),
-            };
+            var definition = new Definition
+                                 (
+                                     identifier: new Identifier("def"),
+                                     type: new KleinType("boolean")
+                                 );
 
             Assert.That(definition.Equals(null), Is.False);
             Assert.That(definition.Equals(new Identifier("a")), Is.False);
-            Assert.That(definition.Equals(new Definition()
-            {
-                Identifier = new Identifier("wrong"),
-                Type = new KleinType("boolean"),
-            }), Is.False);
-            Assert.That(definition.Equals(new Definition()
-            {
-                Identifier = new Identifier("def"),
-                Type = new KleinType("integer"),
-            }), Is.False);
+            Assert.That(definition.Equals(new Definition
+                                              (
+                                                  identifier: new Identifier("wrong"),
+                                                  type: new KleinType("boolean")
+                                              )), Is.False);
+            Assert.That(definition.Equals(new Definition
+                                              (
+                                                  identifier: new Identifier("def"),
+                                                  type: new KleinType("integer")
+                                              )), Is.False);
 
-            Assert.That(definition.Equals(new Definition()
-            {
-                Identifier = new Identifier("def"),
-                Type = new KleinType("boolean"),
-            }), Is.True);
+            Assert.That(definition.Equals(new Definition
+                                              (
+                                                  identifier: new Identifier("def"),
+                                                  type: new KleinType("boolean")
+                                              )), Is.True);
 
             // not implemented Next() yet....don't know if I should
         }

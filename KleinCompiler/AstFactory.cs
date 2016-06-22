@@ -14,7 +14,7 @@ namespace KleinCompiler
                 {
                     var type = semanticStack.Pop();
                     var identifier = semanticStack.Pop();
-                    var node = new Definition() {Identifier = (Identifier)identifier, Type = (KleinType)type };
+                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type );
                     semanticStack.Push(node);
                     return;
                 }

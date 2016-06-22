@@ -30,11 +30,6 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(Program node)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Visit(Expr node)
         {
             throw new System.NotImplementedException();

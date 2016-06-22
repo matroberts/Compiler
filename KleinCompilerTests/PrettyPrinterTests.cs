@@ -35,11 +35,11 @@ namespace KleinCompilerTests
         [Test]
         public void KleinDefinition_ShouldPrint()
         {
-            var ast = new Definition()
-            {
-                Identifier = new Identifier("main"),
-                Type = new KleinType("boolean"),
-            };
+            var ast = new Definition
+                          (
+                              identifier: new Identifier("main"),
+                              type: new KleinType("boolean")
+                          );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Definition

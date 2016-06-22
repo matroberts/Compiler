@@ -29,9 +29,14 @@
 
     public class Definition : Ast
     {
+        public Definition(Identifier identifier, KleinType type)
+        {
+            Identifier = identifier;
+            Type = type;
+        }
         public Definition Next { get; set; }
-        public Identifier Identifier { get; set; }
-        public KleinType Type { get; set; }
+        public Identifier Identifier { get; }
+        public KleinType Type { get; }
 
         public override bool Equals(object obj)
         {
@@ -58,14 +63,6 @@
             return base.GetHashCode();
         }
 
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
-    }
-
-    public class Program : Definition
-    {
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
