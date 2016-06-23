@@ -1,4 +1,7 @@
-﻿namespace KleinCompiler
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+namespace KleinCompiler
 {
     public abstract class Ast
     {
@@ -29,14 +32,15 @@
 
     public class Definition : Ast
     {
-        public Definition(Identifier identifier, KleinType type)
+        public Definition(Identifier identifier, KleinType type, List<Formal> formals)
         {
             Identifier = identifier;
             Type = type;
+            Formals = formals.AsReadOnly();
         }
-        public Definition Next { get; set; }
         public Identifier Identifier { get; }
         public KleinType Type { get; }
+        public ReadOnlyCollection<Formal> Formals { get; }
 
         public override bool Equals(object obj)
         {
@@ -49,6 +53,15 @@
 
             if (Type.Equals(definition.Type) == false)
                 return false;
+
+            if (Formals.Count.Equals(definition.Formals.Count) == false)
+                return false;
+
+            for (int i = 0; i < Formals.Count; i++)
+            {
+                if (Formals[i].Equals(definition.Formals[i]) == false)
+                    return false;
+            }
 
             return true;
         }
@@ -133,6 +146,45 @@
         }
     }
 
+    public class Formal : Ast
+    {
+        public Formal(Identifier identifier, KleinType type)
+        {
+            Type = type;
+            Identifier = identifier;
+        }
+
+        public KleinType Type { get; }
+        public Identifier Identifier { get; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as Formal;
+            if (node == null)
+                return false;
+
+            if (this.Type.Equals(node.Type) == false)
+                return false;
+            if (this.Identifier.Equals(node.Identifier) == false)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
     public class Identifier : Expr
     {
         public Identifier(string value)
@@ -147,7 +199,7 @@
             if (node == null)
                 return false;
 
-            if (this.Value != node.Value)
+            if (this.Value.Equals(node.Value) == false)
                 return false;
 
             return true;
@@ -183,7 +235,7 @@
             if (node == null)
                 return false;
 
-            if (this.Value != node.Value)
+            if (this.Value.Equals(node.Value) == false)
                 return false;
 
             return true;

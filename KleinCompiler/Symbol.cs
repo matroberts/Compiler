@@ -119,5 +119,7 @@
         MakeType,
         [SymbolType(SymbolType.Semantic)]
         MakeDefinition,
+        [SymbolType(SymbolType.Semantic)]
+        MakeFormal,
     }
 }

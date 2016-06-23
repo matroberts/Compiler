@@ -27,6 +27,13 @@ namespace KleinCompiler
             builder.Indent();
             node.Identifier.Accept(this);
             node.Type.Accept(this);
+            builder.AppendLine($"Formals");
+            builder.Indent();
+            foreach (var formal in node.Formals)
+            {
+                formal.Accept(this);
+            }
+            builder.Outdent();
             builder.Outdent();
         }
 
@@ -47,6 +54,15 @@ namespace KleinCompiler
         public void Visit(UnaryOperator node)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void Visit(Formal node)
+        {
+            builder.AppendLine($"Formal");
+            builder.Indent();
+            node.Identifier.Accept(this);
+            node.Type.Accept(this);
+            builder.Outdent();
         }
 
         public void Visit(Identifier node)

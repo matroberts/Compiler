@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KleinCompiler;
 using NUnit.Framework;
@@ -11,15 +12,15 @@ namespace KleinCompilerTests
 R1      <Program>             ::= <Def> <DefTail>                       
 R2      <DefTail>             ::= <Def> <DefTail>
 R3                              | ε                                     
-R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> MakeType MakeDefinition
+R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> MakeDefinition
 R5      <Formals>             ::= ε
 R6                              | <NonEmptyFormals>
 R7      <NonEmptyFormals>     ::= <Formal><FormalTail>                                         
 R8      <FormalTail>          ::= , <Formal><FormalTail>
 R9                              | ε
-R10     <Formal>              ::= <Identifier> : <Type>
-R11     <Type>                ::= integer
-R12                             | boolean
+R10     <Formal>              ::= <Identifier> MakeIdentifier : <Type> MakeFormal
+R11     <Type>                ::= integer MakeType
+R12                             | boolean MakeType
      */
 
     /*
@@ -74,15 +75,15 @@ R12                             | boolean
         private static Rule R1 => new Rule("R1", Symbol.Def, Symbol.DefTail);
         private static Rule R2 => new Rule("R2", Symbol.Def, Symbol.DefTail);
         private static Rule R3 => new Rule("R3");
-        private static Rule R4 => new Rule("R4", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeType, Symbol.MakeDefinition);
+        private static Rule R4 => new Rule("R4", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeDefinition);
         private static Rule R5 => new Rule("R5");
         private static Rule R6 => new Rule("R6", Symbol.NonEmptyFormals);
         private static Rule R7 => new Rule("R7", Symbol.Formal, Symbol.FormalTail);
         private static Rule R8 => new Rule("R8", Symbol.Comma, Symbol.Formal, Symbol.FormalTail);
         private static Rule R9 => new Rule("R9");
-        private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.Colon, Symbol.Type);
-        private static Rule R11 => new Rule("R11", Symbol.IntegerType);
-        private static Rule R12 => new Rule("R12", Symbol.BooleanType);
+        private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
+        private static Rule R11 => new Rule("R11", Symbol.IntegerType, Symbol.MakeType);
+        private static Rule R12 => new Rule("R12", Symbol.BooleanType, Symbol.MakeType);
 
         public static ParsingTable Create()
         {
@@ -110,7 +111,7 @@ R12                             | boolean
     public class DeclarationGrammarTests
     {
         [Test]
-        public void SimplestPossible_Program()
+        public void SimplestPossibleDefinition_ShouldBeConstructedCorrectly()
         {
             // arrange
             var input = @"main() : boolean";
@@ -124,10 +125,53 @@ R12                             | boolean
             Assert.That(parser.Ast, Is.AstEqual(new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        type: new KleinType("boolean")
+                                                        type: new KleinType("boolean"),
+                                                        formals: new  List<Formal>()
                                                     )));
         }
 
-        // ToDo - formals
+        [Test]
+        public void Definition_WithOneFormal_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main(arg1 : integer) : boolean";
+
+            // act
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType("boolean"),
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType("integer"))}
+                                                    )));
+        }
+
+        [Test]
+        public void Definition_WithTwoFormals_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main(arg1 : integer, arg2 : boolean) : boolean";
+
+            // act
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType("boolean"),
+                                                        formals: new List<Formal>
+                                                        {
+                                                            new Formal(new Identifier("arg1"), new KleinType("integer")),
+                                                            new Formal(new Identifier("arg2"), new KleinType("boolean")),
+                                                        }
+                                                    )));
+        }
     }
 }

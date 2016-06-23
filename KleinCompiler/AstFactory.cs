@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace KleinCompiler
@@ -13,8 +14,14 @@ namespace KleinCompiler
                 case Symbol.MakeDefinition:
                 {
                     var type = semanticStack.Pop();
+                    var formals = new Stack<Formal>();
+                    while (semanticStack.Peek() is Formal)
+                    {
+                        formals.Push(semanticStack.Pop() as Formal);
+                    }
                     var identifier = semanticStack.Pop();
-                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type );
+
+                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList());
                     semanticStack.Push(node);
                     return;
                 }
@@ -32,6 +39,13 @@ namespace KleinCompiler
                     var left = semanticStack.Pop();
                     var node = new BinaryOperator(left: (Expr)left, op: "*", right: (Expr)right);
                     semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeFormal:
+                {
+                    var type = semanticStack.Pop();
+                    var identifier = semanticStack.Pop();
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, type: (KleinType)type));
                     return;
                 }
                 case Symbol.MakeIdentifier:
