@@ -72,7 +72,7 @@ R12                             | boolean MakeBooleanType
 
     public class DeclarationGrammarParsingTableFactory
     {
-        private static Rule R1 => new Rule("R1", Symbol.Def, Symbol.DefTail);
+        private static Rule R1 => new Rule("R1", Symbol.Def, Symbol.DefTail, Symbol.MakeProgram);
         private static Rule R2 => new Rule("R2", Symbol.Def, Symbol.DefTail);
         private static Rule R3 => new Rule("R3");
         private static Rule R4 => new Rule("R4", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeDefinition);
@@ -111,7 +111,7 @@ R12                             | boolean MakeBooleanType
     public class DeclarationGrammarTests
     {
         [Test]
-        public void SimplestPossibleDefinition_ShouldBeConstructedCorrectly()
+        public void SimplestPossibleProgram_ShouldBeConstructedCorrectly()
         {
             // arrange
             var input = @"main() : boolean";
@@ -122,12 +122,13 @@ R12                             | boolean MakeBooleanType
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Definition
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
                                                         formals: new  List<Formal>()
-                                                    )));
+                                                    ))));
         }
 
         [Test]
@@ -142,12 +143,13 @@ R12                             | boolean MakeBooleanType
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Definition
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
                                                         formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer))}
-                                                    )));
+                                                    ))));
         }
 
         [Test]
@@ -162,7 +164,8 @@ R12                             | boolean MakeBooleanType
 
             // assert
             Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Definition
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
@@ -171,7 +174,35 @@ R12                             | boolean MakeBooleanType
                                                             new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                             new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
                                                         }
-                                                    )));
+                                                    ))));
+        }
+
+        [Test]
+        public void Program_WithTwoDefinitions_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main() : boolean
+subsidiary() : integer";
+
+            // act
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>()
+                                                    ),
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("subsidiary"),
+                                                        type: new KleinType(KType.Integer),
+                                                        formals: new List<Formal>()
+                                                    ))));
         }
     }
 }

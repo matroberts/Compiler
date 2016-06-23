@@ -12,8 +12,7 @@ namespace KleinCompilerTests
         [Test]
         public void KleinProgram_ShouldPrint()
         {
-            var ast = new Program(new List<Definition>()
-            {
+            var ast = new Program(
                 new Definition
                 (
                     identifier: new Identifier("main"),
@@ -25,8 +24,8 @@ namespace KleinCompilerTests
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
                     formals: new List<Formal>()
-                ),
-            });
+                )
+            );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Program

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace KleinCompiler
 {
@@ -35,6 +36,11 @@ namespace KleinCompiler
         public Program(List<Definition> definitions)
         {
             Definitions = definitions.AsReadOnly();
+        }
+
+        public Program(params Definition[] definitions)
+        {
+            Definitions = definitions.ToList().AsReadOnly();
         }
 
         public ReadOnlyCollection<Definition> Definitions { get; }

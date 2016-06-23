@@ -11,6 +11,11 @@ namespace KleinCompiler
         {
             switch (symbol)
             {
+                case Symbol.MakeProgram:
+                {
+                    semanticStack.Push(new Program(semanticStack.Cast<Definition>().Reverse().ToList()));     
+                    return;               
+                }
                 case Symbol.MakeDefinition:
                 {
                     var type = semanticStack.Pop();

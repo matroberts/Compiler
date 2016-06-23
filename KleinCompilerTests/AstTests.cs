@@ -178,8 +178,7 @@ namespace KleinCompilerTests
         [Test]
         public void Program_Equals_ShouldWorkCorrectly()
         {
-            var program = new Program(new List<Definition>()
-            {
+            var program = new Program(
                 new Definition
                 (
                     identifier: new Identifier("main"),
@@ -191,24 +190,22 @@ namespace KleinCompilerTests
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
                     formals: new List<Formal>()
-                ),
-            });
+                )
+            );
 
             Assert.That(program.Equals(null), Is.False);
             Assert.That(program.Equals(new Identifier("main")), Is.False);
 
-            Assert.That(program.Equals(new Program(new List<Definition>()
-            {
+            Assert.That(program.Equals(new Program(
                 new Definition
                 (
                     identifier: new Identifier("main"),
                     type: new KleinType(KType.Boolean),
                     formals: new List<Formal>()
-                ),
-            })), Is.False);
+                )
+            )), Is.False);
 
-            Assert.That(program.Equals(new Program(new List<Definition>()
-            {
+            Assert.That(program.Equals(new Program(
                 new Definition
                 (
                     identifier: new Identifier("wrong"),
@@ -220,11 +217,10 @@ namespace KleinCompilerTests
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
                     formals: new List<Formal>()
-                ),
-            })), Is.False);
+                )
+            )), Is.False);
 
-            Assert.That(program.Equals(new Program(new List<Definition>()
-            {
+            Assert.That(program.Equals(new Program(
                 new Definition
                 (
                     identifier: new Identifier("main"),
@@ -236,8 +232,8 @@ namespace KleinCompilerTests
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
                     formals: new List<Formal>()
-                ),
-            })), Is.True);
+                )
+            )), Is.True);
         }
     }
 }
