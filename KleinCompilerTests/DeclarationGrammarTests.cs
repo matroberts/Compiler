@@ -9,7 +9,7 @@ namespace KleinCompilerTests
     /*
      Declaration Grammar
 
-R1      <Program>             ::= <Def> <DefTail>                       
+R1      <Program>             ::= <Def> <DefTail> MakeProgram                      
 R2      <DefTail>             ::= <Def> <DefTail>
 R3                              | ε                                     
 R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> MakeDefinition

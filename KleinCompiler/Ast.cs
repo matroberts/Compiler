@@ -30,6 +30,21 @@ namespace KleinCompiler
         }
     }
 
+    public class Program : Ast
+    {
+        public Program(List<Definition> definitions)
+        {
+            Definitions = definitions.AsReadOnly();
+        }
+
+        public ReadOnlyCollection<Definition> Definitions { get; }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+    }
+
     public class Definition : Ast
     {
         public Definition(Identifier identifier, KleinType type, List<Formal> formals)

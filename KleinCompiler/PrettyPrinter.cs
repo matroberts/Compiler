@@ -21,6 +21,17 @@ namespace KleinCompiler
 
         public override string ToString() => builder.ToString();
 
+        public void Visit(Program node)
+        {
+            builder.AppendLine("Program");
+            builder.Indent();
+            foreach (var definition in node.Definitions)
+            {
+                definition.Accept(this);
+            }
+            builder.Outdent();
+        }
+
         public void Visit(Definition node)
         {
             builder.AppendLine($"Definition");

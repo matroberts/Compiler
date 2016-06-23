@@ -109,6 +109,11 @@
         LexicalError,
         [SymbolType(SymbolType.Token)]
         End,           // End of tokens marker
+
+        [SymbolType(SymbolType.Semantic)]
+        MakeProgram,
+        [SymbolType(SymbolType.Semantic)]
+        MakeDefinition,
         [SymbolType(SymbolType.Semantic)]
         MakePlus,
         [SymbolType(SymbolType.Semantic)]
@@ -119,8 +124,6 @@
         MakeIntegerType,
         [SymbolType(SymbolType.Semantic)]
         MakeBooleanType,
-        [SymbolType(SymbolType.Semantic)]
-        MakeDefinition,
         [SymbolType(SymbolType.Semantic)]
         MakeFormal,
     }
