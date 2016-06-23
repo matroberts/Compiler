@@ -90,16 +90,21 @@ namespace KleinCompiler
         }
     }
 
+    public enum BOp
+    {
+        Times,
+        Plus
+    }
     public class BinaryOperator : Expr
     {
-        public BinaryOperator(Expr left, string op, Expr right)
+        public BinaryOperator(Expr left, BOp op, Expr right)
         {
             Left = left;
             Operator = op;
             Right = right;
         }
         public Expr Left { get; }
-        public string Operator { get; }
+        public BOp Operator { get; }
         public Expr Right { get; }
 
         public override bool Equals(object obj)

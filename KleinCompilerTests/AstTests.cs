@@ -43,7 +43,7 @@ namespace KleinCompilerTests
             var binaryOperator = new BinaryOperator
                                     (
                                         left: new Identifier("left"),
-                                        op: "*",
+                                        op: BOp.Times, 
                                         right: new Identifier("right")
                                     );
 
@@ -52,25 +52,25 @@ namespace KleinCompilerTests
             Assert.That(binaryOperator.Equals(new BinaryOperator
                                                   (
                                                        left: new Identifier("wrong"),
-                                                       op: "*",
+                                                       op: BOp.Times, 
                                                        right: new Identifier("right")
                                                   )), Is.False);
             Assert.That(binaryOperator.Equals(new BinaryOperator
                                                   (
                                                        left: new Identifier("left"),
-                                                       op: "wrong",
+                                                       op: BOp.Plus, 
                                                        right: new Identifier("right")
                                                   )), Is.False);
             Assert.That(binaryOperator.Equals(new BinaryOperator
                                                   (
                                                        left: new Identifier("left"),
-                                                       op: "*",
+                                                       op: BOp.Times, 
                                                        right: new Identifier("wrong")
                                                   )), Is.False);
             Assert.That(binaryOperator.Equals(new BinaryOperator
                                                   (
                                                        left: new Identifier("left"),
-                                                       op: "*",
+                                                       op: BOp.Times, 
                                                        right: new Identifier("right")
                                                   )), Is.True);
         }

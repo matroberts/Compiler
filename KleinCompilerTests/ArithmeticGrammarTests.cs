@@ -58,7 +58,7 @@ R8                              | identifier MakeIdentifier
         private static Rule R2 => new Rule("R2", Symbol.Plus, Symbol.Term, Symbol.MakePlus, Symbol.SimpleExprTail);
         private static Rule R3 => new Rule("R3");
         private static Rule R4 => new Rule("R4", Symbol.Factor, Symbol.TermTail);
-        private static Rule R5 => new Rule("R5", Symbol.Multiply, Symbol.Factor, Symbol.MakeTimes, Symbol.TermTail);
+        private static Rule R5 => new Rule("R5", Symbol.Times, Symbol.Factor, Symbol.MakeTimes, Symbol.TermTail);
         private static Rule R6 => new Rule("R6");
         private static Rule R7 => new Rule("R7", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
         private static Rule R8 => new Rule("R7", Symbol.Identifier, Symbol.MakeIdentifier);
@@ -71,7 +71,7 @@ R8                              | identifier MakeIdentifier
             parsingTable.AddRule(R2, Symbol.SimpleExprTail, Symbol.Plus);
             parsingTable.AddRule(R3, Symbol.SimpleExprTail, Symbol.End, Symbol.CloseBracket);
             parsingTable.AddRule(R4, Symbol.Term, Symbol.OpenBracket, Symbol.Identifier);
-            parsingTable.AddRule(R5, Symbol.TermTail, Symbol.Multiply);
+            parsingTable.AddRule(R5, Symbol.TermTail, Symbol.Times);
             parsingTable.AddRule(R6, Symbol.TermTail, Symbol.Plus, Symbol.End, Symbol.CloseBracket);
             parsingTable.AddRule(R7, Symbol.Factor, Symbol.OpenBracket);
             parsingTable.AddRule(R8, Symbol.Factor, Symbol.Identifier);
@@ -98,7 +98,7 @@ R8                              | identifier MakeIdentifier
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: "+",
+                                                        op: BOp.Plus,
                                                         right: new Identifier("y")
                                                     )
                                                 ));
@@ -119,7 +119,7 @@ R8                              | identifier MakeIdentifier
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: "*",
+                                                        op: BOp.Times, 
                                                         right: new Identifier("y")
                                                     )
                                                 ));
@@ -155,11 +155,11 @@ R8                              | identifier MakeIdentifier
             Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: "+",
+                                                        op: BOp.Plus, 
                                                         right: new BinaryOperator
                                                                    (
                                                                         left: new Identifier("y"),
-                                                                        op: "*",
+                                                                        op: BOp.Times, 
                                                                         right: new Identifier("z"))
                                                                    )
                                                     ));
@@ -182,10 +182,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new BinaryOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: "*",
+                                                                      op: BOp.Times, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: "+",
+                                                        op: BOp.Plus, 
                                                         right : new Identifier("z")
                                                     )));
         }
@@ -207,10 +207,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new BinaryOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: "+",
+                                                                      op: BOp.Plus, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: "*",
+                                                        op: BOp.Times, 
                                                         right: new Identifier("z")
                                                     )));
         }
@@ -232,10 +232,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new BinaryOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: "*",
+                                                                      op: BOp.Times, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: "*",
+                                                        op: BOp.Times, 
                                                         right: new Identifier("z")
                                                     )));
         }
@@ -257,10 +257,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new BinaryOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: "+",
+                                                                      op: BOp.Plus, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: "+",
+                                                        op: BOp.Plus, 
                                                         right: new Identifier("z")
                                                     )));
         }

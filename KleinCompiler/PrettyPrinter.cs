@@ -44,7 +44,20 @@ namespace KleinCompiler
 
         public void Visit(BinaryOperator node)
         {
-            builder.AppendLine($"BinaryOperator({node.Operator})");
+            string opString;
+            switch (node.Operator)
+            {
+                case BOp.Times:
+                    opString = "*";
+                    break;
+                case BOp.Plus:
+                    opString = "+";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            builder.AppendLine($"BinaryOperator({opString})");
             builder.Indent();
             node.Left.Accept(this);
             node.Right.Accept(this);
@@ -84,12 +97,20 @@ namespace KleinCompiler
 
         public TabbedStringBuilder AppendLine(string text)
         {
-            builder.Append(' ', indent * spacesPerIndent).AppendLine(text);
+            builder.Append(' ', indent*spacesPerIndent).AppendLine(text);
             return this;
         }
 
-        public void Indent() { indent += 1; }
-        public void Outdent() { indent -= 1; }
+        public void Indent()
+        {
+            indent += 1;
+        }
+
+        public void Outdent()
+        {
+            indent -= 1;
+        }
+
         public override string ToString() => builder.ToString();
     }
 }

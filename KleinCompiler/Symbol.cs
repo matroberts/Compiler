@@ -88,7 +88,7 @@
         [SymbolType(SymbolType.Token)]
         Minus,
         [SymbolType(SymbolType.Token)]
-        Multiply,
+        Times,
         [SymbolType(SymbolType.Token)]
         Divide,
         [SymbolType(SymbolType.Token)]

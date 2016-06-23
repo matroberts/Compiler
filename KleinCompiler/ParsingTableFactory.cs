@@ -27,7 +27,7 @@
         private static Rule R23 => new Rule("R23");
         private static Rule R24 => new Rule("R24", Symbol.Factor, Symbol.FactorTail);
         private static Rule R25 => new Rule("R25", Symbol.And, Symbol.Factor, Symbol.FactorTail);
-        private static Rule R26 => new Rule("R26", Symbol.Multiply, Symbol.Factor, Symbol.FactorTail);
+        private static Rule R26 => new Rule("R26", Symbol.Times, Symbol.Factor, Symbol.FactorTail);
         private static Rule R27 => new Rule("R27", Symbol.Divide, Symbol.Factor, Symbol.FactorTail);
         private static Rule R28 => new Rule("R28");
         private static Rule R29 => new Rule("R29", Symbol.If, Symbol.Expr, Symbol.Then, Symbol.Expr, Symbol.Else, Symbol.Expr);
@@ -70,15 +70,15 @@
             parsingTable.AddRule(R15, Symbol.Expr, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             parsingTable.AddRule(R16, Symbol.SimpleExprTail, Symbol.LessThan);
             parsingTable.AddRule(R17, Symbol.SimpleExprTail, Symbol.Equality);
-            parsingTable.AddRule(R18, Symbol.SimpleExprTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.Comma);
+            parsingTable.AddRule(R18, Symbol.SimpleExprTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Times, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.Comma);
             parsingTable.AddRule(R19, Symbol.SimpleExpr, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             parsingTable.AddRule(R20, Symbol.TermTail, Symbol.Or);
             parsingTable.AddRule(R21, Symbol.TermTail, Symbol.Plus);
             parsingTable.AddRule(R22, Symbol.TermTail, Symbol.Minus);
-            parsingTable.AddRule(R23, Symbol.TermTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
+            parsingTable.AddRule(R23, Symbol.TermTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Times, Symbol.Divide, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
             parsingTable.AddRule(R24, Symbol.Term, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             parsingTable.AddRule(R25, Symbol.FactorTail, Symbol.And);
-            parsingTable.AddRule(R26, Symbol.FactorTail, Symbol.Multiply);
+            parsingTable.AddRule(R26, Symbol.FactorTail, Symbol.Times);
             parsingTable.AddRule(R27, Symbol.FactorTail, Symbol.Divide);
             parsingTable.AddRule(R28, Symbol.FactorTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
             parsingTable.AddRule(R29, Symbol.Factor, Symbol.If);
@@ -89,7 +89,7 @@
             parsingTable.AddRule(R34, Symbol.Factor, Symbol.OpenBracket);
             parsingTable.AddRule(R35, Symbol.Func, Symbol.Identifier);
             parsingTable.AddRule(R36, Symbol.FuncTail, Symbol.OpenBracket);
-            parsingTable.AddRule(R37, Symbol.FuncTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Multiply, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
+            parsingTable.AddRule(R37, Symbol.FuncTail, Symbol.Identifier, Symbol.End, Symbol.Then, Symbol.Else, Symbol.CloseBracket, Symbol.And, Symbol.Times, Symbol.Divide, Symbol.Or, Symbol.Plus, Symbol.Minus, Symbol.LessThan, Symbol.Equality, Symbol.Comma);
             parsingTable.AddRule(R38, Symbol.Actuals, Symbol.CloseBracket);
             parsingTable.AddRule(R39, Symbol.Actuals, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);
             parsingTable.AddRule(R40, Symbol.NonEmptyActuals, Symbol.If, Symbol.Not, Symbol.Identifier, Symbol.IntegerLiteral, Symbol.BooleanTrue, Symbol.BooleanFalse, Symbol.Minus, Symbol.OpenBracket);

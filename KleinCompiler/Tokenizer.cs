@@ -126,7 +126,7 @@ namespace KleinCompiler
         {
             ["+"]=Symbol.Plus,
             ["-"]=Symbol.Minus,
-            ["*"]=Symbol.Multiply,
+            ["*"]=Symbol.Times,
             ["/"]=Symbol.Divide,
             ["<"]=Symbol.LessThan,
             ["="]=Symbol.Equality,

@@ -15,7 +15,7 @@ namespace KleinCompilerTests
             var ast = new BinaryOperator
                           (
                               left: new Identifier("x"),
-                              op: "+",
+                              op: BOp.Plus, 
                               right: new Identifier("y")
                           );
 

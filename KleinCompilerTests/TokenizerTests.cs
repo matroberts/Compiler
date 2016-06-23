@@ -149,7 +149,7 @@ namespace KleinCompilerTests
         [TestCase(Symbol.BooleanFalse, "false")]
         [TestCase(Symbol.Plus, "+")]
         [TestCase(Symbol.Minus, "-")]
-        [TestCase(Symbol.Multiply, "*")]
+        [TestCase(Symbol.Times, "*")]
         [TestCase(Symbol.Divide, "/")]
         [TestCase(Symbol.LessThan, "<")]
         [TestCase(Symbol.Equality, "=")]
