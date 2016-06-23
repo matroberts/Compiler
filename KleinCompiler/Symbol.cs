@@ -116,7 +116,9 @@
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,
         [SymbolType(SymbolType.Semantic)]
-        MakeType,
+        MakeIntegerType,
+        [SymbolType(SymbolType.Semantic)]
+        MakeBooleanType,
         [SymbolType(SymbolType.Semantic)]
         MakeDefinition,
         [SymbolType(SymbolType.Semantic)]

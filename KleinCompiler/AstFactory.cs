@@ -55,10 +55,15 @@ namespace KleinCompiler
                     semanticStack.Push(node);
                     return;
                 }
-                case Symbol.MakeType:
+                case Symbol.MakeIntegerType:
                 {
-                    var value = token.Value;
-                    var node = new KleinType(value);
+                    var node = new KleinType(KType.Integer);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeBooleanType:
+                {
+                    var node = new KleinType(KType.Boolean);
                     semanticStack.Push(node);
                     return;
                 }

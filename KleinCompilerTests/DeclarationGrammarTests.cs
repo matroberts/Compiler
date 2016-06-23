@@ -19,8 +19,8 @@ R7      <NonEmptyFormals>     ::= <Formal><FormalTail>
 R8      <FormalTail>          ::= , <Formal><FormalTail>
 R9                              | ε
 R10     <Formal>              ::= <Identifier> MakeIdentifier : <Type> MakeFormal
-R11     <Type>                ::= integer MakeType
-R12                             | boolean MakeType
+R11     <Type>                ::= integer MakeIntegerType
+R12                             | boolean MakeBooleanType
      */
 
     /*
@@ -82,8 +82,8 @@ R12                             | boolean MakeType
         private static Rule R8 => new Rule("R8", Symbol.Comma, Symbol.Formal, Symbol.FormalTail);
         private static Rule R9 => new Rule("R9");
         private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
-        private static Rule R11 => new Rule("R11", Symbol.IntegerType, Symbol.MakeType);
-        private static Rule R12 => new Rule("R12", Symbol.BooleanType, Symbol.MakeType);
+        private static Rule R11 => new Rule("R11", Symbol.IntegerType, Symbol.MakeIntegerType);
+        private static Rule R12 => new Rule("R12", Symbol.BooleanType, Symbol.MakeBooleanType);
 
         public static ParsingTable Create()
         {
@@ -125,7 +125,7 @@ R12                             | boolean MakeType
             Assert.That(parser.Ast, Is.AstEqual(new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        type: new KleinType("boolean"),
+                                                        type: new KleinType(KType.Boolean),
                                                         formals: new  List<Formal>()
                                                     )));
         }
@@ -145,8 +145,8 @@ R12                             | boolean MakeType
             Assert.That(parser.Ast, Is.AstEqual(new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        type: new KleinType("boolean"),
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType("integer"))}
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer))}
                                                     )));
         }
 
@@ -165,11 +165,11 @@ R12                             | boolean MakeType
             Assert.That(parser.Ast, Is.AstEqual(new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        type: new KleinType("boolean"),
+                                                        type: new KleinType(KType.Boolean),
                                                         formals: new List<Formal>
                                                         {
-                                                            new Formal(new Identifier("arg1"), new KleinType("integer")),
-                                                            new Formal(new Identifier("arg2"), new KleinType("boolean")),
+                                                            new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
+                                                            new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
                                                         }
                                                     )));
         }

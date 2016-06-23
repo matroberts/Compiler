@@ -221,13 +221,18 @@ namespace KleinCompiler
         }
     }
 
+    public enum KType
+    {
+        Integer,
+        Boolean
+    }
     public class KleinType : Ast
     {
-        public KleinType(string value)
+        public KleinType(KType value)
         {
             Value = value;
         }
-        public string Value { get; }
+        public KType Value { get; }
 
         public override bool Equals(object obj)
         {

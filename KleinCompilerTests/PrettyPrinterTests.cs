@@ -29,18 +29,18 @@ namespace KleinCompilerTests
         [Test]
         public void KleinType_ShouldPrintCorrectly()
         {
-            var ast = new KleinType("boolean");
-            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(boolean)\r\n"));
+            var ast = new KleinType(KType.Boolean);
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(Boolean)\r\n"));
         }
 
         [Test]
         public void Formal_ShouldPrintCorrectly()
         {
-            var ast = new Formal(identifier: new Identifier("arg1"), type: new KleinType("boolean"));
+            var ast = new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean));
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Formal
     Identifier(arg1)
-    Type(boolean)
+    Type(Boolean)
 "                
                 ));
         }
@@ -50,25 +50,25 @@ namespace KleinCompilerTests
             var ast = new Definition
                           (
                               identifier: new Identifier("main"),
-                              type: new KleinType("boolean"),
+                              type: new KleinType(KType.Boolean),
                               formals: new List<Formal>
                               {
-                                  new Formal(new Identifier("arg1"), new KleinType("boolean")),
-                                  new Formal(new Identifier("arg2"), new KleinType("integer")),
+                                  new Formal(new Identifier("arg1"), new KleinType(KType.Boolean)),
+                                  new Formal(new Identifier("arg2"), new KleinType(KType.Integer)),
                               }
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Definition
     Identifier(main)
-    Type(boolean)
+    Type(Boolean)
     Formals
         Formal
             Identifier(arg1)
-            Type(boolean)
+            Type(Boolean)
         Formal
             Identifier(arg2)
-            Type(integer)
+            Type(Integer)
 "));
 
         }
