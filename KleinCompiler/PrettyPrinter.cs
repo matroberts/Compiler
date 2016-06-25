@@ -74,6 +74,22 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
+        public void Visit(IfThenElse node)
+        {
+            builder.AppendLine("If");
+            builder.Indent();
+            node.IfExpr.Accept(this);
+            builder.Outdent();
+            builder.AppendLine("Then");
+            builder.Indent();
+            node.ThenExpr.Accept(this);
+            builder.Outdent();
+            builder.AppendLine("Else");
+            builder.Indent();
+            node.ElseExpr.Accept(this);
+            builder.Outdent();
+        }
+
         public void Visit(BinaryOperator node)
         {
             builder.AppendLine($"BinaryOperator({node.Operator.ToOpText()})");

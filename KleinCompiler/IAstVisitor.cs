@@ -9,6 +9,7 @@ namespace KleinCompiler
         void Visit(Formal node);
         void Visit(KleinType node);
         void Visit(Body node);
+        void Visit(IfThenElse node);
         void Visit(BinaryOperator node);
         void Visit(UnaryOperator node);
         void Visit(Identifier node);

@@ -114,6 +114,26 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void IfThenElse_ShouldPrint()
+        {
+            var ast = new IfThenElse
+                          (
+                              ifExpr: new Identifier("x"),
+                              thenExpr: new Identifier("y"),
+                              elseExpr: new Identifier("z")
+                          );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"If
+    Identifier(x)
+Then
+    Identifier(y)
+Else
+    Identifier(z)
+"));
+        }
+
+        [Test]
         public void BinaryOperator_ShouldPrint()
         {
             var ast = new BinaryOperator
