@@ -74,7 +74,35 @@ namespace KleinCompilerTests
                                                        right: new Identifier("right")
                                                   )), Is.True);
         }
-        
+
+        [Test]
+        public void UnaryOperator_Equals_ShouldWorkCorrectly()
+        {
+            var unaryOperatory = new UnaryOperator
+                                     (
+                                         op: UOp.Not,
+                                         right: new Identifier("right")
+                                     );
+
+            Assert.That(unaryOperatory.Equals(null), Is.False);
+            Assert.That(unaryOperatory.Equals(new Identifier("a")), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Negate,
+                                                       right: new Identifier("right")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Not,
+                                                       right: new Identifier("wrong")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Not,
+                                                       right: new Identifier("right")
+                                                  )), Is.True);
+        }
+
         [Test]
         public void Definition_Equals_ShouldWorkCorrectly()
         {
@@ -292,5 +320,7 @@ namespace KleinCompilerTests
             Assert.That(body.Equals(new Body(new IntegerLiteral("456"))), Is.False);
             Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.True);
         }
+
+
     }
 }

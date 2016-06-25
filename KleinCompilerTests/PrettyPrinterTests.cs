@@ -81,31 +81,14 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void BinaryOperator_ShouldPrintCorrectly()
-        {
-            var ast = new BinaryOperator
-                          (
-                              left: new Identifier("x"),
-                              op: BOp.Plus, 
-                              right: new Identifier("y")
-                          );
-
-            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"BinaryOperator(+)
-    Identifier(x)
-    Identifier(y)
-"));
-        }
-
-        [Test]
-        public void KleinType_ShouldPrintCorrectly()
+        public void KleinType_ShouldPrint()
         {
             var ast = new KleinType(KType.Boolean);
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(Boolean)\r\n"));
         }
 
         [Test]
-        public void Formal_ShouldPrintCorrectly()
+        public void Formal_ShouldPrint()
         {
             var ast = new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean));
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -116,25 +99,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void BooleanLiteral_ShouldPrintCorrectly()
-        {
-            var ast = new BooleanLiteral(true);
-            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"Boolean(True)
-"));
-        }
-
-        [Test]
-        public void IntegerLiteral_ShouldPrintCorrectly()
-        {
-            var ast = new IntegerLiteral("123");
-            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"Integer(123)
-"));
-        }
-
-        [Test]
-        public void Body_ShouldPrintCorrectly()
+        public void Body_ShouldPrint()
         {
             var ast = new Body
                       (
@@ -148,5 +113,63 @@ namespace KleinCompilerTests
 "));
         }
 
+        [Test]
+        public void BinaryOperator_ShouldPrint()
+        {
+            var ast = new BinaryOperator
+                          (
+                              left: new Identifier("x"),
+                              op: BOp.Plus,
+                              right: new Identifier("y")
+                          );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"BinaryOperator(+)
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void UnaryOperator_ShouldPrint()
+        {
+            var ast = new UnaryOperator
+                          (
+                              op: UOp.Not,
+                              right: new Identifier("y")
+                          );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"UnaryOperator(not)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void AllTheValues_InTheUOpEnum_ShouldHaveAnOpTextAttribute()
+        {
+            foreach (UOp op in Enum.GetValues(typeof(UOp)).Cast<UOp>())
+            {
+                Assert.That(() => op.ToOpText(), Throws.Nothing);
+            }
+        }
+
+        [Test]
+        public void BooleanLiteral_ShouldPrint()
+        {
+            var ast = new BooleanLiteral(true);
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Boolean(True)
+"));
+        }
+
+        [Test]
+        public void IntegerLiteral_ShouldPrint()
+        {
+            var ast = new IntegerLiteral("123");
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Integer(123)
+"));
+        }
     }
 }

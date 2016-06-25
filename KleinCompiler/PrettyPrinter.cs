@@ -84,7 +84,10 @@ namespace KleinCompiler
 
         public void Visit(UnaryOperator node)
         {
-            throw new System.NotImplementedException();
+            builder.AppendLine($"UnaryOperator({node.Operator.ToOpText()})");
+            builder.Indent();
+            node.Right.Accept(this);
+            builder.Outdent();
         }
 
         public void Visit(Formal node)
