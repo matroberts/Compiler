@@ -18,6 +18,7 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeDefinition:
                 {
+                    var body = semanticStack.Pop();
                     var type = semanticStack.Pop();
                     var formals = new Stack<Formal>();
                     while (semanticStack.Peek() is Formal)
@@ -28,6 +29,12 @@ namespace KleinCompiler
 
                     var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList());
                     semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeBody:
+                {
+                    var expr = semanticStack.Pop();
+                    semanticStack.Push(new Body(expr: (Expr)expr));
                     return;
                 }
                 case Symbol.MakePlus:
@@ -69,6 +76,24 @@ namespace KleinCompiler
                 case Symbol.MakeBooleanType:
                 {
                     var node = new KleinType(KType.Boolean);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeIntegerLiteral:
+                {
+                    var node = new IntegerLiteral(token.Value);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeMakeBooleanTrueLiteral:
+                {
+                    var node = new BooleanLiteral(true);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeMakeBooleanFalseLiteral:
+                {
+                    var node = new BooleanLiteral(false);
                     semanticStack.Push(node);
                     return;
                 }

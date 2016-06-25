@@ -5,7 +5,7 @@
         private static Rule R1 => new Rule("R1 ", Symbol.Def, Symbol.DefTail, Symbol.MakeProgram);
         private static Rule R2 => new Rule("R2 ", Symbol.Def, Symbol.DefTail);
         private static Rule R3 => new Rule("R3 ");
-        private static Rule R4 => new Rule("R4 ", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeDefinition, Symbol.Body);
+        private static Rule R4 => new Rule("R4 ", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.Body, Symbol.MakeDefinition);
         private static Rule R5 => new Rule("R5 ");
         private static Rule R6 => new Rule("R6 ", Symbol.NonEmptyFormals);
         private static Rule R7 => new Rule("R7 ", Symbol.Formal, Symbol.FormalTail);
@@ -13,7 +13,7 @@
         private static Rule R9 => new Rule("R9 ");
         private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
         private static Rule R11 => new Rule("R11", Symbol.Print, Symbol.Body);
-        private static Rule R12 => new Rule("R12", Symbol.Expr);
+        private static Rule R12 => new Rule("R12", Symbol.Expr, Symbol.MakeBody);
         private static Rule R13 => new Rule("R13", Symbol.IntegerType, Symbol.MakeIntegerType);
         private static Rule R14 => new Rule("R14", Symbol.BooleanType, Symbol.MakeBooleanType);
         private static Rule R15 => new Rule("R15", Symbol.SimpleExpr, Symbol.SimpleExprTail);
@@ -44,9 +44,9 @@
         private static Rule R40 => new Rule("R40", Symbol.Expr, Symbol.ActualsTail);
         private static Rule R41 => new Rule("R41", Symbol.Comma, Symbol.Expr, Symbol.ActualsTail);
         private static Rule R42 => new Rule("R42");
-        private static Rule R43 => new Rule("R43", Symbol.IntegerLiteral);
-        private static Rule R44 => new Rule("R44", Symbol.BooleanTrue);
-        private static Rule R45 => new Rule("R45", Symbol.BooleanFalse);
+        private static Rule R43 => new Rule("R43", Symbol.IntegerLiteral, Symbol.MakeIntegerLiteral);
+        private static Rule R44 => new Rule("R44", Symbol.BooleanTrue, Symbol.MakeMakeBooleanTrueLiteral);
+        private static Rule R45 => new Rule("R45", Symbol.BooleanFalse, Symbol.MakeMakeBooleanFalseLiteral);
         private static Rule R46 => new Rule("R46", Symbol.PrintKeyword, Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
 
         public static ParsingTable Create()

@@ -10,7 +10,7 @@ R8      <FormalTail>          ::= , <Formal><FormalTail>
 R9                              | e
 R10     <Formal>              ::= <Identifier> MakeIdentifier : <Type> MakeFormal
 R11     <Body>                ::= <Print> <Body>
-R12                             | <Expr>
+R12                             | <Expr> MakeBody
 R13     <Type>                ::= integer MakeIntegerType
 R14                             | boolean MakeBooleanType
 R15     <Expr>                ::= <Simple-Expr> <SimpleExprTail>                            
@@ -41,7 +41,7 @@ R39                             | <NonEmptyActuals>
 R40     <NonEmptyActuals>     ::= <Expr><ActualsTail>                                       
 R41     <ActualsTail>         ::= , <Expr><ActualsTail>
 R42                             | e
-R43     <Literal>             ::= <Number>
-R44                             | <BooleanTrue>
-R45                             | <BooleanFalse>
+R43     <Literal>             ::= <Number>       MakeIntegerLiteral
+R44                             | <BooleanTrue>  MakeBooleanTrueLiteral
+R45                             | <BooleanFalse> MakeBooleanFalseLiteral
 R46     <Print>               ::= print ( <Expr> )                                                                         

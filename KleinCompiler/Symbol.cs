@@ -115,6 +115,8 @@
         [SymbolType(SymbolType.Semantic)]
         MakeDefinition,
         [SymbolType(SymbolType.Semantic)]
+        MakeBody,
+        [SymbolType(SymbolType.Semantic)]
         MakePlus,
         [SymbolType(SymbolType.Semantic)]
         MakeTimes,
@@ -126,5 +128,11 @@
         MakeBooleanType,
         [SymbolType(SymbolType.Semantic)]
         MakeFormal,
+        [SymbolType(SymbolType.Semantic)]
+        MakeIntegerLiteral,
+        [SymbolType(SymbolType.Semantic)]
+        MakeMakeBooleanTrueLiteral,
+        [SymbolType(SymbolType.Semantic)]
+        MakeMakeBooleanFalseLiteral,
     }
 }
