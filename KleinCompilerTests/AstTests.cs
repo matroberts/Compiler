@@ -244,5 +244,14 @@ namespace KleinCompilerTests
             Assert.That(new BooleanLiteral(true).Equals(new BooleanLiteral(false)), Is.False);
             Assert.That(new BooleanLiteral(true).Equals(new BooleanLiteral(true)), Is.True);
         }
+
+        [Test]
+        public void IntegerLiteral_ShouldImplement_ValueEquality()
+        {
+            Assert.That(new IntegerLiteral("123").Equals(null), Is.False);
+            Assert.That(new IntegerLiteral("123").Equals("123"), Is.False);
+            Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("456")), Is.False);
+            Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("123")), Is.True);
+        }
     }
 }

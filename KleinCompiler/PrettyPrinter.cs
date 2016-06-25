@@ -98,6 +98,11 @@ namespace KleinCompiler
         {
             builder.AppendLine($"Boolean({node.Value})");
         }
+
+        public void Visit(IntegerLiteral node)
+        {
+            builder.AppendLine($"Integer({node.Value})");
+        }
     }
 
     public class TabbedStringBuilder

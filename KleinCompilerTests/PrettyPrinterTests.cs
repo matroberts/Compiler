@@ -115,5 +115,15 @@ namespace KleinCompilerTests
                 ));
         }
 
+        [Test]
+        public void IntegerLiteral_ShouldPrintCorrectly()
+        {
+            var ast = new IntegerLiteral("123");
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Integer(123)
+"
+                ));
+        }
+
     }
 }
