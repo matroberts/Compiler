@@ -10,22 +10,28 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ParserTests
     {
-        #region original tests
+        #region Test the Parser class itself (Simplest Possible Program and Error Handling)
 
         [Test]
-        public void Parser_ShouldCorrectlyParse_SuperSimpleFile()
+        public void SimplestPossibleProgram_ShouldBeConstructedCorrectly()
         {
             // arrange
-            var input = @"
-main () : boolean
-    true";
+            var input = @"main() : boolean
+                             true";
 
             // act
-            var parser = new Parser();
+            var parser = new Parser() { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.Not.Null);
+            Assert.That(ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>(),
+                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                    ))));
         }
 
         [Test]
@@ -42,7 +48,14 @@ main () : boolean
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.Not.Null);
+            Assert.That(ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>(),
+                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                    ))));
         }
 
         [Test]
@@ -128,29 +141,7 @@ circularPrimesTo(x: integer):integer
 
         #endregion
 
-        #region DeclarationGrammarTests
-
-        [Test]
-        public void SimplestPossibleProgram_ShouldBeConstructedCorrectly()
-        {
-            // arrange
-            var input = @"main() : boolean
-                             true";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(ast, Is.AstEqual(new Program(
-                                                    new Definition
-                                                    (
-                                                        identifier: new Identifier("main"),
-                                                        type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal>(),
-                                                        body: new Body(expr: new BooleanLiteral(true))
-                                                    ))));
-        }
+        #region Declaration Grammar Tests
 
         [Test]
         public void Definition_WithOneFormal_ShouldBeConstructedCorrectly()
