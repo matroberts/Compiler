@@ -2,20 +2,20 @@
 {
     public class ParsingTableFactory
     {
-        private static Rule R1 => new Rule("R1 ", Symbol.Def, Symbol.DefTail);
+        private static Rule R1 => new Rule("R1 ", Symbol.Def, Symbol.DefTail, Symbol.MakeProgram);
         private static Rule R2 => new Rule("R2 ", Symbol.Def, Symbol.DefTail);
         private static Rule R3 => new Rule("R3 ");
-        private static Rule R4 => new Rule("R4 ", Symbol.Identifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.Body);
+        private static Rule R4 => new Rule("R4 ", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.OpenBracket, Symbol.Formals, Symbol.CloseBracket, Symbol.Colon, Symbol.Type, Symbol.MakeDefinition, Symbol.Body);
         private static Rule R5 => new Rule("R5 ");
         private static Rule R6 => new Rule("R6 ", Symbol.NonEmptyFormals);
         private static Rule R7 => new Rule("R7 ", Symbol.Formal, Symbol.FormalTail);
         private static Rule R8 => new Rule("R8 ", Symbol.Comma, Symbol.Formal, Symbol.FormalTail);
         private static Rule R9 => new Rule("R9 ");
-        private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.Colon, Symbol.Type);
+        private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
         private static Rule R11 => new Rule("R11", Symbol.Print, Symbol.Body);
         private static Rule R12 => new Rule("R12", Symbol.Expr);
-        private static Rule R13 => new Rule("R13", Symbol.IntegerType);
-        private static Rule R14 => new Rule("R14", Symbol.BooleanType);
+        private static Rule R13 => new Rule("R13", Symbol.IntegerType, Symbol.MakeIntegerType);
+        private static Rule R14 => new Rule("R14", Symbol.BooleanType, Symbol.MakeBooleanType);
         private static Rule R15 => new Rule("R15", Symbol.SimpleExpr, Symbol.SimpleExprTail);
         private static Rule R16 => new Rule("R16", Symbol.LessThan, Symbol.SimpleExpr, Symbol.SimpleExprTail);
         private static Rule R17 => new Rule("R17", Symbol.Equality, Symbol.SimpleExpr, Symbol.SimpleExprTail);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using KleinCompiler;
@@ -9,6 +10,8 @@ namespace KleinCompilerTests
     [TestFixture]
     public class ParserTests
     {
+        #region original tests
+
         [Test]
         public void Parser_ShouldCorrectlyParse_SuperSimpleFile()
         {
@@ -123,5 +126,112 @@ circularPrimesTo(x: integer):integer
             }
             Console.WriteLine(DateTime.UtcNow - start);
         }
+
+        #endregion
+
+        #region DeclarationGrammarTests
+
+        [Test]
+        public void SimplestPossibleProgram_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main() : boolean
+                             true";
+
+            // act
+            var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>()
+                                                    ))));
+        }
+
+        [Test]
+        public void Definition_WithOneFormal_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main(arg1 : integer) : boolean
+                              true";
+
+            // act
+            var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer)) }
+                                                    ))));
+        }
+
+        [Test]
+        public void Definition_WithTwoFormals_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"main(arg1 : integer, arg2 : boolean) : boolean
+                              true";
+
+            // act
+            var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>
+                                                        {
+                                                            new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
+                                                            new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
+                                                        }
+                                                    ))));
+        }
+
+        [Test]
+        public void Program_WithTwoDefinitions_ShouldBeConstructedCorrectly()
+        {
+            // arrange
+            var input = @"
+main() : boolean
+    true                      
+subsidiary() : integer
+    1";
+
+            // act
+            var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
+            var isValid = parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(isValid, Is.True);
+            Assert.That(parser.Ast, Is.AstEqual(new Program(
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("main"),
+                                                        type: new KleinType(KType.Boolean),
+                                                        formals: new List<Formal>()
+                                                    ),
+                                                    new Definition
+                                                    (
+                                                        identifier: new Identifier("subsidiary"),
+                                                        type: new KleinType(KType.Integer),
+                                                        formals: new List<Formal>()
+                                                    ))));
+        }
+
+        #endregion
     }
 }
