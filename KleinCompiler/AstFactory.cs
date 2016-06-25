@@ -5,9 +5,14 @@ using System.Text;
 
 namespace KleinCompiler
 {
-    public class AstFactory
+    public interface IAstFactory
     {
-        public static void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token token)
+        void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token lastToken);
+    }
+
+    public class AstFactory : IAstFactory
+    {
+        public void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token lastToken)
         {
             switch (symbol)
             {
@@ -62,7 +67,7 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeIdentifier:
                 {
-                    var value = token.Value;
+                    var value = lastToken.Value;
                     var node = new Identifier(value);
                     semanticStack.Push(node);
                     return;
@@ -81,7 +86,7 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeIntegerLiteral:
                 {
-                    var node = new IntegerLiteral(token.Value);
+                    var node = new IntegerLiteral(lastToken.Value);
                     semanticStack.Push(node);
                     return;
                 }

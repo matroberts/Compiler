@@ -107,7 +107,64 @@ R12                             | boolean MakeBooleanType
 
     }
 
-    [TestFixture, Ignore("Ignored until fix grammar to take a body")]
+    public class DeclarationGrammarAstFactory : IAstFactory
+    {
+        public void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token lastToken)
+        {
+            switch (symbol)
+            {
+                case Symbol.MakeProgram:
+                {
+                    semanticStack.Push(new Program(semanticStack.Cast<Definition>().Reverse().ToList()));     
+                    return;               
+                }
+                case Symbol.MakeDefinition:
+                {
+                    var type = semanticStack.Pop();
+                    var formals = new Stack<Formal>();
+                    while (semanticStack.Peek() is Formal)
+                    {
+                        formals.Push(semanticStack.Pop() as Formal);
+                    }
+                    var identifier = semanticStack.Pop();
+
+                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList());
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeFormal:
+                {
+                    var type = semanticStack.Pop();
+                    var identifier = semanticStack.Pop();
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, type: (KleinType)type));
+                    return;
+                }
+                case Symbol.MakeIdentifier:
+                {
+                    var value = lastToken.Value;
+                    var node = new Identifier(value);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeIntegerType:
+                {
+                    var node = new KleinType(KType.Integer);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeBooleanType:
+                {
+                    var node = new KleinType(KType.Boolean);
+                    semanticStack.Push(node);
+                    return;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
+            }
+        }
+    }
+
+    [TestFixture]
     public class DeclarationGrammarTests
     {
         [Test]
@@ -117,7 +174,7 @@ R12                             | boolean MakeBooleanType
             var input = @"main() : boolean";
 
             // act
-            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -137,7 +194,7 @@ R12                             | boolean MakeBooleanType
             var input = @"main(arg1 : integer) : boolean";
 
             // act
-            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -157,7 +214,7 @@ R12                             | boolean MakeBooleanType
             var input = @"main(arg1 : integer, arg2 : boolean) : boolean";
 
             // act
-            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -182,7 +239,7 @@ R12                             | boolean MakeBooleanType
 subsidiary() : integer";
 
             // act
-            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert

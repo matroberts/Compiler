@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KleinCompiler;
 using NUnit.Framework;
@@ -80,6 +81,59 @@ R8                              | identifier MakeIdentifier
         }
     }
 
+    public class ArithmeticGrammarAstFactory : IAstFactory
+    {
+        public void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token lastToken)
+        {
+            switch (symbol)
+            {
+                case Symbol.MakePlus:
+                {
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Plus, right: (Expr)right);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeTimes:
+                {
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Times, right: (Expr)right);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeIdentifier:
+                {
+                    var value = lastToken.Value;
+                    var node = new Identifier(value);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeIntegerLiteral:
+                {
+                    var node = new IntegerLiteral(lastToken.Value);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeMakeBooleanTrueLiteral:
+                {
+                    var node = new BooleanLiteral(true);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeMakeBooleanFalseLiteral:
+                {
+                    var node = new BooleanLiteral(false);
+                    semanticStack.Push(node);
+                    return;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
+            }
+        }
+    }
+
     [TestFixture]
     public class ArithmeticGrammarTests
     {
@@ -90,7 +144,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x + y";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) {EnableStackTrace = true};
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) {EnableStackTrace = true};
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -110,7 +164,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x * y";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -130,7 +184,7 @@ R8                              | identifier MakeIdentifier
             var input = @"(x)";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -144,7 +198,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x + y * z";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -168,7 +222,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x * y + z";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -192,7 +246,7 @@ R8                              | identifier MakeIdentifier
             var input = @"(x + y) * z";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -216,7 +270,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x * y * z";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
@@ -240,7 +294,7 @@ R8                              | identifier MakeIdentifier
             var input = @"x + y + z";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
+            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert

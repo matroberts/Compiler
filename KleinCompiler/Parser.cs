@@ -31,12 +31,18 @@ namespace KleinCompiler
     */
     public class Parser
     {
-        public Parser(ParsingTable parsingTable)
+        public Parser() : this(ParsingTableFactory.Create(), new AstFactory())
+        {
+        }
+        public Parser(ParsingTable parsingTable, IAstFactory astFactory)
         {
             this.parsingTable = parsingTable;
+            this.astFactory = astFactory;
             this.Error = null;
         }
+
         private ParsingTable parsingTable;
+        private IAstFactory astFactory;
 
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
 
@@ -98,7 +104,7 @@ namespace KleinCompiler
                 }
                 else if (symbol.ToSymbolType() == SymbolType.Semantic)
                 {
-                    AstFactory.ProcessAction(semanticStack, symbol, lastToken);
+                    astFactory.ProcessAction(semanticStack, symbol, lastToken);
                 }
             }
             return semanticStack.Peek();
