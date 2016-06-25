@@ -10,97 +10,71 @@ namespace KleinCompilerTests
     public class AstTests
     {
         [Test]
-        public void Identifier_Equals_ShouldWorkCorrectly()
+        public void Program_Equals_ShouldWorkCorrectly()
         {
-            Assert.That(new Identifier("a").Equals(null), Is.False);
-            Assert.That(new Identifier("a").Equals(new KleinType(KType.Boolean)), Is.False);
-            Assert.That(new Identifier("a").Equals(new Identifier("b")), Is.False);
-            Assert.That(new Identifier("a").Equals(new Identifier("a")), Is.True);
-        }
+            var program = new Program(
+                new Definition
+                (
+                    identifier: new Identifier("main"),
+                    type: new KleinType(KType.Boolean),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                ),
+                new Definition
+                (
+                    identifier: new Identifier("subsidiary"),
+                    type: new KleinType(KType.Integer),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                )
+            );
 
-        [Test]
-        public void KleinType_Equals_ShouldWorkCorrectly()
-        {
-            Assert.That(new KleinType(KType.Integer).Equals(null), Is.False);
-            Assert.That(new KleinType(KType.Integer).Equals(new Identifier("integer")), Is.False);
-            Assert.That(new KleinType(KType.Integer).Equals(new KleinType(KType.Boolean)), Is.False);
-            Assert.That(new KleinType(KType.Integer).Equals(new KleinType(KType.Integer)), Is.True);
-        }
+            Assert.That(program.Equals(null), Is.False);
+            Assert.That(program.Equals(new Identifier("main")), Is.False);
 
-        [Test]
-        public void Formal_Equals_ShouldWorkCorrectly()
-        {
-            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(null), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Identifier("a")), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("wrong"), type: new KleinType(KType.Boolean))), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Integer))), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean))), Is.True);
-        }
+            Assert.That(program.Equals(new Program(
+                new Definition
+                (
+                    identifier: new Identifier("main"),
+                    type: new KleinType(KType.Boolean),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                )
+            )), Is.False);
 
-        [Test]
-        public void BinaryOperator_Equals_ShouldWorkCorrectly()
-        {
-            var binaryOperator = new BinaryOperator
-                                    (
-                                        left: new Identifier("left"),
-                                        op: BOp.Times, 
-                                        right: new Identifier("right")
-                                    );
+            Assert.That(program.Equals(new Program(
+                new Definition
+                (
+                    identifier: new Identifier("wrong"),
+                    type: new KleinType(KType.Boolean),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                ),
+                new Definition
+                (
+                    identifier: new Identifier("subsidiary"),
+                    type: new KleinType(KType.Integer),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                )
+            )), Is.False);
 
-            Assert.That(binaryOperator.Equals(null), Is.False);
-            Assert.That(binaryOperator.Equals(new Identifier("a")), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("wrong"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("right")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Plus, 
-                                                       right: new Identifier("right")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("wrong")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("right")
-                                                  )), Is.True);
-        }
-
-        [Test]
-        public void UnaryOperator_Equals_ShouldWorkCorrectly()
-        {
-            var unaryOperatory = new UnaryOperator
-                                     (
-                                         op: UOp.Not,
-                                         right: new Identifier("right")
-                                     );
-
-            Assert.That(unaryOperatory.Equals(null), Is.False);
-            Assert.That(unaryOperatory.Equals(new Identifier("a")), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
-                                                  (
-                                                       op: UOp.Negate,
-                                                       right: new Identifier("right")
-                                                  )), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
-                                                  (
-                                                       op: UOp.Not,
-                                                       right: new Identifier("wrong")
-                                                  )), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
-                                                  (
-                                                       op: UOp.Not,
-                                                       right: new Identifier("right")
-                                                  )), Is.True);
+            Assert.That(program.Equals(new Program(
+                new Definition
+                (
+                    identifier: new Identifier("main"),
+                    type: new KleinType(KType.Boolean),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                ),
+                new Definition
+                (
+                    identifier: new Identifier("subsidiary"),
+                    type: new KleinType(KType.Integer),
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
+                )
+            )), Is.True);
         }
 
         [Test]
@@ -222,71 +196,111 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Program_Equals_ShouldWorkCorrectly()
+        public void KleinType_Equals_ShouldWorkCorrectly()
         {
-            var program = new Program(
-                new Definition
-                (
-                    identifier: new Identifier("main"),
-                    type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                ),
-                new Definition
-                (
-                    identifier: new Identifier("subsidiary"),
-                    type: new KleinType(KType.Integer),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                )
-            );
+            Assert.That(new KleinType(KType.Integer).Equals(null), Is.False);
+            Assert.That(new KleinType(KType.Integer).Equals(new Identifier("integer")), Is.False);
+            Assert.That(new KleinType(KType.Integer).Equals(new KleinType(KType.Boolean)), Is.False);
+            Assert.That(new KleinType(KType.Integer).Equals(new KleinType(KType.Integer)), Is.True);
+        }
 
-            Assert.That(program.Equals(null), Is.False);
-            Assert.That(program.Equals(new Identifier("main")), Is.False);
+        [Test]
+        public void Formal_Equals_ShouldWorkCorrectly()
+        {
+            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(null), Is.False);
+            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Identifier("a")), Is.False);
+            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("wrong"), type: new KleinType(KType.Boolean))), Is.False);
+            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Integer))), Is.False);
+            Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean))), Is.True);
+        }
 
-            Assert.That(program.Equals(new Program(
-                new Definition
-                (
-                    identifier: new Identifier("main"),
-                    type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                )
-            )), Is.False);
+        [Test]
+        public void Body_ShouldImplement_ValueEquality()
+        {
+            var body = new Body
+                       (
+                           new IntegerLiteral("123")
+                       );
+            Assert.That(body.Equals(null), Is.False);
+            Assert.That(body.Equals(new IntegerLiteral("123")), Is.False);
+            Assert.That(body.Equals(new Body(new BooleanLiteral(true))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral("456"))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.True);
+        }
 
-            Assert.That(program.Equals(new Program(
-                new Definition
-                (
-                    identifier: new Identifier("wrong"),
-                    type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                ),
-                new Definition
-                (
-                    identifier: new Identifier("subsidiary"),
-                    type: new KleinType(KType.Integer),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                )
-            )), Is.False);
+        [Test]
+        public void Identifier_Equals_ShouldWorkCorrectly()
+        {
+            Assert.That(new Identifier("a").Equals(null), Is.False);
+            Assert.That(new Identifier("a").Equals(new KleinType(KType.Boolean)), Is.False);
+            Assert.That(new Identifier("a").Equals(new Identifier("b")), Is.False);
+            Assert.That(new Identifier("a").Equals(new Identifier("a")), Is.True);
+        }
 
-            Assert.That(program.Equals(new Program(
-                new Definition
-                (
-                    identifier: new Identifier("main"),
-                    type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                ),
-                new Definition
-                (
-                    identifier: new Identifier("subsidiary"),
-                    type: new KleinType(KType.Integer),
-                    formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
-                )
-            )), Is.True);
+        [Test]
+        public void BinaryOperator_Equals_ShouldWorkCorrectly()
+        {
+            var binaryOperator = new BinaryOperator
+                                    (
+                                        left: new Identifier("left"),
+                                        op: BOp.Times, 
+                                        right: new Identifier("right")
+                                    );
+
+            Assert.That(binaryOperator.Equals(null), Is.False);
+            Assert.That(binaryOperator.Equals(new Identifier("a")), Is.False);
+            Assert.That(binaryOperator.Equals(new BinaryOperator
+                                                  (
+                                                       left: new Identifier("wrong"),
+                                                       op: BOp.Times, 
+                                                       right: new Identifier("right")
+                                                  )), Is.False);
+            Assert.That(binaryOperator.Equals(new BinaryOperator
+                                                  (
+                                                       left: new Identifier("left"),
+                                                       op: BOp.Plus, 
+                                                       right: new Identifier("right")
+                                                  )), Is.False);
+            Assert.That(binaryOperator.Equals(new BinaryOperator
+                                                  (
+                                                       left: new Identifier("left"),
+                                                       op: BOp.Times, 
+                                                       right: new Identifier("wrong")
+                                                  )), Is.False);
+            Assert.That(binaryOperator.Equals(new BinaryOperator
+                                                  (
+                                                       left: new Identifier("left"),
+                                                       op: BOp.Times, 
+                                                       right: new Identifier("right")
+                                                  )), Is.True);
+        }
+
+        [Test]
+        public void UnaryOperator_Equals_ShouldWorkCorrectly()
+        {
+            var unaryOperatory = new UnaryOperator
+                                     (
+                                         op: UOp.Not,
+                                         right: new Identifier("right")
+                                     );
+
+            Assert.That(unaryOperatory.Equals(null), Is.False);
+            Assert.That(unaryOperatory.Equals(new Identifier("a")), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Negate,
+                                                       right: new Identifier("right")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Not,
+                                                       right: new Identifier("wrong")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new UnaryOperator
+                                                  (
+                                                       op: UOp.Not,
+                                                       right: new Identifier("right")
+                                                  )), Is.True);
         }
 
         [Test]
@@ -306,21 +320,6 @@ namespace KleinCompilerTests
             Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("456")), Is.False);
             Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("123")), Is.True);
         }
-
-        [Test]
-        public void Body_ShouldImplement_ValueEquality()
-        {
-            var body = new Body
-                       (
-                           new IntegerLiteral("123")
-                       );
-            Assert.That(body.Equals(null), Is.False);
-            Assert.That(body.Equals(new IntegerLiteral("123")), Is.False);
-            Assert.That(body.Equals(new Body(new BooleanLiteral(true))), Is.False);
-            Assert.That(body.Equals(new Body(new IntegerLiteral("456"))), Is.False);
-            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.True);
-        }
-
 
     }
 }

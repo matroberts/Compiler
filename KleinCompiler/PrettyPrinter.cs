@@ -49,6 +49,20 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
+        public void Visit(Formal node)
+        {
+            builder.AppendLine($"Formal");
+            builder.Indent();
+            node.Identifier.Accept(this);
+            node.Type.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(KleinType node)
+        {
+            builder.AppendLine($"Type({node.Value})");
+        }
+
         public void Visit(Body node)
         {
             builder.AppendLine("Body");
@@ -90,23 +104,9 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(Formal node)
-        {
-            builder.AppendLine($"Formal");
-            builder.Indent();
-            node.Identifier.Accept(this);
-            node.Type.Accept(this);
-            builder.Outdent();
-        }
-
         public void Visit(Identifier node)
         {
             builder.AppendLine($"Identifier({node.Value})");
-        }
-
-        public void Visit(KleinType node)
-        {
-            builder.AppendLine($"Type({node.Value})");
         }
 
         public void Visit(BooleanLiteral node)
