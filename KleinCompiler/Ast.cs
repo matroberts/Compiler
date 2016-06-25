@@ -31,9 +31,7 @@ namespace KleinCompiler
         }
     }
 
-    public abstract class Expr : Ast
-    {
-    }
+    #region Declaration
 
     public class Program : Ast
     {
@@ -141,6 +139,46 @@ namespace KleinCompiler
         }
     }
 
+    public class Formal : Ast
+    {
+        public Formal(Identifier identifier, KleinType type)
+        {
+            Type = type;
+            Identifier = identifier;
+        }
+
+        public KleinType Type { get; }
+        public Identifier Identifier { get; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as Formal;
+            if (node == null)
+                return false;
+
+            if (this.Type.Equals(node.Type) == false)
+                return false;
+            if (this.Identifier.Equals(node.Identifier) == false)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Identifier.Value})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
     public class Body : Ast
     {
         public Body(Expr expr)
@@ -178,7 +216,54 @@ namespace KleinCompiler
         }
     }
 
+    public enum KType
+    {
+        Integer,
+        Boolean
+    }
+    public class KleinType : Ast
+    {
+        public KleinType(KType value)
+        {
+            Value = value;
+        }
+        public KType Value { get; }
 
+        public override bool Equals(object obj)
+        {
+            var node = obj as KleinType;
+            if (node == null)
+                return false;
+
+            if (this.Value.Equals(node.Value) == false)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Value})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    #endregion
+
+    #region Expression
+
+    public abstract class Expr : Ast
+    {
+    }
 
     public enum BOp
     {
@@ -241,46 +326,6 @@ namespace KleinCompiler
         }
     }
 
-    public class Formal : Ast
-    {
-        public Formal(Identifier identifier, KleinType type)
-        {
-            Type = type;
-            Identifier = identifier;
-        }
-
-        public KleinType Type { get; }
-        public Identifier Identifier { get; }
-
-        public override bool Equals(object obj)
-        {
-            var node = obj as Formal;
-            if (node == null)
-                return false;
-
-            if (this.Type.Equals(node.Type) == false)
-                return false;
-            if (this.Identifier.Equals(node.Identifier) == false)
-                return false;
-
-            return true;
-        }
-
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
-        public override string ToString()
-        {
-            return $"{GetType().Name}({Identifier.Value})";
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
     public class Identifier : Expr
     {
         public Identifier(string value)
@@ -292,47 +337,6 @@ namespace KleinCompiler
         public override bool Equals(object obj)
         {
             var node = obj as Identifier;
-            if (node == null)
-                return false;
-
-            if (this.Value.Equals(node.Value) == false)
-                return false;
-
-            return true;
-        }
-
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name}({Value})";
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-    public enum KType
-    {
-        Integer,
-        Boolean
-    }
-    public class KleinType : Ast
-    {
-        public KleinType(KType value)
-        {
-            Value = value;
-        }
-        public KType Value { get; }
-
-        public override bool Equals(object obj)
-        {
-            var node = obj as KleinType;
             if (node == null)
                 return false;
 
@@ -431,4 +435,6 @@ namespace KleinCompiler
             return base.GetHashCode();
         }
     }
+
+    #endregion
 }
