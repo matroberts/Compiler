@@ -2,7 +2,7 @@
 R1      <Program>             ::= <Def> <DefTail> MakeProgram                               
 R2      <DefTail>             ::= <Def> <DefTail>
 R3                              | e                                                         
-R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> MakeDefinition <Body> 
+R4      <Def>                 ::= <Identifier> MakeIdentifier ( <Formals> ) : <Type> <Body> MakeDefinition
 R5      <Formals>             ::= e
 R6                              | <NonEmptyFormals>
 R7      <NonEmptyFormals>     ::= <Formal><FormalTail>                                      
