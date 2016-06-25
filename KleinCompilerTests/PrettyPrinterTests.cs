@@ -131,6 +131,15 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void AllTheValues_InTheBOpEnum_ShouldHaveAnOpTextAttribute()
+        {
+            foreach (BOp op in Enum.GetValues(typeof(BOp)).Cast<BOp>())
+            {
+                Assert.That(() => op.ToOpText(), Throws.Nothing);
+            }
+        }
+
+        [Test]
         public void UnaryOperator_ShouldPrint()
         {
             var ast = new UnaryOperator

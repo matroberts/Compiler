@@ -267,8 +267,18 @@ namespace KleinCompiler
 
     public enum BOp
     {
+        [OpText("<")]
+        LessThan,
+        [OpText("=")]
+        Equals,
+        [OpText("+")]
+        Plus,
+        [OpText("-")]
+        Minus,
+        [OpText("*")]
         Times,
-        Plus
+        [OpText("/")]
+        Divide
     }
     public class BinaryOperator : Expr
     {

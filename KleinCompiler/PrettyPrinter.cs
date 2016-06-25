@@ -76,20 +76,7 @@ namespace KleinCompiler
 
         public void Visit(BinaryOperator node)
         {
-            string opString;
-            switch (node.Operator)
-            {
-                case BOp.Times:
-                    opString = "*";
-                    break;
-                case BOp.Plus:
-                    opString = "+";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            builder.AppendLine($"BinaryOperator({opString})");
+            builder.AppendLine($"BinaryOperator({node.Operator.ToOpText()})");
             builder.Indent();
             node.Left.Accept(this);
             node.Right.Accept(this);
