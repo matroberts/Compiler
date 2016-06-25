@@ -135,6 +135,43 @@ namespace KleinCompiler
         }
     }
 
+    public class Body : Ast
+    {
+        public Body(Expr expr)
+        {
+            Value = expr;
+        }
+
+        public Expr Value { get; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as Body;
+            if (node == null)
+                return false;
+
+            if (this.Value.Equals(node.Value) == false)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
 
 
     public enum BOp
@@ -237,6 +274,7 @@ namespace KleinCompiler
             return base.GetHashCode();
         }
     }
+
     public class Identifier : Expr
     {
         public Identifier(string value)

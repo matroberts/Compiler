@@ -101,8 +101,7 @@ namespace KleinCompilerTests
 @"Formal
     Identifier(arg1)
     Type(Boolean)
-"                
-                ));
+"));
         }
 
         [Test]
@@ -111,8 +110,7 @@ namespace KleinCompilerTests
             var ast = new BooleanLiteral(true);
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Boolean(True)
-"
-                ));
+"));
         }
 
         [Test]
@@ -121,8 +119,22 @@ namespace KleinCompilerTests
             var ast = new IntegerLiteral("123");
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Integer(123)
-"
-                ));
+"));
+        }
+
+        [Test]
+        public void Body_ShouldPrintCorrectly()
+        {
+            var ast = new Body
+                      (
+                          new IntegerLiteral("123")
+                      );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Body
+    Expr
+        Integer(123)
+"));
         }
 
     }

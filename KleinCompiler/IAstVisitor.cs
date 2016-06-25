@@ -6,6 +6,7 @@ namespace KleinCompiler
     {
         void Visit(Program node);
         void Visit(Definition node);
+        void Visit(Body node);
         void Visit(BinaryOperator node);
         void Visit(UnaryOperator node);
         void Visit(Formal node);

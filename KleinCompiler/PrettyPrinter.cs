@@ -48,6 +48,17 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
+        public void Visit(Body node)
+        {
+            builder.AppendLine("Body");
+            builder.Indent();
+            builder.AppendLine("Expr");
+            builder.Indent();
+            node.Value.Accept(this);
+            builder.Outdent();
+            builder.Outdent();
+        }
+
         public void Visit(BinaryOperator node)
         {
             string opString;

@@ -253,5 +253,19 @@ namespace KleinCompilerTests
             Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("456")), Is.False);
             Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("123")), Is.True);
         }
+
+        [Test]
+        public void Body_ShouldImplement_ValueEquality()
+        {
+            var body = new Body
+                       (
+                           new IntegerLiteral("123")
+                       );
+            Assert.That(body.Equals(null), Is.False);
+            Assert.That(body.Equals(new IntegerLiteral("123")), Is.False);
+            Assert.That(body.Equals(new Body(new BooleanLiteral(true))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral("456"))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.True);
+        }
     }
 }
