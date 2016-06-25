@@ -91,11 +91,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) {EnableStackTrace = true};
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
                                                         op: BOp.Plus,
@@ -112,11 +111,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
                                                         op: BOp.Times, 
@@ -133,11 +131,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Identifier("x")));
+            Assert.That(ast, Is.AstEqual(new Identifier("x")));
         }
 
         [Test]
@@ -148,11 +145,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new Identifier("x"),
                                                         op: BOp.Plus, 
@@ -173,11 +169,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new BinaryOperator
                                                                   (
@@ -198,11 +193,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new BinaryOperator
                                                                   (
@@ -223,11 +217,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new BinaryOperator
                                                                   (
@@ -248,11 +241,10 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True, parser.StackTrace);
-            Assert.That(parser.Ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new BinaryOperator
                                                     (
                                                         left: new BinaryOperator
                                                                   (

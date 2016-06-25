@@ -118,11 +118,10 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -139,11 +138,10 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -160,11 +158,10 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -186,11 +183,10 @@ subsidiary() : integer";
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),

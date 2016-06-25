@@ -22,10 +22,10 @@ main () : boolean
 
             // act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.True);
+            Assert.That(ast, Is.Not.Null);
         }
 
         [Test]
@@ -39,10 +39,10 @@ main () : boolean
 
             //act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.True);
+            Assert.That(ast, Is.Not.Null);
         }
 
         [Test]
@@ -56,10 +56,10 @@ main () : boolean
 
             //act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.False);
+            Assert.That(ast, Is.Null);
             Assert.That(parser.Error.Message, Is.EqualTo($"Unknown character '!'"));
         }
 
@@ -71,10 +71,10 @@ main () : boolean
 
             // act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.False);
+            Assert.That(ast, Is.Null);
             Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'Program' found token End"));
         }
 
@@ -86,10 +86,10 @@ main () : boolean
 
             // act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.False);
+            Assert.That(ast, Is.Null);
             Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
         }
 
@@ -105,11 +105,10 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser(ParsingTableFactory.Create());
-            var result = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(result, Is.True);
-
+            Assert.That(ast, Is.Not.Null);
         }
 
         [Test]
@@ -121,8 +120,8 @@ circularPrimesTo(x: integer):integer
             foreach (var file in files)
             {
                 var parser = new Parser(ParsingTableFactory.Create());
-                var isValid = parser.Parse(new Tokenizer(File.ReadAllText(file)));
-                Assert.That(isValid, Is.True, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
+                var ast = parser.Parse(new Tokenizer(File.ReadAllText(file)));
+                Assert.That(ast, Is.Not.Null, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
             }
             Console.WriteLine(DateTime.UtcNow - start);
         }
@@ -140,11 +139,10 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -162,11 +160,10 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -184,11 +181,10 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
@@ -213,11 +209,10 @@ subsidiary() : integer
 
             // act
             var parser = new Parser(ParsingTableFactory.Create()) { EnableStackTrace = true };
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(isValid, Is.True);
-            Assert.That(parser.Ast, Is.AstEqual(new Program(
+            Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),

@@ -49,9 +49,7 @@ namespace KleinCompiler
         private readonly StringBuilder stackTraceBuilder = new StringBuilder();
         public string StackTrace => stackTraceBuilder.ToString();
 
-        public Ast Ast => semanticStack.Peek();
-
-        public bool Parse(Tokenizer tokenizer)
+        public Ast Parse(Tokenizer tokenizer)
         {
             symbolStack.Push(parsingTable.LastSymbol);
             symbolStack.Push(parsingTable.FirstSymbol);
@@ -70,7 +68,7 @@ namespace KleinCompiler
                 if (token is ErrorToken)
                 {
                     Error = Error.CreateLexicalError(token as ErrorToken);
-                    return false;
+                    return null;
                 }
 
                 if (symbol.ToSymbolType() == SymbolType.Token)
@@ -82,7 +80,7 @@ namespace KleinCompiler
                     else
                     {
                         Error = Error.CreateSyntaxError(symbol, token);
-                        return false;
+                        return null;
                     }
                 }
                 else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
@@ -91,7 +89,7 @@ namespace KleinCompiler
                     if (rule == null)
                     {
                         Error = Error.CreateSyntaxError(symbol, token);
-                        return false;
+                        return null;
                     }
                     else
                     {
@@ -103,7 +101,7 @@ namespace KleinCompiler
                     AstFactory.ProcessAction(semanticStack, symbol, lastToken);
                 }
             }
-            return true;
+            return semanticStack.Peek();
         }
 
         private void TraceStack(Token token, Stack<Symbol> symStack, Stack<Ast> semStack)
