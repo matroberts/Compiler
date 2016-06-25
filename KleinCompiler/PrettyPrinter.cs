@@ -121,6 +121,20 @@ namespace KleinCompiler
         {
             builder.AppendLine($"Integer({node.Value})");
         }
+
+        public void Visit(FunctionCall node)
+        {
+            builder.AppendLine($"FunctionCall({node.Identifier.Value})");
+            builder.Indent();
+            foreach (var actual in node.Actuals)
+            {
+                builder.AppendLine("Actual");
+                builder.Indent();
+                actual.Accept(this);
+                builder.Outdent();
+            }
+            builder.Outdent();
+        }
     }
 
     public class TabbedStringBuilder

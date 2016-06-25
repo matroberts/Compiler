@@ -200,5 +200,25 @@ Else
 @"Integer(123)
 "));
         }
+
+        [Test]
+        public void FunctionCall_ShouldPrint()
+        {
+            var ast = new FunctionCall(
+                                            new Identifier("func"),
+                                            new List<Expr>()
+                                            {
+                                                new Identifier("x"),
+                                                new Identifier("y")
+                                            } 
+                                      );
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"FunctionCall(func)
+    Actual
+        Identifier(x)
+    Actual
+        Identifier(y)
+"));
+        }
     }
 }

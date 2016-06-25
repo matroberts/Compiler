@@ -359,5 +359,52 @@ namespace KleinCompilerTests
             Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("123")), Is.True);
         }
 
+        [Test]
+        public void FunctionCall_ShouldImplement_ValueEquality()
+        {
+            var functioncall = new FunctionCall(
+                                    new Identifier("func"),
+                                    new List<Expr>()
+                                    {
+                                        new Identifier("x"),
+                                        new Identifier("y")
+                                    }
+                              );
+
+            Assert.That(functioncall.Equals(null), Is.False);
+            Assert.That(functioncall.Equals(new Identifier("func")), Is.False);
+            Assert.That(functioncall.Equals(new FunctionCall(
+                                                new Identifier("wrong"),
+                                                new List<Expr>()
+                                                {
+                                                    new Identifier("x"),
+                                                    new Identifier("y")
+                                                }
+                                            )), Is.False);
+            Assert.That(functioncall.Equals(new FunctionCall(
+                                                new Identifier("func"),
+                                                new List<Expr>()
+                                                {
+                                                    new Identifier("x"),
+                                                }
+                                            )), Is.False);
+            Assert.That(functioncall.Equals(new FunctionCall(
+                                                new Identifier("func"),
+                                                new List<Expr>()
+                                                {
+                                                    new Identifier("x"),
+                                                    new Identifier("wrong")
+                                                }
+                                            )), Is.False);
+            Assert.That(functioncall.Equals(new FunctionCall(
+                                                new Identifier("func"),
+                                                new List<Expr>()
+                                                {
+                                                    new Identifier("x"),
+                                                    new Identifier("y")
+                                                }
+                                            )), Is.True);
+        }
+
     }
 }
