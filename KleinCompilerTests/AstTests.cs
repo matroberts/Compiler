@@ -82,7 +82,8 @@ namespace KleinCompilerTests
                                  (
                                      identifier: new Identifier("def"),
                                      type: new KleinType(KType.Boolean),
-                                     formals: new List<Formal>()
+                                     formals: new List<Formal>(),
+                                     body: new Body(expr: new BooleanLiteral(false))
                                  );
 
             Assert.That(definition.Equals(null), Is.False);
@@ -91,20 +92,31 @@ namespace KleinCompilerTests
                                               (
                                                   identifier: new Identifier("wrong"),
                                                   type: new KleinType(KType.Boolean),
-                                                  formals: new List<Formal>()
+                                                  formals: new List<Formal>(),
+                                                  body: new Body(expr: new BooleanLiteral(false))
                                               )), Is.False);
             Assert.That(definition.Equals(new Definition
                                               (
                                                   identifier: new Identifier("def"),
                                                   type: new KleinType(KType.Integer),
-                                                  formals: new List<Formal>()
+                                                  formals: new List<Formal>(),
+                                                  body: new Body(expr: new BooleanLiteral(false))
                                               )), Is.False);
 
             Assert.That(definition.Equals(new Definition
                                               (
                                                   identifier: new Identifier("def"),
                                                   type: new KleinType(KType.Boolean),
-                                                  formals: new List<Formal>()
+                                                  formals: new List<Formal>(),
+                                                  body: new Body(expr: new BooleanLiteral(true))
+                                              )), Is.False);
+
+            Assert.That(definition.Equals(new Definition
+                                              (
+                                                  identifier: new Identifier("def"),
+                                                  type: new KleinType(KType.Boolean),
+                                                  formals: new List<Formal>(),
+                                                  body: new Body(expr: new BooleanLiteral(false))
                                               )), Is.True);
         }
 
@@ -119,7 +131,8 @@ namespace KleinCompilerTests
                                  {
                                      new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                      new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
-                                 }
+                                 },
+                                 body: new Body(expr: new BooleanLiteral(false))
                              );
 
             Assert.That(definition.Equals(new Definition
@@ -130,14 +143,16 @@ namespace KleinCompilerTests
                                                        {
                                                            new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                            new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
-                                                       }
+                                                       },
+                                              body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.True);
 
             Assert.That(definition.Equals(new Definition
                                           (
                                               identifier: new Identifier("def"),
                                               type: new KleinType(KType.Boolean),
-                                              formals: new List<Formal>()
+                                              formals: new List<Formal>(),
+                                              body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
 
             Assert.That(definition.Equals(new Definition
@@ -149,7 +164,8 @@ namespace KleinCompilerTests
                                                                        new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                                        new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
                                                                        new Formal(new Identifier("arg3"), new KleinType(KType.Boolean)),
-                                                       }
+                                                       },
+                                              body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
 
             Assert.That(definition.Equals(new Definition
@@ -160,7 +176,8 @@ namespace KleinCompilerTests
                                                        {
                                                                        new Formal(new Identifier("wrong"), new KleinType(KType.Integer)),
                                                                        new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
-                                                       }
+                                                       },
+                                              body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
 
             Assert.That(definition.Equals(new Definition
@@ -171,7 +188,8 @@ namespace KleinCompilerTests
                                                        {
                                                                                    new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                                                    new Formal(new Identifier("arg2"), new KleinType(KType.Integer)),
-                                                       }
+                                                       },
+                                              body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
         }
 
@@ -183,13 +201,15 @@ namespace KleinCompilerTests
                 (
                     identifier: new Identifier("main"),
                     type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 )
             );
 
@@ -201,7 +221,8 @@ namespace KleinCompilerTests
                 (
                     identifier: new Identifier("main"),
                     type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 )
             )), Is.False);
 
@@ -210,13 +231,15 @@ namespace KleinCompilerTests
                 (
                     identifier: new Identifier("wrong"),
                     type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 )
             )), Is.False);
 
@@ -225,13 +248,15 @@ namespace KleinCompilerTests
                 (
                     identifier: new Identifier("main"),
                     type: new KleinType(KType.Boolean),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier("subsidiary"),
                     type: new KleinType(KType.Integer),
-                    formals: new List<Formal>()
+                    formals: new List<Formal>(),
+                    body: new Body(expr: new BooleanLiteral(false))
                 )
             )), Is.True);
         }

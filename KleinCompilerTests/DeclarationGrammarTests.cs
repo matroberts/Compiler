@@ -128,7 +128,7 @@ R12                             | boolean MakeBooleanType
                     }
                     var identifier = semanticStack.Pop();
 
-                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList());
+                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList(), body: null);
                     semanticStack.Push(node);
                     return;
                 }
@@ -183,7 +183,8 @@ R12                             | boolean MakeBooleanType
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new  List<Formal>()
+                                                        formals: new  List<Formal>(),
+                                                        body: null
                                                     ))));
         }
 
@@ -203,7 +204,8 @@ R12                             | boolean MakeBooleanType
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer))}
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer))},
+                                                        body: null
                                                     ))));
         }
 
@@ -227,7 +229,8 @@ R12                             | boolean MakeBooleanType
                                                         {
                                                             new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                             new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
-                                                        }
+                                                        },
+                                                        body: null
                                                     ))));
         }
 
@@ -248,13 +251,15 @@ subsidiary() : integer";
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal>()
+                                                        formals: new List<Formal>(),
+                                                        body: null
                                                     ),
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("subsidiary"),
                                                         type: new KleinType(KType.Integer),
-                                                        formals: new List<Formal>()
+                                                        formals: new List<Formal>(),
+                                                        body: null
                                                     ))));
         }
     }

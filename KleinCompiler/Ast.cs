@@ -85,14 +85,16 @@ namespace KleinCompiler
 
     public class Definition : Ast
     {
-        public Definition(Identifier identifier, KleinType type, List<Formal> formals)
+        public Definition(Identifier identifier, KleinType type, List<Formal> formals, Body body)
         {
             Identifier = identifier;
             Type = type;
+            Body = body;
             Formals = formals.AsReadOnly();
         }
         public Identifier Identifier { get; }
         public KleinType Type { get; }
+        public Body Body { get; }
         public ReadOnlyCollection<Formal> Formals { get; }
 
         public override bool Equals(object obj)
@@ -115,6 +117,10 @@ namespace KleinCompiler
                 if (Formals[i].Equals(definition.Formals[i]) == false)
                     return false;
             }
+
+            // checks for null here are due to the declaration grammar tests, which does not have a body
+            if (Body != null && definition.Body != null && Body.Equals(definition.Body) == false)
+                return false;
 
             return true;
         }

@@ -45,6 +45,7 @@ namespace KleinCompiler
                 formal.Accept(this);
             }
             builder.Outdent();
+            node.Body.Accept(this);
             builder.Outdent();
         }
 

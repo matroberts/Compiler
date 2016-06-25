@@ -32,7 +32,7 @@ namespace KleinCompiler
                     }
                     var identifier = semanticStack.Pop();
 
-                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList());
+                    var node = new Definition(identifier: (Identifier)identifier, type: (KleinType)type, formals: formals.ToList(), body: (Body)body);
                     semanticStack.Push(node);
                     return;
                 }

@@ -147,7 +147,8 @@ circularPrimesTo(x: integer):integer
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal>()
+                                                        formals: new List<Formal>(),
+                                                        body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
         }
 
@@ -168,7 +169,8 @@ circularPrimesTo(x: integer):integer
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer)) }
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer)) },
+                                                        body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
         }
 
@@ -193,7 +195,8 @@ circularPrimesTo(x: integer):integer
                                                         {
                                                             new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
                                                             new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
-                                                        }
+                                                        },
+                                                        body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
         }
 
@@ -217,13 +220,15 @@ subsidiary() : integer
                                                     (
                                                         identifier: new Identifier("main"),
                                                         type: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal>()
+                                                        formals: new List<Formal>(),
+                                                        body: new Body(expr: new BooleanLiteral(true))
                                                     ),
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("subsidiary"),
                                                         type: new KleinType(KType.Integer),
-                                                        formals: new List<Formal>()
+                                                        formals: new List<Formal>(),
+                                                        body: new Body(expr: new IntegerLiteral("1"))
                                                     ))));
         }
 
