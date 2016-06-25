@@ -235,5 +235,14 @@ namespace KleinCompilerTests
                 )
             )), Is.True);
         }
+
+        [Test]
+        public void BooleanLiteral_ShouldImplement_ValueEquality()
+        {
+            Assert.That(new BooleanLiteral(true).Equals(null), Is.False);
+            Assert.That(new BooleanLiteral(true).Equals(true), Is.False);
+            Assert.That(new BooleanLiteral(true).Equals(new BooleanLiteral(false)), Is.False);
+            Assert.That(new BooleanLiteral(true).Equals(new BooleanLiteral(true)), Is.True);
+        }
     }
 }

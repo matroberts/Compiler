@@ -17,16 +17,16 @@ namespace KleinCmdlets
         {
             var input = File.ReadAllText(Path);
             var parser = new Parser(ParsingTableFactory.Create());
-            var isValid = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input));
 
-            if (isValid == false)
+            if (ast == null)
             {
                 var calculator = new FilePositionCalculator(input);
                 var filePosition = calculator.FilePosition(parser.Error.Token.Position);
                 var exceptionMessage = $"{parser.Error.Message}\r\n at {Path} {filePosition}";
                 WriteError(new ErrorRecord(new Exception(exceptionMessage), "InvalidProgram", ErrorCategory.InvalidData, null));
             }
-            WriteObject(isValid);
+            WriteObject(ast);
         }
     }
 }

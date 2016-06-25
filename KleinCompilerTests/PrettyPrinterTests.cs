@@ -105,5 +105,15 @@ namespace KleinCompilerTests
                 ));
         }
 
+        [Test]
+        public void BooleanLiteral_ShouldPrintCorrectly()
+        {
+            var ast = new BooleanLiteral(true);
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Boolean(True)
+"
+                ));
+        }
+
     }
 }

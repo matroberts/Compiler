@@ -48,11 +48,6 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(Expr node)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Visit(BinaryOperator node)
         {
             string opString;
@@ -97,6 +92,11 @@ namespace KleinCompiler
         public void Visit(KleinType node)
         {
             builder.AppendLine($"Type({node.Value})");
+        }
+
+        public void Visit(BooleanLiteral node)
+        {
+            builder.AppendLine($"Boolean({node.Value})");
         }
     }
 

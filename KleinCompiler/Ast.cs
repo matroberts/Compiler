@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 
 namespace KleinCompiler
 {
@@ -29,6 +30,10 @@ namespace KleinCompiler
         {
             return this.ToString().GetHashCode();
         }
+    }
+
+    public abstract class Expr : Ast
+    {
     }
 
     public class Program : Ast
@@ -131,13 +136,7 @@ namespace KleinCompiler
         }
     }
 
-    public class Expr : Ast
-    {
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
-    }
+
 
     public enum BOp
     {
@@ -291,6 +290,43 @@ namespace KleinCompiler
         public override bool Equals(object obj)
         {
             var node = obj as KleinType;
+            if (node == null)
+                return false;
+
+            if (this.Value.Equals(node.Value) == false)
+                return false;
+
+            return true;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Value})";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    public class BooleanLiteral : Expr
+    {
+        public BooleanLiteral(bool value)
+        {
+            Value = value;
+        }
+
+        public bool Value { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as BooleanLiteral;
             if (node == null)
                 return false;
 
