@@ -117,6 +117,8 @@
         [SymbolType(SymbolType.Semantic)]
         MakeBody,
         [SymbolType(SymbolType.Semantic)]
+        MakeLessThan,
+        [SymbolType(SymbolType.Semantic)]
         MakePlus,
         [SymbolType(SymbolType.Semantic)]
         MakeTimes,

@@ -47,20 +47,19 @@ namespace KleinCompiler
                     semanticStack.Push(new Body(expr: (Expr)expr));
                     return;
                 }
+                case Symbol.MakeLessThan:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.LessThan, semanticStack));
+                    return;
+                }
                 case Symbol.MakePlus:
                 {
-                    var right = semanticStack.Pop();
-                    var left = semanticStack.Pop();
-                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Plus, right: (Expr)right);
-                    semanticStack.Push(node);
+                    semanticStack.Push(CreateBinaryOperator(BOp.Plus, semanticStack));
                     return;
                 }
                 case Symbol.MakeTimes:
                 {
-                    var right = semanticStack.Pop();
-                    var left = semanticStack.Pop();
-                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Times, right: (Expr)right);
-                    semanticStack.Push(node);
+                    semanticStack.Push(CreateBinaryOperator(BOp.Times, semanticStack));
                     return;
                 }
                 case Symbol.MakeFormal:
@@ -110,6 +109,13 @@ namespace KleinCompiler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }
+        }
+
+        private BinaryOperator CreateBinaryOperator(BOp bop, Stack<Ast> semanticStack)
+        {
+            var right = semanticStack.Pop();
+            var left = semanticStack.Pop();
+            return new BinaryOperator(left: (Expr)left, op: bop, right: (Expr)right);
         }
     }
 }

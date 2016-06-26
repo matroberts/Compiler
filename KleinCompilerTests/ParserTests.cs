@@ -227,41 +227,25 @@ subsidiary() : integer
 
         #region Expression Grammar
 
-        [Test]
-        public void ParserShould_GenerateAstFor_Addition_R21()
+        [TestCase("<", BOp.LessThan)] // R16
+        [TestCase("+", BOp.Plus)]     // R21
+        [TestCase("*", BOp.Times)]    // R26
+        public void ParserShould_GenerateAstForAllBinaryOperators(string op, BOp bop)
         {
             // arrange
-            var input = @"main(x: integer, y : integer) : integer x + y";
+            var input = $"main(x: integer, y : integer) : integer x {op} y";
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
+            if (program == null) Console.WriteLine(parser.StackTrace);
+            Assert.That(program, Is.Not.Null, parser.Error.Message);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
                                                                           (
                                                                               left: new Identifier("x"),
-                                                                              op: BOp.Plus,
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAstFor_Multiplication_R26()
-        {
-            // arrange
-            var input = @"main(x: integer, y : integer) : integer x * y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              op: BOp.Times,
+                                                                              op: bop,
                                                                               right: new Identifier("y")
                                                                           )
                                                                       ));
@@ -278,8 +262,6 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            if (program == null) Console.WriteLine(parser.StackTrace);
-            Assert.That(program, Is.Not.Null, parser.Error.Message);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new Identifier("x")));
         }
 
