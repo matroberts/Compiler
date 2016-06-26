@@ -141,7 +141,7 @@ circularPrimesTo(x: integer):integer
 
         #endregion
 
-        #region Declaration Grammar Tests
+        #region Declaration Grammar
 
         [Test]
         public void Definition_WithOneFormal_ShouldBeConstructedCorrectly()
@@ -225,7 +225,7 @@ subsidiary() : integer
 
         #endregion
 
-        #region Expression Grammar
+        #region Binary Operators
 
         [TestCase("<", BOp.LessThan)] // R16
         [TestCase("=", BOp.Equals)]   // R17
@@ -245,8 +245,6 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            if (program == null) Console.WriteLine(parser.StackTrace);
-            Assert.That(program, Is.Not.Null, parser.Error.Message);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
                                                                           (
                                                                               left: new Identifier("x"),
@@ -371,6 +369,32 @@ subsidiary() : integer
                                                                             op: BOp.Times,
                                                                             right: new Identifier("z")
                                                                         )));
+        }
+
+        #endregion
+
+        #region Unary Operators
+
+        [TestCase("not", UOp.Not)]    // R30
+        [TestCase("-", UOp.Negate)]   // R33
+        public void ParserShould_GenerateAstForAllUnaryOperators(string op, UOp uop)
+        {
+            // arrange
+            var input = $"main(x: boolean) : boolean {op} x";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            if (program == null) Console.WriteLine(parser.StackTrace);
+            Assert.That(program, Is.Not.Null, parser.Error.Message);
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new UnaryOperator
+                                                                          (
+                                                                              op: uop,
+                                                                              right: new Identifier("x")
+                                                                          )
+                                                                      ));
         }
 
         #endregion

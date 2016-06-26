@@ -41,6 +41,25 @@ namespace KleinCompiler
                     semanticStack.Push(node);
                     return;
                 }
+                case Symbol.MakeFormal:
+                {
+                    var type = semanticStack.Pop();
+                    var identifier = semanticStack.Pop();
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, type: (KleinType)type));
+                    return;
+                }
+                case Symbol.MakeIntegerType:
+                {
+                    var node = new KleinType(KType.Integer);
+                    semanticStack.Push(node);
+                    return;
+                }
+                case Symbol.MakeBooleanType:
+                {
+                    var node = new KleinType(KType.Boolean);
+                    semanticStack.Push(node);
+                    return;
+                }
                 case Symbol.MakeBody:
                 {
                     var expr = semanticStack.Pop();
@@ -87,29 +106,20 @@ namespace KleinCompiler
                     semanticStack.Push(CreateBinaryOperator(BOp.Divide, semanticStack));
                     return;
                 }
-                case Symbol.MakeFormal:
+                case Symbol.MakeNot:
                 {
-                    var type = semanticStack.Pop();
-                    var identifier = semanticStack.Pop();
-                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, type: (KleinType)type));
+                    semanticStack.Push(CreateUnaryOperator(UOp.Not, semanticStack));
+                    return;
+                }
+                case Symbol.MakeNegate:
+                {
+                    semanticStack.Push(CreateUnaryOperator(UOp.Negate, semanticStack));
                     return;
                 }
                 case Symbol.MakeIdentifier:
                 {
                     var value = lastToken.Value;
                     var node = new Identifier(value);
-                    semanticStack.Push(node);
-                    return;
-                }
-                case Symbol.MakeIntegerType:
-                {
-                    var node = new KleinType(KType.Integer);
-                    semanticStack.Push(node);
-                    return;
-                }
-                case Symbol.MakeBooleanType:
-                {
-                    var node = new KleinType(KType.Boolean);
                     semanticStack.Push(node);
                     return;
                 }
@@ -134,6 +144,12 @@ namespace KleinCompiler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }
+        }
+
+        private UnaryOperator CreateUnaryOperator(UOp uop, Stack<Ast> semanticStack)
+        {
+            var right = semanticStack.Pop();
+            return new UnaryOperator(op: uop, right: (Expr)right);
         }
 
         private BinaryOperator CreateBinaryOperator(BOp bop, Stack<Ast> semanticStack)

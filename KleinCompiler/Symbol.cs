@@ -133,6 +133,11 @@
         MakeTimes,
         [SymbolType(SymbolType.Semantic)]
         MakeDivide,
+        // Unary operators
+        [SymbolType(SymbolType.Semantic)]
+        MakeNot,
+        [SymbolType(SymbolType.Semantic)]
+        MakeNegate,
 
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,
