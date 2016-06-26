@@ -220,5 +220,16 @@ Else
         Identifier(y)
 "));
         }
+
+        [Test]
+        public void Actual_ShouldPrint()
+        {
+            var ast = new Actual(new Identifier("x"));
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Actual
+    Identifier(x)
+"));
+        }
     }
 }

@@ -406,5 +406,15 @@ namespace KleinCompilerTests
                                             )), Is.True);
         }
 
+        [Test]
+        public void Actual_ShouldImplement_ValueEquality()
+        {
+            var actual = new Actual(new Identifier("x"));
+
+            Assert.That(actual.Equals(null), Is.False);
+            Assert.That(actual.Equals(new Identifier("x")), Is.False);
+            Assert.That(actual.Equals(new Actual(new Identifier("y"))), Is.False);
+            Assert.That(actual.Equals(new Actual(new Identifier("x"))), Is.True);
+        }
     }
 }

@@ -135,6 +135,14 @@ namespace KleinCompiler
             }
             builder.Outdent();
         }
+
+        public void Visit(Actual node)
+        {
+            builder.AppendLine("Actual");
+            builder.Indent();
+            node.Expr.Accept(this);
+            builder.Outdent();
+        }
     }
 
     public class TabbedStringBuilder

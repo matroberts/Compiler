@@ -16,5 +16,6 @@ namespace KleinCompiler
         void Visit(BooleanLiteral node);
         void Visit(IntegerLiteral node);
         void Visit(FunctionCall node);
+        void Visit(Actual node);
     }
 }
