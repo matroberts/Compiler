@@ -69,7 +69,7 @@ namespace KleinCompiler
             builder.Indent();
             builder.AppendLine("Expr");
             builder.Indent();
-            node.Value.Accept(this);
+            node.Expr.Accept(this);
             builder.Outdent();
             builder.Outdent();
         }

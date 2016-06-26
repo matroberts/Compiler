@@ -19,7 +19,7 @@ R17                             | = <Simple-Expr> <SimpleExprTail>
 R18                             | e
 R19     <Simple-Expr>         ::= <Term> <TermTail>                                         
 R20     <TermTail>            ::= or <Term> <TermTail>
-R21                             | + <Term> <TermTail>
+R21                             | + <Term> MakePlus <TermTail>
 R22                             | - <Term> <TermTail>
 R23                             | e
 R24     <Term>                ::= <Factor><FactorTail>                                      
@@ -33,7 +33,7 @@ R31                             | <Func>
 R32                             | <Literal>
 R33                             | - <Factor>
 R34                             | ( <Expr> )
-R35    <Func>                 ::= <Identifier><FuncTail>
+R35    <Func>                 ::= <Identifier> MakeIdentifier <FuncTail>
 R36    <FuncTail>             ::= ( <Actuals> )
 R37                             | e
 R38     <Actuals>             ::= e

@@ -18,7 +18,12 @@ namespace KleinCompiler
             {
                 case Symbol.MakeProgram:
                 {
-                    semanticStack.Push(new Program(semanticStack.Cast<Definition>().Reverse().ToList()));     
+                    var definitions = new Stack<Definition>();
+                    while (semanticStack.Count > 0)
+                    {
+                        definitions.Push((Definition)semanticStack.Pop());
+                    }
+                    semanticStack.Push(new Program(definitions.ToList()));     
                     return;               
                 }
                 case Symbol.MakeDefinition:

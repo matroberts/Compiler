@@ -22,7 +22,7 @@
         private static Rule R18 => new Rule("R18");
         private static Rule R19 => new Rule("R19", Symbol.Term, Symbol.TermTail);
         private static Rule R20 => new Rule("R20", Symbol.Or, Symbol.Term, Symbol.TermTail);
-        private static Rule R21 => new Rule("R21", Symbol.Plus, Symbol.Term, Symbol.TermTail);
+        private static Rule R21 => new Rule("R21", Symbol.Plus, Symbol.Term, Symbol.MakePlus, Symbol.TermTail);
         private static Rule R22 => new Rule("R22", Symbol.Minus, Symbol.Term, Symbol.TermTail);
         private static Rule R23 => new Rule("R23");
         private static Rule R24 => new Rule("R24", Symbol.Factor, Symbol.FactorTail);
@@ -36,7 +36,7 @@
         private static Rule R32 => new Rule("R32", Symbol.Literal);
         private static Rule R33 => new Rule("R33", Symbol.Minus, Symbol.Factor);
         private static Rule R34 => new Rule("R34", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
-        private static Rule R35 => new Rule("R35", Symbol.Identifier, Symbol.FuncTail);
+        private static Rule R35 => new Rule("R35", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.FuncTail);
         private static Rule R36 => new Rule("R36", Symbol.OpenBracket, Symbol.Actuals, Symbol.CloseBracket);
         private static Rule R37 => new Rule("R37");
         private static Rule R38 => new Rule("R38");

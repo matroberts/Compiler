@@ -183,10 +183,10 @@ namespace KleinCompiler
     {
         public Body(Expr expr)
         {
-            Value = expr;
+            Expr = expr;
         }
 
-        public Expr Value { get; }
+        public Expr Expr { get; }
 
         public override bool Equals(object obj)
         {
@@ -194,7 +194,7 @@ namespace KleinCompiler
             if (node == null)
                 return false;
 
-            if (this.Value.Equals(node.Value) == false)
+            if (this.Expr.Equals(node.Expr) == false)
                 return false;
 
             return true;
