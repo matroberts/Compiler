@@ -318,10 +318,14 @@ namespace KleinCompiler
         LessThan,
         [OpText("=")]
         Equals,
+        [OpText("or")]
+        Or,
         [OpText("+")]
         Plus,
         [OpText("-")]
         Minus,
+        [OpText("and")]
+        And,
         [OpText("*")]
         Times,
         [OpText("/")]

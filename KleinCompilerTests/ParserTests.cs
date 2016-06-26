@@ -228,8 +228,13 @@ subsidiary() : integer
         #region Expression Grammar
 
         [TestCase("<", BOp.LessThan)] // R16
+        [TestCase("=", BOp.Equals)]   // R17
+        [TestCase("or", BOp.Or)]      // R20
         [TestCase("+", BOp.Plus)]     // R21
+        [TestCase("-", BOp.Minus)]    // R22
+        [TestCase("and", BOp.And)]    // R25
         [TestCase("*", BOp.Times)]    // R26
+        [TestCase("/", BOp.Divide)]   // R27
         public void ParserShould_GenerateAstForAllBinaryOperators(string op, BOp bop)
         {
             // arrange

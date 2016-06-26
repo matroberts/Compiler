@@ -15,17 +15,17 @@ R13     <Type>                ::= integer MakeIntegerType
 R14                             | boolean MakeBooleanType
 R15     <Expr>                ::= <Simple-Expr> <SimpleExprTail>                            
 R16     <SimpleExprTail>      ::= < <Simple-Expr> MakeLessThan <SimpleExprTail>
-R17                             | = <Simple-Expr> <SimpleExprTail>
+R17                             | = <Simple-Expr> MakeEquals <SimpleExprTail>
 R18                             | e
 R19     <Simple-Expr>         ::= <Term> <TermTail>                                         
-R20     <TermTail>            ::= or <Term> <TermTail>
+R20     <TermTail>            ::= or <Term> MakeOr <TermTail>
 R21                             | + <Term> MakePlus <TermTail>
-R22                             | - <Term> <TermTail>
+R22                             | - <Term> MakeMinus <TermTail>
 R23                             | e
 R24     <Term>                ::= <Factor><FactorTail>                                      
-R25     <FactorTail>          ::= and <Factor><FactorTail>
+R25     <FactorTail>          ::= and <Factor> MakeAnd <FactorTail>
 R26                             | * <Factor> MakeTimes <FactorTail>
-R27                             | / <Factor><FactorTail>
+R27                             | / <Factor> MakeDivide <FactorTail>
 R28                             | e
 R29     <Factor>              ::= if <Expr> then <Expr> else <Expr>
 R30                             | not <Factor>

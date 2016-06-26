@@ -116,12 +116,24 @@
         MakeDefinition,
         [SymbolType(SymbolType.Semantic)]
         MakeBody,
+        // Binary operators
         [SymbolType(SymbolType.Semantic)]
         MakeLessThan,
         [SymbolType(SymbolType.Semantic)]
+        MakeEquals,
+        [SymbolType(SymbolType.Semantic)]
+        MakeOr,
+        [SymbolType(SymbolType.Semantic)]
         MakePlus,
         [SymbolType(SymbolType.Semantic)]
+        MakeMinus,
+        [SymbolType(SymbolType.Semantic)]
+        MakeAnd,
+        [SymbolType(SymbolType.Semantic)]
         MakeTimes,
+        [SymbolType(SymbolType.Semantic)]
+        MakeDivide,
+
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,
         [SymbolType(SymbolType.Semantic)]

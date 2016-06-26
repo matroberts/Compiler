@@ -52,14 +52,39 @@ namespace KleinCompiler
                     semanticStack.Push(CreateBinaryOperator(BOp.LessThan, semanticStack));
                     return;
                 }
+                case Symbol.MakeEquals:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.Equals, semanticStack));
+                    return;
+                }
+                case Symbol.MakeOr:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.Or, semanticStack));
+                    return;
+                }
                 case Symbol.MakePlus:
                 {
                     semanticStack.Push(CreateBinaryOperator(BOp.Plus, semanticStack));
                     return;
                 }
+                case Symbol.MakeMinus:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.Minus, semanticStack));
+                    return;
+                }
+                case Symbol.MakeAnd:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.And, semanticStack));
+                    return;
+                }
                 case Symbol.MakeTimes:
                 {
                     semanticStack.Push(CreateBinaryOperator(BOp.Times, semanticStack));
+                    return;
+                }
+                case Symbol.MakeDivide:
+                {
+                    semanticStack.Push(CreateBinaryOperator(BOp.Divide, semanticStack));
                     return;
                 }
                 case Symbol.MakeFormal:
