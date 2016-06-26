@@ -128,10 +128,7 @@ namespace KleinCompiler
             builder.Indent();
             foreach (var actual in node.Actuals)
             {
-                builder.AppendLine("Actual");
-                builder.Indent();
                 actual.Accept(this);
-                builder.Outdent();
             }
             builder.Outdent();
         }

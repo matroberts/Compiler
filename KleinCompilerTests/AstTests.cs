@@ -364,10 +364,10 @@ namespace KleinCompilerTests
         {
             var functioncall = new FunctionCall(
                                     new Identifier("func"),
-                                    new List<Expr>()
+                                    new List<Actual>()
                                     {
-                                        new Identifier("x"),
-                                        new Identifier("y")
+                                        new Actual(new Identifier("x")),
+                                        new Actual(new Identifier("y"))
                                     }
                               );
 
@@ -375,33 +375,33 @@ namespace KleinCompilerTests
             Assert.That(functioncall.Equals(new Identifier("func")), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
                                                 new Identifier("wrong"),
-                                                new List<Expr>()
+                                                new List<Actual>()
                                                 {
-                                                    new Identifier("x"),
-                                                    new Identifier("y")
+                                                    new Actual(new Identifier("x")),
+                                                    new Actual(new Identifier("y"))
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
                                                 new Identifier("func"),
-                                                new List<Expr>()
+                                                new List<Actual>()
                                                 {
-                                                    new Identifier("x"),
+                                                    new Actual(new Identifier("x")),
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
                                                 new Identifier("func"),
-                                                new List<Expr>()
+                                                new List<Actual>()
                                                 {
-                                                    new Identifier("x"),
-                                                    new Identifier("wrong")
+                                                    new Actual(new Identifier("x")),
+                                                    new Actual(new Identifier("wrong"))
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
                                                 new Identifier("func"),
-                                                new List<Expr>()
+                                                new List<Actual>()
                                                 {
-                                                    new Identifier("x"),
-                                                    new Identifier("y")
+                                                    new Actual(new Identifier("x")),
+                                                    new Actual(new Identifier("y"))
                                                 }
                                             )), Is.True);
         }

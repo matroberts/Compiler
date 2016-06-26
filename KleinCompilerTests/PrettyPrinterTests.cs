@@ -206,10 +206,10 @@ Else
         {
             var ast = new FunctionCall(
                                             new Identifier("func"),
-                                            new List<Expr>()
+                                            new List<Actual>()
                                             {
-                                                new Identifier("x"),
-                                                new Identifier("y")
+                                                new Actual(new Identifier("x")),
+                                                new Actual(new Identifier("y"))
                                             } 
                                       );
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(

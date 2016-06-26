@@ -423,13 +423,13 @@ namespace KleinCompiler
 
     public class FunctionCall : Expr
     {
-        public FunctionCall(Identifier identifier, List<Expr> actuals)
+        public FunctionCall(Identifier identifier, List<Actual> actuals)
         {
             Identifier = identifier;
             Actuals = actuals.AsReadOnly();
         }
         public Identifier Identifier { get; }
-        public ReadOnlyCollection<Expr> Actuals { get; }
+        public ReadOnlyCollection<Actual> Actuals { get; }
         public override bool Equals(object obj)
         {
             var node = obj as FunctionCall;
