@@ -181,12 +181,19 @@ namespace KleinCompiler
 
     public class Body : Ast
     {
-        public Body(Expr expr)
+        public Body(Expr expr) : this (expr, new List<Print>())
+        {
+        }
+
+        public Body(Expr expr, List<Print> prints)
         {
             Expr = expr;
+            Prints = prints.AsReadOnly();
         }
 
         public Expr Expr { get; }
+
+        public ReadOnlyCollection<Print> Prints { get; }
 
         public override bool Equals(object obj)
         {
@@ -196,6 +203,15 @@ namespace KleinCompiler
 
             if (this.Expr.Equals(node.Expr) == false)
                 return false;
+
+            if (this.Prints.Count.Equals(node.Prints.Count) == false)
+                return false;
+
+            for (int i = 0; i < Prints.Count; i++)
+            {
+                if (Prints[i].Equals(node.Prints[i]) == false)
+                    return false;
+            }
 
             return true;
         }

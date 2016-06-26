@@ -67,6 +67,10 @@ namespace KleinCompiler
         {
             builder.AppendLine("Body");
             builder.Indent();
+            foreach (var print in node.Prints)
+            {
+                print.Accept(this);
+            }
             builder.AppendLine("Expr");
             builder.Indent();
             node.Expr.Accept(this);

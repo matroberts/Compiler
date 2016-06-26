@@ -229,6 +229,39 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void Body_ValueEquality_ShouldIncludePrints()
+        {
+            var body = new Body
+                       (
+                           new IntegerLiteral("123"),
+                           new List<Print>
+                           {
+                               new Print(new Identifier("x")),
+                               new Print(new Identifier("y"))
+                           }
+                       );
+            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.False);
+            Assert.That(body.Equals(new Body
+                                       (
+                                           new IntegerLiteral("123"),
+                                           new List<Print>
+                                           {
+                                               new Print(new Identifier("x")),
+                                               new Print(new Identifier("wrong"))
+                                           }
+                                       )), Is.False);
+            Assert.That(body.Equals(new Body
+                                       (
+                                           new IntegerLiteral("123"),
+                                           new List<Print>
+                                           {
+                                               new Print(new Identifier("x")),
+                                               new Print(new Identifier("y"))
+                                           }
+                                       )), Is.True);
+        }
+
+        [Test]
         public void Print_ShouldImplement_ValueEquality()
         {
             var print = new Print

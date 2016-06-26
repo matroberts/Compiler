@@ -114,6 +114,30 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void Body_ShouldPrint_Prints()
+        {
+            var ast = new Body
+                      (
+                          new IntegerLiteral("123"),
+                          new List<Print>
+                          {
+                              new Print(new Identifier("x")),
+                              new Print(new Identifier("y"))
+                          }
+                      );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Body
+    Print
+        Identifier(x)
+    Print
+        Identifier(y)
+    Expr
+        Integer(123)
+"));
+        }
+
+        [Test]
         public void Print_ShouldPrint()
         {
             var ast = new Print
