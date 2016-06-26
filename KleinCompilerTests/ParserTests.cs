@@ -387,14 +387,37 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            if (program == null) Console.WriteLine(parser.StackTrace);
-            Assert.That(program, Is.Not.Null, parser.Error.Message);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new UnaryOperator
                                                                           (
                                                                               op: uop,
                                                                               right: new Identifier("x")
                                                                           )
                                                                       ));
+        }
+
+        #endregion
+
+        #region IfThenElse
+
+        [Test]
+        public void ParseShould_GenerateAstForIfThenElse_R29()
+        {
+            // arrange
+            var input = @"main(x: boolean, y : integer, z : integer) : integer if x then y else z";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            if (program == null) Console.WriteLine(parser.StackTrace);
+            Assert.That(program, Is.Not.Null, parser.Error.Message);
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new IfThenElse
+                                                                            (
+                                                                                ifExpr: new Identifier("x"),
+                                                                                thenExpr: new Identifier("y"),
+                                                                                elseExpr: new Identifier("z")) 
+                                                                            ));
         }
 
         #endregion

@@ -116,29 +116,32 @@ namespace KleinCompiler
                     semanticStack.Push(CreateUnaryOperator(UOp.Negate, semanticStack));
                     return;
                 }
+                case Symbol.MakeIfThenElse:
+                {
+                    var elseExpr = semanticStack.Pop();
+                    var thenExpr = semanticStack.Pop();
+                    var ifExpr = semanticStack.Pop();
+                    semanticStack.Push(new IfThenElse(ifExpr: (Expr)ifExpr, thenExpr: (Expr)thenExpr, elseExpr: (Expr)elseExpr));
+                    return;
+                }
                 case Symbol.MakeIdentifier:
                 {
-                    var value = lastToken.Value;
-                    var node = new Identifier(value);
-                    semanticStack.Push(node);
+                    semanticStack.Push(new Identifier(lastToken.Value));
                     return;
                 }
                 case Symbol.MakeIntegerLiteral:
                 {
-                    var node = new IntegerLiteral(lastToken.Value);
-                    semanticStack.Push(node);
+                    semanticStack.Push(new IntegerLiteral(lastToken.Value));
                     return;
                 }
                 case Symbol.MakeMakeBooleanTrueLiteral:
                 {
-                    var node = new BooleanLiteral(true);
-                    semanticStack.Push(node);
+                    semanticStack.Push(new BooleanLiteral(true));
                     return;
                 }
                 case Symbol.MakeMakeBooleanFalseLiteral:
                 {
-                    var node = new BooleanLiteral(false);
-                    semanticStack.Push(node);
+                    semanticStack.Push(new BooleanLiteral(false));
                     return;
                 }
                 default:

@@ -115,6 +115,12 @@
         [SymbolType(SymbolType.Semantic)]
         MakeDefinition,
         [SymbolType(SymbolType.Semantic)]
+        MakeIntegerType,
+        [SymbolType(SymbolType.Semantic)]
+        MakeBooleanType,
+        [SymbolType(SymbolType.Semantic)]
+        MakeFormal,
+        [SymbolType(SymbolType.Semantic)]
         MakeBody,
         // Binary operators
         [SymbolType(SymbolType.Semantic)]
@@ -138,15 +144,12 @@
         MakeNot,
         [SymbolType(SymbolType.Semantic)]
         MakeNegate,
-
+        // Other operators
+        [SymbolType(SymbolType.Semantic)]
+        MakeIfThenElse,
+        // Literal and Identifier
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,
-        [SymbolType(SymbolType.Semantic)]
-        MakeIntegerType,
-        [SymbolType(SymbolType.Semantic)]
-        MakeBooleanType,
-        [SymbolType(SymbolType.Semantic)]
-        MakeFormal,
         [SymbolType(SymbolType.Semantic)]
         MakeIntegerLiteral,
         [SymbolType(SymbolType.Semantic)]

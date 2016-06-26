@@ -30,7 +30,7 @@
         private static Rule R26 => new Rule("R26", Symbol.Times, Symbol.Factor, Symbol.MakeTimes, Symbol.FactorTail);
         private static Rule R27 => new Rule("R27", Symbol.Divide, Symbol.Factor, Symbol.MakeDivide, Symbol.FactorTail);
         private static Rule R28 => new Rule("R28");
-        private static Rule R29 => new Rule("R29", Symbol.If, Symbol.Expr, Symbol.Then, Symbol.Expr, Symbol.Else, Symbol.Expr);
+        private static Rule R29 => new Rule("R29", Symbol.If, Symbol.Expr, Symbol.Then, Symbol.Expr, Symbol.Else, Symbol.Expr, Symbol.MakeIfThenElse);
         private static Rule R30 => new Rule("R30", Symbol.Not, Symbol.Factor, Symbol.MakeNot);
         private static Rule R31 => new Rule("R31", Symbol.Func);
         private static Rule R32 => new Rule("R32", Symbol.Literal);
