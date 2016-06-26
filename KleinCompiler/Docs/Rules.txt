@@ -36,12 +36,12 @@ R34                             | ( <Expr> )
 R35    <Func>                 ::= <Identifier> MakeIdentifier <FuncTail>
 R36    <FuncTail>             ::= ( <Actuals> ) MakeFunctionCall
 R37                             | e
-R38     <Actuals>             ::= e
+R38    <Actuals>              ::= e
 R39                             | <NonEmptyActuals>
-R40     <NonEmptyActuals>     ::= <Expr> MakeActual <ActualsTail>                                       
-R41     <ActualsTail>         ::= , <Expr> MakeActual <ActualsTail>
+R40    <NonEmptyActuals>      ::= <Expr> MakeActual <ActualsTail>                                       
+R41    <ActualsTail>          ::= , <Expr> MakeActual <ActualsTail>
 R42                             | e
-R43     <Literal>             ::= <Number>       MakeIntegerLiteral
+R43    <Literal>              ::= <Number>       MakeIntegerLiteral
 R44                             | <BooleanTrue>  MakeBooleanTrueLiteral
 R45                             | <BooleanFalse> MakeBooleanFalseLiteral
-R46     <Print>               ::= print ( <Expr> )                                                                         
+R46    <Print>                ::= print ( <Expr> )                                                                         
