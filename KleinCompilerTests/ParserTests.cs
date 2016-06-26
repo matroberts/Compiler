@@ -256,6 +256,37 @@ subsidiary() : integer
                                                                       ));
         }
 
+        [TestCase("<", BOp.LessThan)] // R16
+        [TestCase("=", BOp.Equals)]   // R17
+        [TestCase("or", BOp.Or)]      // R20
+        [TestCase("+", BOp.Plus)]     // R21
+        [TestCase("-", BOp.Minus)]    // R22
+        [TestCase("and", BOp.And)]    // R25
+        [TestCase("*", BOp.Times)]    // R26
+        [TestCase("/", BOp.Divide)]   // R27
+        public void ParserShould_BinaryOperators_ShouldBeLeftAssociative(string op, BOp bop)
+        {
+            // arrange
+            var input = $"main(x: integer, y : integer, z : integer) : integer x {op} y {op} z";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
+                                                                        (
+                                                                            left: new BinaryOperator
+                                                                                        (
+                                                                                            left: new Identifier("x"),
+                                                                                            op: bop,
+                                                                                            right: new Identifier("y")
+                                                                                        ),
+                                                                            op: bop,
+                                                                            right: new Identifier("z")
+                                                                        )));
+        }
+
         [Test]
         public void ParserShould_ParseExpression_WithBrackets_R34()
         {
@@ -271,7 +302,7 @@ subsidiary() : integer
         }
 
         [Test]
-        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_1_R21_R26()
+        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_A_R21_R26()
         {
             // arrange
             var input = @"main(x: integer, y : integer, z : integer) : integer x + y * z";
@@ -295,7 +326,7 @@ subsidiary() : integer
         }
 
         [Test]
-        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_2_R21_R26()
+        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_B_R21_R26()
         {
             // arrange
             var input = @"main(x: integer, y : integer, z : integer) : integer x * y + z";
@@ -338,54 +369,6 @@ subsidiary() : integer
                                                                                             right: new Identifier("y")
                                                                                         ),
                                                                             op: BOp.Times,
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAst_WithLeftAssociativeMultiplication()
-        {
-            // arrange
-            var input = @"main(x: integer, y : integer, z : integer) : integer x * y * z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
-                                                                        (
-                                                                            left: new BinaryOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            op: BOp.Times,
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            op: BOp.Times,
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAst_WithLeftAssociativeAddition()
-        {
-            // arrange
-            var input = @"main(x: integer, y : integer, z : integer) : integer x + y + z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
-                                                                        (
-                                                                            left: new BinaryOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            op: BOp.Plus,
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            op: BOp.Plus,
                                                                             right: new Identifier("z")
                                                                         )));
         }
