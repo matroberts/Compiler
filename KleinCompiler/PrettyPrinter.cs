@@ -74,6 +74,14 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
+        public void Visit(Print node)
+        {
+            builder.AppendLine("Print");
+            builder.Indent();
+            node.Expr.Accept(this);
+            builder.Outdent();
+        }
+
         public void Visit(IfThenElse node)
         {
             builder.AppendLine("If");

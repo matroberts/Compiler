@@ -114,6 +114,20 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void Print_ShouldPrint()
+        {
+            var ast = new Print
+                          (
+                              new IntegerLiteral("123")
+                          );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Print
+    Integer(123)
+"));
+        }
+
+        [Test]
         public void IfThenElse_ShouldPrint()
         {
             var ast = new IfThenElse

@@ -229,6 +229,19 @@ namespace KleinCompilerTests
         }
 
         [Test]
+        public void Print_ShouldImplement_ValueEquality()
+        {
+            var print = new Print
+                            (
+                                new IntegerLiteral("123")
+                            );
+            Assert.That(print.Equals(null), Is.False);
+            Assert.That(print.Equals(new IntegerLiteral("123")), Is.False);
+            Assert.That(print.Equals(new Print(new IntegerLiteral("456"))), Is.False);
+            Assert.That(print.Equals(new Print(new IntegerLiteral("123"))), Is.True);
+        }
+
+        [Test]
         public void Identifier_Equals_ShouldWorkCorrectly()
         {
             Assert.That(new Identifier("a").Equals(null), Is.False);
