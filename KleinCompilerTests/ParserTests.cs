@@ -228,7 +228,7 @@ subsidiary() : integer
         #region Expression Grammar
 
         [Test]
-        public void ParserShould_GenerateAstFor_Addition()
+        public void ParserShould_GenerateAstFor_Addition_R21()
         {
             // arrange
             var input = @"main(x: integer, y : integer) : integer x + y";
@@ -238,7 +238,6 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Console.WriteLine(parser.StackTrace);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
                                                                           (
                                                                               left: new Identifier("x"),
@@ -247,161 +246,164 @@ subsidiary() : integer
                                                                           )
                                                                       ));
         }
-/*
-        [Test]
-        public void ParserShould_GenerateAstFor_Multiplication()
-        {
-            // arrange
-            var input = @"x * y";
-
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new Identifier("x"),
-                                                        op: BOp.Times,
-                                                        right: new Identifier("y")
-                                                    )
-                                                ));
-        }
 
         [Test]
-        public void ParserShould_ParseExpression_WithBrackets()
+        public void ParserShould_GenerateAstFor_Multiplication_R26()
         {
             // arrange
-            var input = @"(x)";
+            var input = @"main(x: integer, y : integer) : integer x * y";
 
             // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new Identifier("x")));
+            if(program==null) Console.WriteLine(parser.StackTrace);
+            Assert.That(program, Is.Not.Null, parser.Error.Message);
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new BinaryOperator
+                                                                          (
+                                                                              left: new Identifier("x"),
+                                                                              op: BOp.Times,
+                                                                              right: new Identifier("y")
+                                                                          )
+                                                                      ));
         }
+        /*
 
-        [Test]
-        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_1()
-        {
-            // arrange
-            var input = @"x + y * z";
+                [Test]
+                public void ParserShould_ParseExpression_WithBrackets()
+                {
+                    // arrange
+                    var input = @"(x)";
 
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
 
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new Identifier("x"),
-                                                        op: BOp.Plus,
-                                                        right: new BinaryOperator
-                                                                   (
-                                                                        left: new Identifier("y"),
-                                                                        op: BOp.Times,
-                                                                        right: new Identifier("z"))
-                                                                   )
-                                                    ));
-        }
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new Identifier("x")));
+                }
 
-        [Test]
-        public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_2()
-        {
-            // arrange
-            var input = @"x * y + z";
+                [Test]
+                public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_1()
+                {
+                    // arrange
+                    var input = @"x + y * z";
 
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
 
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new BinaryOperator
-                                                                  (
-                                                                      left: new Identifier("x"),
-                                                                      op: BOp.Times,
-                                                                      right: new Identifier("y")
-                                                                  ),
-                                                        op: BOp.Plus,
-                                                        right: new Identifier("z")
-                                                    )));
-        }
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new BinaryOperator
+                                                            (
+                                                                left: new Identifier("x"),
+                                                                op: BOp.Plus,
+                                                                right: new BinaryOperator
+                                                                           (
+                                                                                left: new Identifier("y"),
+                                                                                op: BOp.Times,
+                                                                                right: new Identifier("z"))
+                                                                           )
+                                                            ));
+                }
 
-        [Test]
-        public void ParserShould_GetPrecedence_OfBracketedExpressionCorrect()
-        {
-            // arrange
-            var input = @"(x + y) * z";
+                [Test]
+                public void ParserShould_GetPrecedence_OfMultiplcationAndAdditionCorrect_2()
+                {
+                    // arrange
+                    var input = @"x * y + z";
 
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
 
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new BinaryOperator
-                                                                  (
-                                                                      left: new Identifier("x"),
-                                                                      op: BOp.Plus,
-                                                                      right: new Identifier("y")
-                                                                  ),
-                                                        op: BOp.Times,
-                                                        right: new Identifier("z")
-                                                    )));
-        }
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new BinaryOperator
+                                                            (
+                                                                left: new BinaryOperator
+                                                                          (
+                                                                              left: new Identifier("x"),
+                                                                              op: BOp.Times,
+                                                                              right: new Identifier("y")
+                                                                          ),
+                                                                op: BOp.Plus,
+                                                                right: new Identifier("z")
+                                                            )));
+                }
 
-        [Test]
-        public void ParserShould_GenerateAst_WithLeftAssociativeMultiplication()
-        {
-            // arrange
-            var input = @"x * y * z";
+                [Test]
+                public void ParserShould_GetPrecedence_OfBracketedExpressionCorrect()
+                {
+                    // arrange
+                    var input = @"(x + y) * z";
 
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
 
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new BinaryOperator
-                                                                  (
-                                                                      left: new Identifier("x"),
-                                                                      op: BOp.Times,
-                                                                      right: new Identifier("y")
-                                                                  ),
-                                                        op: BOp.Times,
-                                                        right: new Identifier("z")
-                                                    )));
-        }
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new BinaryOperator
+                                                            (
+                                                                left: new BinaryOperator
+                                                                          (
+                                                                              left: new Identifier("x"),
+                                                                              op: BOp.Plus,
+                                                                              right: new Identifier("y")
+                                                                          ),
+                                                                op: BOp.Times,
+                                                                right: new Identifier("z")
+                                                            )));
+                }
 
-        [Test]
-        public void ParserShould_GenerateAst_WithLeftAssociativeAddition()
-        {
-            // arrange
-            var input = @"x + y + z";
+                [Test]
+                public void ParserShould_GenerateAst_WithLeftAssociativeMultiplication()
+                {
+                    // arrange
+                    var input = @"x * y * z";
 
-            // act
-            var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
 
-            // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
-                                                    (
-                                                        left: new BinaryOperator
-                                                                  (
-                                                                      left: new Identifier("x"),
-                                                                      op: BOp.Plus,
-                                                                      right: new Identifier("y")
-                                                                  ),
-                                                        op: BOp.Plus,
-                                                        right: new Identifier("z")
-                                                    )));
-        }
-*/
-        #endregion 
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new BinaryOperator
+                                                            (
+                                                                left: new BinaryOperator
+                                                                          (
+                                                                              left: new Identifier("x"),
+                                                                              op: BOp.Times,
+                                                                              right: new Identifier("y")
+                                                                          ),
+                                                                op: BOp.Times,
+                                                                right: new Identifier("z")
+                                                            )));
+                }
+
+                [Test]
+                public void ParserShould_GenerateAst_WithLeftAssociativeAddition()
+                {
+                    // arrange
+                    var input = @"x + y + z";
+
+                    // act
+                    var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
+                    var ast = parser.Parse(new Tokenizer(input));
+
+                    // assert
+                    Assert.That(ast, Is.AstEqual(new BinaryOperator
+                                                            (
+                                                                left: new BinaryOperator
+                                                                          (
+                                                                              left: new Identifier("x"),
+                                                                              op: BOp.Plus,
+                                                                              right: new Identifier("y")
+                                                                          ),
+                                                                op: BOp.Plus,
+                                                                right: new Identifier("z")
+                                                            )));
+                }
+        */
+        #endregion
     }
 }

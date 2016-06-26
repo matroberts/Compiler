@@ -27,7 +27,7 @@
         private static Rule R23 => new Rule("R23");
         private static Rule R24 => new Rule("R24", Symbol.Factor, Symbol.FactorTail);
         private static Rule R25 => new Rule("R25", Symbol.And, Symbol.Factor, Symbol.FactorTail);
-        private static Rule R26 => new Rule("R26", Symbol.Times, Symbol.Factor, Symbol.FactorTail);
+        private static Rule R26 => new Rule("R26", Symbol.Times, Symbol.Factor, Symbol.MakeTimes, Symbol.FactorTail);
         private static Rule R27 => new Rule("R27", Symbol.Divide, Symbol.Factor, Symbol.FactorTail);
         private static Rule R28 => new Rule("R28");
         private static Rule R29 => new Rule("R29", Symbol.If, Symbol.Expr, Symbol.Then, Symbol.Expr, Symbol.Else, Symbol.Expr);

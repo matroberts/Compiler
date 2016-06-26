@@ -24,7 +24,7 @@ R22                             | - <Term> <TermTail>
 R23                             | e
 R24     <Term>                ::= <Factor><FactorTail>                                      
 R25     <FactorTail>          ::= and <Factor><FactorTail>
-R26                             | * <Factor><FactorTail>
+R26                             | * <Factor> MakeTimes <FactorTail>
 R27                             | / <Factor><FactorTail>
 R28                             | e
 R29     <Factor>              ::= if <Expr> then <Expr> else <Expr>
