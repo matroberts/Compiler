@@ -34,12 +34,12 @@ R32                             | <Literal>
 R33                             | - <Factor> MakeNegate
 R34                             | ( <Expr> )
 R35    <Func>                 ::= <Identifier> MakeIdentifier <FuncTail>
-R36    <FuncTail>             ::= ( <Actuals> )
+R36    <FuncTail>             ::= ( <Actuals> ) MakeFunctionCall
 R37                             | e
 R38     <Actuals>             ::= e
 R39                             | <NonEmptyActuals>
-R40     <NonEmptyActuals>     ::= <Expr><ActualsTail>                                       
-R41     <ActualsTail>         ::= , <Expr><ActualsTail>
+R40     <NonEmptyActuals>     ::= <Expr> MakeActual <ActualsTail>                                       
+R41     <ActualsTail>         ::= , <Expr> MakeActual <ActualsTail>
 R42                             | e
 R43     <Literal>             ::= <Number>       MakeIntegerLiteral
 R44                             | <BooleanTrue>  MakeBooleanTrueLiteral

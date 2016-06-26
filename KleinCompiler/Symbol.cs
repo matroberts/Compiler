@@ -147,6 +147,10 @@
         // Other operators
         [SymbolType(SymbolType.Semantic)]
         MakeIfThenElse,
+        [SymbolType(SymbolType.Semantic)]
+        MakeFunctionCall,
+        [SymbolType(SymbolType.Semantic)]
+        MakeActual,
         // Literal and Identifier
         [SymbolType(SymbolType.Semantic)]
         MakeIdentifier,

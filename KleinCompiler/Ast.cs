@@ -461,7 +461,7 @@ namespace KleinCompiler
         }
     }
 
-    public class Actual : Expr
+    public class Actual : Ast
     {
         public Actual(Expr expr)
         {

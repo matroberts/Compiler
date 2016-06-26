@@ -37,12 +37,12 @@
         private static Rule R33 => new Rule("R33", Symbol.Minus, Symbol.Factor, Symbol.MakeNegate);
         private static Rule R34 => new Rule("R34", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
         private static Rule R35 => new Rule("R35", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.FuncTail);
-        private static Rule R36 => new Rule("R36", Symbol.OpenBracket, Symbol.Actuals, Symbol.CloseBracket);
+        private static Rule R36 => new Rule("R36", Symbol.OpenBracket, Symbol.Actuals, Symbol.CloseBracket, Symbol.MakeFunctionCall);
         private static Rule R37 => new Rule("R37");
         private static Rule R38 => new Rule("R38");
         private static Rule R39 => new Rule("R39", Symbol.NonEmptyActuals);
-        private static Rule R40 => new Rule("R40", Symbol.Expr, Symbol.ActualsTail);
-        private static Rule R41 => new Rule("R41", Symbol.Comma, Symbol.Expr, Symbol.ActualsTail);
+        private static Rule R40 => new Rule("R40", Symbol.Expr, Symbol.MakeActual, Symbol.ActualsTail);
+        private static Rule R41 => new Rule("R41", Symbol.Comma, Symbol.Expr, Symbol.MakeActual, Symbol.ActualsTail);
         private static Rule R42 => new Rule("R42");
         private static Rule R43 => new Rule("R43", Symbol.IntegerLiteral, Symbol.MakeIntegerLiteral);
         private static Rule R44 => new Rule("R44", Symbol.BooleanTrue, Symbol.MakeMakeBooleanTrueLiteral);

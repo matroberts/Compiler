@@ -106,7 +106,7 @@ main () : boolean
             Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
         }
 
-        [Test, Ignore("ignored until a lot more grammar is done")]
+        [Test]
         public void ParserShould_ParseSlightlyMoreComplexProgram()
         {
             // arrange
@@ -121,7 +121,39 @@ circularPrimesTo(x: integer):integer
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.Not.Null);
+            Assert.That(ast, Is.AstEqual(new Program
+                                         (
+                                            new Definition
+                                            (
+                                                new Identifier("main"),
+                                                new KleinType(KType.Integer),
+                                                new List<Formal>
+                                                {
+                                                    new Formal(new Identifier("x"), new KleinType(KType.Integer))
+                                                },
+                                                new Body
+                                                (
+                                                    new FunctionCall
+                                                    (
+                                                        new Identifier("circularPrimesTo"),
+                                                        new List<Actual> { new Actual(new Identifier("x")) } 
+                                                    )
+                                                )
+                                            ),
+                                            new Definition
+                                            (
+                                                new Identifier("circularPrimesTo"),
+                                                new KleinType(KType.Integer),
+                                                new List<Formal>
+                                                {
+                                                    new Formal(new Identifier("x"), new KleinType(KType.Integer))
+                                                },
+                                                new Body
+                                                (
+                                                    new BooleanLiteral(true)
+                                                )
+                                            )
+                                         )));
         }
 
         [Test, Ignore("ignored until gast complete")]
@@ -410,14 +442,89 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            if (program == null) Console.WriteLine(parser.StackTrace);
-            Assert.That(program, Is.Not.Null, parser.Error.Message);
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new IfThenElse
                                                                             (
                                                                                 ifExpr: new Identifier("x"),
                                                                                 thenExpr: new Identifier("y"),
                                                                                 elseExpr: new Identifier("z")) 
                                                                             ));
+        }
+
+        #endregion
+
+        #region Function Call
+
+        [Test]
+        public void ParserShould_GenerateAstFor_FunctionCallWithNoActuals_R36()
+        {
+            // arrange
+            var input = @"
+main() : integer 
+    secondary()
+secondary() : integer
+    1";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
+                                                                          (
+                                                                              identifier: new Identifier("secondary"),
+                                                                              actuals: new List<Actual>() 
+                                                                          )));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAstFor_FunctionCallWithOneActual_R40()
+        {
+            // arrange
+            var input = @"
+main(x : integer) : integer 
+    secondary(x)
+secondary(x : integer) : integer
+    1";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
+                                                                          (
+                                                                              identifier: new Identifier("secondary"),
+                                                                              actuals: new List<Actual>
+                                                                              {
+                                                                                  new Actual(new Identifier("x"))
+                                                                              }
+                                                                          )));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAstFor_FunctionCallWithTwoActuals_R41()
+        {
+            // arrange
+            var input = @"
+main(x : integer, y : integer) : integer 
+    secondary(x, y)
+secondary(x : integer, y : integer) : integer
+    1";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
+                                                                          (
+                                                                              identifier: new Identifier("secondary"),
+                                                                              actuals: new List<Actual>
+                                                                              {
+                                                                                  new Actual(new Identifier("x")),
+                                                                                  new Actual(new Identifier("y"))
+                                                                              }
+                                                                          )));
         }
 
         #endregion

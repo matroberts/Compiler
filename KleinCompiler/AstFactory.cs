@@ -124,6 +124,23 @@ namespace KleinCompiler
                     semanticStack.Push(new IfThenElse(ifExpr: (Expr)ifExpr, thenExpr: (Expr)thenExpr, elseExpr: (Expr)elseExpr));
                     return;
                 }
+                case Symbol.MakeFunctionCall:
+                {
+                    var actuals = new Stack<Actual>();
+                    while (semanticStack.Peek() is Actual)
+                    {
+                        actuals.Push((Actual) semanticStack.Pop());
+                    }
+                    var identifier = semanticStack.Pop();
+                    semanticStack.Push(new FunctionCall(identifier: (Identifier) identifier, actuals: actuals.ToList()));
+                    return;
+                }
+                case Symbol.MakeActual:
+                {
+                    var expr = semanticStack.Pop();
+                    semanticStack.Push(new Actual(expr: (Expr)expr));
+                    return;
+                }
                 case Symbol.MakeIdentifier:
                 {
                     semanticStack.Push(new Identifier(lastToken.Value));
