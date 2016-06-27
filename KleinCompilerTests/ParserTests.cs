@@ -90,7 +90,7 @@ main () : boolean
 
             // assert
             Assert.That(ast, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'Program' found token End"));
+            Assert.That(parser.Error.Message, Is.EqualTo($"Attempting to parse symbol 'Program' found token End"));
         }
 
         [Test]
@@ -105,7 +105,7 @@ main () : boolean
 
             // assert
             Assert.That(ast, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo($"Syntax Error:  Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
+            Assert.That(parser.Error.Message, Is.EqualTo($"Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
         }
 
         [Test]
@@ -534,6 +534,7 @@ main(x: integer) : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
+            ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(new Identifier("x"))
@@ -555,6 +556,7 @@ main(x: integer, y : integer) : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
+            ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(new Identifier("x")),
@@ -581,14 +583,15 @@ main(x: integer, y : integer) : integer
                 if (ast == null)
                 {
                     allPass = false;
-                    result.AppendLine($"Fail {Path.GetFileName(file)}, {parser.Error.Message}");
+                    result.AppendLine($"Fail {Path.GetFileName(file)}");
                 }
                 else
                 {
-                    result.AppendLine($"Pass  {Path.GetFileName(file)}");
+                    result.AppendLine($"Pass {Path.GetFileName(file)}");
                 }
             }
-            Assert.That(allPass, Is.True, result.ToString());
+            ConsoleWriteLine.If(allPass != true, result.ToString());
+            Assert.That(allPass, Is.True);
 //            Console.WriteLine(DateTime.UtcNow - start);
         }
         #endregion

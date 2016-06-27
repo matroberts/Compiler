@@ -38,18 +38,14 @@ namespace KleinCompiler
         {
             this.parsingTable = parsingTable;
             this.astFactory = astFactory;
-            this.Error = new Error();
+            this.Error = Error.CreateNoError();
         }
 
         private ParsingTable parsingTable;
         private IAstFactory astFactory;
-
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
-
         private Stack<Ast> semanticStack = new Stack<Ast>();
-
         public Error Error { get; private set; }
-
 
         public bool EnableStackTrace { get; set; } = false;
         private readonly StringBuilder stackTraceBuilder = new StringBuilder();
@@ -57,66 +53,96 @@ namespace KleinCompiler
 
         public Ast Parse(Tokenizer tokenizer)
         {
-            symbolStack.Push(parsingTable.LastSymbol);
-            symbolStack.Push(parsingTable.FirstSymbol);
-
-            Token lastToken = null;
-            while (symbolStack.Count != 0)
+            try
             {
-                if (EnableStackTrace)
-                {
-                    TraceStack(tokenizer.Peek(), symbolStack, semanticStack);
-                }
+                symbolStack.Push(parsingTable.LastSymbol);
+                symbolStack.Push(parsingTable.FirstSymbol);
 
-                Symbol symbol = symbolStack.Pop();
-                Token token = tokenizer.Peek();
-
-                if (token is ErrorToken)
+                Token lastToken = null;
+                while (symbolStack.Count != 0)
                 {
-                    Error = Error.CreateLexicalError(token as ErrorToken);
-                    return null;
-                }
-
-                if (symbol.ToSymbolType() == SymbolType.Token)
-                {
-                    if (symbol == token.Symbol)
+                    if (EnableStackTrace)
                     {
-                        lastToken = tokenizer.Pop();
+                        TraceStack(tokenizer.Peek(), symbolStack, semanticStack);
                     }
-                    else
+
+                    Symbol symbol = symbolStack.Pop();
+                    Token token = tokenizer.Peek();
+
+                    if (token is ErrorToken)
                     {
-                        Error = Error.CreateSyntaxError(symbol, token);
+                        Error = Error.CreateLexicalError(token as ErrorToken, StackTrace);
                         return null;
                     }
-                }
-                else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
-                {
-                    var rule = parsingTable[symbol, token.Symbol];
-                    if (rule == null)
+
+                    if (symbol.ToSymbolType() == SymbolType.Token)
                     {
-                        Error = Error.CreateSyntaxError(symbol, token);
-                        return null;
+                        if (symbol == token.Symbol)
+                        {
+                            lastToken = tokenizer.Pop();
+                        }
+                        else
+                        {
+                            Error = Error.CreateSyntaxError(symbol, token, StackTrace);
+                            return null;
+                        }
                     }
-                    else
+                    else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
                     {
-                        symbolStack.Push(rule.Reverse);
+                        var rule = parsingTable[symbol, token.Symbol];
+                        if (rule == null)
+                        {
+                            Error = Error.CreateSyntaxError(symbol, token, StackTrace);
+                            return null;
+                        }
+                        else
+                        {
+                            symbolStack.Push(rule.Reverse);
+                        }
+                    }
+                    else if (symbol.ToSymbolType() == SymbolType.Semantic)
+                    {
+                        astFactory.ProcessAction(semanticStack, symbol, lastToken);
                     }
                 }
-                else if (symbol.ToSymbolType() == SymbolType.Semantic)
-                {
-                    astFactory.ProcessAction(semanticStack, symbol, lastToken);
-                }
+                return semanticStack.Peek();
             }
-            return semanticStack.Peek();
+            catch (Exception e)
+            {
+                Error = Error.CreateExceptionError(e, StackTrace);
+                return null;
+            }
         }
+
+        private int w1 = 15;
+        private int w2 = 10;
+        private int w3 = 50;
+        private int w4 = 1;
+        private int w5 = 50;
 
         private void TraceStack(Token token, Stack<Symbol> symStack, Stack<Ast> semStack)
         {
-            stackTraceBuilder.Append(token.Symbol.ToString().PadRight(15));
-            stackTraceBuilder.Append(token.Value.ToString().PadRight(10));
-            stackTraceBuilder.Append(string.Join(" ", symStack.ToArray()).PadAndTruncate(60));
-            stackTraceBuilder.Append(" ");
-            stackTraceBuilder.Append(string.Join(" ", semStack.Select(t => t.GetType().Name)).PadAndTruncate(30));
+            if (stackTraceBuilder.Length == 0)
+            {
+                stackTraceBuilder.Append("Token".PadRight(w1));
+                stackTraceBuilder.Append("Value".PadRight(w2));
+                stackTraceBuilder.Append("Symbol Stack".PadRight(w3));
+                stackTraceBuilder.Append(' ', w4);
+                stackTraceBuilder.Append("Semantic Stack".PadRight(w5));
+                stackTraceBuilder.AppendLine();
+
+                stackTraceBuilder.Append("=====".PadRight(w1));
+                stackTraceBuilder.Append("=====".PadRight(w2));
+                stackTraceBuilder.Append("===========".PadRight(w3));
+                stackTraceBuilder.Append(' ', w4);
+                stackTraceBuilder.Append("==============".PadRight(w5));
+                stackTraceBuilder.AppendLine();
+            }
+            stackTraceBuilder.Append(token.Symbol.ToString().PadRight(w1));
+            stackTraceBuilder.Append(token.Value.PadRight(w2));
+            stackTraceBuilder.Append(string.Join(" ", symStack.ToArray()).PadAndTruncate(w3));
+            stackTraceBuilder.Append(' ', w4);
+            stackTraceBuilder.Append(string.Join(" ", semStack.Select(t => t.GetType().Name)).PadAndTruncate(w5));
             stackTraceBuilder.AppendLine();
         }
     }
