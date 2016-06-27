@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using KleinCompiler;
@@ -512,6 +513,52 @@ secondary(x : integer, y : integer) : integer
                                                                                   new Actual(new Identifier("y"))
                                                                               }
                                                                           )));
+        }
+
+        #endregion
+
+        #region Print
+
+        [Test]
+        public void ParserShould_GenerateMethod_WithOnePrintExpression()
+        {
+            // arrange
+            var input = @"
+main(x: integer) : integer 
+    print(x)
+    x+1";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
+                                                                                                        {
+                                                                                                            new Print(new Identifier("x"))
+                                                                                                        })));
+        }
+
+        [Test]
+        public void ParserShould_GenerateMethod_WithTwoPrintExpression()
+        {
+            // arrange
+            var input = @"
+main(x: integer, y : integer) : integer 
+    print(x)
+    print(y)
+    x+1";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
+                                                                                                        {
+                                                                                                            new Print(new Identifier("x")),
+                                                                                                            new Print(new Identifier("y")),
+                                                                                                        })));
         }
 
         #endregion

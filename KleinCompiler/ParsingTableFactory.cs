@@ -47,7 +47,7 @@
         private static Rule R43 => new Rule("R43", Symbol.IntegerLiteral, Symbol.MakeIntegerLiteral);
         private static Rule R44 => new Rule("R44", Symbol.BooleanTrue, Symbol.MakeMakeBooleanTrueLiteral);
         private static Rule R45 => new Rule("R45", Symbol.BooleanFalse, Symbol.MakeMakeBooleanFalseLiteral);
-        private static Rule R46 => new Rule("R46", Symbol.PrintKeyword, Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
+        private static Rule R46 => new Rule("R46", Symbol.PrintKeyword, Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket, Symbol.MakePrint);
 
         public static ParsingTable Create()
         {

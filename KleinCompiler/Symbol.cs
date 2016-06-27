@@ -122,6 +122,8 @@
         MakeFormal,
         [SymbolType(SymbolType.Semantic)]
         MakeBody,
+        [SymbolType(SymbolType.Semantic)]
+        MakePrint,
         // Binary operators
         [SymbolType(SymbolType.Semantic)]
         MakeLessThan,

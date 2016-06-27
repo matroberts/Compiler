@@ -63,7 +63,18 @@ namespace KleinCompiler
                 case Symbol.MakeBody:
                 {
                     var expr = semanticStack.Pop();
-                    semanticStack.Push(new Body(expr: (Expr)expr));
+                    var prints = new Stack<Print>();
+                    while (semanticStack.Peek() is Print)
+                    {
+                        prints.Push((Print)semanticStack.Pop());
+                    }
+                    semanticStack.Push(new Body(expr: (Expr)expr, prints: prints.ToList()));
+                    return;
+                }
+                case Symbol.MakePrint:
+                {
+                    var expr = semanticStack.Pop();
+                    semanticStack.Push(new Print(expr: (Expr)expr));
                     return;
                 }
                 case Symbol.MakeLessThan:
