@@ -565,7 +565,7 @@ main(x: integer, y : integer) : integer
 
         #region Sample Programs
 
-        [Test, Ignore("not implemented print yet")]
+        [Test]
         public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
         {
             var start = DateTime.UtcNow;
@@ -575,11 +575,11 @@ main(x: integer, y : integer) : integer
             {
                 var parser = new Parser();
                 var ast = parser.Parse(new Tokenizer(File.ReadAllText(file)));
-                if (ast == null)
-                    Console.WriteLine($"NOK {Path.GetFileName(file)}, {parser.Error.Message}");
-                else
-                    Console.WriteLine($"OK  {Path.GetFileName(file)}");
-                //                Assert.That(ast, Is.Not.Null, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
+//                if (ast == null)
+//                    Console.WriteLine($"NOK {Path.GetFileName(file)}, {parser.Error.Message}");
+//                else
+//                    Console.WriteLine($"OK  {Path.GetFileName(file)}");
+                Assert.That(ast, Is.Not.Null, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
             }
             Console.WriteLine(DateTime.UtcNow - start);
         }
