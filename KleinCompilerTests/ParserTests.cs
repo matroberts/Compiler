@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using KleinCompiler;
 using NUnit.Framework;
 
@@ -571,17 +572,24 @@ main(x: integer, y : integer) : integer
             var start = DateTime.UtcNow;
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
             var files = Directory.GetFiles(folder, "*.kln");
+            bool allPass = true;
+            var result = new StringBuilder();
             foreach (var file in files)
             {
                 var parser = new Parser();
                 var ast = parser.Parse(new Tokenizer(File.ReadAllText(file)));
-//                if (ast == null)
-//                    Console.WriteLine($"NOK {Path.GetFileName(file)}, {parser.Error.Message}");
-//                else
-//                    Console.WriteLine($"OK  {Path.GetFileName(file)}");
-                Assert.That(ast, Is.Not.Null, $"File {Path.GetFileName(file)} is invalid, {parser.Error}");
+                if (ast == null)
+                {
+                    allPass = false;
+                    result.AppendLine($"Fail {Path.GetFileName(file)}, {parser.Error.Message}");
+                }
+                else
+                {
+                    result.AppendLine($"Pass  {Path.GetFileName(file)}");
+                }
             }
-            Console.WriteLine(DateTime.UtcNow - start);
+            Assert.That(allPass, Is.True, result.ToString());
+//            Console.WriteLine(DateTime.UtcNow - start);
         }
         #endregion
     }
