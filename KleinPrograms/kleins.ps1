@@ -1,6 +1,6 @@
 ﻿param([string]$Path)
 
-Import-Module 'C:\github\Compiler\KleinCmdlets\bin\Debug\KleinCmdlets.dll'
+Import-Module ".\KleinCmdlets.dll"
 
 Get-KleinTokens $Path | foreach {
     if($_.GetType().Name -eq 'ErrorToken') {

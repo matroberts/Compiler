@@ -36,6 +36,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assemblies\System.Management.Automation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,11 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\Noop.cs" />
+    <Compile Include="Tests\TestScripts.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="kleinf.ps1" />
-    <None Include="kleins.ps1" />
+    <None Include="kleinf.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="kleins.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="primefactor.kln" />
     <None Include="Programs\fullprograms\circular-prime.kln" />
@@ -82,7 +90,14 @@
     <None Include="Programs\fullprograms\square-root.kln" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assemblies\System.Management.Automation.dll" />
     <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KleinCmdlets\KleinCmdlets.csproj">
+      <Project>{7788d75e-0b06-4e51-a780-5b9eab851be1}</Project>
+      <Name>KleinCmdlets</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
