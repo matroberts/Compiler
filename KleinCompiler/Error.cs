@@ -46,9 +46,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            string output = $"Parser Result\r\n" +
-                            $"=============\r\n" + 
-                            $"{ErrorType} Error: {Message}";
+            string output = $"{ErrorType} Error: {Message}";
             if (string.IsNullOrWhiteSpace(StackTrace) == false)
                 output += $"\r\n\r\n{StackTrace}";
             return output;

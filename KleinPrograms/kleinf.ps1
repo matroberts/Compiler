@@ -1,8 +1,8 @@
 ﻿param([string]$Path)
 
-Import-Module 'C:\github\Compiler\KleinCmdlets\bin\Debug\KleinCmdlets.dll'
+Import-Module '.\KleinCmdlets.dll'
 $result = Test-KleinProgram $Path
-if($result -eq $true){
+if($result -ne $null){
     "Valid Program"
 } else {
     "Invalid Program"

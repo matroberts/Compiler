@@ -92,20 +92,30 @@ namespace KleinPrograms.Tests
                                               @".\kleins.ps1 ..\..\Programs\scanner\reserved-words-and-symbols.kln");
 
             ConsoleWriteLine.If(result.HasErrors, result.ToString());
+            Assert.That(result.HasErrors, Is.False);
             Assert.That(result.Output.Count, Is.EqualTo(23));
             Assert.That(result.Output[0].ToString(), Is.EqualTo("IntegerType 'integer'"));
         }
 
         [Test]
-        public void Test()
+        public void Kleinf_ShouldReturnErrorInfo_IfTheProgramDoesntParse()
         {
-            var result = ScriptRunner.Execute(@"C:\github\Compiler\KleinPrograms\kleinf.ps1", @"C:\github\Compiler\KleinPrograms\Programs\scanner\reserved-words-and-symbols.kln");
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory, 
+                                              @".\kleinf.ps1 ..\..\Programs\scanner\reserved-words-and-symbols.kln");
 
-            Console.WriteLine(result.ToString());
+            Assert.That(result.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.Errors[0].Exception.Message, Does.StartWith("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
+        }
 
-//            Assert.That(result.);
-            // currently this file just exists to make the project compile
-            //powershell C:\github\Compiler\KleinPrograms\kleinf.ps1 C:\github\Compiler\KleinPrograms\Programs\scanner\reserved-words-and-symbols.kln
+        [Test]
+        public void Kleinf_ShouldReturnValidProgram_IfTheProgramDoesParse()
+        {
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
+                                  @".\kleinf.ps1 ..\..\Programs\fullprograms\circular-prime.kln");
+
+            Assert.That(result.HasErrors, Is.False);
+            Assert.That(result.Output.Count, Is.EqualTo(1));
+            Assert.That(result.Output[0].ToString(), Is.EqualTo("Valid Program"));
         }
     }
 }
