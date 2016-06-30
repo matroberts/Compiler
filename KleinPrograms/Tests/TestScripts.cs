@@ -108,14 +108,35 @@ namespace KleinPrograms.Tests
         }
 
         [Test]
-        public void Kleinf_ShouldReturnValidProgram_IfTheProgramDoesParse()
+        public void Kleinf_ShouldReturnTheAst_IfTheProgramDoesParse()
         {
             var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
-                                  @".\kleinf.ps1 ..\..\Programs\fullprograms\circular-prime.kln");
+                                              @".\kleinf.ps1 ..\..\Programs\fullprograms\circular-prime.kln");
 
             Assert.That(result.HasErrors, Is.False);
             Assert.That(result.Output.Count, Is.EqualTo(1));
-            Assert.That(result.Output[0].ToString(), Is.EqualTo("Valid Program"));
+//            Assert.That(result.Output[0].BaseObject, Is.TypeOf<Ast>());
+        }
+
+        [Test]
+        public void Kleinp_ShouldOutputAPrettyPrint_OfTheAst()
+        {
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
+                                               @".\kleinp.ps1 ..\..\Programs\fullprograms\circular-prime.kln");
+
+            Assert.That(result.HasErrors, Is.False);
+            Assert.That(result.Output.Count, Is.EqualTo(1));
+            Assert.That(result.Output[0].ToString(), Does.StartWith("Program"));
+        }
+
+        [Test]
+        public void Kleinp_ShouldPrintError_IfTheProgramDoesNotParse()
+        {
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
+                                               @".\kleinp.ps1 ..\..\Programs\scanner\reserved-words-and-symbols.kln");
+
+            Assert.That(result.HasErrors, Is.True);
+            Assert.That(result.Errors[0].Exception.Message, Does.StartWith("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
         }
     }
 }

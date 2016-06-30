@@ -6,8 +6,8 @@ using KleinCompiler;
 
 namespace KleinCmdlets
 {
-    [Cmdlet(VerbsDiagnostic.Test, "KleinProgram")]
-    [OutputType(typeof(bool))]
+    [Cmdlet("Parse", "KleinProgram")]
+    [OutputType(typeof(Ast))]
     public class ParseKleinProgram : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path and name of the klein file to parse")]
@@ -27,7 +27,7 @@ namespace KleinCmdlets
                     var filePosition = new FilePositionCalculator(input).FilePosition(parser.Error.Token.Position);
                     exceptionMessage += $"\r\n at {Path} {filePosition}";
                 }
-                WriteError(new ErrorRecord(new Exception(exceptionMessage), "InvalidProgram", ErrorCategory.InvalidData, null));
+                throw new Exception(exceptionMessage);
             }
             WriteObject(ast);
         }

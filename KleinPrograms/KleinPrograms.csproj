@@ -55,6 +55,9 @@
     <None Include="kleinf.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="kleinp.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="kleins.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

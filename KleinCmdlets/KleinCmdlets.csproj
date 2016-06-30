@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormatPrettyAst.cs" />
     <Compile Include="GetKleinTokensCmdlet.cs" />
     <Compile Include="ParseKleinProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
