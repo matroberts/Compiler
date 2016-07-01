@@ -52,6 +52,7 @@
     <Compile Include="Tests\TestScripts.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ackermann.kln" />
     <None Include="kleinf.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
