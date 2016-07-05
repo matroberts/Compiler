@@ -10,7 +10,7 @@ namespace KleinCompilerTests
     public class AstTests
     {
         [Test]
-        public void Program_Equals_ShouldWorkCorrectly()
+        public void Program_ShouldImplement_ValueEquality()
         {
             var program = new Program(
                 new Definition
@@ -78,7 +78,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Definition_Equals_ShouldWorkCorrectly()
+        public void Definition_ShouldImplement_ValueEquality()
         {
             var definition = new Definition
                                  (
@@ -123,7 +123,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Definition_Equals_ShouldCompareFormals()
+        public void Definition_ValueEquality_ShouldCompareFormals()
         {
             var definition = new Definition
                              (
@@ -196,7 +196,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void KleinType_Equals_ShouldWorkCorrectly()
+        public void KleinType_ShouldImplement_ValueEquality()
         {
             Assert.That(new KleinType(KType.Integer).Equals(null), Is.False);
             Assert.That(new KleinType(KType.Integer).Equals(new Identifier("integer")), Is.False);
@@ -205,7 +205,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Formal_Equals_ShouldWorkCorrectly()
+        public void Formal_ShouldImplement_ValueEquality()
         {
             Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(null), Is.False);
             Assert.That(new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean)).Equals(new Identifier("a")), Is.False);
@@ -275,7 +275,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void Identifier_Equals_ShouldWorkCorrectly()
+        public void Identifier_ShouldImplement_ValueEquality()
         {
             Assert.That(new Identifier("a").Equals(null), Is.False);
             Assert.That(new Identifier("a").Equals(new KleinType(KType.Boolean)), Is.False);
@@ -284,7 +284,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void IfThenElse_Equals_ShouldWorkCorrectly()
+        public void IfThenElse_ShouldImplement_ValueEquality()
         {
             var ifthenelse = new IfThenElse
                                   (
@@ -322,7 +322,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void BinaryOperator_Equals_ShouldWorkCorrectly()
+        public void BinaryOperator_ShouldImplement_ValueEquality()
         {
             var binaryOperator = new BinaryOperator
                                     (
@@ -360,7 +360,7 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void UnaryOperator_Equals_ShouldWorkCorrectly()
+        public void UnaryOperator_ShouldImplement_ValueEquality()
         {
             var unaryOperatory = new UnaryOperator
                                      (
