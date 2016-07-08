@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Management.Automation;
 using KleinCompiler;
+using KleinCompiler.AbstractSyntaxTree;
 
 namespace KleinCmdlets
 {

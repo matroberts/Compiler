@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using KleinCompiler;
+using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
 
 namespace KleinCompilerTests

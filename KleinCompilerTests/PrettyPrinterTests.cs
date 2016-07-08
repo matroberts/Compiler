@@ -3,6 +3,7 @@ using System.Linq;
 using KleinCompiler;
 using NUnit.Framework;
 using System.Collections.Generic;
+using KleinCompiler.AbstractSyntaxTree;
 
 namespace KleinCompilerTests
 {

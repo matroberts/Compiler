@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using KleinCompiler;
+using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
 
 namespace KleinCompilerTests
