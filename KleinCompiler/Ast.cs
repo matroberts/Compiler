@@ -1,9 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace KleinCompiler
 {
+    public class TypeValidationResult
+    {
+        public static TypeValidationResult Valid(KType type)
+        {
+            return new TypeValidationResult(type);
+        }
+
+        public static TypeValidationResult Invalid(string message)
+        {
+            return new TypeValidationResult(message);
+        }
+
+        private TypeValidationResult(string message)
+        {
+            Message = message;
+            Type = null;
+        }
+
+        private TypeValidationResult(KType type)
+        {
+            Message = String.Empty;
+            Type = type;
+        }
+
+        public KType? Type { get; }
+        public bool HasError => Type == null;
+        public string Message { get; }
+    }
+
     public abstract class Ast
     {
         public override bool Equals(object obj)
@@ -28,6 +58,25 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return this.ToString().GetHashCode();
+        }
+
+        public abstract TypeValidationResult CheckType();
+
+        private KType? typeExpr;
+        public KType TypeExpr
+        {
+            get
+            {
+                if (typeExpr == null)
+                {
+                    var result = CheckType();
+                    if(result.HasError)
+                        throw new Exception(result.Message);
+                    typeExpr = result.Type;
+                }
+                return typeExpr.Value;
+            }
+            protected set { typeExpr = value; }
         }
     }
 
@@ -78,6 +127,18 @@ namespace KleinCompiler
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            foreach (var definition in Definitions)
+            {
+                var result = definition.CheckType();
+                if (result.HasError)
+                    return result;
+            }
+            // type of program should be type of main
+            return TypeValidationResult.Valid(KType.Boolean);
         }
     }
 
@@ -133,6 +194,20 @@ namespace KleinCompiler
             return base.GetHashCode();
         }
 
+        public override TypeValidationResult CheckType()
+        {
+            TypeExpr = Type.Value;
+            var result = Body.CheckType();
+            if (result.HasError)
+                return result;
+
+            if (this.TypeExpr != Body.TypeExpr)
+            {
+                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has a type '{this.TypeExpr}', but its body has a type '{Body.TypeExpr}'");
+            }
+            return TypeValidationResult.Valid(TypeExpr);
+        }
+
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
@@ -176,6 +251,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -230,6 +310,19 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            // prints
+
+            var result = Expr.CheckType();
+            if (result.HasError)
+                return result;
+
+            TypeExpr = result.Type.Value;
+
+            return TypeValidationResult.Valid(TypeExpr);
+        }
     }
 
     public class Print : Ast
@@ -266,6 +359,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -307,6 +405,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -362,6 +465,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -427,6 +535,11 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public enum UOp
@@ -472,6 +585,11 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class FunctionCall : Expr
@@ -512,6 +630,11 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class Actual : Ast
@@ -543,6 +666,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -579,6 +707,11 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -617,6 +750,12 @@ namespace KleinCompiler
         {
             return base.GetHashCode();
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            TypeExpr = KType.Boolean;
+            return TypeValidationResult.Valid(TypeExpr);
+        }
     }
 
     public class IntegerLiteral : Expr
@@ -653,6 +792,13 @@ namespace KleinCompiler
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            TypeExpr = KType.Integer;
+
+            return TypeValidationResult.Valid(TypeExpr);
         }
     }
 
