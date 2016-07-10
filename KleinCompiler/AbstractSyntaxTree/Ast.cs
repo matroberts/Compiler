@@ -30,21 +30,21 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public abstract TypeValidationResult CheckType();
 
-        private KType? typeExpr;
-        public KType TypeExpr
+        private KType? type;
+        public KType Type
         {
             get
             {
-                if (typeExpr == null)
+                if (type == null)
                 {
                     var result = CheckType();
                     if(result.HasError)
                         throw new Exception(result.Message);
-                    typeExpr = result.Type;
+                    type = result.Type;
                 }
-                return typeExpr.Value;
+                return type.Value;
             }
-            protected set { typeExpr = value; }
+            protected set { type = value; }
         }
     }
 }

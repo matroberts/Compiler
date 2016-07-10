@@ -57,16 +57,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            TypeExpr = KleinType.Value;
+            Type = KleinType.Value;
             var result = Body.CheckType();
             if (result.HasError)
                 return result;
 
-            if (this.TypeExpr != Body.TypeExpr)
+            if (this.Type != Body.Type)
             {
-                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has a type '{this.TypeExpr}', but its body has a type '{Body.TypeExpr}'");
+                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has a type '{this.Type}', but its body has a type '{Body.Type}'");
             }
-            return TypeValidationResult.Valid(TypeExpr);
+            return TypeValidationResult.Valid(Type);
         }
 
         public override void Accept(IAstVisitor visior)

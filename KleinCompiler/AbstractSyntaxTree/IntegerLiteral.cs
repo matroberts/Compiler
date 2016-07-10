@@ -38,9 +38,9 @@
 
         public override TypeValidationResult CheckType()
         {
-            TypeExpr = KType.Integer;
+            Type = KType.Integer;
 
-            return TypeValidationResult.Valid(TypeExpr);
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

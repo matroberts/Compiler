@@ -22,9 +22,9 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             Assert.That(result.HasError, Is.False);
-            Assert.That(program.Definitions[0].Body.Expr.TypeExpr, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Body.TypeExpr, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].TypeExpr, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
         }
 
         [Test]
@@ -39,9 +39,9 @@ namespace KleinCompilerTests
             // act
             var result = program.CheckType();
 
-            Assert.That(program.Definitions[0].Body.Expr.TypeExpr, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Body.TypeExpr, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].TypeExpr, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'main' has a type 'Boolean', but its body has a type 'Integer'"));
         }

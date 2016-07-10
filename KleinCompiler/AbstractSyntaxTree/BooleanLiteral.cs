@@ -38,8 +38,8 @@
 
         public override TypeValidationResult CheckType()
         {
-            TypeExpr = KType.Boolean;
-            return TypeValidationResult.Valid(TypeExpr);
+            Type = KType.Boolean;
+            return TypeValidationResult.Valid(Type);
         }
     }
 }
