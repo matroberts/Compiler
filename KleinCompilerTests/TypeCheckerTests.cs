@@ -120,15 +120,15 @@ namespace KleinCompilerTests
             Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Integer));
             Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
             Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message,
-                Is.EqualTo("Function 'main' has a type 'Boolean', but its body has a type 'Integer'"));
+            Assert.That(result.Message, Is.EqualTo("Function 'main' has a type 'Boolean', but its body has a type 'Integer'"));
         }
 
         #endregion
 
+        #region FunctionCall
 
         [Test]
-        public void TypeChecking_TypeOfFunctionCall_ShouldBeDerivedFromDefinition_ViaTheSymbolTable()
+        public void TypeOfFunctionCall_ShouldBeDerivedFromDefinition_ViaTheSymbolTable()
         {
             // arrange
             var input = @"main() : boolean
@@ -136,7 +136,7 @@ namespace KleinCompilerTests
                           secondary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program) parser.Parse(new Tokenizer(input));
 
             // act
             var result = program.CheckType();
@@ -152,12 +152,33 @@ namespace KleinCompilerTests
             Assert.That(result.HasError, Is.False);
         }
 
+        [Test]
+        public void IfFunctionCallIdentifier_IsNotInSymbolTable_ATypeErrorShouldBeRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              notexists()
+                          secondary() : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Function 'notexists' has no definition"));
+        }
+
+        #endregion
+
+        // type error in an actual should be raised
 
 
         // type of identifier should be derived from formals, via the symbol table
         // type of function call should be derviced from declaration, via the symbol table
 
-        // must check function call exists
 
     }
 }

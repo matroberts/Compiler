@@ -44,12 +44,12 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            // check identifier exists in symbol table
-            // get type of identifier from the symbol table.
+            if(SymbolTable.Exists(Identifier) == false)
+                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has no definition");
             this.Type = SymbolTable.Type(this.Identifier);
+
             // how can you set the type of the identifier??
             //this.Identifier.Type = this.Type;
-            // set type of function and identifier
 
             // check actuals match formals of function
 
