@@ -360,33 +360,55 @@ namespace KleinCompilerTests
                                                   )), Is.True);
         }
 
+        #region UnaryOperator
+
         [Test]
-        public void UnaryOperator_ShouldImplement_ValueEquality()
+        public void NotOperator_ShouldImplement_ValueEquality()
         {
-            var unaryOperatory = new UnaryOperator
+            var unaryOperatory = new NotOperator
                                      (
-                                         op: UOp.Not,
                                          right: new Identifier("right")
                                      );
 
             Assert.That(unaryOperatory.Equals(null), Is.False);
-            Assert.That(unaryOperatory.Equals(new Identifier("a")), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
+            Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
-                                                       op: UOp.Negate,
                                                        right: new Identifier("right")
                                                   )), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
+            Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
-                                                       op: UOp.Not,
                                                        right: new Identifier("wrong")
                                                   )), Is.False);
-            Assert.That(unaryOperatory.Equals(new UnaryOperator
+            Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
-                                                       op: UOp.Not,
                                                        right: new Identifier("right")
                                                   )), Is.True);
         }
+
+        [Test]
+        public void NegateOperator_ShouldImplement_ValueEquality()
+        {
+            var unaryOperatory = new NegateOperator
+                                     (
+                                         right: new Identifier("right")
+                                     );
+
+            Assert.That(unaryOperatory.Equals(null), Is.False);
+            Assert.That(unaryOperatory.Equals(new NotOperator
+                                                  (
+                                                       right: new Identifier("right")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new NegateOperator
+                                                  (
+                                                       right: new Identifier("wrong")
+                                                  )), Is.False);
+            Assert.That(unaryOperatory.Equals(new NegateOperator
+                                                  (
+                                                       right: new Identifier("right")
+                                                  )), Is.True);
+        }
+
+        #endregion
 
         [Test]
         public void BooleanLiteral_ShouldImplement_ValueEquality()

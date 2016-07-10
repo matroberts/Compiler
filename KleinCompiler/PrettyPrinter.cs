@@ -112,9 +112,17 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(UnaryOperator node)
+        public void Visit(NotOperator node)
         {
-            builder.AppendLine($"UnaryOperator({node.Operator.ToOpText()})");
+            builder.AppendLine($"Not");
+            builder.Indent();
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(NegateOperator node)
+        {
+            builder.AppendLine($"Negate");
             builder.Indent();
             node.Right.Accept(this);
             builder.Outdent();

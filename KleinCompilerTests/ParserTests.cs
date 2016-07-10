@@ -397,21 +397,37 @@ subsidiary() : integer
 
         #region Unary Operators
 
-        [TestCase("not", UOp.Not)]    // R30
-        [TestCase("-", UOp.Negate)]   // R33
-        public void ParserShould_GenerateAstForAllUnaryOperators(string op, UOp uop)
+        [Test]    
+        public void ParserShould_GenerateAstForNotOperator_R30()
         {
             // arrange
-            var input = $"main(x: boolean) : boolean {op} x";
+            var input = $"main(x: boolean) : boolean not x";
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new UnaryOperator
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NotOperator
                                                                           (
-                                                                              op: uop,
+                                                                              right: new Identifier("x")
+                                                                          )
+                                                                      ));
+        }
+
+        [Test]
+        public void ParserShould_GenerateAstForNegateOperators_R33()
+        {
+            // arrange
+            var input = $"main(x: boolean) : boolean - x";
+
+            // act
+            var parser = new Parser() { EnableStackTrace = true };
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NegateOperator
+                                                                          (
                                                                               right: new Identifier("x")
                                                                           )
                                                                       ));

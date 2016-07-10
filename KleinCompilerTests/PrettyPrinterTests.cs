@@ -199,27 +199,31 @@ Else
         }
 
         [Test]
-        public void UnaryOperator_ShouldPrint()
+        public void NotOperator_ShouldPrint()
         {
-            var ast = new UnaryOperator
+            var ast = new NotOperator
                           (
-                              op: UOp.Not,
                               right: new Identifier("y")
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"UnaryOperator(not)
+@"Not
     Identifier(y)
 "));
         }
 
         [Test]
-        public void AllTheValues_InTheUOpEnum_ShouldHaveAnOpTextAttribute()
+        public void NegateOperator_ShouldPrint()
         {
-            foreach (UOp op in Enum.GetValues(typeof(UOp)).Cast<UOp>())
-            {
-                Assert.That(() => op.ToOpText(), Throws.Nothing);
-            }
+            var ast = new NegateOperator
+                          (
+                              right: new Identifier("y")
+                          );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Negate
+    Identifier(y)
+"));
         }
 
         [Test]

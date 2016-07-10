@@ -120,12 +120,14 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeNot:
                 {
-                    semanticStack.Push(CreateUnaryOperator(UOp.Not, semanticStack));
+                    var right = semanticStack.Pop();
+                    semanticStack.Push(new NotOperator(right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeNegate:
                 {
-                    semanticStack.Push(CreateUnaryOperator(UOp.Negate, semanticStack));
+                    var right = semanticStack.Pop();
+                    semanticStack.Push(new NegateOperator(right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeIfThenElse:
@@ -176,12 +178,6 @@ namespace KleinCompiler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }
-        }
-
-        private UnaryOperator CreateUnaryOperator(UOp uop, Stack<Ast> semanticStack)
-        {
-            var right = semanticStack.Pop();
-            return new UnaryOperator(op: uop, right: (Expr)right);
         }
 
         private BinaryOperator CreateBinaryOperator(BOp bop, Stack<Ast> semanticStack)

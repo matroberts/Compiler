@@ -13,7 +13,8 @@ namespace KleinCompiler
         void Visit(Print node);
         void Visit(IfThenElse node);
         void Visit(BinaryOperator node);
-        void Visit(UnaryOperator node);
+        void Visit(NotOperator node);
+        void Visit(NegateOperator node);
         void Visit(Identifier node);
         void Visit(BooleanLiteral node);
         void Visit(IntegerLiteral node);
