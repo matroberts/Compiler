@@ -5,15 +5,15 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Definition : Ast
     {
-        public Definition(Identifier identifier, KleinType type, List<Formal> formals, Body body)
+        public Definition(Identifier identifier, KleinType kleinType, List<Formal> formals, Body body)
         {
             Identifier = identifier;
-            Type = type;
+            KleinType = kleinType;
             Body = body;
             Formals = formals.AsReadOnly();
         }
         public Identifier Identifier { get; }
-        public KleinType Type { get; }
+        public KleinType KleinType { get; }
         public Body Body { get; }
         public ReadOnlyCollection<Formal> Formals { get; }
 
@@ -26,7 +26,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (Identifier.Equals(definition.Identifier) == false)
                 return false;
 
-            if (Type.Equals(definition.Type) == false)
+            if (KleinType.Equals(definition.KleinType) == false)
                 return false;
 
             if (Formals.Count.Equals(definition.Formals.Count) == false)
@@ -57,7 +57,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            TypeExpr = Type.Value;
+            TypeExpr = KleinType.Value;
             var result = Body.CheckType();
             if (result.HasError)
                 return result;

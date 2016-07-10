@@ -2,13 +2,13 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Formal : Ast
     {
-        public Formal(Identifier identifier, KleinType type)
+        public Formal(Identifier identifier, KleinType kleinType)
         {
-            Type = type;
+            KleinType = kleinType;
             Identifier = identifier;
         }
 
-        public KleinType Type { get; }
+        public KleinType KleinType { get; }
         public Identifier Identifier { get; }
 
         public override bool Equals(object obj)
@@ -17,7 +17,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (node == null)
                 return false;
 
-            if (this.Type.Equals(node.Type) == false)
+            if (this.KleinType.Equals(node.KleinType) == false)
                 return false;
             if (this.Identifier.Equals(node.Identifier) == false)
                 return false;

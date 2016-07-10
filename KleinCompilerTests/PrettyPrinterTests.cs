@@ -17,14 +17,14 @@ namespace KleinCompilerTests
                 new Definition
                 (
                     identifier: new Identifier("main"),
-                    type: new KleinType(KType.Boolean),
+                    kleinType: new KleinType(KType.Boolean),
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier("subsidiary"),
-                    type: new KleinType(KType.Integer),
+                    kleinType: new KleinType(KType.Integer),
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 )
@@ -55,7 +55,7 @@ namespace KleinCompilerTests
             var ast = new Definition
                           (
                               identifier: new Identifier("main"),
-                              type: new KleinType(KType.Boolean),
+                              kleinType: new KleinType(KType.Boolean),
                               formals: new List<Formal>
                               {
                                   new Formal(new Identifier("arg1"), new KleinType(KType.Boolean)),
@@ -91,7 +91,7 @@ namespace KleinCompilerTests
         [Test]
         public void Formal_ShouldPrint()
         {
-            var ast = new Formal(identifier: new Identifier("arg1"), type: new KleinType(KType.Boolean));
+            var ast = new Formal(identifier: new Identifier("arg1"), kleinType: new KleinType(KType.Boolean));
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Formal
     Identifier(arg1)
