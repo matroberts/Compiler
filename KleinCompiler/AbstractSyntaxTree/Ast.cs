@@ -46,5 +46,18 @@ namespace KleinCompiler.AbstractSyntaxTree
             }
             protected set { type = value; }
         }
+
+        private static SymbolTable symbolTable;
+
+        public static SymbolTable SymbolTable
+        {
+            get
+            {
+                if(symbolTable == null)
+                    throw new Exception("You must call CheckType() on the AST and it must be valid, before you can access the symbol table");
+                return symbolTable;
+            }
+            protected set { symbolTable = value; }
+        }
     }
 }

@@ -53,14 +53,28 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
+            Identifier duplicateFunctionName = Definitions.Select(d => d.Identifier)
+                                                          .GroupBy(i => i)
+                                                          .Where(g => g.Count() > 1)
+                                                          .Select(t => t.Key)
+                                                          .FirstOrDefault();
+            if(duplicateFunctionName != null)
+                return TypeValidationResult.Invalid($"Program contains duplicate function name '{duplicateFunctionName.Value}'");
+
+            SymbolTable = new SymbolTable(Definitions);
+
+            if(SymbolTable.Exists(new Identifier("main")) == false)
+                return TypeValidationResult.Invalid("Program must contain a function 'main'");
+
+            Type = SymbolTable.Type(new Identifier("main"));
+
             foreach (var definition in Definitions)
             {
                 var result = definition.CheckType();
                 if (result.HasError)
                     return result;
             }
-            // type of program should be type of main
-            return TypeValidationResult.Valid(KType.Boolean);
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

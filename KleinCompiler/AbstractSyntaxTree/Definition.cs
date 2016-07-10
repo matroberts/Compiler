@@ -55,6 +55,11 @@ namespace KleinCompiler.AbstractSyntaxTree
             return base.GetHashCode();
         }
 
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
         public override TypeValidationResult CheckType()
         {
             Type = KleinType.Value;
@@ -69,9 +74,5 @@ namespace KleinCompiler.AbstractSyntaxTree
             return TypeValidationResult.Valid(Type);
         }
 
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
     }
 }

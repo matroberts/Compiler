@@ -44,7 +44,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            // check identifier exists in symbol table
+            // get type of identifier from the symbol table.
+            this.Type = SymbolTable.Type(this.Identifier);
+            // how can you set the type of the identifier??
+            //this.Identifier.Type = this.Type;
+            // set type of function and identifier
+
+            // check actuals match formals of function
+
+            return TypeValidationResult.Valid(Type);
         }
     }
 }
