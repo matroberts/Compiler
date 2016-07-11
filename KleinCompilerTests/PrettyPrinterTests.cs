@@ -66,11 +66,9 @@ namespace KleinCompilerTests
 @"Definition(main)
     Type(Boolean)
     Formals
-        Formal
-            Identifier(arg1)
+        Formal(arg1)
             Type(Boolean)
-        Formal
-            Identifier(arg2)
+        Formal(arg2)
             Type(Integer)
     Body
         Expr
@@ -90,8 +88,7 @@ namespace KleinCompilerTests
         {
             var ast = new Formal(identifier: new Identifier("arg1"), kleinType: new KleinType(KType.Boolean));
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"Formal
-    Identifier(arg1)
+@"Formal(arg1)
     Type(Boolean)
 "));
         }

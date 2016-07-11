@@ -6,10 +6,12 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             KleinType = kleinType;
             Identifier = identifier;
+            Name = identifier.Value;
         }
 
         public KleinType KleinType { get; }
         public Identifier Identifier { get; }
+        public string Name { get; }
 
         public override bool Equals(object obj)
         {
@@ -19,7 +21,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             if (this.KleinType.Equals(node.KleinType) == false)
                 return false;
-            if (this.Identifier.Equals(node.Identifier) == false)
+            if (this.Name.Equals(node.Name) == false)
                 return false;
 
             return true;
@@ -31,7 +33,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
         public override string ToString()
         {
-            return $"{GetType().Name}({Identifier.Value})";
+            return $"{GetType().Name}({Name})";
         }
 
         public override int GetHashCode()

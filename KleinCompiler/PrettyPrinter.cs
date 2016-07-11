@@ -51,9 +51,8 @@ namespace KleinCompiler
 
         public void Visit(Formal node)
         {
-            builder.AppendLine($"Formal");
+            builder.AppendLine($"Formal({node.Name})");
             builder.Indent();
-            node.Identifier.Accept(this);
             node.KleinType.Accept(this);
             builder.Outdent();
         }
