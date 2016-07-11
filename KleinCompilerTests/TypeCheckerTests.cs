@@ -179,6 +179,84 @@ namespace KleinCompilerTests
         // type of identifier should be derived from formals, via the symbol table
         // type of function call should be derviced from declaration, via the symbol table
 
+        #region UnaryOperators
 
+        [Test]
+        public void IfExprOfNotOperator_IsNotABoolean_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              not 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Not operator called with expression which is not boolean"));
+        }
+
+        [Test]
+        public void IfExprOfNotOperator_IsABoolean_NoErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              not false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as NotOperator).Right.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void IfExprOfNegateOperator_IsNotAnInteger_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              - true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void IfExprOfNegateOperator_IsAnInteger_NoErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              - 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as NegateOperator).Right.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Integer));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        #endregion
+
+        // not and negate - nested errors not tested
     }
 }
