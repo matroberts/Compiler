@@ -213,6 +213,8 @@ namespace KleinCompilerTests
         // type of identifier should be derived from formals, via the symbol table
         // type of function call should be derviced from declaration, via the symbol table
 
+            // error line numbers
+
         #region UnaryOperators
 
         [Test]

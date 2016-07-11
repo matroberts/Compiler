@@ -145,7 +145,7 @@ namespace KleinCompiler
 
         public void Visit(FunctionCall node)
         {
-            builder.AppendLine($"FunctionCall({node.Identifier.Value})");
+            builder.AppendLine($"FunctionCall({node.Name})");
             builder.Indent();
             foreach (var actual in node.Actuals)
             {

@@ -7,17 +7,17 @@ namespace KleinCompiler.AbstractSyntaxTree
     {
         public FunctionCall(Identifier identifier, List<Actual> actuals)
         {
-            Identifier = identifier;
+            Name = identifier.Value;
             Actuals = actuals.AsReadOnly();
         }
-        public Identifier Identifier { get; }
+        public string Name { get; }
         public ReadOnlyCollection<Actual> Actuals { get; }
         public override bool Equals(object obj)
         {
             var node = obj as FunctionCall;
             if (node == null)
                 return false;
-            if (Identifier.Equals(node.Identifier) == false)
+            if (Name.Equals(node.Name) == false)
                 return false;
             if (Actuals.Count.Equals(node.Actuals.Count) == false)
                 return false;
@@ -35,7 +35,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
         public override string ToString()
         {
-            return $"{GetType().Name}({Identifier.Value})";
+            return $"{GetType().Name}({Name})";
         }
         public override int GetHashCode()
         {
@@ -44,9 +44,9 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            if(SymbolTable.Exists(Identifier) == false)
-                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has no definition");
-            this.Type = SymbolTable.Type(this.Identifier);
+            if(SymbolTable.Exists(Name) == false)
+                return TypeValidationResult.Invalid($"Function '{Name}' has no definition");
+            this.Type = SymbolTable.Type(Name);
 
             foreach (var actual in Actuals)
             {

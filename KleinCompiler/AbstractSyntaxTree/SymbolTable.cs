@@ -5,16 +5,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class SymbolTable
     {
-        private Dictionary<Identifier, KType> identifierTypes = new Dictionary<Identifier, KType>();
+        private Dictionary<string, KType> identifierTypes = new Dictionary<string, KType>();
         public SymbolTable(ReadOnlyCollection<Definition> definitions)
         {
             foreach (var definition in definitions)
             {
-                identifierTypes.Add(definition.Identifier, definition.KleinType.Value);
+                identifierTypes.Add(definition.Identifier.Value, definition.KleinType.Value);
             }
         }
 
-        public KType Type(Identifier identifier) => identifierTypes[identifier];
-        public bool Exists(Identifier identifier) => identifierTypes.ContainsKey(identifier);
+        public KType Type(string identifier) => identifierTypes[identifier];
+        public bool Exists(string identifier) => identifierTypes.ContainsKey(identifier);
     }
 }

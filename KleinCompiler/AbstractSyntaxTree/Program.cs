@@ -63,10 +63,10 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             SymbolTable = new SymbolTable(Definitions);
 
-            if(SymbolTable.Exists(new Identifier("main")) == false)
+            if(SymbolTable.Exists("main") == false)
                 return TypeValidationResult.Invalid("Program must contain a function 'main'");
 
-            Type = SymbolTable.Type(new Identifier("main"));
+            Type = SymbolTable.Type("main");
 
             foreach (var definition in Definitions)
             {
