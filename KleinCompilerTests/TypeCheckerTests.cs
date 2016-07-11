@@ -125,7 +125,7 @@ namespace KleinCompilerTests
 
         #endregion
 
-        #region FunctionCall
+        #region FunctionCall and Actuals
 
         [Test]
         public void TypeOfFunctionCall_ShouldBeDerivedFromDefinition_ViaTheSymbolTable()
@@ -142,13 +142,8 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[1].Body.Expr.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[1].Body.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[1].Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Type, Is.EqualTo(KType.Boolean));
+            var functionCall = program.Definitions[0].Body.Expr as FunctionCall;
+            Assert.That(functionCall.Type, Is.EqualTo(KType.Boolean));
             Assert.That(result.HasError, Is.False);
         }
 
@@ -171,9 +166,48 @@ namespace KleinCompilerTests
             Assert.That(result.Message, Is.EqualTo("Function 'notexists' has no definition"));
         }
 
+        [Test]
+        public void InAFunctionCall_IfTheActualHasTypeError_ATypeErrorShouldBeRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              secondary(- true)
+                          secondary(x : boolean) : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void AnActualsType_IsSetEqualToTheTypeOfTheActualsExpression()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              secondary(not true)
+                          secondary(x : boolean) : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            var functionCall = program.Definitions[0].Body.Expr as FunctionCall;
+            Assert.That(functionCall.Actuals[0].Type, Is.EqualTo(KType.Boolean));
+            Assert.That(result.HasError, Is.False);
+        }
+
         #endregion
 
-        // type error in an actual should be raised
+        // function call should check signature of function call
 
 
         // type of identifier should be derived from formals, via the symbol table

@@ -48,6 +48,12 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has no definition");
             this.Type = SymbolTable.Type(this.Identifier);
 
+            foreach (var actual in Actuals)
+            {
+                var result = actual.CheckType();
+                if (result.HasError)
+                    return result;
+            }
             // how can you set the type of the identifier??
             //this.Identifier.Type = this.Type;
 

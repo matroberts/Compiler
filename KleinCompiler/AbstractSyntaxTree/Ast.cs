@@ -30,22 +30,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public abstract TypeValidationResult CheckType();
 
-        private KType? type;
-        public KType Type
-        {
-            get
-            {
-                if (type == null)
-                {
-                    var result = CheckType();
-                    if(result.HasError)
-                        throw new Exception(result.Message);
-                    type = result.Type;
-                }
-                return type.Value;
-            }
-            protected set { type = value; }
-        }
+        public KType Type { get; protected set; }
 
         private static SymbolTable symbolTable;
 
