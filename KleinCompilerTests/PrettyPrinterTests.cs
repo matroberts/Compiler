@@ -32,15 +32,13 @@ namespace KleinCompilerTests
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Program
-    Definition
-        Identifier(main)
+    Definition(main)
         Type(Boolean)
         Formals
         Body
             Expr
                 Boolean(False)
-    Definition
-        Identifier(subsidiary)
+    Definition(subsidiary)
         Type(Integer)
         Formals
         Body
@@ -65,8 +63,7 @@ namespace KleinCompilerTests
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"Definition
-    Identifier(main)
+@"Definition(main)
     Type(Boolean)
     Formals
         Formal

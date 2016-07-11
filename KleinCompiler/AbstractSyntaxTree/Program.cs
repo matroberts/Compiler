@@ -53,13 +53,13 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            Identifier duplicateFunctionName = Definitions.Select(d => d.Identifier)
+            string duplicateFunctionName = Definitions.Select(d => d.Name)
                                                           .GroupBy(i => i)
                                                           .Where(g => g.Count() > 1)
                                                           .Select(t => t.Key)
                                                           .FirstOrDefault();
             if(duplicateFunctionName != null)
-                return TypeValidationResult.Invalid($"Program contains duplicate function name '{duplicateFunctionName.Value}'");
+                return TypeValidationResult.Invalid($"Program contains duplicate function name '{duplicateFunctionName}'");
 
             SymbolTable = new SymbolTable(Definitions);
 

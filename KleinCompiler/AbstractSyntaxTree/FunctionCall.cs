@@ -54,8 +54,6 @@ namespace KleinCompiler.AbstractSyntaxTree
                 if (result.HasError)
                     return result;
             }
-            // how can you set the type of the identifier??
-            //this.Identifier.Type = this.Type;
 
             // check actuals match formals of function
 

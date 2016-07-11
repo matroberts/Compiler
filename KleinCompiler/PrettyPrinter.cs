@@ -35,9 +35,8 @@ namespace KleinCompiler
 
         public void Visit(Definition node)
         {
-            builder.AppendLine($"Definition");
+            builder.AppendLine($"Definition({node.Name})");
             builder.Indent();
-            node.Identifier.Accept(this);
             node.KleinType.Accept(this);
             builder.AppendLine($"Formals");
             builder.Indent();

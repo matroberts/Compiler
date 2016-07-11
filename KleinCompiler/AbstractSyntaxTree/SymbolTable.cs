@@ -10,7 +10,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             foreach (var definition in definitions)
             {
-                identifierTypes.Add(definition.Identifier.Value, definition.KleinType.Value);
+                identifierTypes.Add(definition.Name, definition.KleinType.Value);
             }
         }
 

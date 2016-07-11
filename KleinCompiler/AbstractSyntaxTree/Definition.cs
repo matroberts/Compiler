@@ -7,12 +7,12 @@ namespace KleinCompiler.AbstractSyntaxTree
     {
         public Definition(Identifier identifier, KleinType kleinType, List<Formal> formals, Body body)
         {
-            Identifier = identifier;
+            Name = identifier.Value;
             KleinType = kleinType;
             Body = body;
             Formals = formals.AsReadOnly();
         }
-        public Identifier Identifier { get; }
+        public string Name { get; }
         public KleinType KleinType { get; }
         public Body Body { get; }
         public ReadOnlyCollection<Formal> Formals { get; }
@@ -23,7 +23,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (definition == null)
                 return false;
 
-            if (Identifier.Equals(definition.Identifier) == false)
+            if (Name.Equals(definition.Name) == false)
                 return false;
 
             if (KleinType.Equals(definition.KleinType) == false)
@@ -47,7 +47,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override string ToString()
         {
-            return $"{GetType().Name}({Identifier.Value})";
+            return $"{GetType().Name}({Name})";
         }
 
         public override int GetHashCode()
@@ -69,7 +69,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             if (this.Type != Body.Type)
             {
-                return TypeValidationResult.Invalid($"Function '{Identifier.Value}' has a type '{this.Type}', but its body has a type '{Body.Type}'");
+                return TypeValidationResult.Invalid($"Function '{Name}' has a type '{this.Type}', but its body has a type '{Body.Type}'");
             }
             return TypeValidationResult.Valid(Type);
         }
