@@ -1,23 +1,23 @@
+using System.Threading;
+
 namespace KleinCompiler.AbstractSyntaxTree
 {
-    public class KleinType : Ast
+    public abstract class KleinType : Ast
     {
-        public KleinType(KType value)
+        public override TypeValidationResult CheckType()
         {
-            Value = value;
+            throw new System.NotImplementedException();
         }
-        public KType Value { get; }
 
+        public abstract PrimitiveType ToType2();
+    }
+
+    public class BooleanTypeDeclaration : KleinType
+    {
         public override bool Equals(object obj)
         {
-            var node = obj as KleinType;
-            if (node == null)
-                return false;
-
-            if (this.Value.Equals(node.Value) == false)
-                return false;
-
-            return true;
+            var node = obj as BooleanTypeDeclaration;
+            return node != null;
         }
 
         public override void Accept(IAstVisitor visior)
@@ -27,7 +27,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override string ToString()
         {
-            return $"{GetType().Name}({Value})";
+            return $"{GetType().Name}";
         }
 
         public override int GetHashCode()
@@ -40,12 +40,38 @@ namespace KleinCompiler.AbstractSyntaxTree
             throw new System.NotImplementedException();
         }
 
-        public PrimitiveType ToType2()
+        public override PrimitiveType ToType2()
         {
-            if(Value == KType.Boolean)
-                return new BooleanType();
-            else
-                return new IntegerType();
+            return new BooleanType();
+        }
+    }
+
+    public class IntegerTypeDeclaration : KleinType
+    {
+        public override bool Equals(object obj)
+        {
+            var node = obj as IntegerTypeDeclaration;
+            return node != null;
+        }
+
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override PrimitiveType ToType2()
+        {
+            return new IntegerType();
         }
     }
 }

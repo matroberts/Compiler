@@ -51,13 +51,13 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeIntegerType:
                 {
-                    var node = new KleinType(KType.Integer);
+                    var node = new IntegerTypeDeclaration();
                     semanticStack.Push(node);
                     return;
                 }
                 case Symbol.MakeBooleanType:
                 {
-                    var node = new KleinType(KType.Boolean);
+                    var node = new BooleanTypeDeclaration();
                     semanticStack.Push(node);
                     return;
                 }

@@ -31,7 +31,7 @@ namespace KleinCompilerTests
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new KleinType(KType.Boolean),
+                                                        kleinType: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
@@ -55,7 +55,7 @@ main () : boolean
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new KleinType(KType.Boolean),
+                                                        kleinType: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
@@ -129,10 +129,10 @@ circularPrimesTo(x: integer):integer
                                             new Definition
                                             (
                                                 new Identifier("main"),
-                                                new KleinType(KType.Integer),
+                                                new IntegerTypeDeclaration(), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier("x"), new KleinType(KType.Integer))
+                                                    new Formal(new Identifier("x"), new IntegerTypeDeclaration())
                                                 },
                                                 new Body
                                                 (
@@ -146,10 +146,10 @@ circularPrimesTo(x: integer):integer
                                             new Definition
                                             (
                                                 new Identifier("circularPrimesTo"),
-                                                new KleinType(KType.Integer),
+                                                new IntegerTypeDeclaration(), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier("x"), new KleinType(KType.Integer))
+                                                    new Formal(new Identifier("x"), new IntegerTypeDeclaration())
                                                 },
                                                 new Body
                                                 (
@@ -181,8 +181,8 @@ circularPrimesTo(x: integer):integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new KleinType(KType.Boolean),
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new KleinType(KType.Integer)) },
+                                                        kleinType: new BooleanTypeDeclaration(), 
+                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()) },
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
         }
@@ -203,11 +203,11 @@ circularPrimesTo(x: integer):integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new KleinType(KType.Boolean),
+                                                        kleinType: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>
                                                         {
-                                                            new Formal(new Identifier("arg1"), new KleinType(KType.Integer)),
-                                                            new Formal(new Identifier("arg2"), new KleinType(KType.Boolean)),
+                                                            new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
+                                                            new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
                                                         },
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
@@ -232,14 +232,14 @@ subsidiary() : integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new KleinType(KType.Boolean),
+                                                        kleinType: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ),
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("subsidiary"),
-                                                        kleinType: new KleinType(KType.Integer),
+                                                        kleinType: new IntegerTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new IntegerLiteral("1"))
                                                     ))));

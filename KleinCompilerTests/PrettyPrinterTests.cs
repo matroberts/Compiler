@@ -17,14 +17,14 @@ namespace KleinCompilerTests
                 new Definition
                 (
                     identifier: new Identifier("main"),
-                    kleinType: new KleinType(KType.Boolean),
+                    kleinType: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier("subsidiary"),
-                    kleinType: new KleinType(KType.Integer),
+                    kleinType: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 )
@@ -53,11 +53,11 @@ namespace KleinCompilerTests
             var ast = new Definition
                           (
                               identifier: new Identifier("main"),
-                              kleinType: new KleinType(KType.Boolean),
+                              kleinType: new BooleanTypeDeclaration(), 
                               formals: new List<Formal>
                               {
-                                  new Formal(new Identifier("arg1"), new KleinType(KType.Boolean)),
-                                  new Formal(new Identifier("arg2"), new KleinType(KType.Integer)),
+                                  new Formal(new Identifier("arg1"), new BooleanTypeDeclaration()),
+                                  new Formal(new Identifier("arg2"), new IntegerTypeDeclaration()),
                               },
                               body: new Body(expr: new BooleanLiteral(false))
                           );
@@ -77,16 +77,23 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void KleinType_ShouldPrint()
+        public void BooleanTypeDeclaration_ShouldPrint()
         {
-            var ast = new KleinType(KType.Boolean);
+            var ast = new BooleanTypeDeclaration();
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(Boolean)\r\n"));
+        }
+
+        [Test]
+        public void IntegerTypeDeclaration_ShouldPrint()
+        {
+            var ast = new IntegerTypeDeclaration();
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo("Type(Integer)\r\n"));
         }
 
         [Test]
         public void Formal_ShouldPrint()
         {
-            var ast = new Formal(identifier: new Identifier("arg1"), kleinType: new KleinType(KType.Boolean));
+            var ast = new Formal(identifier: new Identifier("arg1"), kleinType: new BooleanTypeDeclaration());
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Formal(arg1)
     Type(Boolean)

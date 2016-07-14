@@ -57,9 +57,14 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(KleinType node)
+        public void Visit(BooleanTypeDeclaration node)
         {
-            builder.AppendLine($"Type({node.Value})");
+            builder.AppendLine($"Type(Boolean)");
+        }
+
+        public void Visit(IntegerTypeDeclaration node)
+        {
+            builder.AppendLine($"Type(Integer)");
         }
 
         public void Visit(Body node)

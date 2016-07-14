@@ -8,7 +8,8 @@ namespace KleinCompiler
         void Visit(Program node);
         void Visit(Definition node);
         void Visit(Formal node);
-        void Visit(KleinType node);
+        void Visit(BooleanTypeDeclaration node);
+        void Visit(IntegerTypeDeclaration node);
         void Visit(Body node);
         void Visit(Print node);
         void Visit(IfThenElse node);
