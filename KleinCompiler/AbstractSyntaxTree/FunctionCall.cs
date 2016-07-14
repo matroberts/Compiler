@@ -54,14 +54,14 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             if (SymbolTable.Exists(Name) == false)
                 return TypeValidationResult.Invalid($"Function '{Name}' has no definition");
-            this.Type2 = SymbolTable.Type(Name).ReturnType;
+            this.Type = SymbolTable.Type(Name).ReturnType;
 
 
 
 //            if(SymbolTable.CheckArgs(Name, Actuals.Select(a => a.Type).ToList()) == false)
 //                return TypeValidationResult.Invalid("");
 
-            return TypeValidationResult.Valid(Type2);
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

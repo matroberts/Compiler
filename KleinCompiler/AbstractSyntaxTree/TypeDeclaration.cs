@@ -4,7 +4,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class TypeDeclaration : Ast
     {
-        public abstract PrimitiveType ToType2();
+        public abstract PrimitiveType ToKType();
     }
 
     public class BooleanTypeDeclaration : TypeDeclaration
@@ -35,7 +35,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             throw new System.NotImplementedException();
         }
 
-        public override PrimitiveType ToType2()
+        public override PrimitiveType ToKType()
         {
             return new BooleanType();
         }
@@ -69,7 +69,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             throw new System.NotImplementedException();
         }
 
-        public override PrimitiveType ToType2()
+        public override PrimitiveType ToKType()
         {
             return new IntegerType();
         }

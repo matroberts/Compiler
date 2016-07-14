@@ -12,7 +12,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             TypeDeclaration = typeDeclaration;
             Body = body;
             Formals = formals.AsReadOnly();
-            Type2 = new FunctionType(TypeDeclaration.ToType2(), Formals.Select(f => f.TypeDeclaration.ToType2()));
+            Type = new FunctionType(TypeDeclaration.ToKType(), Formals.Select(f => f.TypeDeclaration.ToKType()));
         }
         public string Name { get; }
         public TypeDeclaration TypeDeclaration { get; }
@@ -64,16 +64,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            //Type2 set in constructor
+            //Type set in constructor
             var result = Body.CheckType();
             if (result.HasError)
                 return result;
 
-            if (SymbolTable.Type(Name).ReturnType.Equals(Body.Type2) == false)
+            if (SymbolTable.Type(Name).ReturnType.Equals(Body.Type) == false)
             {
-                return TypeValidationResult.Invalid($"Function '{Name}' has a return type '{SymbolTable.Type(Name).ReturnType}', but its body has a type '{Body.Type2}'");
+                return TypeValidationResult.Invalid($"Function '{Name}' has a return type '{SymbolTable.Type(Name).ReturnType}', but its body has a type '{Body.Type}'");
             }
-            return TypeValidationResult.Valid(Type2);
+            return TypeValidationResult.Valid(Type);
         }
 
     }

@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace KleinCompiler.AbstractSyntaxTree
 {
-    public abstract class Type2
+    public abstract class KType
     {
 
     }
 
-    public abstract class PrimitiveType : Type2
+    public abstract class PrimitiveType : KType
     {
         
     }
@@ -41,7 +41,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
     }
 
-    public class FunctionType : Type2
+    public class FunctionType : KType
     {
         public PrimitiveType ReturnType { get; }
         public List<PrimitiveType> Args { get; }

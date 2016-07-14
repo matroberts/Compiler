@@ -59,7 +59,7 @@
     <Compile Include="TokenizerTests.cs" />
     <Compile Include="TokenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Type2Tests.cs" />
+    <Compile Include="KTypeTests.cs" />
     <Compile Include="TypeCheckerTests.cs" />
   </ItemGroup>
   <ItemGroup>

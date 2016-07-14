@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace KleinCompilerTests
 {
     [TestFixture]
-    public class Type2Tests
+    public class KTypeTests
     {
         [Test]
         public void BooleanType_ShouldImplement_ValueEquality()

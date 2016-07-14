@@ -38,9 +38,9 @@
 
         public override TypeValidationResult CheckType()
         {
-            Type2 = new IntegerType();
+            Type = new IntegerType();
 
-            return TypeValidationResult.Valid(Type2);
+            return TypeValidationResult.Valid(Type);
         }
     }
 }
