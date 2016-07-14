@@ -121,7 +121,7 @@ R12                             | boolean MakeBooleanType
                 }
                 case Symbol.MakeDefinition:
                 {
-                    var kleinType = semanticStack.Pop();
+                    var typeDeclaration = semanticStack.Pop();
                     var formals = new Stack<Formal>();
                     while (semanticStack.Peek() is Formal)
                     {
@@ -129,15 +129,15 @@ R12                             | boolean MakeBooleanType
                     }
                     var identifier = semanticStack.Pop();
 
-                    var node = new Definition(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)kleinType, formals: formals.ToList(), body: null);
+                    var node = new Definition(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)typeDeclaration, formals: formals.ToList(), body: null);
                     semanticStack.Push(node);
                     return;
                 }
                 case Symbol.MakeFormal:
                 {
-                    var kleinType = semanticStack.Pop();
+                    var typeDeclaration = semanticStack.Pop();
                     var identifier = semanticStack.Pop();
-                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)kleinType));
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)typeDeclaration));
                     return;
                 }
                 case Symbol.MakeIdentifier:
