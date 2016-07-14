@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace KleinCompiler.AbstractSyntaxTree
 {
@@ -44,10 +45,6 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            if(SymbolTable.Exists(Name) == false)
-                return TypeValidationResult.Invalid($"Function '{Name}' has no definition");
-            this.Type = SymbolTable.Type(Name);
-
             foreach (var actual in Actuals)
             {
                 var result = actual.CheckType();
@@ -55,7 +52,14 @@ namespace KleinCompiler.AbstractSyntaxTree
                     return result;
             }
 
-            // check actuals match formals of function
+            if (SymbolTable.Exists(Name) == false)
+                return TypeValidationResult.Invalid($"Function '{Name}' has no definition");
+            this.Type = SymbolTable.Type(Name);
+
+
+
+//            if(SymbolTable.CheckArgs(Name, Actuals.Select(a => a.Type).ToList()) == false)
+//                return TypeValidationResult.Invalid("");
 
             return TypeValidationResult.Valid(Type);
         }

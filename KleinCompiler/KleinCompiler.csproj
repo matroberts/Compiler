@@ -57,6 +57,7 @@
     <Compile Include="AbstractSyntaxTree\Print.cs" />
     <Compile Include="AbstractSyntaxTree\Program.cs" />
     <Compile Include="AbstractSyntaxTree\SymbolTable.cs" />
+    <Compile Include="AbstractSyntaxTree\Type2.cs" />
     <Compile Include="AbstractSyntaxTree\TypeValidationResult.cs" />
     <Compile Include="AbstractSyntaxTree\UnaryOperator.cs" />
     <Compile Include="AstFactory.cs" />

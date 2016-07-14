@@ -205,6 +205,25 @@ namespace KleinCompilerTests
             Assert.That(result.HasError, Is.False);
         }
 
+        [Test, Ignore("WIP")]
+        public void IfDefinition_AndFunctionCall_HaveDifferentNumberOfArguments_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              secondary()
+                          secondary(x : boolean) : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Function 'secondary' called with arguments (), where definition of 'secondary' requires arguments (boolean)"));
+        }
+
         #endregion
 
         // function call should check signature of function call
@@ -213,7 +232,7 @@ namespace KleinCompilerTests
         // type of identifier should be derived from formals, via the symbol table
         // type of function call should be derviced from declaration, via the symbol table
 
-            // error line numbers
+        // error line numbers
 
         #region UnaryOperators
 
