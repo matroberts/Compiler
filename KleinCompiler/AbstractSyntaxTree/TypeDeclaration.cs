@@ -2,17 +2,12 @@ using System.Threading;
 
 namespace KleinCompiler.AbstractSyntaxTree
 {
-    public abstract class KleinType : Ast
+    public abstract class TypeDeclaration : Ast
     {
-        public override TypeValidationResult CheckType()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public abstract PrimitiveType ToType2();
     }
 
-    public class BooleanTypeDeclaration : KleinType
+    public class BooleanTypeDeclaration : TypeDeclaration
     {
         public override bool Equals(object obj)
         {
@@ -46,7 +41,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
     }
 
-    public class IntegerTypeDeclaration : KleinType
+    public class IntegerTypeDeclaration : TypeDeclaration
     {
         public override bool Equals(object obj)
         {
@@ -67,6 +62,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
 
         public override PrimitiveType ToType2()

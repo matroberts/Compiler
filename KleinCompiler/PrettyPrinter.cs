@@ -37,7 +37,7 @@ namespace KleinCompiler
         {
             builder.AppendLine($"Definition({node.Name})");
             builder.Indent();
-            node.KleinType.Accept(this);
+            node.TypeDeclaration.Accept(this);
             builder.AppendLine($"Formals");
             builder.Indent();
             foreach (var formal in node.Formals)
@@ -53,7 +53,7 @@ namespace KleinCompiler
         {
             builder.AppendLine($"Formal({node.Name})");
             builder.Indent();
-            node.KleinType.Accept(this);
+            node.TypeDeclaration.Accept(this);
             builder.Outdent();
         }
 

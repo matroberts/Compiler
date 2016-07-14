@@ -30,7 +30,7 @@ namespace KleinCompiler
                 case Symbol.MakeDefinition:
                 {
                     var body = semanticStack.Pop();
-                    var kleinType = semanticStack.Pop();
+                    var typeDeclaration = semanticStack.Pop();
                     var formals = new Stack<Formal>();
                     while (semanticStack.Peek() is Formal)
                     {
@@ -38,15 +38,15 @@ namespace KleinCompiler
                     }
                     var identifier = semanticStack.Pop();
 
-                    var node = new Definition(identifier: (Identifier)identifier, kleinType: (KleinType)kleinType, formals: formals.ToList(), body: (Body)body);
+                    var node = new Definition(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)typeDeclaration, formals: formals.ToList(), body: (Body)body);
                     semanticStack.Push(node);
                     return;
                 }
                 case Symbol.MakeFormal:
                 {
-                    var kleinType = semanticStack.Pop();
+                    var typeDeclaration = semanticStack.Pop();
                     var identifier = semanticStack.Pop();
-                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, kleinType: (KleinType)kleinType));
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)typeDeclaration));
                     return;
                 }
                 case Symbol.MakeIntegerType:

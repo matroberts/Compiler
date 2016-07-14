@@ -129,7 +129,7 @@ R12                             | boolean MakeBooleanType
                     }
                     var identifier = semanticStack.Pop();
 
-                    var node = new Definition(identifier: (Identifier)identifier, kleinType: (KleinType)kleinType, formals: formals.ToList(), body: null);
+                    var node = new Definition(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)kleinType, formals: formals.ToList(), body: null);
                     semanticStack.Push(node);
                     return;
                 }
@@ -137,7 +137,7 @@ R12                             | boolean MakeBooleanType
                 {
                     var kleinType = semanticStack.Pop();
                     var identifier = semanticStack.Pop();
-                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, kleinType: (KleinType)kleinType));
+                    semanticStack.Push(new Formal(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)kleinType));
                     return;
                 }
                 case Symbol.MakeIdentifier:
@@ -183,7 +183,7 @@ R12                             | boolean MakeBooleanType
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new  List<Formal>(),
                                                         body: null
                                                     ))));
@@ -204,7 +204,7 @@ R12                             | boolean MakeBooleanType
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal> { new Formal(new Identifier("arg1"), new IntegerTypeDeclaration())},
                                                         body: null
                                                     ))));
@@ -225,7 +225,7 @@ R12                             | boolean MakeBooleanType
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>
                                                         {
                                                             new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
@@ -251,14 +251,14 @@ subsidiary() : integer";
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("main"),
-                                                        kleinType: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: null
                                                     ),
                                                     new Definition
                                                     (
                                                         identifier: new Identifier("subsidiary"),
-                                                        kleinType: new IntegerTypeDeclaration(), 
+                                                        typeDeclaration: new IntegerTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: null
                                                     ))));

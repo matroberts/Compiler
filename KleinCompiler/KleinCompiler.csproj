@@ -52,7 +52,7 @@
     <Compile Include="AbstractSyntaxTree\Identifier.cs" />
     <Compile Include="AbstractSyntaxTree\IfThenElse.cs" />
     <Compile Include="AbstractSyntaxTree\IntegerLiteral.cs" />
-    <Compile Include="AbstractSyntaxTree\KleinType.cs" />
+    <Compile Include="AbstractSyntaxTree\TypeDeclaration.cs" />
     <Compile Include="AbstractSyntaxTree\Print.cs" />
     <Compile Include="AbstractSyntaxTree\Program.cs" />
     <Compile Include="AbstractSyntaxTree\SymbolTable.cs" />

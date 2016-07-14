@@ -6,16 +6,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Definition : Ast
     {
-        public Definition(Identifier identifier, KleinType kleinType, List<Formal> formals, Body body)
+        public Definition(Identifier identifier, TypeDeclaration typeDeclaration, List<Formal> formals, Body body)
         {
             Name = identifier.Value;
-            KleinType = kleinType;
+            TypeDeclaration = typeDeclaration;
             Body = body;
             Formals = formals.AsReadOnly();
-            Type2 = new FunctionType(KleinType.ToType2(), Formals.Select(f => f.KleinType.ToType2()));
+            Type2 = new FunctionType(TypeDeclaration.ToType2(), Formals.Select(f => f.TypeDeclaration.ToType2()));
         }
         public string Name { get; }
-        public KleinType KleinType { get; }
+        public TypeDeclaration TypeDeclaration { get; }
         public Body Body { get; }
         public ReadOnlyCollection<Formal> Formals { get; }
 
@@ -28,7 +28,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (Name.Equals(definition.Name) == false)
                 return false;
 
-            if (KleinType.Equals(definition.KleinType) == false)
+            if (TypeDeclaration.Equals(definition.TypeDeclaration) == false)
                 return false;
 
             if (Formals.Count.Equals(definition.Formals.Count) == false)
