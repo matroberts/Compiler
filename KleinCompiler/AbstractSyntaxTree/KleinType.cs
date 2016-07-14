@@ -39,5 +39,13 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             throw new System.NotImplementedException();
         }
+
+        public PrimitiveType ToType2()
+        {
+            if(Value == KType.Boolean)
+                return new BooleanType();
+            else
+                return new IntegerType();
+        }
     }
 }

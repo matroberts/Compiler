@@ -45,16 +45,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            Type = KType.Boolean;
+            Type2 = new BooleanType();
 
             var result = Right.CheckType();
             if (result.HasError)
                 return result;
 
-            if(Type != result.Type)
+            if(Type2.Equals(result.Type) == false)
                 return TypeValidationResult.Invalid($"Not operator called with expression which is not boolean");
 
-            return TypeValidationResult.Valid(Type);
+            return TypeValidationResult.Valid(Type2);
         }
     }
 
@@ -94,16 +94,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            Type = KType.Integer;
+            Type2 = new IntegerType();
 
             var result = Right.CheckType();
             if (result.HasError)
                 return result;
 
-            if (Type != result.Type)
+            if (Type2.Equals(result.Type) == false)
                 return TypeValidationResult.Invalid($"Negate operator called with expression which is not integer");
 
-            return TypeValidationResult.Valid(Type);
+            return TypeValidationResult.Valid(Type2);
         }
     }
 }

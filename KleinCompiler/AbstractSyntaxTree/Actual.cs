@@ -37,9 +37,9 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (result.HasError)
                 return result;
 
-            Type = result.Type.Value;
+            Type2 = result.Type;
 
-            return TypeValidationResult.Valid(Type);
+            return TypeValidationResult.Valid(Type2);
         }
     }
 }

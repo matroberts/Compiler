@@ -30,7 +30,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public abstract TypeValidationResult CheckType();
 
-        public KType Type { get; protected set; }
+        public Type2 Type2 { get; protected set; }
+
 
         private static SymbolTable symbolTable;
 

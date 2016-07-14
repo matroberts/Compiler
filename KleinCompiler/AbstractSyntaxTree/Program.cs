@@ -66,7 +66,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if(SymbolTable.Exists("main") == false)
                 return TypeValidationResult.Invalid("Program must contain a function 'main'");
 
-            Type = SymbolTable.Type("main");
+            Type2 = SymbolTable.Type("main").ReturnType;
 
             foreach (var definition in Definitions)
             {
@@ -74,7 +74,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 if (result.HasError)
                     return result;
             }
-            return TypeValidationResult.Valid(Type);
+            return TypeValidationResult.Valid(Type2);
         }
     }
 }

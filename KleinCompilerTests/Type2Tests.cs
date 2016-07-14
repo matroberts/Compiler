@@ -65,5 +65,15 @@ namespace KleinCompilerTests
             Assert.That(functionType.Equals(new FunctionType(new IntegerType(), new BooleanType(), new IntegerType())), Is.False);
             Assert.That(functionType.Equals(new FunctionType(new IntegerType(), new IntegerType(), new BooleanType())), Is.True);
         }
+
+        [Test]
+        public void ToString_ShouldProduceUsefulRepresentation()
+        {
+            Assert.That(new IntegerType().ToString(), Is.EqualTo("integer"));
+            Assert.That(new BooleanType().ToString(), Is.EqualTo("boolean"));
+            Assert.That(new FunctionType(new BooleanType()).ToString(), Is.EqualTo("() : boolean"));
+            Assert.That(new FunctionType(new BooleanType(), new IntegerType()).ToString(), Is.EqualTo("(integer) : boolean"));
+            Assert.That(new FunctionType(new BooleanType(), new IntegerType(), new BooleanType()).ToString(), Is.EqualTo("(integer, boolean) : boolean"));
+        }
     }
 }

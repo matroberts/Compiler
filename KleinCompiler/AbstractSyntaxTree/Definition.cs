@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace KleinCompiler.AbstractSyntaxTree
 {
@@ -11,6 +12,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             KleinType = kleinType;
             Body = body;
             Formals = formals.AsReadOnly();
+            Type2 = new FunctionType(KleinType.ToType2(), Formals.Select(f => f.KleinType.ToType2()));
         }
         public string Name { get; }
         public KleinType KleinType { get; }
@@ -62,16 +64,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            Type = KleinType.Value;
+            //Type2 set in constructor
             var result = Body.CheckType();
             if (result.HasError)
                 return result;
 
-            if (this.Type != Body.Type)
+            if (SymbolTable.Type(Name).ReturnType.Equals(Body.Type2) == false)
             {
-                return TypeValidationResult.Invalid($"Function '{Name}' has a type '{this.Type}', but its body has a type '{Body.Type}'");
+                return TypeValidationResult.Invalid($"Function '{Name}' has a return type '{SymbolTable.Type(Name).ReturnType}', but its body has a type '{Body.Type2}'");
             }
-            return TypeValidationResult.Valid(Type);
+            return TypeValidationResult.Valid(Type2);
         }
 
     }

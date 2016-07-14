@@ -20,6 +20,11 @@ namespace KleinCompiler.AbstractSyntaxTree
             var type = obj as BooleanType;
             return type != null;
         }
+
+        public override string ToString()
+        {
+            return "boolean";
+        }
     }
 
     public class IntegerType : PrimitiveType
@@ -29,14 +34,25 @@ namespace KleinCompiler.AbstractSyntaxTree
             var type = obj as IntegerType;
             return type != null;
         }
+
+        public override string ToString()
+        {
+            return "integer";
+        }
     }
 
-    public class FunctionType
+    public class FunctionType : Type2
     {
-        private PrimitiveType ReturnType { get; }
-        private List<PrimitiveType> Args { get; }
+        public PrimitiveType ReturnType { get; }
+        public List<PrimitiveType> Args { get; }
 
         public FunctionType(PrimitiveType returnType, params PrimitiveType[] args)
+        {
+            ReturnType = returnType;
+            Args = args.ToList();
+        }
+
+        public FunctionType(PrimitiveType returnType, IEnumerable<PrimitiveType> args) 
         {
             ReturnType = returnType;
             Args = args.ToList();
@@ -66,6 +82,11 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return false;
 
             return CheckArgs(type.Args);
+        }
+
+        public override string ToString()
+        {
+            return $"({string.Join(", ", Args)}) : {ReturnType}";
         }
     }
 }

@@ -4,7 +4,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class TypeValidationResult
     {
-        public static TypeValidationResult Valid(KType type)
+        public static TypeValidationResult Valid(Type2 type)
         {
             return new TypeValidationResult(type);
         }
@@ -20,13 +20,13 @@ namespace KleinCompiler.AbstractSyntaxTree
             Type = null;
         }
 
-        private TypeValidationResult(KType type)
+        private TypeValidationResult(Type2 type)
         {
             Message = String.Empty;
             Type = type;
         }
 
-        public KType? Type { get; }
+        public Type2 Type { get; }
         public bool HasError => Type == null;
         public string Message { get; }
     }

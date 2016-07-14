@@ -77,7 +77,7 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result.HasError, Is.False);
-            Assert.That(program.Type, Is.EqualTo(KType.Integer));
+            Assert.That(program.Type2, Is.EqualTo(new IntegerType()));
         }
 
         #endregion
@@ -98,11 +98,11 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result.HasError, Is.False);
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Expr.Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(program.Definitions[0].Body.Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(program.Definitions[0].Type2, Is.EqualTo(new FunctionType(new BooleanType())));
         }
-
+        
         [Test]
         public void IfTypeOfFunction_AndTypeItsBody_DoNotMatch_ATypeErrorIsRaised()
         {
@@ -116,11 +116,11 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
+            Assert.That(program.Definitions[0].Body.Expr.Type2, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Body.Type2, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Type2, Is.EqualTo(new FunctionType(new BooleanType())));
             Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Function 'main' has a type 'Boolean', but its body has a type 'Integer'"));
+            Assert.That(result.Message, Is.EqualTo("Function 'main' has a return type 'boolean', but its body has a type 'integer'"));
         }
 
         #endregion
@@ -143,7 +143,7 @@ namespace KleinCompilerTests
 
             // assert
             var functionCall = program.Definitions[0].Body.Expr as FunctionCall;
-            Assert.That(functionCall.Type, Is.EqualTo(KType.Boolean));
+            Assert.That(functionCall.Type2, Is.EqualTo(new BooleanType()));
             Assert.That(result.HasError, Is.False);
         }
 
@@ -201,8 +201,8 @@ namespace KleinCompilerTests
 
             // assert
             var functionCall = program.Definitions[0].Body.Expr as FunctionCall;
-            Assert.That(functionCall.Actuals[0].Type, Is.EqualTo(KType.Boolean));
-            Assert.That(result.HasError, Is.False);
+            Assert.That(functionCall.Actuals[0].Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(result.HasError, Is.False, result.Message);
         }
 
         [Test, Ignore("WIP")]
@@ -266,10 +266,10 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That((program.Definitions[0].Body.Expr as NotOperator).Right.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Boolean));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Boolean));
+            Assert.That((program.Definitions[0].Body.Expr as NotOperator).Right.Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(program.Definitions[0].Body.Expr.Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(program.Definitions[0].Body.Type2, Is.EqualTo(new BooleanType()));
+            Assert.That(program.Definitions[0].Type2, Is.EqualTo(new FunctionType(new BooleanType())));
             Assert.That(result.HasError, Is.False);
         }
 
@@ -303,10 +303,10 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That((program.Definitions[0].Body.Expr as NegateOperator).Right.Type, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(KType.Integer));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(KType.Integer));
+            Assert.That((program.Definitions[0].Body.Expr as NegateOperator).Right.Type2, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Body.Expr.Type2, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Body.Type2, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Type2, Is.EqualTo(new FunctionType(new IntegerType())));
             Assert.That(result.HasError, Is.False);
         }
 

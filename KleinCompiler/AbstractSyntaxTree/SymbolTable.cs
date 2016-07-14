@@ -8,20 +8,16 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class SymbolTable
     {
-        private Dictionary<string, KType> identifierTypes = new Dictionary<string, KType>();
-        private Dictionary<string, List<KType>> identifierFormals = new Dictionary<string, List<KType>>();
+        private Dictionary<string, FunctionType> identifierTypes = new Dictionary<string, FunctionType>();
         public SymbolTable(ReadOnlyCollection<Definition> definitions)
         {
             foreach (var definition in definitions)
             {
-                identifierTypes.Add(definition.Name, definition.KleinType.Value);
-                identifierFormals.Add(definition.Name, definition.Formals.Select(f => f.KleinType.Value).ToList());
+                identifierTypes.Add(definition.Name, definition.Type2 as FunctionType);
             }
         }
 
-        public KType Type(string identifier) => identifierTypes[identifier];
+        public FunctionType Type(string identifier) => identifierTypes[identifier];
         public bool Exists(string identifier) => identifierTypes.ContainsKey(identifier);
-
-
     }
 }
