@@ -25,6 +25,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             return "boolean";
         }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
     }
 
     public class IntegerType : PrimitiveType
@@ -39,6 +44,10 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             return "integer";
         }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
     }
 
     public class FunctionType : KType
@@ -47,12 +56,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public List<PrimitiveType> Args { get; }
 
         public FunctionType(PrimitiveType returnType, params PrimitiveType[] args)
-        {
-            ReturnType = returnType;
-            Args = args.ToList();
-        }
-
-        public FunctionType(PrimitiveType returnType, IEnumerable<PrimitiveType> args) 
         {
             ReturnType = returnType;
             Args = args.ToList();
@@ -87,6 +90,10 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override string ToString()
         {
             return $"({string.Join(", ", Args)}) : {ReturnType}";
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
         }
     }
 }

@@ -116,9 +116,6 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new IntegerType()));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(new IntegerType()));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(new FunctionType(new BooleanType())));
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'main' has a return type 'boolean', but its body has a type 'integer'"));
         }

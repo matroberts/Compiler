@@ -13,7 +13,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             foreach (var definition in definitions)
             {
-                identifierTypes.Add(definition.Name, definition.Type as FunctionType);
+                identifierTypes.Add(definition.Name, definition.FunctionType);
             }
         }
 
