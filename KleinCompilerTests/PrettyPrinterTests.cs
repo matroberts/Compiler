@@ -173,22 +173,138 @@ Else
 "));
         }
 
+        #region BinaryOperator
+
         [Test]
-        public void BinaryOperator_ShouldPrint()
+        public void LessThanOperator_ShouldPrint()
         {
-            var ast = new BinaryOperator
-                          (
-                              left: new Identifier("x"),
-                              op: BOp.Plus,
-                              right: new Identifier("y")
-                          );
+            var ast = new LessThanOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
-@"BinaryOperator(+)
+@"LessThan
     Identifier(x)
     Identifier(y)
 "));
         }
+
+        [Test]
+        public void EqualsOperator_ShouldPrint()
+        {
+            var ast = new EqualsOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Equals
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void OrOperator_ShouldPrint()
+        {
+            var ast = new OrOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Or
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void PlusOperator_ShouldPrint()
+        {
+            var ast = new PlusOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Plus
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void MinusOperator_ShouldPrint()
+        {
+            var ast = new MinusOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Minus
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void AndOperator_ShouldPrint()
+        {
+            var ast = new AndOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"And
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void TimesOperator_ShouldPrint()
+        {
+            var ast = new TimesOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Times
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        [Test]
+        public void DivideOperator_ShouldPrint()
+        {
+            var ast = new DivideOperator
+                (
+                left: new Identifier("x"),
+                right: new Identifier("y")
+                );
+
+            Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
+@"Divide
+    Identifier(x)
+    Identifier(y)
+"));
+        }
+
+        #endregion
+
 
         [Test]
         public void AllTheValues_InTheBOpEnum_ShouldHaveAnOpTextAttribute()

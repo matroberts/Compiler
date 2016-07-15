@@ -92,7 +92,7 @@ R8                              | identifier MakeIdentifier
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Plus, right: (Expr)right);
+                    var node = new PlusOperator(left: (Expr)left, right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }
@@ -100,7 +100,7 @@ R8                              | identifier MakeIdentifier
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new BinaryOperator(left: (Expr)left, op: BOp.Times, right: (Expr)right);
+                    var node = new TimesOperator(left: (Expr)left, right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }
@@ -149,10 +149,9 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: BOp.Plus,
                                                         right: new Identifier("y")
                                                     )
                                                 ));
@@ -169,10 +168,9 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: BOp.Times, 
                                                         right: new Identifier("y")
                                                     )
                                                 ));
@@ -203,14 +201,12 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
                                                         left: new Identifier("x"),
-                                                        op: BOp.Plus, 
-                                                        right: new BinaryOperator
+                                                        right: new TimesOperator
                                                                    (
                                                                         left: new Identifier("y"),
-                                                                        op: BOp.Times, 
                                                                         right: new Identifier("z"))
                                                                    )
                                                     ));
@@ -227,15 +223,13 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
-                                                        left: new BinaryOperator
+                                                        left: new TimesOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: BOp.Times, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: BOp.Plus, 
                                                         right : new Identifier("z")
                                                     )));
         }
@@ -251,15 +245,13 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
-                                                        left: new BinaryOperator
+                                                        left: new PlusOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: BOp.Plus, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: BOp.Times, 
                                                         right: new Identifier("z")
                                                     )));
         }
@@ -275,15 +267,13 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
-                                                        left: new BinaryOperator
+                                                        left: new TimesOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: BOp.Times, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: BOp.Times, 
                                                         right: new Identifier("z")
                                                     )));
         }
@@ -299,15 +289,13 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new BinaryOperator
+            Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
-                                                        left: new BinaryOperator
+                                                        left: new PlusOperator
                                                                   (
                                                                       left: new Identifier("x"),
-                                                                      op: BOp.Plus, 
                                                                       right: new Identifier("y")
                                                                   ),
-                                                        op: BOp.Plus, 
                                                         right: new Identifier("z")
                                                     )));
         }

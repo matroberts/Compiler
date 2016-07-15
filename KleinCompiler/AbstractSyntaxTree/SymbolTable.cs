@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace KleinCompiler.AbstractSyntaxTree
 {
-
     public class SymbolTable
     {
         private Dictionary<string, FunctionType> identifierTypes = new Dictionary<string, FunctionType>();

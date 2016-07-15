@@ -223,6 +223,30 @@ namespace KleinCompilerTests
 
         #endregion
 
+        #region Identifier and visible identifiers in a function - note that identifiers in the ast only refer to variables
+
+        [Test, Ignore("")]
+        public void AnIdentifier_DerivesItsType_FromTheFormalInTheFunctionDeclaration()
+        {
+            // arrange
+            var input = @"main(x : boolean) : boolean
+                              secondary(1)
+                          secondary(x : integer) : boolean
+                              x=2";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+        }
+
+        [Test]
+        public void IfABody_UsesAVariableWhichIsNotDefinedInTheDeclaration_AnErrorIsRaised()
+        {
+        }
+
+        #endregion
+
         #region UnaryOperators
 
         [Test]

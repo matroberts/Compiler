@@ -80,42 +80,58 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeLessThan:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.LessThan, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new LessThanOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeEquals:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Equals, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new EqualsOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeOr:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Or, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new OrOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakePlus:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Plus, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new PlusOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeMinus:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Minus, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new MinusOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeAnd:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.And, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new AndOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeTimes:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Times, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new TimesOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeDivide:
                 {
-                    semanticStack.Push(CreateBinaryOperator(BOp.Divide, semanticStack));
+                    var right = semanticStack.Pop();
+                    var left = semanticStack.Pop();
+                    semanticStack.Push(new DivideOperator(left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeNot:
@@ -178,13 +194,6 @@ namespace KleinCompiler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }
-        }
-
-        private BinaryOperator CreateBinaryOperator(BOp bop, Stack<Ast> semanticStack)
-        {
-            var right = semanticStack.Pop();
-            var left = semanticStack.Pop();
-            return new BinaryOperator(left: (Expr)left, op: bop, right: (Expr)right);
         }
     }
 }

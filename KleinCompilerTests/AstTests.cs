@@ -329,43 +329,42 @@ namespace KleinCompilerTests
                                           )), Is.True);
         }
 
+        #region BinaryOperator
+
         [Test]
         public void BinaryOperator_ShouldImplement_ValueEquality()
         {
-            var binaryOperator = new BinaryOperator
-                                    (
-                                        left: new Identifier("left"),
-                                        op: BOp.Times, 
-                                        right: new Identifier("right")
-                                    );
+            var binaryOperator = new TimesOperator
+                (
+                left: new Identifier("left"),
+                right: new Identifier("right")
+                );
 
             Assert.That(binaryOperator.Equals(null), Is.False);
             Assert.That(binaryOperator.Equals(new Identifier("a")), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("wrong"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("right")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Plus, 
-                                                       right: new Identifier("right")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("wrong")
-                                                  )), Is.False);
-            Assert.That(binaryOperator.Equals(new BinaryOperator
-                                                  (
-                                                       left: new Identifier("left"),
-                                                       op: BOp.Times, 
-                                                       right: new Identifier("right")
-                                                  )), Is.True);
+            Assert.That(binaryOperator.Equals(new TimesOperator
+                (
+                left: new Identifier("wrong"),
+                right: new Identifier("right")
+                )), Is.False);
+            Assert.That(binaryOperator.Equals(new PlusOperator
+                (
+                left: new Identifier("left"),
+                right: new Identifier("right")
+                )), Is.False);
+            Assert.That(binaryOperator.Equals(new TimesOperator
+                (
+                left: new Identifier("left"),
+                right: new Identifier("wrong")
+                )), Is.False);
+            Assert.That(binaryOperator.Equals(new TimesOperator
+                (
+                left: new Identifier("left"),
+                right: new Identifier("right")
+                )), Is.True);
         }
+
+        #endregion
 
         #region UnaryOperator
 

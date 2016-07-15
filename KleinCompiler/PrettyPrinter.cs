@@ -106,9 +106,72 @@ namespace KleinCompiler
             builder.Outdent();
         }
 
-        public void Visit(BinaryOperator node)
+        public void Visit(LessThanOperator node)
         {
-            builder.AppendLine($"BinaryOperator({node.Operator.ToOpText()})");
+            builder.AppendLine($"LessThan");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(EqualsOperator node)
+        {
+            builder.AppendLine($"Equals");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(OrOperator node)
+        {
+            builder.AppendLine($"Or");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(PlusOperator node)
+        {
+            builder.AppendLine($"Plus");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(MinusOperator node)
+        {
+            builder.AppendLine($"Minus");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(AndOperator node)
+        {
+            builder.AppendLine($"And");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(TimesOperator node)
+        {
+            builder.AppendLine($"Times");
+            builder.Indent();
+            node.Left.Accept(this);
+            node.Right.Accept(this);
+            builder.Outdent();
+        }
+
+        public void Visit(DivideOperator node)
+        {
+            builder.AppendLine($"Divide");
             builder.Indent();
             node.Left.Accept(this);
             node.Right.Accept(this);
