@@ -13,6 +13,8 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
         public string Name { get; }
         public ReadOnlyCollection<Actual> Actuals { get; }
+        private string ActualsTypeString => $"({string.Join(",", Actuals.Select(a => a.Type.ToString()))})";
+
         public override bool Equals(object obj)
         {
             var node = obj as FunctionCall;
@@ -54,14 +56,13 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             if (SymbolTable.Exists(Name) == false)
                 return TypeValidationResult.Invalid($"Function '{Name}' has no definition");
+
+            if(SymbolTable.Type(Name).CheckArgs(Actuals.Select(a => a.Type)) == false)
+                return TypeValidationResult.Invalid($"Function {Name}{SymbolTable.Type(Name)} called with mismatched arguments {ActualsTypeString}");
+
             this.Type = SymbolTable.Type(Name).ReturnType;
-
-
-
-//            if(SymbolTable.CheckArgs(Name, Actuals.Select(a => a.Type).ToList()) == false)
-//                return TypeValidationResult.Invalid("");
-
             return TypeValidationResult.Valid(Type);
         }
+
     }
 }

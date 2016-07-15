@@ -71,9 +71,9 @@ namespace KleinCompilerTests
         {
             Assert.That(new IntegerType().ToString(), Is.EqualTo("integer"));
             Assert.That(new BooleanType().ToString(), Is.EqualTo("boolean"));
-            Assert.That(new FunctionType(new BooleanType()).ToString(), Is.EqualTo("() : boolean"));
-            Assert.That(new FunctionType(new BooleanType(), new IntegerType()).ToString(), Is.EqualTo("(integer) : boolean"));
-            Assert.That(new FunctionType(new BooleanType(), new IntegerType(), new BooleanType()).ToString(), Is.EqualTo("(integer, boolean) : boolean"));
+            Assert.That(new FunctionType(new BooleanType()).ToString(), Is.EqualTo("():boolean"));
+            Assert.That(new FunctionType(new BooleanType(), new IntegerType()).ToString(), Is.EqualTo("(integer):boolean"));
+            Assert.That(new FunctionType(new BooleanType(), new IntegerType(), new BooleanType()).ToString(), Is.EqualTo("(integer,boolean):boolean"));
         }
     }
 }

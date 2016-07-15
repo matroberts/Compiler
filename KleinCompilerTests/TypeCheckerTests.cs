@@ -202,7 +202,7 @@ namespace KleinCompilerTests
             Assert.That(result.HasError, Is.False, result.Message);
         }
 
-        [Test, Ignore("WIP")]
+        [Test]
         public void IfDefinition_AndFunctionCall_HaveDifferentNumberOfArguments_AnErrorIsRaised()
         {
             // arrange
@@ -218,7 +218,7 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Function 'secondary' called with arguments (), where definition of 'secondary' requires arguments (boolean)"));
+            Assert.That(result.Message, Is.EqualTo("Function secondary(boolean):boolean called with mismatched arguments ()"));
         }
 
         #endregion

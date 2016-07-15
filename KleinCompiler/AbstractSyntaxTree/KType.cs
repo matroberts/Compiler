@@ -61,14 +61,15 @@ namespace KleinCompiler.AbstractSyntaxTree
             Args = args.ToList();
         }
 
-        public bool CheckArgs(List<PrimitiveType> args)
+        public bool CheckArgs(IEnumerable<KType> args)
         {
-            if (Args.Count != args.Count)
+            var argsList = args.ToList();
+            if (Args.Count != argsList.Count)
                 return false;
 
             for (int i = 0; i < Args.Count; i++)
             {
-                if (Args[i].Equals(args[i]) == false)
+                if (Args[i].Equals(argsList[i]) == false)
                     return false;
             }
 
@@ -89,7 +90,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override string ToString()
         {
-            return $"({string.Join(", ", Args)}) : {ReturnType}";
+            return $"({string.Join(",", Args)}):{ReturnType}";
         }
         public override int GetHashCode()
         {
