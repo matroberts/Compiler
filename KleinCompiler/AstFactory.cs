@@ -49,13 +49,13 @@ namespace KleinCompiler
                     semanticStack.Push(new Formal(identifier: (Identifier)identifier, typeDeclaration: (TypeDeclaration)typeDeclaration));
                     return;
                 }
-                case Symbol.MakeIntegerType:
+                case Symbol.MakeIntegerTypeDeclaration:
                 {
                     var node = new IntegerTypeDeclaration();
                     semanticStack.Push(node);
                     return;
                 }
-                case Symbol.MakeBooleanType:
+                case Symbol.MakeBooleanTypeDeclaration:
                 {
                     var node = new BooleanTypeDeclaration();
                     semanticStack.Push(node);

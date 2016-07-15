@@ -83,8 +83,8 @@ R12                             | boolean MakeBooleanType
         private static Rule R8 => new Rule("R8", Symbol.Comma, Symbol.Formal, Symbol.FormalTail);
         private static Rule R9 => new Rule("R9");
         private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
-        private static Rule R11 => new Rule("R11", Symbol.IntegerType, Symbol.MakeIntegerType);
-        private static Rule R12 => new Rule("R12", Symbol.BooleanType, Symbol.MakeBooleanType);
+        private static Rule R11 => new Rule("R11", Symbol.IntegerType, Symbol.MakeIntegerTypeDeclaration);
+        private static Rule R12 => new Rule("R12", Symbol.BooleanType, Symbol.MakeBooleanTypeDeclaration);
 
         public static ParsingTable Create()
         {
@@ -147,13 +147,13 @@ R12                             | boolean MakeBooleanType
                     semanticStack.Push(node);
                     return;
                 }
-                case Symbol.MakeIntegerType:
+                case Symbol.MakeIntegerTypeDeclaration:
                 {
                     var node = new IntegerTypeDeclaration();
                     semanticStack.Push(node);
                     return;
                 }
-                case Symbol.MakeBooleanType:
+                case Symbol.MakeBooleanTypeDeclaration:
                 {
                     var node = new BooleanTypeDeclaration();
                     semanticStack.Push(node);

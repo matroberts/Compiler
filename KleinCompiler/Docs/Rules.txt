@@ -11,8 +11,8 @@ R9                              | e
 R10     <Formal>              ::= <Identifier> MakeIdentifier : <Type> MakeFormal
 R11     <Body>                ::= <Print> <Body>
 R12                             | <Expr> MakeBody
-R13     <Type>                ::= integer MakeIntegerType
-R14                             | boolean MakeBooleanType
+R13     <Type>                ::= integer MakeIntegerTypeDeclaration
+R14                             | boolean MakeBooleanTypeDeclaration
 R15     <Expr>                ::= <Simple-Expr> <SimpleExprTail>                            
 R16     <SimpleExprTail>      ::= < <Simple-Expr> MakeLessThan <SimpleExprTail>
 R17                             | = <Simple-Expr> MakeEquals <SimpleExprTail>

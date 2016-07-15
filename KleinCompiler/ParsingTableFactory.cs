@@ -14,8 +14,8 @@
         private static Rule R10 => new Rule("R10", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.Colon, Symbol.Type, Symbol.MakeFormal);
         private static Rule R11 => new Rule("R11", Symbol.Print, Symbol.Body);
         private static Rule R12 => new Rule("R12", Symbol.Expr, Symbol.MakeBody);
-        private static Rule R13 => new Rule("R13", Symbol.IntegerType, Symbol.MakeIntegerType);
-        private static Rule R14 => new Rule("R14", Symbol.BooleanType, Symbol.MakeBooleanType);
+        private static Rule R13 => new Rule("R13", Symbol.IntegerType, Symbol.MakeIntegerTypeDeclaration);
+        private static Rule R14 => new Rule("R14", Symbol.BooleanType, Symbol.MakeBooleanTypeDeclaration);
         private static Rule R15 => new Rule("R15", Symbol.SimpleExpr, Symbol.SimpleExprTail);
         private static Rule R16 => new Rule("R16", Symbol.LessThan, Symbol.SimpleExpr, Symbol.MakeLessThan, Symbol.SimpleExprTail);
         private static Rule R17 => new Rule("R17", Symbol.Equality, Symbol.SimpleExpr, Symbol.MakeEquals, Symbol.SimpleExprTail);

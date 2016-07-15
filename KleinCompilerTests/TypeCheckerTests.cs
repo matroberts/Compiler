@@ -223,14 +223,6 @@ namespace KleinCompilerTests
 
         #endregion
 
-        // function call should check signature of function call
-
-
-        // type of identifier should be derived from formals, via the symbol table
-        // type of function call should be derviced from declaration, via the symbol table
-
-        // error line numbers
-
         #region UnaryOperators
 
         [Test]
@@ -310,5 +302,8 @@ namespace KleinCompilerTests
         #endregion
 
         // not and negate - nested errors not tested
+
+        // error line numbers
+
     }
 }
