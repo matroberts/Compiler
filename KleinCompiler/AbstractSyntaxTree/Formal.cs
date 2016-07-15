@@ -45,5 +45,10 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             throw new System.NotImplementedException();
         }
+
+        public PrimitiveType ToKType()
+        {
+            return TypeDeclaration.ToKType();
+        }
     }
 }

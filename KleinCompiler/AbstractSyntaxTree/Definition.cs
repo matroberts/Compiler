@@ -12,7 +12,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             TypeDeclaration = typeDeclaration;
             Body = body;
             Formals = formals.AsReadOnly();
-            FunctionType = new FunctionType(TypeDeclaration.ToKType(), Formals.Select(f => f.TypeDeclaration.ToKType()).ToArray());
+            FunctionType = new FunctionType(TypeDeclaration.ToKType(), Formals.Select(f => f.ToKType()).ToArray());
         }
         public string Name { get; }
         public TypeDeclaration TypeDeclaration { get; }
