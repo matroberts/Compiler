@@ -33,24 +33,6 @@ namespace KleinCompilerTests
 
         #endregion
 
-        #region OpText
-
-        public enum OpEnum
-        {
-            [OpText("+")]
-            Plus,
-            WillThrowExceptionBecauseOpText
-        }
-
-        [Test]
-        public void ToOpText_ShouldReturnTheOpTextIfItExists_OtherThrow()
-        {
-            Assert.That(OpEnum.Plus.ToOpText(), Is.EqualTo("+"));
-            Assert.That(() => OpEnum.WillThrowExceptionBecauseOpText.ToOpText(), Throws.ArgumentException.With.Message.EqualTo("Add OpTextAttribute to OpEnum.WillThrowExceptionBecauseOpText if you want to call ToOpText()."));
-        }
-
-        #endregion
-
         #region IsAlpha
 
         [TestCase('a')]

@@ -13,17 +13,6 @@ public class SymbolTypeAttribute : Attribute
     }
 }
 
-[AttributeUsage(AttributeTargets.Field)]
-public class OpTextAttribute : Attribute
-{
-    public string OpText { get; }
-
-    public OpTextAttribute(string opText)
-    {
-        OpText = opText;
-    }
-}
-
 public static class Extensions
 {
     public static SymbolType ToSymbolType(this Enum symbolName)
@@ -32,14 +21,6 @@ public static class Extensions
         if (attributes.Length > 0)
             return ((SymbolTypeAttribute)attributes[0]).SymbolType;
         throw new ArgumentException($"Add SymbolTypeAttribute to {symbolName.GetType().Name}.{symbolName} if you want to call ToSymbolType().");
-    }
-
-    public static string ToOpText(this Enum opName)
-    {
-        var attributes = opName.GetType().GetField(opName.ToString()).GetCustomAttributes(typeof(OpTextAttribute), false);
-        if (attributes.Length > 0)
-            return ((OpTextAttribute)attributes[0]).OpText;
-        throw new ArgumentException($"Add OpTextAttribute to {opName.GetType().Name}.{opName} if you want to call ToOpText().");
     }
 
     public static bool IsAlpha(this char ch)
