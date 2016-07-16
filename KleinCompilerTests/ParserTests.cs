@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -249,332 +250,62 @@ subsidiary() : integer
 
         #region Binary Operators
 
-        [Test]
-        public void ParserShould_GenerateAstFor_LessThan()
+        public static IEnumerable<TestCaseData> AllBinaryOperators
         {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x < y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new LessThanOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
+            get
+            {
+                yield return new TestCaseData("<", new LessThanOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("=", new EqualsOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("or", new OrOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("+", new PlusOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("-", new MinusOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("and", new AndOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("*", new TimesOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("/", new DivideOperator(left: new Identifier("x"), right: new Identifier("y")));
+            }
         }
 
-        [Test]
-        public void ParserShould_GenerateAstFor_Equals()
+        [TestCaseSource(typeof(ParserTests), nameof(AllBinaryOperators))]
+        public void ParserShould_GenerateAst_ForAllBinaryOperators(string op, BinaryOperator bop)
         {
             // arrange
-            var input = $"main(x: integer, y : integer) : integer x = y";
+            var input = $"main(x: integer, y : integer) : integer x {op} y";
 
             // act
-            var parser = new Parser() { EnableStackTrace = true };
+            var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new EqualsOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(bop));
         }
 
-        [Test]
-        public void ParserShould_GenerateAstFor_Or()
+        public static IEnumerable<TestCaseData> LeftAssocativeBinaryOperator
         {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x or y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new OrOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
+            get
+            {
+                yield return new TestCaseData("<", new LessThanOperator(new LessThanOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("=", new EqualsOperator(new EqualsOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("or", new OrOperator(new OrOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("+", new PlusOperator(new PlusOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("-", new MinusOperator(new MinusOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("and", new AndOperator(new AndOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("*", new TimesOperator(new TimesOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("/", new DivideOperator(new DivideOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+            }
         }
 
-        [Test]
-        public void ParserShould_GenerateAstFor_Minus()
+        [TestCaseSource(typeof(ParserTests), nameof(LeftAssocativeBinaryOperator))]
+        public void BinaryOperators_ShouldBeLeftAssociative(string op, BinaryOperator bop)
         {
             // arrange
-            var input = $"main(x: integer, y : integer) : integer x - y";
+            var input = $"main(x: integer, y : integer, z : integer) : integer x {op} y {op} z";
 
             // act
-            var parser = new Parser() { EnableStackTrace = true };
+            var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new MinusOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAstFor_Plus()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x + y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAstFor_And()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x and y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new AndOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAstFor_Times()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x * y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new TimesOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void ParserShould_GenerateAstFor_Divide()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer) : integer x / y";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new DivideOperator
-                                                                          (
-                                                                              left: new Identifier("x"),
-                                                                              right: new Identifier("y")
-                                                                          )
-                                                                      ));
-        }
-
-        [Test]
-        public void LessThanOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x < y < z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new LessThanOperator
-                                                                        (
-                                                                            left: new LessThanOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void EqualsOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x = y = z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new EqualsOperator
-                                                                        (
-                                                                            left: new EqualsOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void OrOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x or y or z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new OrOperator
-                                                                        (
-                                                                            left: new OrOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void MinusOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x - y - z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new MinusOperator
-                                                                        (
-                                                                            left: new MinusOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void AndOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x and y and z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new AndOperator
-                                                                        (
-                                                                            left: new AndOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void TimesOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x * y * z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new TimesOperator
-                                                                        (
-                                                                            left: new TimesOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void DivideOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x / y / z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new DivideOperator
-                                                                        (
-                                                                            left: new DivideOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
-        }
-
-        [Test]
-        public void PlusOperators_ShouldBeLeftAssociative()
-        {
-            // arrange
-            var input = $"main(x: integer, y : integer, z : integer) : integer x + y + z";
-
-            // act
-            var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
-                                                                        (
-                                                                            left: new PlusOperator
-                                                                                        (
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
-                                                                                        ),
-                                                                            right: new Identifier("z")
-                                                                        )));
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(bop));
         }
 
         [Test]

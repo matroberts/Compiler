@@ -16,7 +16,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (node == null)
                 return false;
 
-            if (this.GetType().Equals(node.GetType()) == false)
+            if (this.GetType() != node.GetType())
                 return false;
 
             if (Left.Equals(node.Left) == false)
