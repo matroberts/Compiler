@@ -51,21 +51,21 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            Type = new IntegerType();
             var leftResult = Left.CheckType();
             if (leftResult.HasError)
                 return leftResult;
 
-            if (leftResult.Type.Equals(Type) == false)
-                return TypeValidationResult.Invalid("LessThan left expression is not an integer");
+            if (leftResult.Type.Equals(new IntegerType()) == false)
+                return TypeValidationResult.Invalid($"LessThan left expression is not an integer");
 
             var rightResult = Right.CheckType();
             if (rightResult.HasError)
                 return rightResult;
 
-            if(rightResult.Type.Equals(Type) == false)
-                return TypeValidationResult.Invalid("LessThan right expression is not an integer");
+            if(rightResult.Type.Equals(new IntegerType()) == false)
+                return TypeValidationResult.Invalid($"LessThan right expression is not an integer");
 
+            Type = new BooleanType();
             return TypeValidationResult.Valid(Type);
         }
     }
@@ -82,13 +82,44 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            var leftResult = Left.CheckType();
+            if (leftResult.HasError)
+                return leftResult;
+
+            if (leftResult.Type.Equals(new IntegerType()) == false)
+                return TypeValidationResult.Invalid($"Equals left expression is not an integer");
+
+            var rightResult = Right.CheckType();
+            if (rightResult.HasError)
+                return rightResult;
+
+            if (rightResult.Type.Equals(new IntegerType()) == false)
+                return TypeValidationResult.Invalid($"Equals right expression is not an integer");
+
+            Type = new BooleanType();
+            return TypeValidationResult.Valid(Type);
         }
     }
 
     public class OrOperator : BinaryOperator
     {
         public OrOperator(Expr left, Expr right) : base(left, right)
+        {
+        }
+        public override void Accept(IAstVisitor visior)
+        {
+            visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class AndOperator : BinaryOperator
+    {
+        public AndOperator(Expr left, Expr right) : base(left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -134,21 +165,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         }
     }
 
-    public class AndOperator : BinaryOperator
-    {
-        public AndOperator(Expr left, Expr right) : base(left, right)
-        {
-        }
-        public override void Accept(IAstVisitor visior)
-        {
-            visior.Visit(this);
-        }
-
-        public override TypeValidationResult CheckType()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
 
     public class TimesOperator : BinaryOperator
     {

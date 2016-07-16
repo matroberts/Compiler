@@ -247,7 +247,7 @@ namespace KleinCompilerTests
 
         #endregion
 
-        #region UnaryOperators
+        #region NotOperator
 
         [Test]
         public void NotOperator_HasBooleanType()
@@ -299,6 +299,10 @@ namespace KleinCompilerTests
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("LessThan right expression is not an integer"));
         }
+
+        #endregion
+
+        #region NegateOperator
 
         [Test]
         public void NegateOperator_HasIntegerType()
@@ -353,13 +357,13 @@ namespace KleinCompilerTests
 
         #endregion
 
-        #region BinaryOperators
+        #region LessThanOperator
 
         [Test]
-        public void LessThanOperator_HasIntegerType()
+        public void LessThanOperator_HasBooleanType()
         {
             // arrange
-            var input = @"main() : integer
+            var input = @"main() : boolean
                               0 < 1";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
@@ -369,7 +373,7 @@ namespace KleinCompilerTests
 
             // assert
             var lessThanOperator = program.Definitions[0].Body.Expr as LessThanOperator;
-            Assert.That(lessThanOperator.Type, Is.EqualTo(new IntegerType()));
+            Assert.That(lessThanOperator.Type, Is.EqualTo(new BooleanType()));
             Assert.That(result.HasError, Is.False);
         }
 
@@ -377,7 +381,7 @@ namespace KleinCompilerTests
         public void LessThan_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
         {
             // arrange
-            var input = @"main() : integer
+            var input = @"main() : boolean
                               true < 1";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
@@ -394,7 +398,7 @@ namespace KleinCompilerTests
         public void LessThan_IfLeftExprHasATypeError_ATypeErrorIsRaised()
         {
             // arrange
-            var input = @"main() : integer
+            var input = @"main() : boolean
                               (-true) < 1";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
@@ -411,7 +415,7 @@ namespace KleinCompilerTests
         public void LessThan_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
         {
             // arrange
-            var input = @"main() : integer
+            var input = @"main() : boolean
                               0 < true";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
@@ -428,8 +432,99 @@ namespace KleinCompilerTests
         public void LessThan_IfRightExprHasATypeError_ATypeErrorIsRaised()
         {
             // arrange
-            var input = @"main() : integer
+            var input = @"main() : boolean
                               0 < (-true)";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        #endregion
+
+
+        #region EqualsOperator
+
+        [Test]
+        public void EqualsOperator_HasBooleanType()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              0 = 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
+            Assert.That(equalsOperator.Type, Is.EqualTo(new BooleanType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void EqualsOperator_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              true = 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Equals left expression is not an integer"));
+        }
+
+        [Test]
+        public void EqualsOperator_IfLeftExprHasATypeError_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              (-true) = 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void EqualsOperator_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              0 = true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Equals right expression is not an integer"));
+        }
+
+        [Test]
+        public void EqualsOperator_IfRightExprHasATypeError_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              0 = (-true)";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
