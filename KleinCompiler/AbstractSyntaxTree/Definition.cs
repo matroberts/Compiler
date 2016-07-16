@@ -65,6 +65,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
+            SymbolTable.CurrentFunction = Name;
+
             var result = Body.CheckType();
             if (result.HasError)
                 return result;

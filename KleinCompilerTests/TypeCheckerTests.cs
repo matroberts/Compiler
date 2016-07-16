@@ -226,24 +226,43 @@ namespace KleinCompilerTests
 
         #region Identifier and visible identifiers in a function - note that identifiers in the ast only refer to variables
 
-        [Test, Ignore("")]
+        [Test]
         public void AnIdentifier_DerivesItsType_FromTheFormalInTheFunctionDeclaration()
         {
             // arrange
             var input = @"main(x : boolean) : boolean
                               secondary(1)
                           secondary(x : integer) : boolean
-                              x=2";
+                              x < 2";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // act
             var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.False);
+            var identifier = (program.Definitions[1].Body.Expr as BinaryOperator).Left as Identifier;
+            Assert.That(identifier.Type, Is.EqualTo(new IntegerType()));
         }
 
         [Test]
         public void IfABody_UsesAVariableWhichIsNotDefinedInTheDeclaration_AnErrorIsRaised()
         {
+            // arrange
+            var input = @"main(x : boolean) : boolean
+                              secondary(1)
+                          secondary(y : integer) : boolean
+                              x < 2";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Use of undeclared identifier x in function secondary"));
         }
 
         #endregion

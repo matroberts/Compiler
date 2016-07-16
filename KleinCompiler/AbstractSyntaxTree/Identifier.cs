@@ -37,7 +37,11 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            if(SymbolTable.FormalExists(Value)==false)
+                return TypeValidationResult.Invalid($"Use of undeclared identifier {Value} in function {SymbolTable.CurrentFunction}");
+
+            Type = SymbolTable.FormalType(Value);
+            return TypeValidationResult.Valid(Type);
         }
     }
 }
