@@ -135,7 +135,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new IntegerType(), new IntegerType(), new IntegerType(), "Plus");
         }
     }
 
@@ -151,7 +151,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new IntegerType(), new IntegerType(), new IntegerType(), "Minus");
         }
     }
 
@@ -168,7 +168,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new IntegerType(), new IntegerType(), new IntegerType(), "Times");
         }
     }
 
@@ -184,7 +184,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new IntegerType(), new IntegerType(), new IntegerType(), "Divide");
         }
     }
 }

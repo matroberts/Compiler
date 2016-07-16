@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
@@ -357,14 +358,27 @@ namespace KleinCompilerTests
 
         #endregion
 
-        #region LessThanOperator
+        #region BinaryOperators
 
-        [Test]
-        public void LessThanOperator_HasBooleanType()
+        public static IEnumerable<TestCaseData> AllBinaryOperators
+        {
+            get
+            {
+                yield return new TestCaseData("main() : boolean 0 < 1", new BooleanType());
+                yield return new TestCaseData("main() : boolean 0 = 1", new BooleanType());
+                yield return new TestCaseData("main() : boolean true or false", new BooleanType());
+                yield return new TestCaseData("main() : boolean true and false", new BooleanType());
+                yield return new TestCaseData("main() : integer 1 + 1", new IntegerType());
+                yield return new TestCaseData("main() : integer 1 - 1", new IntegerType());
+                yield return new TestCaseData("main() : integer 1 * 1", new IntegerType());
+                yield return new TestCaseData("main() : integer 1 / 1", new IntegerType());
+            }
+        }
+
+        [TestCaseSource(typeof(TypeCheckerTests), nameof(AllBinaryOperators))]
+        public void BinaryOperators_ShouldHaveCorrectType(string input, PrimitiveType type)
         {
             // arrange
-            var input = @"main() : boolean
-                              0 < 1";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
@@ -372,17 +386,59 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            var lessThanOperator = program.Definitions[0].Body.Expr as LessThanOperator;
-            Assert.That(lessThanOperator.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.False, result.Message);
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(type));
         }
 
-        [Test]
-        public void LessThan_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
+
+        // Less Than
+        [TestCase("main() : boolean true < 1", "LessThan left expression is not integer")]
+        [TestCase("main() : boolean (-true) < 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : boolean 0 < true", "LessThan right expression is not integer")]
+        [TestCase("main() : boolean 0 < (-true)", "Negate operator called with expression which is not integer")]
+        // Equals
+        [TestCase("main() : boolean true = 1", "Equals left expression is not integer")]
+        [TestCase("main() : boolean (-true) = 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : boolean 0 = true", "Equals right expression is not integer")]
+        [TestCase("main() : boolean 0 = (-true)", "Negate operator called with expression which is not integer")]
+        // Or
+        [TestCase("main() : boolean 1 or false", "Or left expression is not boolean")]
+        [TestCase("main() : boolean (-true) or false", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : boolean true or 1", "Or right expression is not boolean")]
+        [TestCase("main() : boolean true or (-true)", "Negate operator called with expression which is not integer")]
+        // And
+        [TestCase("main() : boolean 1 and false", "And left expression is not boolean")]
+        [TestCase("main() : boolean (-true) and false", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : boolean true and 1", "And right expression is not boolean")]
+        [TestCase("main() : boolean true and (-true)", "Negate operator called with expression which is not integer")]
+        // Plus
+        [TestCase("main() : integer true + 1", "Plus left expression is not integer")]
+        [TestCase("main() : integer (-true) + 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : integer 1 + true", "Plus right expression is not integer")]
+        [TestCase("main() : integer 1 + (-true)", "Negate operator called with expression which is not integer")]
+        // Minus
+        [TestCase("main() : integer true - 1", "Minus left expression is not integer")]
+        [TestCase("main() : integer (-true) - 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : integer 1 - true", "Minus right expression is not integer")]
+        [TestCase("main() : integer 1 - (-true)", "Negate operator called with expression which is not integer")]
+        // Times
+        [TestCase("main() : integer true * 1", "Times left expression is not integer")]
+        [TestCase("main() : integer (-true) * 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : integer 1 * true", "Times right expression is not integer")]
+        [TestCase("main() : integer 1 * (-true)", "Negate operator called with expression which is not integer")]
+        // Divide
+        [TestCase("main() : integer true / 1", "Divide left expression is not integer")]
+        [TestCase("main() : integer (-true) / 1", "Negate operator called with expression which is not integer")]
+        [TestCase("main() : integer 1 / true", "Divide right expression is not integer")]
+        [TestCase("main() : integer 1 / (-true)", "Negate operator called with expression which is not integer")]
+        // Error should be raise if:
+        //   Left expression is wrong type
+        //   Left expression has type error
+        //   Right expression is wrong type
+        //   Right expression has type error
+        public void BinaryOperators_ShouldDetectTypeErrors(string input, string errormessage)
         {
             // arrange
-            var input = @"main() : boolean
-                              true < 1";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
@@ -391,328 +447,7 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("LessThan left expression is not integer"));
-        }
-
-        [Test]
-        public void LessThan_IfLeftExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              (-true) < 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        [Test]
-        public void LessThan_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              0 < true";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("LessThan right expression is not integer"));
-        }
-
-        [Test]
-        public void LessThan_IfRightExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              0 < (-true)";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        #endregion
-
-        #region EqualsOperator
-
-        [Test]
-        public void EqualsOperator_HasBooleanType()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              0 = 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
-            Assert.That(equalsOperator.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(result.HasError, Is.False);
-        }
-
-        [Test]
-        public void EqualsOperator_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true = 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Equals left expression is not integer"));
-        }
-
-        [Test]
-        public void EqualsOperator_IfLeftExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              (-true) = 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        [Test]
-        public void EqualsOperator_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              0 = true";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Equals right expression is not integer"));
-        }
-
-        [Test]
-        public void EqualsOperator_IfRightExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              0 = (-true)";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        #endregion
-
-        #region OrOperator
-
-        [Test]
-        public void OrOperator_HasBooleanType()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true or false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            var orOperator = program.Definitions[0].Body.Expr as OrOperator;
-            Assert.That(orOperator.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(result.HasError, Is.False);
-        }
-
-        [Test]
-        public void OrOperator_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              1 or false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Or left expression is not boolean"));
-        }
-
-        [Test]
-        public void OrOperator_IfLeftExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              (-true) or false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        [Test]
-        public void OrOperator_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true or 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Or right expression is not boolean"));
-        }
-
-        [Test]
-        public void OrOperator_IfRightExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true or (-true)";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        #endregion
-
-        #region AndOperator
-
-        [Test]
-        public void AndOperator_HasBooleanType()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true and false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            var andOperator = program.Definitions[0].Body.Expr as AndOperator;
-            Assert.That(andOperator.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(result.HasError, Is.False);
-        }
-
-        [Test]
-        public void AndOperator_IfLeftExpr_IsNotABoolean_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              1 and false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("And left expression is not boolean"));
-        }
-
-        [Test]
-        public void AndOperator_IfLeftExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              (-true) and false";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-        }
-
-        [Test]
-        public void AndOperator_IfRightExpr_IsNotAnBoolean_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true and 1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("And right expression is not boolean"));
-        }
-
-        [Test]
-        public void AndOperator_IfRightExprHasATypeError_ATypeErrorIsRaised()
-        {
-            // arrange
-            var input = @"main() : boolean
-                              true and (-true)";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
-
-            // act
-            var result = program.CheckType();
-
-            // assert
-            Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+            Assert.That(result.Message, Is.EqualTo(errormessage));
         }
 
         #endregion
