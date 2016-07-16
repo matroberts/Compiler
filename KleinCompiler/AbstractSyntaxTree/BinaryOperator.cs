@@ -37,6 +37,26 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             return base.GetHashCode();
         }
+
+        public TypeValidationResult CheckType(PrimitiveType leftType, PrimitiveType rightType, PrimitiveType returnType, string operatorName)
+        {
+            var leftResult = Left.CheckType();
+            if (leftResult.HasError)
+                return leftResult;
+
+            if (leftResult.Type.Equals(leftType) == false)
+                return TypeValidationResult.Invalid($"{operatorName} left expression is not {leftType}");
+
+            var rightResult = Right.CheckType();
+            if (rightResult.HasError)
+                return rightResult;
+
+            if (rightResult.Type.Equals(rightType) == false)
+                return TypeValidationResult.Invalid($"{operatorName} right expression is not {rightType}");
+
+            Type = returnType;
+            return TypeValidationResult.Valid(Type);
+        }
     }
 
     public class LessThanOperator : BinaryOperator
@@ -51,22 +71,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            var leftResult = Left.CheckType();
-            if (leftResult.HasError)
-                return leftResult;
-
-            if (leftResult.Type.Equals(new IntegerType()) == false)
-                return TypeValidationResult.Invalid($"LessThan left expression is not an integer");
-
-            var rightResult = Right.CheckType();
-            if (rightResult.HasError)
-                return rightResult;
-
-            if(rightResult.Type.Equals(new IntegerType()) == false)
-                return TypeValidationResult.Invalid($"LessThan right expression is not an integer");
-
-            Type = new BooleanType();
-            return TypeValidationResult.Valid(Type);
+            return CheckType(new IntegerType(), new IntegerType(), new BooleanType(), "LessThan");
         }
     }
 
@@ -82,22 +87,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            var leftResult = Left.CheckType();
-            if (leftResult.HasError)
-                return leftResult;
-
-            if (leftResult.Type.Equals(new IntegerType()) == false)
-                return TypeValidationResult.Invalid($"Equals left expression is not an integer");
-
-            var rightResult = Right.CheckType();
-            if (rightResult.HasError)
-                return rightResult;
-
-            if (rightResult.Type.Equals(new IntegerType()) == false)
-                return TypeValidationResult.Invalid($"Equals right expression is not an integer");
-
-            Type = new BooleanType();
-            return TypeValidationResult.Valid(Type);
+            return CheckType(new IntegerType(), new IntegerType(), new BooleanType(), "Equals");
         }
     }
 
@@ -113,7 +103,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new BooleanType(), new BooleanType(), new BooleanType(), "Or");
         }
     }
 
