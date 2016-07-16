@@ -2,7 +2,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class BinaryOperator : Expr
     {
-        public BinaryOperator(Expr left, Expr right)
+        protected BinaryOperator(Expr left, Expr right)
         {
             Left = left;
             Right = right;
