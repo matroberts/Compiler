@@ -1,3 +1,5 @@
+using System;
+
 namespace KleinCompiler.AbstractSyntaxTree
 {
     public class IfThenElse : Expr
@@ -48,7 +50,26 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            var ifResult = IfExpr.CheckType();
+            if (ifResult.HasError)
+                return ifResult;
+
+            if(ifResult.Type.Equals(new BooleanType())== false)
+                return TypeValidationResult.Invalid("IfThenElseOperator must have a boolean if expression");
+
+            var thenResult = ThenExpr.CheckType();
+            if (thenResult.HasError)
+                return thenResult;
+
+            var elseResult = ElseExpr.CheckType();
+            if (elseResult.HasError)
+                return elseResult;
+
+            if(thenResult.Type.Equals(elseResult.Type) == false)
+                return TypeValidationResult.Invalid("IfThenElse, type of then and else expression must be the same");
+
+            Type = thenResult.Type;
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

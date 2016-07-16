@@ -471,6 +471,165 @@ namespace KleinCompilerTests
 
         #endregion
 
+        #region IfThenElse
+
+        [Test]
+        public void IfThenElseOperator_HasTypeEqualToTheThenAndElseExpressions1()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if 
+                                  true
+                              then 
+                                  false
+                              else
+                                  false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new BooleanType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void IfThenElseOperator_HasTypeEqualToTheThenAndElseExpressions2()
+        {
+            // arrange
+            var input = @"main() : integer
+                              if 
+                                  true
+                              then 
+                                  1
+                              else
+                                  2";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new IntegerType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void IfThenElseOperator_IfIfExpressionIsNotBoolean_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if 
+                                  1
+                              then 
+                                  false
+                              else
+                                  false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("IfThenElseOperator must have a boolean if expression"));
+        }
+
+        [Test]
+        public void IfThenElseOperator_IfIfExpressionHasTypeError_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if 
+                                  0 < (-true)
+                              then 
+                                  false
+                              else
+                                  false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void IfThenElseOperator_IfThenExpressionHasATypeError_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if
+                                  true
+                              then
+                                  0 < (-true)
+                              else
+                                  false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void IfThenElseOperator_IfElseExpressionHasATypeError_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if
+                                  true
+                              then
+                                  false
+                              else
+                                  0 < (-true)";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void IfThenElseOperator_IfTypeOfThenAndElseAreDifferent_AnErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              if
+                                  true
+                              then
+                                  false
+                              else
+                                  1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("IfThenElse, type of then and else expression must be the same"));
+        }
+
+        #endregion
+
+
         // error line numbers
 
     }
