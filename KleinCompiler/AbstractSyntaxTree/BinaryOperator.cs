@@ -37,11 +37,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             return base.GetHashCode();
         }
-
-        public override TypeValidationResult CheckType()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 
     public class LessThanOperator : BinaryOperator
@@ -52,6 +47,26 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            Type = new IntegerType();
+            var leftResult = Left.CheckType();
+            if (leftResult.HasError)
+                return leftResult;
+
+            if (leftResult.Type.Equals(Type) == false)
+                return TypeValidationResult.Invalid("LessThan left expression is not an integer");
+
+            var rightResult = Right.CheckType();
+            if (rightResult.HasError)
+                return rightResult;
+
+            if(rightResult.Type.Equals(Type) == false)
+                return TypeValidationResult.Invalid("LessThan right expression is not an integer");
+
+            return TypeValidationResult.Valid(Type);
         }
     }
 
@@ -64,6 +79,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             visior.Visit(this);
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class OrOperator : BinaryOperator
@@ -74,6 +94,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -86,6 +111,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             visior.Visit(this);
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class MinusOperator : BinaryOperator
@@ -96,6 +126,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
@@ -108,6 +143,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             visior.Visit(this);
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class TimesOperator : BinaryOperator
@@ -119,6 +159,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             visior.Visit(this);
         }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class DivideOperator : BinaryOperator
@@ -129,6 +174,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
+        }
+
+        public override TypeValidationResult CheckType()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

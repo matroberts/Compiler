@@ -250,6 +250,23 @@ namespace KleinCompilerTests
         #region UnaryOperators
 
         [Test]
+        public void NotOperator_HasBooleanType()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              not false";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as NotOperator).Type, Is.EqualTo(new BooleanType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
         public void IfExprOfNotOperator_IsNotABoolean_ATypeErrorIsRaised()
         {
             // arrange
@@ -267,11 +284,11 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void IfExprOfNotOperator_IsABoolean_NoErrorIsRaised()
+        public void IfExprOfNotOperator_HasATypeError_ATypeErrorIsRaised()
         {
             // arrange
             var input = @"main() : boolean
-                              not false";
+                              not (1 < true)";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
@@ -279,10 +296,24 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That((program.Definitions[0].Body.Expr as NotOperator).Right.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(new BooleanType()));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(new FunctionType(new BooleanType())));
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("LessThan right expression is not an integer"));
+        }
+
+        [Test]
+        public void NegateOperator_HasIntegerType()
+        {
+            // arrange
+            var input = @"main() : integer
+                              - 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as NegateOperator).Type, Is.EqualTo(new IntegerType()));
             Assert.That(result.HasError, Is.False);
         }
 
@@ -304,11 +335,11 @@ namespace KleinCompilerTests
         }
 
         [Test]
-        public void IfExprOfNegateOperator_IsAnInteger_NoErrorIsRaised()
+        public void IfExprOfNegateOperator_HasATypeError_ATypeErrorIsRaised()
         {
             // arrange
             var input = @"main() : integer
-                              - 1";
+                              - (0 < true)";
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
 
@@ -316,20 +347,101 @@ namespace KleinCompilerTests
             var result = program.CheckType();
 
             // assert
-            Assert.That((program.Definitions[0].Body.Expr as NegateOperator).Right.Type, Is.EqualTo(new IntegerType()));
-            Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new IntegerType()));
-            Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(new IntegerType()));
-            Assert.That(program.Definitions[0].Type, Is.EqualTo(new FunctionType(new IntegerType())));
-            Assert.That(result.HasError, Is.False);
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("LessThan right expression is not an integer"));
         }
 
         #endregion
 
         #region BinaryOperators
 
-        #endregion
+        [Test]
+        public void LessThanOperator_HasIntegerType()
+        {
+            // arrange
+            var input = @"main() : integer
+                              0 < 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
 
-        // not and negate - nested errors not tested
+            // act
+            var result = program.CheckType();
+
+            // assert
+            var lessThanOperator = program.Definitions[0].Body.Expr as LessThanOperator;
+            Assert.That(lessThanOperator.Type, Is.EqualTo(new IntegerType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void LessThan_IfLeftExpr_IsNotAnInteger_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              true < 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("LessThan left expression is not an integer"));
+        }
+
+        [Test]
+        public void LessThan_IfLeftExprHasATypeError_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              (-true) < 1";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void LessThan_IfRightExpr_IsNotAnInteger_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              0 < true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("LessThan right expression is not an integer"));
+        }
+
+        [Test]
+        public void LessThan_IfRightExprHasATypeError_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @"main() : integer
+                              0 < (-true)";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        #endregion
 
         // error line numbers
 
