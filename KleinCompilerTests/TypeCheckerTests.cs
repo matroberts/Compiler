@@ -325,6 +325,10 @@ namespace KleinCompilerTests
 
         #endregion
 
+        #region BinaryOperators
+
+        #endregion
+
         // not and negate - nested errors not tested
 
         // error line numbers

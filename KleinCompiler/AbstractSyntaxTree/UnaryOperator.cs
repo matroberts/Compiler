@@ -7,6 +7,30 @@ namespace KleinCompiler.AbstractSyntaxTree
             Right = right;
         }
         public Expr Right { get; }
+
+        public override bool Equals(object obj)
+        {
+            var node = obj as UnaryOperator;
+            if (node == null)
+                return false;
+
+            if (this.GetType() != node.GetType())
+                return false;
+
+            if (Right.Equals(node.Right) == false)
+                return false;
+
+            return true;
+        }
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class NotOperator : UnaryOperator
@@ -19,28 +43,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var node = obj as NotOperator;
-            if (node == null)
-                return false;
-
-            if (Right.Equals(node.Right) == false)
-                return false;
-
-            return true;
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name}";
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public override TypeValidationResult CheckType()
@@ -68,28 +70,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override void Accept(IAstVisitor visior)
         {
             visior.Visit(this);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var node = obj as NegateOperator;
-            if (node == null)
-                return false;
-
-            if (Right.Equals(node.Right) == false)
-                return false;
-
-            return true;
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name}";
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public override TypeValidationResult CheckType()
