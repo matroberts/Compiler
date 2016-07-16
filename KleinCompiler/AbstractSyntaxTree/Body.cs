@@ -57,7 +57,12 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            // prints
+            foreach (var print in Prints)
+            {
+                var printResult = print.CheckType();
+                if (printResult.HasError)
+                    return printResult;
+            }
 
             var result = Expr.CheckType();
             if (result.HasError)

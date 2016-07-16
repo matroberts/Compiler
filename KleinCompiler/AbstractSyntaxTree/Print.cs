@@ -38,7 +38,12 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            var result = Expr.CheckType();
+            if (result.HasError)
+                return result;
+
+            Type = result.Type;
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

@@ -629,6 +629,68 @@ namespace KleinCompilerTests
 
         #endregion
 
+        #region Print
+
+        [Test]
+        public void TypeOfPrint_IsSetEqualToTypeOfPrintsExpression()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              print(17)
+                              print(true)
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Prints[0].Type, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Body.Prints[1].Type, Is.EqualTo(new BooleanType()));
+            Assert.That(result.HasError, Is.False);
+        }
+
+        [Test]
+        public void IfPrint_HasATypeError_ItIsReported()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              print(-true)
+                              true";
+
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
+        }
+
+        [Test]
+        public void IfPrint_OccursInWrongPlaceInProgram_ItIsReported_ButItIsAParseError()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              true
+                              print(1)
+                              true";
+
+            var parser = new Parser();
+
+            // act
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program, Is.Null);
+            Assert.That(parser.Error.ToString(), Is.EqualTo("Syntax Error: Attempting to parse symbol 'FactorTail' found token PrintKeyword 'print'"));
+        }
+
+        #endregion
+
 
         // error line numbers
 
