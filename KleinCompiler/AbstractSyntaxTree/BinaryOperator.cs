@@ -38,7 +38,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             return base.GetHashCode();
         }
 
-        public TypeValidationResult CheckType(PrimitiveType leftType, PrimitiveType rightType, PrimitiveType returnType, string operatorName)
+        protected TypeValidationResult CheckType(PrimitiveType leftType, PrimitiveType rightType, PrimitiveType returnType, string operatorName)
         {
             var leftResult = Left.CheckType();
             if (leftResult.HasError)
@@ -119,7 +119,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            return CheckType(new BooleanType(), new BooleanType(), new BooleanType(), "And");
         }
     }
 
