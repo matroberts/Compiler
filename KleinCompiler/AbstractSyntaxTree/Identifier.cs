@@ -2,11 +2,13 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Identifier : Expr
     {
-        public Identifier(string value)
+        public Identifier(int position, string value)
         {
             Value = value;
+            Position = position;
         }
         public string Value { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

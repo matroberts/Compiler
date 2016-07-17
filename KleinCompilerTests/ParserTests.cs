@@ -31,7 +31,7 @@ namespace KleinCompilerTests
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
@@ -55,7 +55,7 @@ main () : boolean
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
@@ -129,28 +129,28 @@ circularPrimesTo(x: integer):integer
                                          (
                                             new Definition
                                             (
-                                                new Identifier("main"),
+                                                new Identifier(0, "main"),
                                                 new IntegerTypeDeclaration(), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier("x"), new IntegerTypeDeclaration())
+                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration())
                                                 },
                                                 new Body
                                                 (
                                                     new FunctionCall
                                                     (
-                                                        new Identifier("circularPrimesTo"),
-                                                        new List<Actual> { new Actual(new Identifier("x")) } 
+                                                        new Identifier(0, "circularPrimesTo"),
+                                                        new List<Actual> { new Actual(new Identifier(0, "x")) } 
                                                     )
                                                 )
                                             ),
                                             new Definition
                                             (
-                                                new Identifier("circularPrimesTo"),
+                                                new Identifier(0, "circularPrimesTo"),
                                                 new IntegerTypeDeclaration(), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier("x"), new IntegerTypeDeclaration())
+                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration())
                                                 },
                                                 new Body
                                                 (
@@ -181,9 +181,9 @@ circularPrimesTo(x: integer):integer
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()) },
+                                                        formals: new List<Formal> { new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()) },
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
         }
@@ -203,12 +203,12 @@ circularPrimesTo(x: integer):integer
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>
                                                         {
-                                                            new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                                            new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
+                                                            new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                                            new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                                         },
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ))));
@@ -232,14 +232,14 @@ subsidiary() : integer
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(true))
                                                     ),
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("subsidiary"),
+                                                        identifier: new Identifier(0, "subsidiary"),
                                                         typeDeclaration: new IntegerTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new IntegerLiteral("1"))
@@ -254,14 +254,14 @@ subsidiary() : integer
         {
             get
             {
-                yield return new TestCaseData("<", new LessThanOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("=", new EqualsOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("or", new OrOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("+", new PlusOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("-", new MinusOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("and", new AndOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("*", new TimesOperator(0, left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("/", new DivideOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("<", new LessThanOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("=", new EqualsOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("or", new OrOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("+", new PlusOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("-", new MinusOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("and", new AndOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("*", new TimesOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
+                yield return new TestCaseData("/", new DivideOperator(0, left: new Identifier(0, "x"), right: new Identifier(0, "y")));
             }
         }
 
@@ -283,14 +283,14 @@ subsidiary() : integer
         {
             get
             {
-                yield return new TestCaseData("<", new LessThanOperator(0, new LessThanOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("=", new EqualsOperator(0, new EqualsOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("or", new OrOperator(0, new OrOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("+", new PlusOperator(0, new PlusOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("-", new MinusOperator(0, new MinusOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("and", new AndOperator(0, new AndOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("*", new TimesOperator(0, new TimesOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("/", new DivideOperator(0, new DivideOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("<", new LessThanOperator(0, new LessThanOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("=", new EqualsOperator(0, new EqualsOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("or", new OrOperator(0, new OrOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("+", new PlusOperator(0, new PlusOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("-", new MinusOperator(0, new MinusOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("and", new AndOperator(0, new AndOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("*", new TimesOperator(0, new TimesOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
+                yield return new TestCaseData("/", new DivideOperator(0, new DivideOperator(0, new Identifier(0, "x"), new Identifier(0, "y")), new Identifier(0, "z")));
             }
         }
 
@@ -319,7 +319,7 @@ subsidiary() : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new Identifier("x")));
+            Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new Identifier(0, "x")));
         }
 
         [Test]
@@ -336,12 +336,12 @@ subsidiary() : integer
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
                                                                             (
                                                                                 position: 0,
-                                                                                left: new Identifier("x"),
+                                                                                left: new Identifier(0, "x"),
                                                                                 right: new TimesOperator
                                                                                             (
                                                                                                 position: 0,
-                                                                                                left: new Identifier("y"),
-                                                                                                right: new Identifier("z"))
+                                                                                                left: new Identifier(0, "y"),
+                                                                                                right: new Identifier(0, "z"))
                                                                                             )
                                                                             ));
         }
@@ -363,10 +363,10 @@ subsidiary() : integer
                                                                             left: new TimesOperator
                                                                                         (
                                                                                             position: 0,
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
+                                                                                            left: new Identifier(0, "x"),
+                                                                                            right: new Identifier(0, "y")
                                                                                         ),
-                                                                            right: new Identifier("z")
+                                                                            right: new Identifier(0, "z")
                                                                         )));
         }
 
@@ -387,10 +387,10 @@ subsidiary() : integer
                                                                             left: new PlusOperator
                                                                                         (
                                                                                             position: 0,
-                                                                                            left: new Identifier("x"),
-                                                                                            right: new Identifier("y")
+                                                                                            left: new Identifier(0, "x"),
+                                                                                            right: new Identifier(0, "y")
                                                                                         ),
-                                                                            right: new Identifier("z")
+                                                                            right: new Identifier(0, "z")
                                                                         )));
         }
 
@@ -412,7 +412,7 @@ subsidiary() : integer
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NotOperator
                                                                           (
                                                                               position: 0,
-                                                                              right: new Identifier("x")
+                                                                              right: new Identifier(0, "x")
                                                                           )
                                                                       ));
         }
@@ -431,7 +431,7 @@ subsidiary() : integer
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NegateOperator
                                                                           (
                                                                               position: 0,
-                                                                              right: new Identifier("x")
+                                                                              right: new Identifier(0, "x")
                                                                           )
                                                                       ));
         }
@@ -454,9 +454,9 @@ subsidiary() : integer
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new IfThenElse
                                                                             (
                                                                                 position: 0,
-                                                                                ifExpr: new Identifier("x"),
-                                                                                thenExpr: new Identifier("y"),
-                                                                                elseExpr: new Identifier("z")) 
+                                                                                ifExpr: new Identifier(0, "x"),
+                                                                                thenExpr: new Identifier(0, "y"),
+                                                                                elseExpr: new Identifier(0, "z")) 
                                                                             ));
         }
 
@@ -481,7 +481,7 @@ secondary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
                                                                           (
-                                                                              identifier: new Identifier("secondary"),
+                                                                              identifier: new Identifier(0, "secondary"),
                                                                               actuals: new List<Actual>() 
                                                                           )));
         }
@@ -503,10 +503,10 @@ secondary(x : integer) : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
                                                                           (
-                                                                              identifier: new Identifier("secondary"),
+                                                                              identifier: new Identifier(0, "secondary"),
                                                                               actuals: new List<Actual>
                                                                               {
-                                                                                  new Actual(new Identifier("x"))
+                                                                                  new Actual(new Identifier(0, "x"))
                                                                               }
                                                                           )));
         }
@@ -528,11 +528,11 @@ secondary(x : integer, y : integer) : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
                                                                           (
-                                                                              identifier: new Identifier("secondary"),
+                                                                              identifier: new Identifier(0, "secondary"),
                                                                               actuals: new List<Actual>
                                                                               {
-                                                                                  new Actual(new Identifier("x")),
-                                                                                  new Actual(new Identifier("y"))
+                                                                                  new Actual(new Identifier(0, "x")),
+                                                                                  new Actual(new Identifier(0, "y"))
                                                                               }
                                                                           )));
         }
@@ -558,7 +558,7 @@ main(x: integer) : integer
             ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
-                                                                                                            new Print(new Identifier("x"))
+                                                                                                            new Print(new Identifier(0, "x"))
                                                                                                         })));
         }
 
@@ -580,8 +580,8 @@ main(x: integer, y : integer) : integer
             ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
-                                                                                                            new Print(new Identifier("x")),
-                                                                                                            new Print(new Identifier("y")),
+                                                                                                            new Print(new Identifier(0, "x")),
+                                                                                                            new Print(new Identifier(0, "y")),
                                                                                                         })));
         }
 
@@ -635,6 +635,27 @@ main(x: integer, y : integer) : integer
          *  Then when MakeAnd runs it can pop the position off the stack to get the postion of the symbol
          */
 
+        [Test]
+        public void PostionShouldWorkCorrectlyWithNestedOperators()
+        {
+            // arrange
+            var input =
+@"main(x: integer, y : integer) : boolean (x < 3) = (y < 4)";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
+            var left = equalsOperator.Left as LessThanOperator;
+            var right = equalsOperator.Right as LessThanOperator;
+
+            Assert.That(equalsOperator.Position, Is.EqualTo(48));
+            Assert.That(left.Position, Is.EqualTo(43));
+            Assert.That(right.Position, Is.EqualTo(53));
+        }
+
         [TestCase("<")]
         [TestCase("=")]
         [TestCase("or")]
@@ -686,25 +707,19 @@ main(x: integer, y : integer) : integer
         }
 
         [Test]
-        public void PostionShouldWorkCorrectlyWithNestedOperators()
+        public void Identifier_SupportsPosition()
         {
             // arrange
-            var input = 
-@"main(x: integer, y : integer) : boolean (x < 3) = (y < 4)";
+            var input = $"main(x: integer) : integer x";
 
             // act
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
             //41
             // assert
-            var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
-            var left = equalsOperator.Left as LessThanOperator;
-            var right = equalsOperator.Right as LessThanOperator;
-
-            Assert.That(equalsOperator.Position, Is.EqualTo(48));
-            Assert.That(left.Position, Is.EqualTo(43));
-            Assert.That(right.Position, Is.EqualTo(53));
+            Assert.That((program.Definitions[0].Body.Expr as Identifier).Position, Is.EqualTo(27));
         }
+
 
         #endregion
     }

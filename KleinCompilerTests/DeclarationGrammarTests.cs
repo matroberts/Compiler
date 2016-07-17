@@ -143,7 +143,7 @@ R12                             | boolean MakeBooleanType
                 case Symbol.MakeIdentifier:
                 {
                     var value = lastToken.Value;
-                    var node = new Identifier(value);
+                    var node = new Identifier(position:0, value:value);
                     semanticStack.Push(node);
                     return;
                 }
@@ -182,7 +182,7 @@ R12                             | boolean MakeBooleanType
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new  List<Formal>(),
                                                         body: null
@@ -203,9 +203,9 @@ R12                             | boolean MakeBooleanType
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
-                                                        formals: new List<Formal> { new Formal(new Identifier("arg1"), new IntegerTypeDeclaration())},
+                                                        formals: new List<Formal> { new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration())},
                                                         body: null
                                                     ))));
         }
@@ -224,12 +224,12 @@ R12                             | boolean MakeBooleanType
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>
                                                         {
-                                                            new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                                            new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
+                                                            new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                                            new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                                         },
                                                         body: null
                                                     ))));
@@ -250,14 +250,14 @@ subsidiary() : integer";
             Assert.That(ast, Is.AstEqual(new Program(
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("main"),
+                                                        identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: null
                                                     ),
                                                     new Definition
                                                     (
-                                                        identifier: new Identifier("subsidiary"),
+                                                        identifier: new Identifier(0, "subsidiary"),
                                                         typeDeclaration: new IntegerTypeDeclaration(), 
                                                         formals: new List<Formal>(),
                                                         body: null

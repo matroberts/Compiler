@@ -175,7 +175,7 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeIdentifier:
                 {
-                    semanticStack.Push(new Identifier(lastToken.Value));
+                    semanticStack.Push(new Identifier(lastToken.Position, lastToken.Value));
                     return;
                 }
                 case Symbol.MakeIntegerLiteral:

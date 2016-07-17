@@ -16,14 +16,14 @@ namespace KleinCompilerTests
             var program = new Program(
                 new Definition
                 (
-                    identifier: new Identifier("main"),
+                    identifier: new Identifier(0, "main"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
-                    identifier: new Identifier("subsidiary"),
+                    identifier: new Identifier(0, "subsidiary"),
                     typeDeclaration: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
@@ -31,12 +31,12 @@ namespace KleinCompilerTests
             );
 
             Assert.That(program.Equals(null), Is.False);
-            Assert.That(program.Equals(new Identifier("main")), Is.False);
+            Assert.That(program.Equals(new Identifier(0, "main")), Is.False);
 
             Assert.That(program.Equals(new Program(
                 new Definition
                 (
-                    identifier: new Identifier("main"),
+                    identifier: new Identifier(0, "main"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
@@ -46,14 +46,14 @@ namespace KleinCompilerTests
             Assert.That(program.Equals(new Program(
                 new Definition
                 (
-                    identifier: new Identifier("wrong"),
+                    identifier: new Identifier(0, "wrong"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
-                    identifier: new Identifier("subsidiary"),
+                    identifier: new Identifier(0, "subsidiary"),
                     typeDeclaration: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
@@ -63,14 +63,14 @@ namespace KleinCompilerTests
             Assert.That(program.Equals(new Program(
                 new Definition
                 (
-                    identifier: new Identifier("main"),
+                    identifier: new Identifier(0, "main"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
-                    identifier: new Identifier("subsidiary"),
+                    identifier: new Identifier(0, "subsidiary"),
                     typeDeclaration: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
@@ -83,24 +83,24 @@ namespace KleinCompilerTests
         {
             var definition = new Definition
                                  (
-                                     identifier: new Identifier("def"),
+                                     identifier: new Identifier(0, "def"),
                                      typeDeclaration: new BooleanTypeDeclaration(), 
                                      formals: new List<Formal>(),
                                      body: new Body(expr: new BooleanLiteral(false))
                                  );
 
             Assert.That(definition.Equals(null), Is.False);
-            Assert.That(definition.Equals(new Identifier("a")), Is.False);
+            Assert.That(definition.Equals(new Identifier(0, "a")), Is.False);
             Assert.That(definition.Equals(new Definition
                                               (
-                                                  identifier: new Identifier("wrong"),
+                                                  identifier: new Identifier(0, "wrong"),
                                                   typeDeclaration: new BooleanTypeDeclaration(),
                                                   formals: new List<Formal>(),
                                                   body: new Body(expr: new BooleanLiteral(false))
                                               )), Is.False);
             Assert.That(definition.Equals(new Definition
                                               (
-                                                  identifier: new Identifier("def"),
+                                                  identifier: new Identifier(0, "def"),
                                                   typeDeclaration: new IntegerTypeDeclaration(), 
                                                   formals: new List<Formal>(),
                                                   body: new Body(expr: new BooleanLiteral(false))
@@ -108,7 +108,7 @@ namespace KleinCompilerTests
 
             Assert.That(definition.Equals(new Definition
                                               (
-                                                  identifier: new Identifier("def"),
+                                                  identifier: new Identifier(0, "def"),
                                                   typeDeclaration: new BooleanTypeDeclaration(), 
                                                   formals: new List<Formal>(),
                                                   body: new Body(expr: new BooleanLiteral(true))
@@ -116,7 +116,7 @@ namespace KleinCompilerTests
 
             Assert.That(definition.Equals(new Definition
                                               (
-                                                  identifier: new Identifier("def"),
+                                                  identifier: new Identifier(0, "def"),
                                                   typeDeclaration: new BooleanTypeDeclaration(), 
                                                   formals: new List<Formal>(),
                                                   body: new Body(expr: new BooleanLiteral(false))
@@ -128,31 +128,31 @@ namespace KleinCompilerTests
         {
             var definition = new Definition
                              (
-                                 identifier: new Identifier("def"),
+                                 identifier: new Identifier(0, "def"),
                                  typeDeclaration: new BooleanTypeDeclaration(), 
                                  formals: new List<Formal>
                                  {
-                                     new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                     new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
+                                     new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                     new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                  },
                                  body: new Body(expr: new BooleanLiteral(false))
                              );
 
             Assert.That(definition.Equals(new Definition
                                           (
-                                              identifier: new Identifier("def"),
+                                              identifier: new Identifier(0, "def"),
                                               typeDeclaration: new BooleanTypeDeclaration(), 
                                               formals: new List<Formal>
                                                        {
-                                                           new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                                           new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
+                                                           new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                                           new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                                        },
                                               body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.True);
 
             Assert.That(definition.Equals(new Definition
                                           (
-                                              identifier: new Identifier("def"),
+                                              identifier: new Identifier(0, "def"),
                                               typeDeclaration: new BooleanTypeDeclaration(), 
                                               formals: new List<Formal>(),
                                               body: new Body(expr: new BooleanLiteral(false))
@@ -160,37 +160,37 @@ namespace KleinCompilerTests
 
             Assert.That(definition.Equals(new Definition
                                           (
-                                              identifier: new Identifier("def"),
+                                              identifier: new Identifier(0, "def"),
                                               typeDeclaration: new BooleanTypeDeclaration(), 
                                               formals: new List<Formal>
                                                        {
-                                                                       new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                                                       new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
-                                                                       new Formal(new Identifier("arg3"), new BooleanTypeDeclaration()),
+                                                                       new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                                                       new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
+                                                                       new Formal(new Identifier(0, "arg3"), new BooleanTypeDeclaration()),
                                                        },
                                               body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
 
             Assert.That(definition.Equals(new Definition
                                           (
-                                              identifier: new Identifier("def"),
+                                              identifier: new Identifier(0, "def"),
                                               typeDeclaration: new BooleanTypeDeclaration(), 
                                               formals: new List<Formal>
                                                        {
-                                                                       new Formal(new Identifier("wrong"), new IntegerTypeDeclaration()),
-                                                                       new Formal(new Identifier("arg2"), new BooleanTypeDeclaration()),
+                                                                       new Formal(new Identifier(0, "wrong"), new IntegerTypeDeclaration()),
+                                                                       new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                                        },
                                               body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
 
             Assert.That(definition.Equals(new Definition
                                           (
-                                              identifier: new Identifier("def"),
+                                              identifier: new Identifier(0, "def"),
                                               typeDeclaration: new BooleanTypeDeclaration(), 
                                               formals: new List<Formal>
                                                        {
-                                                                                   new Formal(new Identifier("arg1"), new IntegerTypeDeclaration()),
-                                                                                   new Formal(new Identifier("arg2"), new IntegerTypeDeclaration()),
+                                                                                   new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
+                                                                                   new Formal(new Identifier(0, "arg2"), new IntegerTypeDeclaration()),
                                                        },
                                               body: new Body(expr: new BooleanLiteral(false))
                                           )), Is.False);
@@ -215,11 +215,11 @@ namespace KleinCompilerTests
         [Test]
         public void Formal_ShouldImplement_ValueEquality()
         {
-            Assert.That(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(null), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Identifier("a")), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier("wrong"), typeDeclaration: new BooleanTypeDeclaration())), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new IntegerTypeDeclaration())), Is.False);
-            Assert.That(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration())), Is.True);
+            Assert.That(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(null), Is.False);
+            Assert.That(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Identifier(0, "a")), Is.False);
+            Assert.That(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier(0, "wrong"), typeDeclaration: new BooleanTypeDeclaration())), Is.False);
+            Assert.That(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new IntegerTypeDeclaration())), Is.False);
+            Assert.That(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration()).Equals(new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration())), Is.True);
         }
 
         [Test]
@@ -244,8 +244,8 @@ namespace KleinCompilerTests
                            new IntegerLiteral("123"),
                            new List<Print>
                            {
-                               new Print(new Identifier("x")),
-                               new Print(new Identifier("y"))
+                               new Print(new Identifier(0, "x")),
+                               new Print(new Identifier(0, "y"))
                            }
                        );
             Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.False);
@@ -254,8 +254,8 @@ namespace KleinCompilerTests
                                            new IntegerLiteral("123"),
                                            new List<Print>
                                            {
-                                               new Print(new Identifier("x")),
-                                               new Print(new Identifier("wrong"))
+                                               new Print(new Identifier(0, "x")),
+                                               new Print(new Identifier(0, "wrong"))
                                            }
                                        )), Is.False);
             Assert.That(body.Equals(new Body
@@ -263,8 +263,8 @@ namespace KleinCompilerTests
                                            new IntegerLiteral("123"),
                                            new List<Print>
                                            {
-                                               new Print(new Identifier("x")),
-                                               new Print(new Identifier("y"))
+                                               new Print(new Identifier(0, "x")),
+                                               new Print(new Identifier(0, "y"))
                                            }
                                        )), Is.True);
         }
@@ -285,10 +285,10 @@ namespace KleinCompilerTests
         [Test]
         public void Identifier_ShouldImplement_ValueEquality()
         {
-            Assert.That(new Identifier("a").Equals(null), Is.False);
-            Assert.That(new Identifier("a").Equals(new BooleanTypeDeclaration()), Is.False);
-            Assert.That(new Identifier("a").Equals(new Identifier("b")), Is.False);
-            Assert.That(new Identifier("a").Equals(new Identifier("a")), Is.True);
+            Assert.That(new Identifier(0, "a").Equals(null), Is.False);
+            Assert.That(new Identifier(0, "a").Equals(new BooleanTypeDeclaration()), Is.False);
+            Assert.That(new Identifier(0, "a").Equals(new Identifier(0, "b")), Is.False);
+            Assert.That(new Identifier(0, "a").Equals(new Identifier(0, "a")), Is.True);
         }
 
         [Test]
@@ -297,40 +297,40 @@ namespace KleinCompilerTests
             var ifthenelse = new IfThenElse
                                   (
                                       position: 0,
-                                      ifExpr: new Identifier("x"),
-                                      thenExpr: new Identifier("y"),
-                                      elseExpr: new Identifier("z")
+                                      ifExpr: new Identifier(0, "x"),
+                                      thenExpr: new Identifier(0, "y"),
+                                      elseExpr: new Identifier(0, "z")
                                   );
 
             Assert.That(ifthenelse.Equals(null), Is.False);
-            Assert.That(ifthenelse.Equals(new Identifier("x")), Is.False);
+            Assert.That(ifthenelse.Equals(new Identifier(0, "x")), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
                                               position: 0,
-                                              ifExpr: new Identifier("wrong"),
-                                              thenExpr: new Identifier("y"),
-                                              elseExpr: new Identifier("z")
+                                              ifExpr: new Identifier(0, "wrong"),
+                                              thenExpr: new Identifier(0, "y"),
+                                              elseExpr: new Identifier(0, "z")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
                                               position: 0,
-                                              ifExpr: new Identifier("x"),
-                                              thenExpr: new Identifier("wrong"),
-                                              elseExpr: new Identifier("z")
+                                              ifExpr: new Identifier(0, "x"),
+                                              thenExpr: new Identifier(0, "wrong"),
+                                              elseExpr: new Identifier(0, "z")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
                                               position: 0,
-                                              ifExpr: new Identifier("x"),
-                                              thenExpr: new Identifier("y"),
-                                              elseExpr: new Identifier("wrong")
+                                              ifExpr: new Identifier(0, "x"),
+                                              thenExpr: new Identifier(0, "y"),
+                                              elseExpr: new Identifier(0, "wrong")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
                                               position: 0,
-                                              ifExpr: new Identifier("x"),
-                                              thenExpr: new Identifier("y"),
-                                              elseExpr: new Identifier("z")
+                                              ifExpr: new Identifier(0, "x"),
+                                              thenExpr: new Identifier(0, "y"),
+                                              elseExpr: new Identifier(0, "z")
                                           )), Is.True);
         }
 
@@ -342,35 +342,35 @@ namespace KleinCompilerTests
             var binaryOperator = new TimesOperator
                 (
                 position: 0,
-                left: new Identifier("left"),
-                right: new Identifier("right")
+                left: new Identifier(0, "left"),
+                right: new Identifier(0, "right")
                 );
 
             Assert.That(binaryOperator.Equals(null), Is.False);
-            Assert.That(binaryOperator.Equals(new Identifier("a")), Is.False);
+            Assert.That(binaryOperator.Equals(new Identifier(0, "a")), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
                 position: 0,
-                left: new Identifier("wrong"),
-                right: new Identifier("right")
+                left: new Identifier(0, "wrong"),
+                right: new Identifier(0, "right")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new PlusOperator
                 (
                 position: 0,
-                left: new Identifier("left"),
-                right: new Identifier("right")
+                left: new Identifier(0, "left"),
+                right: new Identifier(0, "right")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
                 position: 0,
-                left: new Identifier("left"),
-                right: new Identifier("wrong")
+                left: new Identifier(0, "left"),
+                right: new Identifier(0, "wrong")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
                 position: 0,
-                left: new Identifier("left"),
-                right: new Identifier("right")
+                left: new Identifier(0, "left"),
+                right: new Identifier(0, "right")
                 )), Is.True);
         }
 
@@ -384,24 +384,24 @@ namespace KleinCompilerTests
             var unaryOperatory = new NotOperator
                                      (
                                          position: 0,
-                                         right: new Identifier("right")
+                                         right: new Identifier(0, "right")
                                      );
 
             Assert.That(unaryOperatory.Equals(null), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("right")
+                                                       right: new Identifier(0, "right")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("wrong")
+                                                       right: new Identifier(0, "wrong")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("right")
+                                                       right: new Identifier(0, "right")
                                                   )), Is.True);
         }
 
@@ -411,24 +411,24 @@ namespace KleinCompilerTests
             var unaryOperatory = new NegateOperator
                                      (
                                          position: 0,
-                                         right: new Identifier("right")
+                                         right: new Identifier(0, "right")
                                      );
 
             Assert.That(unaryOperatory.Equals(null), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("right")
+                                                       right: new Identifier(0, "right")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("wrong")
+                                                       right: new Identifier(0, "wrong")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
                                                        position: 0,
-                                                       right: new Identifier("right")
+                                                       right: new Identifier(0, "right")
                                                   )), Is.True);
         }
 
@@ -456,45 +456,45 @@ namespace KleinCompilerTests
         public void FunctionCall_ShouldImplement_ValueEquality()
         {
             var functioncall = new FunctionCall(
-                                    new Identifier("func"),
+                                    new Identifier(0, "func"),
                                     new List<Actual>()
                                     {
-                                        new Actual(new Identifier("x")),
-                                        new Actual(new Identifier("y"))
+                                        new Actual(new Identifier(0, "x")),
+                                        new Actual(new Identifier(0, "y"))
                                     }
                               );
 
             Assert.That(functioncall.Equals(null), Is.False);
-            Assert.That(functioncall.Equals(new Identifier("func")), Is.False);
+            Assert.That(functioncall.Equals(new Identifier(0, "func")), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
-                                                new Identifier("wrong"),
+                                                new Identifier(0, "wrong"),
                                                 new List<Actual>()
                                                 {
-                                                    new Actual(new Identifier("x")),
-                                                    new Actual(new Identifier("y"))
+                                                    new Actual(new Identifier(0, "x")),
+                                                    new Actual(new Identifier(0, "y"))
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
-                                                new Identifier("func"),
+                                                new Identifier(0, "func"),
                                                 new List<Actual>()
                                                 {
-                                                    new Actual(new Identifier("x")),
+                                                    new Actual(new Identifier(0, "x")),
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
-                                                new Identifier("func"),
+                                                new Identifier(0, "func"),
                                                 new List<Actual>()
                                                 {
-                                                    new Actual(new Identifier("x")),
-                                                    new Actual(new Identifier("wrong"))
+                                                    new Actual(new Identifier(0, "x")),
+                                                    new Actual(new Identifier(0, "wrong"))
                                                 }
                                             )), Is.False);
             Assert.That(functioncall.Equals(new FunctionCall(
-                                                new Identifier("func"),
+                                                new Identifier(0, "func"),
                                                 new List<Actual>()
                                                 {
-                                                    new Actual(new Identifier("x")),
-                                                    new Actual(new Identifier("y"))
+                                                    new Actual(new Identifier(0, "x")),
+                                                    new Actual(new Identifier(0, "y"))
                                                 }
                                             )), Is.True);
         }
@@ -502,12 +502,12 @@ namespace KleinCompilerTests
         [Test]
         public void Actual_ShouldImplement_ValueEquality()
         {
-            var actual = new Actual(new Identifier("x"));
+            var actual = new Actual(new Identifier(0, "x"));
 
             Assert.That(actual.Equals(null), Is.False);
-            Assert.That(actual.Equals(new Identifier("x")), Is.False);
-            Assert.That(actual.Equals(new Actual(new Identifier("y"))), Is.False);
-            Assert.That(actual.Equals(new Actual(new Identifier("x"))), Is.True);
+            Assert.That(actual.Equals(new Identifier(0, "x")), Is.False);
+            Assert.That(actual.Equals(new Actual(new Identifier(0, "y"))), Is.False);
+            Assert.That(actual.Equals(new Actual(new Identifier(0, "x"))), Is.True);
         }
     }
 }

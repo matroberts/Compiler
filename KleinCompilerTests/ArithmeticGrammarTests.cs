@@ -107,7 +107,7 @@ R8                              | identifier MakeIdentifier
                 case Symbol.MakeIdentifier:
                 {
                     var value = lastToken.Value;
-                    var node = new Identifier(value);
+                    var node = new Identifier(position:0, value: value);
                     semanticStack.Push(node);
                     return;
                 }
@@ -152,8 +152,8 @@ R8                              | identifier MakeIdentifier
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
                                                         position: 0, 
-                                                        left: new Identifier("x"),
-                                                        right: new Identifier("y")
+                                                        left: new Identifier(0, "x"),
+                                                        right: new Identifier(0, "y")
                                                     )
                                                 ));
         }
@@ -172,8 +172,8 @@ R8                              | identifier MakeIdentifier
             Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
                                                         position: 0,
-                                                        left: new Identifier("x"),
-                                                        right: new Identifier("y")
+                                                        left: new Identifier(0, "x"),
+                                                        right: new Identifier(0, "y")
                                                     )
                                                 ));
         }
@@ -189,7 +189,7 @@ R8                              | identifier MakeIdentifier
             var ast = parser.Parse(new Tokenizer(input));
 
             // assert
-            Assert.That(ast, Is.AstEqual(new Identifier("x")));
+            Assert.That(ast, Is.AstEqual(new Identifier(0, "x")));
         }
 
         [Test]
@@ -206,12 +206,12 @@ R8                              | identifier MakeIdentifier
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
                                                         position:0, 
-                                                        left: new Identifier("x"),
+                                                        left: new Identifier(0, "x"),
                                                         right: new TimesOperator
                                                                    (
                                                                         position: 0,
-                                                                        left: new Identifier("y"),
-                                                                        right: new Identifier("z"))
+                                                                        left: new Identifier(0, "y"),
+                                                                        right: new Identifier(0, "z"))
                                                                    )
                                                     ));
         }
@@ -233,10 +233,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new TimesOperator
                                                                   (
                                                                       position: 0,
-                                                                      left: new Identifier("x"),
-                                                                      right: new Identifier("y")
+                                                                      left: new Identifier(0, "x"),
+                                                                      right: new Identifier(0, "y")
                                                                   ),
-                                                        right : new Identifier("z")
+                                                        right : new Identifier(0, "z")
                                                     )));
         }
 
@@ -257,10 +257,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new PlusOperator
                                                                   (
                                                                       position: 0,
-                                                                      left: new Identifier("x"),
-                                                                      right: new Identifier("y")
+                                                                      left: new Identifier(0, "x"),
+                                                                      right: new Identifier(0, "y")
                                                                   ),
-                                                        right: new Identifier("z")
+                                                        right: new Identifier(0, "z")
                                                     )));
         }
 
@@ -281,10 +281,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new TimesOperator
                                                                   (
                                                                       position: 0,
-                                                                      left: new Identifier("x"),
-                                                                      right: new Identifier("y")
+                                                                      left: new Identifier(0, "x"),
+                                                                      right: new Identifier(0, "y")
                                                                   ),
-                                                        right: new Identifier("z")
+                                                        right: new Identifier(0, "z")
                                                     )));
         }
 
@@ -305,10 +305,10 @@ R8                              | identifier MakeIdentifier
                                                         left: new PlusOperator
                                                                   (
                                                                       position: 0,
-                                                                      left: new Identifier("x"),
-                                                                      right: new Identifier("y")
+                                                                      left: new Identifier(0, "x"),
+                                                                      right: new Identifier(0, "y")
                                                                   ),
-                                                        right: new Identifier("z")
+                                                        right: new Identifier(0, "z")
                                                     )));
         }
     }

@@ -16,14 +16,14 @@ namespace KleinCompilerTests
             var ast = new Program(
                 new Definition
                 (
-                    identifier: new Identifier("main"),
+                    identifier: new Identifier(0, "main"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
                 ),
                 new Definition
                 (
-                    identifier: new Identifier("subsidiary"),
+                    identifier: new Identifier(0, "subsidiary"),
                     typeDeclaration: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
                     body: new Body(expr: new BooleanLiteral(false))
@@ -52,12 +52,12 @@ namespace KleinCompilerTests
         {
             var ast = new Definition
                           (
-                              identifier: new Identifier("main"),
+                              identifier: new Identifier(0, "main"),
                               typeDeclaration: new BooleanTypeDeclaration(), 
                               formals: new List<Formal>
                               {
-                                  new Formal(new Identifier("arg1"), new BooleanTypeDeclaration()),
-                                  new Formal(new Identifier("arg2"), new IntegerTypeDeclaration()),
+                                  new Formal(new Identifier(0, "arg1"), new BooleanTypeDeclaration()),
+                                  new Formal(new Identifier(0, "arg2"), new IntegerTypeDeclaration()),
                               },
                               body: new Body(expr: new BooleanLiteral(false))
                           );
@@ -93,7 +93,7 @@ namespace KleinCompilerTests
         [Test]
         public void Formal_ShouldPrint()
         {
-            var ast = new Formal(identifier: new Identifier("arg1"), typeDeclaration: new BooleanTypeDeclaration());
+            var ast = new Formal(identifier: new Identifier(0, "arg1"), typeDeclaration: new BooleanTypeDeclaration());
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Formal(arg1)
     Type(Boolean)
@@ -123,8 +123,8 @@ namespace KleinCompilerTests
                           new IntegerLiteral("123"),
                           new List<Print>
                           {
-                              new Print(new Identifier("x")),
-                              new Print(new Identifier("y"))
+                              new Print(new Identifier(0, "x")),
+                              new Print(new Identifier(0, "y"))
                           }
                       );
 
@@ -159,9 +159,9 @@ namespace KleinCompilerTests
             var ast = new IfThenElse
                           (
                               position: 0,
-                              ifExpr: new Identifier("x"),
-                              thenExpr: new Identifier("y"),
-                              elseExpr: new Identifier("z")
+                              ifExpr: new Identifier(0, "x"),
+                              thenExpr: new Identifier(0, "y"),
+                              elseExpr: new Identifier(0, "z")
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -182,8 +182,8 @@ Else
             var ast = new LessThanOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -199,8 +199,8 @@ Else
             var ast = new EqualsOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -216,8 +216,8 @@ Else
             var ast = new OrOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -233,8 +233,8 @@ Else
             var ast = new PlusOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -250,8 +250,8 @@ Else
             var ast = new MinusOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -267,8 +267,8 @@ Else
             var ast = new AndOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -284,8 +284,8 @@ Else
             var ast = new TimesOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -301,8 +301,8 @@ Else
             var ast = new DivideOperator
                 (
                 position: 0,
-                left: new Identifier("x"),
-                right: new Identifier("y")
+                left: new Identifier(0, "x"),
+                right: new Identifier(0, "y")
                 );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -320,7 +320,7 @@ Else
             var ast = new NotOperator
                           (
                               position: 0,
-                              right: new Identifier("y")
+                              right: new Identifier(0, "y")
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -335,7 +335,7 @@ Else
             var ast = new NegateOperator
                           (
                               position: 0,
-                              right: new Identifier("y")
+                              right: new Identifier(0, "y")
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -366,11 +366,11 @@ Else
         public void FunctionCall_ShouldPrint()
         {
             var ast = new FunctionCall(
-                                            new Identifier("func"),
+                                            new Identifier(0, "func"),
                                             new List<Actual>()
                                             {
-                                                new Actual(new Identifier("x")),
-                                                new Actual(new Identifier("y"))
+                                                new Actual(new Identifier(0, "x")),
+                                                new Actual(new Identifier(0, "y"))
                                             } 
                                       );
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -385,7 +385,7 @@ Else
         [Test]
         public void Actual_ShouldPrint()
         {
-            var ast = new Actual(new Identifier("x"));
+            var ast = new Actual(new Identifier(0, "x"));
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Actual
