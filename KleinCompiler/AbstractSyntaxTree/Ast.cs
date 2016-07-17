@@ -32,9 +32,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public KType Type { get; protected set; }
 
-
         private static SymbolTable symbolTable;
-
         public static SymbolTable SymbolTable
         {
             get

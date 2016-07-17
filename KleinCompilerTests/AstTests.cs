@@ -336,6 +336,7 @@ namespace KleinCompilerTests
         {
             var binaryOperator = new TimesOperator
                 (
+                position: 0,
                 left: new Identifier("left"),
                 right: new Identifier("right")
                 );
@@ -344,21 +345,25 @@ namespace KleinCompilerTests
             Assert.That(binaryOperator.Equals(new Identifier("a")), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
+                position: 0,
                 left: new Identifier("wrong"),
                 right: new Identifier("right")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new PlusOperator
                 (
+                position: 0,
                 left: new Identifier("left"),
                 right: new Identifier("right")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
+                position: 0,
                 left: new Identifier("left"),
                 right: new Identifier("wrong")
                 )), Is.False);
             Assert.That(binaryOperator.Equals(new TimesOperator
                 (
+                position: 0,
                 left: new Identifier("left"),
                 right: new Identifier("right")
                 )), Is.True);

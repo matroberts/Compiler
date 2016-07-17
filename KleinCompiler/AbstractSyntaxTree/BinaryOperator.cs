@@ -2,13 +2,15 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class BinaryOperator : Expr
     {
-        protected BinaryOperator(Expr left, Expr right)
+        protected BinaryOperator(int position, Expr left, Expr right)
         {
             Left = left;
             Right = right;
+            Position = position;
         }
         public Expr Left { get; }
         public Expr Right { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {
@@ -61,7 +63,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class LessThanOperator : BinaryOperator
     {
-        public LessThanOperator(Expr left, Expr right) : base(left, right)
+        public LessThanOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -77,7 +79,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class EqualsOperator : BinaryOperator
     {
-        public EqualsOperator(Expr left, Expr right) : base(left, right)
+        public EqualsOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -93,7 +95,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class OrOperator : BinaryOperator
     {
-        public OrOperator(Expr left, Expr right) : base(left, right)
+        public OrOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -109,7 +111,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class AndOperator : BinaryOperator
     {
-        public AndOperator(Expr left, Expr right) : base(left, right)
+        public AndOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -125,7 +127,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class PlusOperator : BinaryOperator
     {
-        public PlusOperator(Expr left, Expr right) : base(left, right)
+        public PlusOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -141,7 +143,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class MinusOperator : BinaryOperator
     {
-        public MinusOperator(Expr left, Expr right) : base(left, right)
+        public MinusOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -158,7 +160,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class TimesOperator : BinaryOperator
     {
-        public TimesOperator(Expr left, Expr right) : base(left, right)
+        public TimesOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)
@@ -174,7 +176,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class DivideOperator : BinaryOperator
     {
-        public DivideOperator(Expr left, Expr right) : base(left, right)
+        public DivideOperator(int position, Expr left, Expr right) : base(position, left, right)
         {
         }
         public override void Accept(IAstVisitor visior)

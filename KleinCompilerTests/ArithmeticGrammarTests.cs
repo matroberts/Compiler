@@ -92,7 +92,7 @@ R8                              | identifier MakeIdentifier
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new PlusOperator(left: (Expr)left, right: (Expr)right);
+                    var node = new PlusOperator(position: 0, left: (Expr)left, right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }
@@ -100,7 +100,7 @@ R8                              | identifier MakeIdentifier
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    var node = new TimesOperator(left: (Expr)left, right: (Expr)right);
+                    var node = new TimesOperator(position: 0, left: (Expr)left, right: (Expr)right);
                     semanticStack.Push(node);
                     return;
                 }
@@ -151,6 +151,7 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
+                                                        position: 0, 
                                                         left: new Identifier("x"),
                                                         right: new Identifier("y")
                                                     )
@@ -170,6 +171,7 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
+                                                        position: 0,
                                                         left: new Identifier("x"),
                                                         right: new Identifier("y")
                                                     )
@@ -203,9 +205,11 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
+                                                        position:0, 
                                                         left: new Identifier("x"),
                                                         right: new TimesOperator
                                                                    (
+                                                                        position: 0,
                                                                         left: new Identifier("y"),
                                                                         right: new Identifier("z"))
                                                                    )
@@ -225,8 +229,10 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
+                                                        position: 0,
                                                         left: new TimesOperator
                                                                   (
+                                                                      position: 0,
                                                                       left: new Identifier("x"),
                                                                       right: new Identifier("y")
                                                                   ),
@@ -247,8 +253,10 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
+                                                        position: 0,
                                                         left: new PlusOperator
                                                                   (
+                                                                      position: 0,
                                                                       left: new Identifier("x"),
                                                                       right: new Identifier("y")
                                                                   ),
@@ -269,8 +277,10 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
                                                     (
+                                                        position: 0,
                                                         left: new TimesOperator
                                                                   (
+                                                                      position: 0,
                                                                       left: new Identifier("x"),
                                                                       right: new Identifier("y")
                                                                   ),
@@ -291,8 +301,10 @@ R8                              | identifier MakeIdentifier
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
                                                     (
+                                                        position: 0,
                                                         left: new PlusOperator
                                                                   (
+                                                                      position: 0,
                                                                       left: new Identifier("x"),
                                                                       right: new Identifier("y")
                                                                   ),

@@ -13,6 +13,8 @@ namespace KleinCompiler
 
     public class AstFactory : IAstFactory
     {
+        private Stack<int> PositionStack = new Stack<int>();
+
         public void ProcessAction(Stack<Ast> semanticStack, Symbol symbol, Token lastToken)
         {
             switch (symbol)
@@ -82,56 +84,56 @@ namespace KleinCompiler
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new LessThanOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new LessThanOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeEquals:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new EqualsOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new EqualsOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeOr:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new OrOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new OrOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakePlus:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new PlusOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new PlusOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeMinus:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new MinusOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new MinusOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeAnd:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new AndOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new AndOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeTimes:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new TimesOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new TimesOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeDivide:
                 {
                     var right = semanticStack.Pop();
                     var left = semanticStack.Pop();
-                    semanticStack.Push(new DivideOperator(left: (Expr)left, right: (Expr)right));
+                    semanticStack.Push(new DivideOperator(position: PositionStack.Pop(), left: (Expr)left, right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeNot:
@@ -189,6 +191,11 @@ namespace KleinCompiler
                 case Symbol.MakeMakeBooleanFalseLiteral:
                 {
                     semanticStack.Push(new BooleanLiteral(false));
+                    return;
+                }
+                case Symbol.PushPosition:
+                {
+                    PositionStack.Push(lastToken.Position);
                     return;
                 }
                 default:

@@ -254,14 +254,14 @@ subsidiary() : integer
         {
             get
             {
-                yield return new TestCaseData("<", new LessThanOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("=", new EqualsOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("or", new OrOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("+", new PlusOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("-", new MinusOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("and", new AndOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("*", new TimesOperator(left: new Identifier("x"), right: new Identifier("y")));
-                yield return new TestCaseData("/", new DivideOperator(left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("<", new LessThanOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("=", new EqualsOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("or", new OrOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("+", new PlusOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("-", new MinusOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("and", new AndOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("*", new TimesOperator(0, left: new Identifier("x"), right: new Identifier("y")));
+                yield return new TestCaseData("/", new DivideOperator(0, left: new Identifier("x"), right: new Identifier("y")));
             }
         }
 
@@ -283,14 +283,14 @@ subsidiary() : integer
         {
             get
             {
-                yield return new TestCaseData("<", new LessThanOperator(new LessThanOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("=", new EqualsOperator(new EqualsOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("or", new OrOperator(new OrOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("+", new PlusOperator(new PlusOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("-", new MinusOperator(new MinusOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("and", new AndOperator(new AndOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("*", new TimesOperator(new TimesOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
-                yield return new TestCaseData("/", new DivideOperator(new DivideOperator(new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("<", new LessThanOperator(0, new LessThanOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("=", new EqualsOperator(0, new EqualsOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("or", new OrOperator(0, new OrOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("+", new PlusOperator(0, new PlusOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("-", new MinusOperator(0, new MinusOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("and", new AndOperator(0, new AndOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("*", new TimesOperator(0, new TimesOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
+                yield return new TestCaseData("/", new DivideOperator(0, new DivideOperator(0, new Identifier("x"), new Identifier("y")), new Identifier("z")));
             }
         }
 
@@ -335,9 +335,11 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
                                                                             (
+                                                                                position: 0,
                                                                                 left: new Identifier("x"),
                                                                                 right: new TimesOperator
                                                                                             (
+                                                                                                position: 0,
                                                                                                 left: new Identifier("y"),
                                                                                                 right: new Identifier("z"))
                                                                                             )
@@ -357,8 +359,10 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
                                                                         (
+                                                                            position: 0,
                                                                             left: new TimesOperator
                                                                                         (
+                                                                                            position: 0,
                                                                                             left: new Identifier("x"),
                                                                                             right: new Identifier("y")
                                                                                         ),
@@ -379,8 +383,10 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new TimesOperator
                                                                         (
+                                                                            position: 0,
                                                                             left: new PlusOperator
                                                                                         (
+                                                                                            position: 0,
                                                                                             left: new Identifier("x"),
                                                                                             right: new Identifier("y")
                                                                                         ),
@@ -606,6 +612,68 @@ main(x: integer, y : integer) : integer
             Assert.That(allPass, Is.True);
 //            Console.WriteLine(DateTime.UtcNow - start);
         }
+
+        #endregion
+
+        #region LineNumbers
+
+        /*
+         *  In the table driven parser line numbers get lost for non-terminal ast nodes.
+         *  This is because the creation of the non-terminal does not happen immediatly after the token is processed
+         *  For example with the AndOperator defined by Rule 25
+         *  R25     <FactorTail>          ::= and <Factor> MakeAnd <FactorTail>
+         *  - the 'and' token is processed, 
+         *  - then a bunch of other stuff happens to process the <Factor>, 
+         *  - then finally the MakeAnd symbol is process to make the ast node AndOperator
+         *  
+         *  So to capture the position of the 'and' token, add an extra symbol
+         *  R25     <FactorTail>          ::= and PushPosition <Factor> MakeAnd <FactorTail>
+         *  and use the PushPosition symbol to caputre the position of the 'and' token on a new stack
+         *  Then when MakeAnd runs it can pop the position off the stack to get the postion of the symbol
+         */
+
+        [TestCase("<")]
+        [TestCase("=")]
+        [TestCase("or")]
+        [TestCase("+")]
+        [TestCase("-")]
+        [TestCase("and")]
+        [TestCase("*")]
+        [TestCase("/")]
+        public void BinaryOperators_SupportPosition(string op)
+        {
+            // arrange
+            var input = $"main(x: integer, y : integer) : integer x {op} y";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as BinaryOperator).Position, Is.EqualTo(42));
+        }
+
+        [Test]
+        public void PostionShouldWorkCorrectlyWithNestedOperators()
+        {
+            // arrange
+            var input = 
+@"main(x: integer, y : integer) : boolean (x < 3) = (y < 4)";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
+            var left = equalsOperator.Left as LessThanOperator;
+            var right = equalsOperator.Right as LessThanOperator;
+
+            Assert.That(equalsOperator.Position, Is.EqualTo(48));
+            Assert.That(left.Position, Is.EqualTo(43));
+            Assert.That(right.Position, Is.EqualTo(53));
+        }
+
         #endregion
     }
 }

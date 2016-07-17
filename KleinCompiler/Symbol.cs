@@ -162,5 +162,8 @@
         MakeMakeBooleanTrueLiteral,
         [SymbolType(SymbolType.Semantic)]
         MakeMakeBooleanFalseLiteral,
+        // PushPosition is used to capture the file position of non-terminal AST nodes
+        [SymbolType(SymbolType.Semantic)]
+        PushPosition, 
     }
 }

@@ -180,6 +180,7 @@ Else
         {
             var ast = new LessThanOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -196,6 +197,7 @@ Else
         {
             var ast = new EqualsOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -212,6 +214,7 @@ Else
         {
             var ast = new OrOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -228,6 +231,7 @@ Else
         {
             var ast = new PlusOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -244,6 +248,7 @@ Else
         {
             var ast = new MinusOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -260,6 +265,7 @@ Else
         {
             var ast = new AndOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -276,6 +282,7 @@ Else
         {
             var ast = new TimesOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
@@ -292,6 +299,7 @@ Else
         {
             var ast = new DivideOperator
                 (
+                position: 0,
                 left: new Identifier("x"),
                 right: new Identifier("y")
                 );
