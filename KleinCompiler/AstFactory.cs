@@ -139,13 +139,13 @@ namespace KleinCompiler
                 case Symbol.MakeNot:
                 {
                     var right = semanticStack.Pop();
-                    semanticStack.Push(new NotOperator(right: (Expr)right));
+                    semanticStack.Push(new NotOperator(position: PositionStack.Pop(), right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeNegate:
                 {
                     var right = semanticStack.Pop();
-                    semanticStack.Push(new NegateOperator(right: (Expr)right));
+                    semanticStack.Push(new NegateOperator(position: PositionStack.Pop(), right: (Expr)right));
                     return;
                 }
                 case Symbol.MakeIfThenElse:

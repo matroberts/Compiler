@@ -31,10 +31,10 @@
         private static Rule R27 => new Rule("R27", Symbol.Divide, Symbol.PushPosition, Symbol.Factor, Symbol.MakeDivide, Symbol.FactorTail);
         private static Rule R28 => new Rule("R28");
         private static Rule R29 => new Rule("R29", Symbol.If, Symbol.Expr, Symbol.Then, Symbol.Expr, Symbol.Else, Symbol.Expr, Symbol.MakeIfThenElse);
-        private static Rule R30 => new Rule("R30", Symbol.Not, Symbol.Factor, Symbol.MakeNot);
+        private static Rule R30 => new Rule("R30", Symbol.Not, Symbol.PushPosition, Symbol.Factor, Symbol.MakeNot);
         private static Rule R31 => new Rule("R31", Symbol.Func);
         private static Rule R32 => new Rule("R32", Symbol.Literal);
-        private static Rule R33 => new Rule("R33", Symbol.Minus, Symbol.Factor, Symbol.MakeNegate);
+        private static Rule R33 => new Rule("R33", Symbol.Minus, Symbol.PushPosition, Symbol.Factor, Symbol.MakeNegate);
         private static Rule R34 => new Rule("R34", Symbol.OpenBracket, Symbol.Expr, Symbol.CloseBracket);
         private static Rule R35 => new Rule("R35", Symbol.Identifier, Symbol.MakeIdentifier, Symbol.FuncTail);
         private static Rule R36 => new Rule("R36", Symbol.OpenBracket, Symbol.Actuals, Symbol.CloseBracket, Symbol.MakeFunctionCall);

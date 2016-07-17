@@ -378,20 +378,24 @@ namespace KleinCompilerTests
         {
             var unaryOperatory = new NotOperator
                                      (
+                                         position: 0,
                                          right: new Identifier("right")
                                      );
 
             Assert.That(unaryOperatory.Equals(null), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("right")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("wrong")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("right")
                                                   )), Is.True);
         }
@@ -401,20 +405,24 @@ namespace KleinCompilerTests
         {
             var unaryOperatory = new NegateOperator
                                      (
+                                         position: 0,
                                          right: new Identifier("right")
                                      );
 
             Assert.That(unaryOperatory.Equals(null), Is.False);
             Assert.That(unaryOperatory.Equals(new NotOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("right")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("wrong")
                                                   )), Is.False);
             Assert.That(unaryOperatory.Equals(new NegateOperator
                                                   (
+                                                       position: 0,
                                                        right: new Identifier("right")
                                                   )), Is.True);
         }

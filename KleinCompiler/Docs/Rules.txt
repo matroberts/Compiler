@@ -28,10 +28,10 @@ R26                             | * PushPosition <Factor> MakeTimes <FactorTail>
 R27                             | / PushPosition <Factor> MakeDivide <FactorTail>
 R28                             | e
 R29     <Factor>              ::= if <Expr> then <Expr> else <Expr> MakeIfThenElse
-R30                             | not <Factor> MakeNot
+R30                             | not PushPosition <Factor> MakeNot
 R31                             | <Func>
 R32                             | <Literal>
-R33                             | - <Factor> MakeNegate
+R33                             | - PushPosition <Factor> MakeNegate
 R34                             | ( <Expr> )
 R35    <Func>                 ::= <Identifier> MakeIdentifier <FuncTail>
 R36    <FuncTail>             ::= ( <Actuals> ) MakeFunctionCall

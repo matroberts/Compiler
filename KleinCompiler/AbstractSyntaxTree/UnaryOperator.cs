@@ -2,11 +2,14 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class UnaryOperator : Expr
     {
-        protected UnaryOperator(Expr right)
+        protected UnaryOperator(int position, Expr right)
         {
             Right = right;
+            Position = position;
         }
+
         public Expr Right { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {
@@ -35,9 +38,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class NotOperator : UnaryOperator
     {
-        public NotOperator(Expr right) : base (right)
+        public NotOperator(int position, Expr right) : base (position, right)
         {
-            
         }
 
         public override void Accept(IAstVisitor visior)
@@ -62,9 +64,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class NegateOperator : UnaryOperator
     {
-        public NegateOperator(Expr right) : base (right)
+        public NegateOperator(int position, Expr right) : base (position, right)
         {
-            
         }
 
         public override void Accept(IAstVisitor visior)

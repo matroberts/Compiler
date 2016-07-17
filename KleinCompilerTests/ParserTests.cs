@@ -411,6 +411,7 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NotOperator
                                                                           (
+                                                                              position: 0,
                                                                               right: new Identifier("x")
                                                                           )
                                                                       ));
@@ -429,6 +430,7 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NegateOperator
                                                                           (
+                                                                              position: 0,
                                                                               right: new Identifier("x")
                                                                           )
                                                                       ));
@@ -651,6 +653,21 @@ main(x: integer, y : integer) : integer
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as BinaryOperator).Position, Is.EqualTo(42));
+        }
+
+        [TestCase("-")]
+        [TestCase("not")]
+        public void UnaryOperators_SupportPosition(string op)
+        {
+            // arrange
+            var input = $"main(x: integer) : integer {op} x";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as UnaryOperator).Position, Is.EqualTo(27));
         }
 
         [Test]

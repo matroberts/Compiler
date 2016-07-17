@@ -318,6 +318,7 @@ Else
         {
             var ast = new NotOperator
                           (
+                              position: 0,
                               right: new Identifier("y")
                           );
 
@@ -332,6 +333,7 @@ Else
         {
             var ast = new NegateOperator
                           (
+                              position: 0,
                               right: new Identifier("y")
                           );
 
