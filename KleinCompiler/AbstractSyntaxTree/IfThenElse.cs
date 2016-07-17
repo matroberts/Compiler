@@ -4,13 +4,15 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class IfThenElse : Expr
     {
-        public IfThenElse(Expr ifExpr, Expr thenExpr, Expr elseExpr)
+        public IfThenElse(int position, Expr ifExpr, Expr thenExpr, Expr elseExpr)
         {
+            Position = position;
             IfExpr = ifExpr;
             ThenExpr = thenExpr;
             ElseExpr = elseExpr;
         }
 
+        public int Position { get; }
         public Expr IfExpr { get; }
         public Expr ThenExpr { get; }
         public Expr ElseExpr { get; }

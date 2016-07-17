@@ -453,6 +453,7 @@ subsidiary() : integer
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new IfThenElse
                                                                             (
+                                                                                position: 0,
                                                                                 ifExpr: new Identifier("x"),
                                                                                 thenExpr: new Identifier("y"),
                                                                                 elseExpr: new Identifier("z")) 
@@ -668,6 +669,20 @@ main(x: integer, y : integer) : integer
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as UnaryOperator).Position, Is.EqualTo(27));
+        }
+
+        [TestCase]
+        public void IfThenElse_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer if true then false else false";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as IfThenElse).Position, Is.EqualTo(27));
         }
 
         [Test]

@@ -27,7 +27,7 @@ R25     <FactorTail>          ::= and PushPosition <Factor> MakeAnd <FactorTail>
 R26                             | * PushPosition <Factor> MakeTimes <FactorTail>
 R27                             | / PushPosition <Factor> MakeDivide <FactorTail>
 R28                             | e
-R29     <Factor>              ::= if <Expr> then <Expr> else <Expr> MakeIfThenElse
+R29     <Factor>              ::= if PushPosition <Expr> then <Expr> else <Expr> MakeIfThenElse
 R30                             | not PushPosition <Factor> MakeNot
 R31                             | <Func>
 R32                             | <Literal>

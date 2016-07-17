@@ -158,6 +158,7 @@ namespace KleinCompilerTests
         {
             var ast = new IfThenElse
                           (
+                              position: 0,
                               ifExpr: new Identifier("x"),
                               thenExpr: new Identifier("y"),
                               elseExpr: new Identifier("z")

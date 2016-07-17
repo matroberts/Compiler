@@ -153,7 +153,7 @@ namespace KleinCompiler
                     var elseExpr = semanticStack.Pop();
                     var thenExpr = semanticStack.Pop();
                     var ifExpr = semanticStack.Pop();
-                    semanticStack.Push(new IfThenElse(ifExpr: (Expr)ifExpr, thenExpr: (Expr)thenExpr, elseExpr: (Expr)elseExpr));
+                    semanticStack.Push(new IfThenElse(position: PositionStack.Pop(), ifExpr: (Expr)ifExpr, thenExpr: (Expr)thenExpr, elseExpr: (Expr)elseExpr));
                     return;
                 }
                 case Symbol.MakeFunctionCall:

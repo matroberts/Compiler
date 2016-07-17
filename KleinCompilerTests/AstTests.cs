@@ -296,6 +296,7 @@ namespace KleinCompilerTests
         {
             var ifthenelse = new IfThenElse
                                   (
+                                      position: 0,
                                       ifExpr: new Identifier("x"),
                                       thenExpr: new Identifier("y"),
                                       elseExpr: new Identifier("z")
@@ -305,24 +306,28 @@ namespace KleinCompilerTests
             Assert.That(ifthenelse.Equals(new Identifier("x")), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
+                                              position: 0,
                                               ifExpr: new Identifier("wrong"),
                                               thenExpr: new Identifier("y"),
                                               elseExpr: new Identifier("z")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
+                                              position: 0,
                                               ifExpr: new Identifier("x"),
                                               thenExpr: new Identifier("wrong"),
                                               elseExpr: new Identifier("z")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
+                                              position: 0,
                                               ifExpr: new Identifier("x"),
                                               thenExpr: new Identifier("y"),
                                               elseExpr: new Identifier("wrong")
                                           )), Is.False);
             Assert.That(ifthenelse.Equals(new IfThenElse
                                           (
+                                              position: 0,
                                               ifExpr: new Identifier("x"),
                                               thenExpr: new Identifier("y"),
                                               elseExpr: new Identifier("z")
