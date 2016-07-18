@@ -77,7 +77,7 @@ namespace KleinCompiler
                 case Symbol.MakePrint:
                 {
                     var expr = semanticStack.Pop();
-                    semanticStack.Push(new Print(expr: (Expr)expr));
+                    semanticStack.Push(new Print(position: PositionStack.Pop(), expr: (Expr)expr));
                     return;
                 }
                 case Symbol.MakeLessThan:

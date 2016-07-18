@@ -123,8 +123,8 @@ namespace KleinCompilerTests
                           new IntegerLiteral(0, "123"),
                           new List<Print>
                           {
-                              new Print(new Identifier(0, "x")),
-                              new Print(new Identifier(0, "y"))
+                              new Print(0, new Identifier(0, "x")),
+                              new Print(0, new Identifier(0, "y"))
                           }
                       );
 
@@ -144,6 +144,7 @@ namespace KleinCompilerTests
         {
             var ast = new Print
                           (
+                              0,
                               new IntegerLiteral(0, "123")
                           );
 

@@ -558,7 +558,7 @@ main(x: integer) : integer
             ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
-                                                                                                            new Print(new Identifier(0, "x"))
+                                                                                                            new Print(0, new Identifier(0, "x"))
                                                                                                         })));
         }
 
@@ -580,8 +580,8 @@ main(x: integer, y : integer) : integer
             ConsoleWriteLine.If(program == null, parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
-                                                                                                            new Print(new Identifier(0, "x")),
-                                                                                                            new Print(new Identifier(0, "y")),
+                                                                                                            new Print(0, new Identifier(0, "x")),
+                                                                                                            new Print(0, new Identifier(0, "y")),
                                                                                                         })));
         }
 
@@ -760,6 +760,20 @@ main(x: integer, y : integer) : integer
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as BooleanLiteral).Position, Is.EqualTo(27));
+        }
+
+        [Test]
+        public void Print_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer print(false) false";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Prints[0] as Print).Position, Is.EqualTo(27));
         }
 
 

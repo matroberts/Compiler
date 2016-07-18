@@ -2,12 +2,14 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Print : Ast
     {
-        public Print(Expr expr)
+        public Print(int position, Expr expr)
         {
             Expr = expr;
+            Position = position;
         }
 
         public Expr Expr { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

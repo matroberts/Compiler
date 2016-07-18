@@ -44,4 +44,4 @@ R42                             | e
 R43    <Literal>              ::= <Number>       MakeIntegerLiteral
 R44                             | <BooleanTrue>  MakeBooleanTrueLiteral
 R45                             | <BooleanFalse> MakeBooleanFalseLiteral
-R46    <Print>                ::= print ( <Expr> ) MakePrint                                                                        
+R46    <Print>                ::= print PushPosition ( <Expr> ) MakePrint                                                                        
