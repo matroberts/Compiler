@@ -2,12 +2,14 @@
 {
     public class IntegerLiteral : Expr
     {
-        public IntegerLiteral(string value)
+        public IntegerLiteral(int position, string value)
         {
             Value = uint.Parse(value);
+            Position = position;
         }
 
         public uint Value { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

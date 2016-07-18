@@ -105,7 +105,7 @@ namespace KleinCompilerTests
         {
             var ast = new Body
                       (
-                          new IntegerLiteral("123")
+                          new IntegerLiteral(0, "123")
                       );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -120,7 +120,7 @@ namespace KleinCompilerTests
         {
             var ast = new Body
                       (
-                          new IntegerLiteral("123"),
+                          new IntegerLiteral(0, "123"),
                           new List<Print>
                           {
                               new Print(new Identifier(0, "x")),
@@ -144,7 +144,7 @@ namespace KleinCompilerTests
         {
             var ast = new Print
                           (
-                              new IntegerLiteral("123")
+                              new IntegerLiteral(0, "123")
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -356,7 +356,7 @@ Else
         [Test]
         public void IntegerLiteral_ShouldPrint()
         {
-            var ast = new IntegerLiteral("123");
+            var ast = new IntegerLiteral(0, "123");
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Integer(123)
 "));

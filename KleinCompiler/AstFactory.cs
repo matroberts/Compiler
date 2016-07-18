@@ -180,7 +180,7 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeIntegerLiteral:
                 {
-                    semanticStack.Push(new IntegerLiteral(lastToken.Value));
+                    semanticStack.Push(new IntegerLiteral(lastToken.Position, lastToken.Value));
                     return;
                 }
                 case Symbol.MakeMakeBooleanTrueLiteral:

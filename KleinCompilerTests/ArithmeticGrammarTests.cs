@@ -113,7 +113,7 @@ R8                              | identifier MakeIdentifier
                 }
                 case Symbol.MakeIntegerLiteral:
                 {
-                    var node = new IntegerLiteral(lastToken.Value);
+                    var node = new IntegerLiteral(position: 0, value:lastToken.Value);
                     semanticStack.Push(node);
                     return;
                 }

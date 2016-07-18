@@ -242,7 +242,7 @@ subsidiary() : integer
                                                         identifier: new Identifier(0, "subsidiary"),
                                                         typeDeclaration: new IntegerTypeDeclaration(), 
                                                         formals: new List<Formal>(),
-                                                        body: new Body(expr: new IntegerLiteral("1"))
+                                                        body: new Body(expr: new IntegerLiteral(0, "1"))
                                                     ))));
         }
 
@@ -718,6 +718,20 @@ main(x: integer, y : integer) : integer
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as Identifier).Position, Is.EqualTo(27));
+        }
+
+        [Test]
+        public void IntegerLiteral_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer 1";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as IntegerLiteral).Position, Is.EqualTo(27));
         }
 
 

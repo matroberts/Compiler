@@ -227,13 +227,13 @@ namespace KleinCompilerTests
         {
             var body = new Body
                        (
-                           new IntegerLiteral("123")
+                           new IntegerLiteral(0, "123")
                        );
             Assert.That(body.Equals(null), Is.False);
-            Assert.That(body.Equals(new IntegerLiteral("123")), Is.False);
+            Assert.That(body.Equals(new IntegerLiteral(0, "123")), Is.False);
             Assert.That(body.Equals(new Body(new BooleanLiteral(true))), Is.False);
-            Assert.That(body.Equals(new Body(new IntegerLiteral("456"))), Is.False);
-            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.True);
+            Assert.That(body.Equals(new Body(new IntegerLiteral(0, "456"))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral(0, "123"))), Is.True);
         }
 
         [Test]
@@ -241,17 +241,17 @@ namespace KleinCompilerTests
         {
             var body = new Body
                        (
-                           new IntegerLiteral("123"),
+                           new IntegerLiteral(0, "123"),
                            new List<Print>
                            {
                                new Print(new Identifier(0, "x")),
                                new Print(new Identifier(0, "y"))
                            }
                        );
-            Assert.That(body.Equals(new Body(new IntegerLiteral("123"))), Is.False);
+            Assert.That(body.Equals(new Body(new IntegerLiteral(0, "123"))), Is.False);
             Assert.That(body.Equals(new Body
                                        (
-                                           new IntegerLiteral("123"),
+                                           new IntegerLiteral(0, "123"),
                                            new List<Print>
                                            {
                                                new Print(new Identifier(0, "x")),
@@ -260,7 +260,7 @@ namespace KleinCompilerTests
                                        )), Is.False);
             Assert.That(body.Equals(new Body
                                        (
-                                           new IntegerLiteral("123"),
+                                           new IntegerLiteral(0, "123"),
                                            new List<Print>
                                            {
                                                new Print(new Identifier(0, "x")),
@@ -274,12 +274,12 @@ namespace KleinCompilerTests
         {
             var print = new Print
                             (
-                                new IntegerLiteral("123")
+                                new IntegerLiteral(0, "123")
                             );
             Assert.That(print.Equals(null), Is.False);
-            Assert.That(print.Equals(new IntegerLiteral("123")), Is.False);
-            Assert.That(print.Equals(new Print(new IntegerLiteral("456"))), Is.False);
-            Assert.That(print.Equals(new Print(new IntegerLiteral("123"))), Is.True);
+            Assert.That(print.Equals(new IntegerLiteral(0, "123")), Is.False);
+            Assert.That(print.Equals(new Print(new IntegerLiteral(0, "456"))), Is.False);
+            Assert.That(print.Equals(new Print(new IntegerLiteral(0, "123"))), Is.True);
         }
 
         [Test]
@@ -446,10 +446,10 @@ namespace KleinCompilerTests
         [Test]
         public void IntegerLiteral_ShouldImplement_ValueEquality()
         {
-            Assert.That(new IntegerLiteral("123").Equals(null), Is.False);
-            Assert.That(new IntegerLiteral("123").Equals("123"), Is.False);
-            Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("456")), Is.False);
-            Assert.That(new IntegerLiteral("123").Equals(new IntegerLiteral("123")), Is.True);
+            Assert.That(new IntegerLiteral(0, "123").Equals(null), Is.False);
+            Assert.That(new IntegerLiteral(0, "123").Equals("123"), Is.False);
+            Assert.That(new IntegerLiteral(0, "123").Equals(new IntegerLiteral(0, "456")), Is.False);
+            Assert.That(new IntegerLiteral(0, "123").Equals(new IntegerLiteral(0, "123")), Is.True);
         }
 
         [Test]
