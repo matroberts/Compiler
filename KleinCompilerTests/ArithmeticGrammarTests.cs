@@ -119,13 +119,13 @@ R8                              | identifier MakeIdentifier
                 }
                 case Symbol.MakeMakeBooleanTrueLiteral:
                 {
-                    var node = new BooleanLiteral(true);
+                    var node = new BooleanLiteral(position: 0, value: true);
                     semanticStack.Push(node);
                     return;
                 }
                 case Symbol.MakeMakeBooleanFalseLiteral:
                 {
-                    var node = new BooleanLiteral(false);
+                    var node = new BooleanLiteral(position: 0, value: false);
                     semanticStack.Push(node);
                     return;
                 }

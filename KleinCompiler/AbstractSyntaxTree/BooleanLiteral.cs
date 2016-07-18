@@ -2,12 +2,14 @@
 {
     public class BooleanLiteral : Expr
     {
-        public BooleanLiteral(bool value)
+        public BooleanLiteral(int position, bool value)
         {
             Value = value;
+            Position = position;
         }
 
         public bool Value { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

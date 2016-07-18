@@ -34,7 +34,7 @@ namespace KleinCompilerTests
                                                         identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
-                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                        body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
         }
 
@@ -58,7 +58,7 @@ main () : boolean
                                                         identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
-                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                        body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
         }
 
@@ -154,7 +154,7 @@ circularPrimesTo(x: integer):integer
                                                 },
                                                 new Body
                                                 (
-                                                    new BooleanLiteral(true)
+                                                    new BooleanLiteral(0, true)
                                                 )
                                             )
                                          )));
@@ -184,7 +184,7 @@ circularPrimesTo(x: integer):integer
                                                         identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal> { new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()) },
-                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                        body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
         }
 
@@ -210,7 +210,7 @@ circularPrimesTo(x: integer):integer
                                                             new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
                                                             new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
                                                         },
-                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                        body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
         }
 
@@ -235,7 +235,7 @@ subsidiary() : integer
                                                         identifier: new Identifier(0, "main"),
                                                         typeDeclaration: new BooleanTypeDeclaration(), 
                                                         formals: new List<Formal>(),
-                                                        body: new Body(expr: new BooleanLiteral(true))
+                                                        body: new Body(expr: new BooleanLiteral(0, true))
                                                     ),
                                                     new Definition
                                                     (
@@ -732,6 +732,34 @@ main(x: integer, y : integer) : integer
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as IntegerLiteral).Position, Is.EqualTo(27));
+        }
+
+        [Test]
+        public void BooleanLiteralTrue_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer true";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as BooleanLiteral).Position, Is.EqualTo(27));
+        }
+
+        [Test]
+        public void BooleanLiteralFalse_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer false";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as BooleanLiteral).Position, Is.EqualTo(27));
         }
 
 

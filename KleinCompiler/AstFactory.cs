@@ -185,12 +185,12 @@ namespace KleinCompiler
                 }
                 case Symbol.MakeMakeBooleanTrueLiteral:
                 {
-                    semanticStack.Push(new BooleanLiteral(true));
+                    semanticStack.Push(new BooleanLiteral(lastToken.Position, true));
                     return;
                 }
                 case Symbol.MakeMakeBooleanFalseLiteral:
                 {
-                    semanticStack.Push(new BooleanLiteral(false));
+                    semanticStack.Push(new BooleanLiteral(lastToken.Position, false));
                     return;
                 }
                 case Symbol.PushPosition:

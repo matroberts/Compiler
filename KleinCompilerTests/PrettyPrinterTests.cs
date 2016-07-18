@@ -19,14 +19,14 @@ namespace KleinCompilerTests
                     identifier: new Identifier(0, "main"),
                     typeDeclaration: new BooleanTypeDeclaration(), 
                     formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
+                    body: new Body(expr: new BooleanLiteral(0, false))
                 ),
                 new Definition
                 (
                     identifier: new Identifier(0, "subsidiary"),
                     typeDeclaration: new IntegerTypeDeclaration(), 
                     formals: new List<Formal>(),
-                    body: new Body(expr: new BooleanLiteral(false))
+                    body: new Body(expr: new BooleanLiteral(0, false))
                 )
             );
 
@@ -59,7 +59,7 @@ namespace KleinCompilerTests
                                   new Formal(new Identifier(0, "arg1"), new BooleanTypeDeclaration()),
                                   new Formal(new Identifier(0, "arg2"), new IntegerTypeDeclaration()),
                               },
-                              body: new Body(expr: new BooleanLiteral(false))
+                              body: new Body(expr: new BooleanLiteral(0, false))
                           );
 
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
@@ -347,7 +347,7 @@ Else
         [Test]
         public void BooleanLiteral_ShouldPrint()
         {
-            var ast = new BooleanLiteral(true);
+            var ast = new BooleanLiteral(0, true);
             Assert.That(PrettyPrinter.ToString(ast), Is.EqualTo(
 @"Boolean(True)
 "));
