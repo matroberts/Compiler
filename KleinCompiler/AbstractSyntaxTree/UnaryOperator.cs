@@ -2,14 +2,12 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class UnaryOperator : Expr
     {
-        protected UnaryOperator(int position, Expr right)
+        protected UnaryOperator(int position, Expr right) : base(position)
         {
             Right = right;
-            Position = position;
         }
 
         public Expr Right { get; }
-        public int Position { get; }
 
         public override bool Equals(object obj)
         {

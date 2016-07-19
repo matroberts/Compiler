@@ -776,6 +776,20 @@ main(x: integer, y : integer) : integer
             Assert.That((program.Definitions[0].Body.Prints[0] as Print).Position, Is.EqualTo(27));
         }
 
+        [Test]
+        public void FunctionCall_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer secondary(1) secondary(y : integer) : integer 2";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            //41
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as FunctionCall).Position, Is.EqualTo(27));
+        }
+
 
         #endregion
     }

@@ -6,7 +6,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class FunctionCall : Expr
     {
-        public FunctionCall(Identifier identifier, List<Actual> actuals)
+        public FunctionCall(Identifier identifier, List<Actual> actuals) : base(identifier.Position)
         {
             Name = identifier.Value;
             Actuals = actuals.AsReadOnly();

@@ -2,15 +2,13 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class BinaryOperator : Expr
     {
-        protected BinaryOperator(int position, Expr left, Expr right)
+        protected BinaryOperator(int position, Expr left, Expr right) : base(position)
         {
             Left = left;
             Right = right;
-            Position = position;
         }
         public Expr Left { get; }
         public Expr Right { get; }
-        public int Position { get; }
 
         public override bool Equals(object obj)
         {
