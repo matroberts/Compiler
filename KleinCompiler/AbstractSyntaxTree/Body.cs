@@ -9,15 +9,13 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
         }
 
-        public Body(Expr expr, List<Print> prints)
+        public Body(Expr expr, List<Print> prints) : base(expr.Position)
         {
             Expr = expr;
-            Position = Expr.Position;
             Prints = prints.AsReadOnly();
         }
 
         public Expr Expr { get; }
-        public int Position { get; }
 
         public ReadOnlyCollection<Print> Prints { get; }
 

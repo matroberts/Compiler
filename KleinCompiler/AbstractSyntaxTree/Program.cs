@@ -6,16 +6,14 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Program : Ast
     {
-        public Program(List<Definition> definitions)
+        public Program(List<Definition> definitions) : base(definitions[0].Position)
         {
             Definitions = definitions.AsReadOnly();
-            Position = Definitions[0].Position;
         }
 
         public Program(params Definition[] definitions) : this(definitions.ToList())
         {
         }
-        public int Position { get; }
         public ReadOnlyCollection<Definition> Definitions { get; }
 
         public override bool Equals(object obj)

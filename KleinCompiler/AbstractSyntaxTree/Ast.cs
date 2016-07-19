@@ -4,6 +4,11 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class Ast
     {
+        protected Ast(int position)
+        {
+            Position = position;
+        }
+        public int Position { get; }
         public override bool Equals(object obj)
         {
             var token = obj as Ast;

@@ -4,11 +4,9 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class TypeDeclaration : Ast
     {
-        protected TypeDeclaration(int position)
+        protected TypeDeclaration(int position) : base(position)
         {
-            Position = position;
         }
-        public int Position { get; }
 
         public abstract PrimitiveType ToKType();
     }

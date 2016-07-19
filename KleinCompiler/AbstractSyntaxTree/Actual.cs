@@ -2,13 +2,11 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Actual : Ast
     {
-        public Actual(Expr expr)
+        public Actual(Expr expr) : base(expr.Position)
         {
             Expr = expr;
-            Position = Expr.Position;
         }
         public Expr Expr { get; }
-        public int Position { get; }
 
         public override bool Equals(object obj)
         {

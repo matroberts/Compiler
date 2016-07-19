@@ -2,16 +2,14 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class Formal : Ast
     {
-        public Formal(Identifier identifier, TypeDeclaration typeDeclaration)
+        public Formal(Identifier identifier, TypeDeclaration typeDeclaration) : base(identifier.Position)
         {
             TypeDeclaration = typeDeclaration;
             Name = identifier.Value;
-            Position = identifier.Position;
         }
 
         public TypeDeclaration TypeDeclaration { get; }
         public string Name { get; }
-        public int Position { get; }
 
         public override bool Equals(object obj)
         {

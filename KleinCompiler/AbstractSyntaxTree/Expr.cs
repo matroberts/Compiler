@@ -2,10 +2,8 @@
 {
     public abstract class Expr : Ast
     {
-        protected Expr(int position)
+        protected Expr(int position) : base(position)
         {
-            Position = position;
         }
-        public int Position { get; }
     }
 }
