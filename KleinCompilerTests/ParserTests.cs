@@ -32,7 +32,7 @@ namespace KleinCompilerTests
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "main"),
-                                                        typeDeclaration: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(0), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
@@ -56,7 +56,7 @@ main () : boolean
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "main"),
-                                                        typeDeclaration: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(0), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
@@ -130,10 +130,10 @@ circularPrimesTo(x: integer):integer
                                             new Definition
                                             (
                                                 new Identifier(0, "main"),
-                                                new IntegerTypeDeclaration(), 
+                                                new IntegerTypeDeclaration(0), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration())
+                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration(0))
                                                 },
                                                 new Body
                                                 (
@@ -147,10 +147,10 @@ circularPrimesTo(x: integer):integer
                                             new Definition
                                             (
                                                 new Identifier(0, "circularPrimesTo"),
-                                                new IntegerTypeDeclaration(), 
+                                                new IntegerTypeDeclaration(0), 
                                                 new List<Formal>
                                                 {
-                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration())
+                                                    new Formal(new Identifier(0, "x"), new IntegerTypeDeclaration(0))
                                                 },
                                                 new Body
                                                 (
@@ -182,8 +182,8 @@ circularPrimesTo(x: integer):integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "main"),
-                                                        typeDeclaration: new BooleanTypeDeclaration(), 
-                                                        formals: new List<Formal> { new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()) },
+                                                        typeDeclaration: new BooleanTypeDeclaration(0), 
+                                                        formals: new List<Formal> { new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration(0)) },
                                                         body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
         }
@@ -204,11 +204,11 @@ circularPrimesTo(x: integer):integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "main"),
-                                                        typeDeclaration: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(0), 
                                                         formals: new List<Formal>
                                                         {
-                                                            new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration()),
-                                                            new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration()),
+                                                            new Formal(new Identifier(0, "arg1"), new IntegerTypeDeclaration(0)),
+                                                            new Formal(new Identifier(0, "arg2"), new BooleanTypeDeclaration(0)),
                                                         },
                                                         body: new Body(expr: new BooleanLiteral(0, true))
                                                     ))));
@@ -233,14 +233,14 @@ subsidiary() : integer
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "main"),
-                                                        typeDeclaration: new BooleanTypeDeclaration(), 
+                                                        typeDeclaration: new BooleanTypeDeclaration(0), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new BooleanLiteral(0, true))
                                                     ),
                                                     new Definition
                                                     (
                                                         identifier: new Identifier(0, "subsidiary"),
-                                                        typeDeclaration: new IntegerTypeDeclaration(), 
+                                                        typeDeclaration: new IntegerTypeDeclaration(0), 
                                                         formals: new List<Formal>(),
                                                         body: new Body(expr: new IntegerLiteral(0, "1"))
                                                     ))));
@@ -785,11 +785,108 @@ main(x: integer, y : integer) : integer
             // act
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
-            //41
+
             // assert
             Assert.That((program.Definitions[0].Body.Expr as FunctionCall).Position, Is.EqualTo(27));
         }
 
+        [Test]
+        public void Actual_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer secondary(1) secondary(y : integer) : integer 2";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That((program.Definitions[0].Body.Expr as FunctionCall).Actuals[0].Position, Is.EqualTo(37));
+        }
+
+        [Test]
+        public void Formal_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer 1";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Formals[0].Position, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void Body_SupportsPosition_AsThePositionOfItsExpression()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer 1";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Body.Position, Is.EqualTo(27));
+        }
+
+        [Test]
+        public void Defintion_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer 1 secondary() : boolean false";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[1].Position, Is.EqualTo(29));
+        }
+
+        [Test]
+        public void Program_SupportsPosition()
+        {
+            // arrange
+            var input = $"     secondary() : boolean false main(x: integer) : integer 1 ";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Position, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void IntegerTypeDeclaration_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: integer) : integer 1";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Formals[0].TypeDeclaration.Position, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void BooleanTypeDeclaration_SupportsPosition()
+        {
+            // arrange
+            var input = $"main(x: boolean) : integer 1";
+
+            // act
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // assert
+            Assert.That(program.Definitions[0].Formals[0].TypeDeclaration.Position, Is.EqualTo(8));
+        }
 
         #endregion
     }

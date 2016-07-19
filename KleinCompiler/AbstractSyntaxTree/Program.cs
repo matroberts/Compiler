@@ -9,13 +9,13 @@ namespace KleinCompiler.AbstractSyntaxTree
         public Program(List<Definition> definitions)
         {
             Definitions = definitions.AsReadOnly();
+            Position = Definitions[0].Position;
         }
 
-        public Program(params Definition[] definitions)
+        public Program(params Definition[] definitions) : this(definitions.ToList())
         {
-            Definitions = definitions.ToList().AsReadOnly();
         }
-
+        public int Position { get; }
         public ReadOnlyCollection<Definition> Definitions { get; }
 
         public override bool Equals(object obj)

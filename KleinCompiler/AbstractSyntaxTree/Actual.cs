@@ -5,8 +5,10 @@ namespace KleinCompiler.AbstractSyntaxTree
         public Actual(Expr expr)
         {
             Expr = expr;
+            Position = Expr.Position;
         }
         public Expr Expr { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

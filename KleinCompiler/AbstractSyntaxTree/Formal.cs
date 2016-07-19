@@ -5,13 +5,13 @@ namespace KleinCompiler.AbstractSyntaxTree
         public Formal(Identifier identifier, TypeDeclaration typeDeclaration)
         {
             TypeDeclaration = typeDeclaration;
-            Identifier = identifier;
             Name = identifier.Value;
+            Position = identifier.Position;
         }
 
         public TypeDeclaration TypeDeclaration { get; }
-        public Identifier Identifier { get; }
         public string Name { get; }
+        public int Position { get; }
 
         public override bool Equals(object obj)
         {

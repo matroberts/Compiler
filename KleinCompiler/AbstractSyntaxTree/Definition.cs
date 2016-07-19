@@ -9,12 +9,14 @@ namespace KleinCompiler.AbstractSyntaxTree
         public Definition(Identifier identifier, TypeDeclaration typeDeclaration, List<Formal> formals, Body body)
         {
             Name = identifier.Value;
+            Position = identifier.Position;
             TypeDeclaration = typeDeclaration;
             Body = body;
             Formals = formals.AsReadOnly();
             FunctionType = new FunctionType(TypeDeclaration.ToKType(), Formals.Select(f => f.ToKType()).ToArray());
         }
         public string Name { get; }
+        public int Position { get; }
         public TypeDeclaration TypeDeclaration { get; }
         public FunctionType FunctionType { get; }
         public Body Body { get; }
