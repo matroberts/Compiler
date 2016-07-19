@@ -73,7 +73,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
             if (FunctionType.ReturnType.Equals(Body.Type) == false)
             {
-                return TypeValidationResult.Invalid($"Function '{Name}' has a return type '{FunctionType.ReturnType}', but its body has a type '{Body.Type}'");
+                return TypeValidationResult.Invalid(Position, $"Function '{Name}' has a return type '{FunctionType.ReturnType}', but its body has a type '{Body.Type}'");
             }
 
             Type = FunctionType;

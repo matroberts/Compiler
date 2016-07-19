@@ -57,12 +57,12 @@ namespace KleinCompiler.AbstractSyntaxTree
                                                           .Select(t => t.Key)
                                                           .FirstOrDefault();
             if(duplicateFunctionName != null)
-                return TypeValidationResult.Invalid($"Program contains duplicate function name '{duplicateFunctionName}'");
+                return TypeValidationResult.Invalid(Position, $"Program contains duplicate function name '{duplicateFunctionName}'");
 
             SymbolTable = new SymbolTable(Definitions);
 
             if(SymbolTable.Exists("main") == false)
-                return TypeValidationResult.Invalid("Program must contain a function 'main'");
+                return TypeValidationResult.Invalid(Position, "Program must contain a function 'main'");
 
             Type = SymbolTable.Type("main").ReturnType;
 

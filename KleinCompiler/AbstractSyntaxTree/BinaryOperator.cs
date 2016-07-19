@@ -45,14 +45,14 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return leftResult;
 
             if (leftResult.Type.Equals(leftType) == false)
-                return TypeValidationResult.Invalid($"{operatorName} left expression is not {leftType}");
+                return TypeValidationResult.Invalid(Position, $"{operatorName} left expression is not {leftType}");
 
             var rightResult = Right.CheckType();
             if (rightResult.HasError)
                 return rightResult;
 
             if (rightResult.Type.Equals(rightType) == false)
-                return TypeValidationResult.Invalid($"{operatorName} right expression is not {rightType}");
+                return TypeValidationResult.Invalid(Position, $"{operatorName} right expression is not {rightType}");
 
             Type = returnType;
             return TypeValidationResult.Valid(Type);

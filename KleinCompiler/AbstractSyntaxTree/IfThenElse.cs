@@ -55,7 +55,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return ifResult;
 
             if(ifResult.Type.Equals(new BooleanType())== false)
-                return TypeValidationResult.Invalid("IfThenElseOperator must have a boolean if expression");
+                return TypeValidationResult.Invalid(Position, "IfThenElseOperator must have a boolean if expression");
 
             var thenResult = ThenExpr.CheckType();
             if (thenResult.HasError)
@@ -66,7 +66,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return elseResult;
 
             if(thenResult.Type.Equals(elseResult.Type) == false)
-                return TypeValidationResult.Invalid("IfThenElse, type of then and else expression must be the same");
+                return TypeValidationResult.Invalid(Position, "IfThenElse, type of then and else expression must be the same");
 
             Type = thenResult.Type;
             return TypeValidationResult.Valid(Type);

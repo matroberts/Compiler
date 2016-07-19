@@ -54,7 +54,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return result;
 
             if(Type.Equals(result.Type) == false)
-                return TypeValidationResult.Invalid($"Not operator called with expression which is not boolean");
+                return TypeValidationResult.Invalid(Position, $"Not operator called with expression which is not boolean");
 
             return TypeValidationResult.Valid(Type);
         }
@@ -80,7 +80,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return result;
 
             if (Type.Equals(result.Type) == false)
-                return TypeValidationResult.Invalid($"Negate operator called with expression which is not integer");
+                return TypeValidationResult.Invalid(Position, $"Negate operator called with expression which is not integer");
 
             return TypeValidationResult.Valid(Type);
         }

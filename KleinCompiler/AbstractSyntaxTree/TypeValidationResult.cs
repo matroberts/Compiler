@@ -9,15 +9,16 @@ namespace KleinCompiler.AbstractSyntaxTree
             return new TypeValidationResult(type);
         }
 
-        public static TypeValidationResult Invalid(string message)
+        public static TypeValidationResult Invalid(int position, string message)
         {
-            return new TypeValidationResult(message);
+            return new TypeValidationResult(position, message);
         }
 
-        private TypeValidationResult(string message)
+        private TypeValidationResult(int position, string message)
         {
             Message = message;
             Type = null;
+            Postion = position;
         }
 
         private TypeValidationResult(KType type)
@@ -29,5 +30,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public KType Type { get; }
         public bool HasError => Type == null;
         public string Message { get; }
+        public int Postion { get; }
     }
 }
