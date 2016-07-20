@@ -143,6 +143,24 @@ namespace KleinCompilerTests
             Assert.That(program.Definitions[0].Formals[1].Type, Is.EqualTo(new BooleanType()));
         }
 
+        [Test]
+        public void IfFormalIdentifiers_AreRepeated_ATypeErrorIsRaised()
+        {
+            // arrange
+            var input = @" main(x: integer, x:integer) : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.True);
+            Assert.That(result.Message, Is.EqualTo("Function 'main' has duplicate formal 'x'"));
+            Assert.That(result.Postion, Is.GreaterThan(0));
+        }
+
         #endregion
 
         #region FunctionCall and Actuals
@@ -728,10 +746,6 @@ namespace KleinCompilerTests
 
         #endregion
 
-        // formal check type
-        // type declaration check type
-
-        // duplicate identifiers in function definition
         // unused identifier in function definition
         // unused functions
 

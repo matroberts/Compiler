@@ -78,6 +78,14 @@ namespace KleinCompiler.AbstractSyntaxTree
                     return formalResult;
             }
 
+            string duplicateFormalName = Formals.Select(d => d.Name)
+                                              .GroupBy(i => i)
+                                              .Where(g => g.Count() > 1)
+                                              .Select(t => t.Key)
+                                              .FirstOrDefault();
+            if (duplicateFormalName != null)
+                return TypeValidationResult.Invalid(Position, $"Function '{Name}' has duplicate formal '{duplicateFormalName}'");
+
             var result = Body.CheckType();
             if (result.HasError)
                 return result;
