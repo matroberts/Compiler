@@ -4,6 +4,7 @@ using System.Linq;
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
+using NUnit.Framework.Api;
 
 namespace KleinCompilerTests
 {
@@ -104,6 +105,7 @@ namespace KleinCompilerTests
             Assert.That(program.Definitions[0].Body.Expr.Type, Is.EqualTo(new BooleanType()));
             Assert.That(program.Definitions[0].Body.Type, Is.EqualTo(new BooleanType()));
             Assert.That(program.Definitions[0].Type, Is.EqualTo(new FunctionType(new BooleanType())));
+            Assert.That(program.Definitions[0].TypeDeclaration.Type, Is.EqualTo(new BooleanType()));
         }
         
         [Test]
@@ -122,6 +124,24 @@ namespace KleinCompilerTests
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'main' has a return type 'boolean', but its body has a type 'integer'"));
             Assert.That(result.Postion, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void TypesShouldBeAppliedToTheFormals_OfAFunction()
+        {
+            // arrange
+            var input = @"main(x: integer, y:boolean) : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+
+            // act
+            var result = program.CheckType();
+
+            // assert
+            Assert.That(result.HasError, Is.False);
+            Assert.That(program.Definitions[0].Formals[0].Type, Is.EqualTo(new IntegerType()));
+            Assert.That(program.Definitions[0].Formals[1].Type, Is.EqualTo(new BooleanType()));
         }
 
         #endregion
@@ -709,8 +729,12 @@ namespace KleinCompilerTests
 
         #endregion
 
+        // formal check type
+        // type declaration check type
 
-        // error line numbers
+        // duplicate identifiers in function definition
+        // unused identifier in function definition
+        // unused functions
 
     }
 }

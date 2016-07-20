@@ -41,7 +41,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            Type = PrimitiveType;
+            return TypeValidationResult.Valid(Type);
         }
     }
 
@@ -73,7 +74,8 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public override TypeValidationResult CheckType()
         {
-            throw new System.NotImplementedException();
+            Type = PrimitiveType;
+            return TypeValidationResult.Valid(Type);
         }
     }
 }

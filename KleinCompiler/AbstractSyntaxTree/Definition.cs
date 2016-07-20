@@ -67,6 +67,17 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             SymbolTable.CurrentFunction = Name;
 
+            var returnTypeResult = TypeDeclaration.CheckType();
+            if (returnTypeResult.HasError)
+                return returnTypeResult;
+
+            foreach (var formal in Formals)
+            {
+                var formalResult = formal.CheckType();
+                if (formalResult.HasError)
+                    return formalResult;
+            }
+
             var result = Body.CheckType();
             if (result.HasError)
                 return result;
