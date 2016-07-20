@@ -4,16 +4,17 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public abstract class TypeDeclaration : Ast
     {
-        protected TypeDeclaration(int position) : base(position)
+        protected TypeDeclaration(int position, PrimitiveType primitiveType) : base(position)
         {
+            PrimitiveType = primitiveType;
         }
 
-        public abstract PrimitiveType ToKType();
+        public PrimitiveType PrimitiveType { get; }
     }
 
     public class BooleanTypeDeclaration : TypeDeclaration
     {
-        public BooleanTypeDeclaration(int position) : base(position)
+        public BooleanTypeDeclaration(int position) : base(position, new BooleanType())
         {
 
         }
@@ -42,16 +43,11 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             throw new System.NotImplementedException();
         }
-
-        public override PrimitiveType ToKType()
-        {
-            return new BooleanType();
-        }
     }
 
     public class IntegerTypeDeclaration : TypeDeclaration
     {
-        public IntegerTypeDeclaration(int position) : base(position)
+        public IntegerTypeDeclaration(int position) : base(position, new IntegerType())
         {
         }
         public override bool Equals(object obj)
@@ -78,11 +74,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override TypeValidationResult CheckType()
         {
             throw new System.NotImplementedException();
-        }
-
-        public override PrimitiveType ToKType()
-        {
-            return new IntegerType();
         }
     }
 }

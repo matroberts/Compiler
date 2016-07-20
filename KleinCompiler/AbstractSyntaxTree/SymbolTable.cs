@@ -35,7 +35,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (string.IsNullOrWhiteSpace(CurrentFunction))
                 throw new Exception("CurrentFunction must be set before you can access FormalType");
 
-            return identifierFormals[CurrentFunction].First(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase)).ToKType();
+            return identifierFormals[CurrentFunction].First(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase)).PrimitiveType;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace KleinCompiler.AbstractSyntaxTree
 
         public TypeDeclaration TypeDeclaration { get; }
         public string Name { get; }
+        public PrimitiveType PrimitiveType => TypeDeclaration.PrimitiveType;
 
         public override bool Equals(object obj)
         {
@@ -42,11 +43,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public override TypeValidationResult CheckType()
         {
             throw new System.NotImplementedException();
-        }
-
-        public PrimitiveType ToKType()
-        {
-            return TypeDeclaration.ToKType();
         }
     }
 }
