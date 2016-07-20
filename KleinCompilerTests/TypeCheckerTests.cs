@@ -4,7 +4,6 @@ using System.Linq;
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
-using NUnit.Framework.Api;
 
 namespace KleinCompilerTests
 {
