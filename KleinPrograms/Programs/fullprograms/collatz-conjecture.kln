@@ -1,0 +1,29 @@
+{
+  From the Spicy Monads.  If this program terminates, it prints
+  a 1 because it was able to show that the command-line arg 'n'
+  satisfies the Collatz Conjecture:
+    https://en.wikipedia.org/wiki/Collatz_conjecture#Statement_of_the_problem
+  If it doesn't terminate, publish a paper on n!
+
+  edited lightly by Eugene Wallingford,
+  including this comment, 2015/10/26
+}
+
+main(n : integer) : integer
+  if 1 < n then
+     if mod(2, n) = 0 then
+        main(n / 2)
+     else
+        main(3*n + 1)
+  else
+     display(n)
+
+mod(m : integer, n : integer) : integer
+  if m < n then
+     m
+  else
+     mod(m-n, n)
+
+display(n : integer) : integer
+  print(n)
+  n

@@ -1,0 +1,3 @@
+main(n : integer) : boolean
+  // return true if crazy exp is positive
+  0 < 1 + n * (n + 2) + n / 1
