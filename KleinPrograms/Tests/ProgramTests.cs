@@ -26,6 +26,10 @@ namespace KleinPrograms.Tests
                     allPass = false;
                     result.AppendLine($"{Path.GetFileName(file)}{error.FilePosition} {error.ToString()}");
                 }
+                else
+                {
+                    result.AppendLine($"{Path.GetFileName(file)} Pass");
+                }
             }
             ConsoleWriteLine.If(allPass != true, result.ToString());
             Assert.That(allPass, Is.True);

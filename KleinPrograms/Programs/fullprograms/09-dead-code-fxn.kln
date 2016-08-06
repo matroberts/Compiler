@@ -1,0 +1,7 @@
+main(n : integer) : integer
+  if not (n < 0) then
+    2 * n
+  else
+    n - 10
+
+f(): boolean false       { not used }

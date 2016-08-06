@@ -65,6 +65,20 @@
     </None>
     <None Include="packages.config" />
     <None Include="primefactor.kln" />
+    <None Include="Programs\fullprograms\00-shortest.kln" />
+    <None Include="Programs\fullprograms\01-constant.kln" />
+    <None Include="Programs\fullprograms\02-argument.kln" />
+    <None Include="Programs\fullprograms\03-arithmetic.kln" />
+    <None Include="Programs\fullprograms\04-boolean.kln" />
+    <None Include="Programs\fullprograms\05-if-expression.kln" />
+    <None Include="Programs\fullprograms\05-if-used.kln" />
+    <None Include="Programs\fullprograms\06-function.kln" />
+    <None Include="Programs\fullprograms\07-two-args.kln" />
+    <None Include="Programs\fullprograms\08-print-arg.kln" />
+    <None Include="Programs\fullprograms\08-print-four.kln" />
+    <None Include="Programs\fullprograms\08-print-true.kln" />
+    <None Include="Programs\fullprograms\09-dead-code-fxn.kln" />
+    <None Include="Programs\fullprograms\09-dead-code-if.kln" />
     <None Include="Programs\fullprograms\circular-prime.kln" />
     <None Include="Programs\fullprograms\collatz-conjecture.kln" />
     <None Include="Programs\fullprograms\divisible-by-seven.kln" />

@@ -1,0 +1,6 @@
+main( n : integer ) : integer
+  printAndReturn(n)
+
+printAndReturn( n : integer ) : integer
+  print(n)
+  n

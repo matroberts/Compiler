@@ -1,0 +1,2 @@
+main(n : integer) : boolean
+  n < 10
