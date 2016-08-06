@@ -6,6 +6,7 @@ namespace KleinCompiler
 {
     public class Error
     {
+        public static FilePositionCalculator FilePositionCalculator { get; set; }
         public enum ErrorTypeEnum
         {
             No,
@@ -42,10 +43,13 @@ namespace KleinCompiler
             Position = position;
             Message = message;
             StackTrace = stackTrace;
+            if (FilePositionCalculator != null)
+                FilePosition = FilePositionCalculator.FilePosition(position);
         }
 
         public ErrorTypeEnum ErrorType { get; }
         public int Position { get; }
+        public FilePosition FilePosition { get; }
         public string Message { get; }
         public string StackTrace { get; }
 

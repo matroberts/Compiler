@@ -68,7 +68,7 @@ namespace KleinPrograms.Tests
     }
 
     [TestFixture]
-    public class TestScripts
+    public class ScriptTests
     {
         private string originalWorkingDirectory;
 

@@ -7,6 +7,9 @@
     A(m,n) = A(m-1, A(m, n-1))     m,n > 0
 }
 
+main(m : integer, n : integer) : integer
+    ackermann(m, n)
+
 ackermann(m : integer, n : integer) : integer
     if 
         m = 0

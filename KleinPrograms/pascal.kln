@@ -10,18 +10,18 @@ main ( n : integer ) : boolean
   reportPascal(n, 0)
 
 reportPascal(n: integer, k: integer) : boolean
-  report(pascal(n,k))
-  if(n=k)
+  print(pascal(n,k))
+  if 
+    n=k 
+  then
     true
   else
     reportPascal(n, k+1)
 
-report(x:integer):boolean
-  print(x)
-  true
-
 pascal(n: integer, k: integer) : integer
-  if(k = 0)
+  if
+    k = 0
+  then
     1
   else
     pascal(n, k-1) * (n-k+1) / k

@@ -6,6 +6,8 @@ namespace KleinCompiler
     {
         public Error Compile(string input)
         {
+            Error.FilePositionCalculator = new FilePositionCalculator(input);
+
             var parser = new Parser();
             var program = (Program)parser.Parse(new Tokenizer(input));
             if(program==null)

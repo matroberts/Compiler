@@ -587,37 +587,6 @@ main(x: integer, y : integer) : integer
 
         #endregion
 
-        #region Sample Programs
-
-        [Test]
-        public void Parser_ShouldParse_AllOfTheValidSampleKleinPrograms()
-        {
-            var start = DateTime.UtcNow;
-            var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
-            var files = Directory.GetFiles(folder, "*.kln");
-            bool allPass = true;
-            var result = new StringBuilder();
-            foreach (var file in files)
-            {
-                var parser = new Parser();
-                var ast = parser.Parse(new Tokenizer(File.ReadAllText(file)));
-                if (ast == null)
-                {
-                    allPass = false;
-                    result.AppendLine($"Fail {Path.GetFileName(file)}");
-                }
-                else
-                {
-                    result.AppendLine($"Pass {Path.GetFileName(file)}");
-                }
-            }
-            ConsoleWriteLine.If(allPass != true, result.ToString());
-            Assert.That(allPass, Is.True);
-//            Console.WriteLine(DateTime.UtcNow - start);
-        }
-
-        #endregion
-
         #region LineNumbers
 
         /*
