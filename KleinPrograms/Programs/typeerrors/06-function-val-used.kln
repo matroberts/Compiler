@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  inc(n) or (n < 0)        { or expects a boolean }
+
+inc(n : integer) : integer
+  n + 1
+

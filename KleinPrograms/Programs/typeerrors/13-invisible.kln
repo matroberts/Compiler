@@ -1,0 +1,5 @@
+main(n : integer) : integer
+  f(n)
+
+f(m : integer) : integer // changed return type to integer
+  m+n

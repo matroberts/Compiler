@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  inc(1, true)      { second argument }
+
+inc(n : integer) : integer
+  2 * n
+

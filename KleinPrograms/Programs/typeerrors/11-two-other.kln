@@ -1,0 +1,15 @@
+main(n : integer) : integer
+  f(n+1, n<1)
+
+f(m : integer, b : boolean) : integer
+  if b then
+    2 * m
+  else
+    2
+
+{ oops, a second function named f }
+f(m : integer, n : boolean) : integer
+  if n then
+    2 * m
+  else
+    2

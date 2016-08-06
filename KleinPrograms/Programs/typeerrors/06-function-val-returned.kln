@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  (inc(n)=10) or (inc(n+1)=10)        { or gives a boolean }
+
+inc(n : integer) : integer
+  n + 1
+

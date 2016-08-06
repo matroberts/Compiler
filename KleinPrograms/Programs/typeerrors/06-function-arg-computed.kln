@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  inc( (n = 0) or (n < 0) )    { inc expects integer }
+
+inc(n : integer) : integer
+  2 * n
+

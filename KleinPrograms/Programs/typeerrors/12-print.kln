@@ -1,0 +1,6 @@
+main():integer
+  1
+
+{ we can't define a print function }
+print():boolean
+  true

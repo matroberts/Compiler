@@ -104,6 +104,28 @@
     <None Include="Programs\scanner\reserved-words-and-symbols.kln" />
     <None Include="Programs\fullprograms\sieve.kln" />
     <None Include="Programs\fullprograms\square-root.kln" />
+    <None Include="Programs\typeerrors\01-boolean.kln" />
+    <None Include="Programs\typeerrors\01-integer.kln" />
+    <None Include="Programs\typeerrors\02-argument.kln" />
+    <None Include="Programs\typeerrors\03-arithmetic-computed.kln" />
+    <None Include="Programs\typeerrors\03-arithmetic-plus.kln" />
+    <None Include="Programs\typeerrors\03-arithmetic-times.kln" />
+    <None Include="Programs\typeerrors\04-boolean.kln" />
+    <None Include="Programs\typeerrors\05-if-expression-else.kln" />
+    <None Include="Programs\typeerrors\05-if-expression-then.kln" />
+    <None Include="Programs\typeerrors\06-function-arg-boolean.kln" />
+    <None Include="Programs\typeerrors\06-function-arg-computed.kln" />
+    <None Include="Programs\typeerrors\06-function-arg-count.kln" />
+    <None Include="Programs\typeerrors\06-function-arg-integer.kln" />
+    <None Include="Programs\typeerrors\06-function-val-returned.kln" />
+    <None Include="Programs\typeerrors\06-function-val-used.kln" />
+    <None Include="Programs\typeerrors\07-two-args.kln" />
+    <None Include="Programs\typeerrors\08-print-as-val.kln" />
+    <None Include="Programs\typeerrors\09-no-main.kln" />
+    <None Include="Programs\typeerrors\10-two-main.kln" />
+    <None Include="Programs\typeerrors\11-two-other.kln" />
+    <None Include="Programs\typeerrors\12-print.kln" />
+    <None Include="Programs\typeerrors\13-invisible.kln" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assemblies\System.Management.Automation.dll" />

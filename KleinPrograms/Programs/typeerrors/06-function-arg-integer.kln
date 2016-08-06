@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  boolToInt(n)
+
+boolToInt(b : boolean) : integer
+  if b then 1 else 0
+

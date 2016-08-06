@@ -262,7 +262,7 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(result.HasError, Is.True);
-            Assert.That(result.Message, Is.EqualTo("Function secondary(boolean):boolean called with mismatched arguments ()"));
+            Assert.That(result.Message, Is.EqualTo("Function secondary(boolean):boolean called with mismatched arguments secondary()"));
             Assert.That(result.Position, Is.GreaterThan(0));
         }
 

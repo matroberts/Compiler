@@ -1,0 +1,6 @@
+main(n : integer) : integer
+  inc(true)
+
+inc(n : integer) : integer
+  n + 1
+

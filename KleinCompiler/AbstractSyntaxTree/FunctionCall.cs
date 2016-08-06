@@ -58,7 +58,7 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return TypeValidationResult.Invalid(Position, $"Function '{Name}' has no definition");
 
             if(SymbolTable.Type(Name).CheckArgs(Actuals.Select(a => a.Type)) == false)
-                return TypeValidationResult.Invalid(Position, $"Function {Name}{SymbolTable.Type(Name)} called with mismatched arguments {ActualsTypeString}");
+                return TypeValidationResult.Invalid(Position, $"Function {Name}{SymbolTable.Type(Name)} called with mismatched arguments {Name}{ActualsTypeString}");
 
             this.Type = SymbolTable.Type(Name).ReturnType;
             return TypeValidationResult.Valid(Type);
