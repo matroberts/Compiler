@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using KleinCompiler.AbstractSyntaxTree;
 
 namespace KleinCompiler
 {
@@ -10,37 +11,41 @@ namespace KleinCompiler
             No,
             Lexical,
             Syntax,
-            Exception    
+            Semantic
         }
 
         public static Error CreateNoError()
         {
-            return new Error(ErrorTypeEnum.No, token: null, symbol: Symbol.Program, message: "No Error Has Occured", stackTrace: "");
+            return new Error(ErrorTypeEnum.No, position: 0, message: "No Error Has Occured", stackTrace: "");
         }
         public static Error CreateLexicalError(ErrorToken token, string stackTrace)
         {
-            return new Error(ErrorTypeEnum.Lexical, token: token, symbol: Symbol.Program, message: token.Message, stackTrace: stackTrace);
+            return new Error(ErrorTypeEnum.Lexical, position: token.Position, message: token.Message, stackTrace: stackTrace);
         }
         public static Error CreateSyntaxError(Symbol symbol, Token token, string stackTrace)
         {
-            return new Error(ErrorTypeEnum.Syntax, token: token, symbol: symbol, message: $"Attempting to parse symbol '{symbol.ToString()}' found token {token.ToString()}", stackTrace: stackTrace);
+            return new Error(ErrorTypeEnum.Syntax, position: token.Position, message: $"Attempting to parse symbol '{symbol.ToString()}' found token {token.ToString()}", stackTrace: stackTrace);
         }
-        public static Error CreateExceptionError(Exception exception, string stackTrace)
+
+        public static Error CreateSemanticError(TypeValidationResult result)
         {
-            return new Error(ErrorTypeEnum.Exception, token: null, symbol: Symbol.Program, message: exception.ToString(), stackTrace: stackTrace);
+            if(result.HasError)
+                return new Error(ErrorTypeEnum.Semantic, position: result.Position, message: result.Message, stackTrace: null);
+            else
+                return CreateNoError();
         }
-        private Error(ErrorTypeEnum errorType, Token token, Symbol symbol, string message, string stackTrace)
+    
+
+        private Error(ErrorTypeEnum errorType, int position, string message, string stackTrace)
         {
             ErrorType = errorType;
-            Token = token;
-            Symbol = symbol;
+            Position = position;
             Message = message;
             StackTrace = stackTrace;
         }
 
         public ErrorTypeEnum ErrorType { get; }
-        public Token Token { get; }
-        public Symbol Symbol { get; }
+        public int Position { get; }
         public string Message { get; }
         public string StackTrace { get; }
 

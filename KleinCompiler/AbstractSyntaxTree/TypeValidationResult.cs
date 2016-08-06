@@ -18,7 +18,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             Message = message;
             Type = null;
-            Postion = position;
+            Position = position;
         }
 
         private TypeValidationResult(KType type)
@@ -30,6 +30,6 @@ namespace KleinCompiler.AbstractSyntaxTree
         public KType Type { get; }
         public bool HasError => Type == null;
         public string Message { get; }
-        public int Postion { get; }
+        public int Position { get; }
     }
 }

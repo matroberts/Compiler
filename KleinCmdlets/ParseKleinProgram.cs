@@ -23,11 +23,8 @@ namespace KleinCmdlets
             if (ast == null)
             {
                 var exceptionMessage = $"{parser.Error}";
-                if (parser.Error.Token != null)
-                {
-                    var filePosition = new FilePositionCalculator(input).FilePosition(parser.Error.Token.Position);
-                    exceptionMessage += $"\r\n at {Path} {filePosition}";
-                }
+                var filePosition = new FilePositionCalculator(input).FilePosition(parser.Error.Position);
+                exceptionMessage += $"\r\n at {Path} {filePosition}";
                 throw new Exception(exceptionMessage);
             }
             WriteObject(ast);

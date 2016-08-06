@@ -29,7 +29,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Program contains duplicate function name 'main'"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Program must contain a function 'main'"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'main' has a return type 'boolean', but its body has a type 'integer'"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'main' has duplicate formal 'x'"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -202,7 +202,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function 'notexists' has no definition"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -262,7 +262,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Function secondary(boolean):boolean called with mismatched arguments ()"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -306,7 +306,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Use of undeclared identifier x in function secondary"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -345,7 +345,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Not operator called with expression which is not boolean"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -363,7 +363,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("LessThan right expression is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -402,7 +402,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("LessThan right expression is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -515,7 +515,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo(errormessage));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -586,7 +586,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("IfThenElseOperator must have a boolean if expression"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -609,7 +609,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -632,7 +632,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -655,7 +655,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]
@@ -678,7 +678,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("IfThenElse, type of then and else expression must be the same"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         #endregion
@@ -722,7 +722,7 @@ namespace KleinCompilerTests
             // assert
             Assert.That(result.HasError, Is.True);
             Assert.That(result.Message, Is.EqualTo("Negate operator called with expression which is not integer"));
-            Assert.That(result.Postion, Is.GreaterThan(0));
+            Assert.That(result.Position, Is.GreaterThan(0));
         }
 
         [Test]

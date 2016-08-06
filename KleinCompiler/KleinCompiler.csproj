@@ -60,6 +60,7 @@
     <Compile Include="AbstractSyntaxTree\TypeValidationResult.cs" />
     <Compile Include="AbstractSyntaxTree\UnaryOperator.cs" />
     <Compile Include="AstFactory.cs" />
+    <Compile Include="Compiler.cs" />
     <Compile Include="PrettyPrinter.cs" />
     <Compile Include="IAstVisitor.cs" />
     <Compile Include="Error.cs" />

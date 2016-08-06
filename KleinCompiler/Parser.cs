@@ -54,65 +54,57 @@ namespace KleinCompiler
 
         public Ast Parse(Tokenizer tokenizer)
         {
-            try
+            symbolStack.Push(parsingTable.LastSymbol);
+            symbolStack.Push(parsingTable.FirstSymbol);
+
+            Token lastToken = null;
+            while (symbolStack.Count != 0)
             {
-                symbolStack.Push(parsingTable.LastSymbol);
-                symbolStack.Push(parsingTable.FirstSymbol);
-
-                Token lastToken = null;
-                while (symbolStack.Count != 0)
+                if (EnableStackTrace)
                 {
-                    if (EnableStackTrace)
+                    TraceStack(tokenizer.Peek(), symbolStack, semanticStack);
+                }
+
+                Symbol symbol = symbolStack.Pop();
+                Token token = tokenizer.Peek();
+
+                if (token is ErrorToken)
+                {
+                    Error = Error.CreateLexicalError(token as ErrorToken, StackTrace);
+                    return null;
+                }
+
+                if (symbol.ToSymbolType() == SymbolType.Token)
+                {
+                    if (symbol == token.Symbol)
                     {
-                        TraceStack(tokenizer.Peek(), symbolStack, semanticStack);
+                        lastToken = tokenizer.Pop();
                     }
-
-                    Symbol symbol = symbolStack.Pop();
-                    Token token = tokenizer.Peek();
-
-                    if (token is ErrorToken)
+                    else
                     {
-                        Error = Error.CreateLexicalError(token as ErrorToken, StackTrace);
+                        Error = Error.CreateSyntaxError(symbol, token, StackTrace);
                         return null;
                     }
-
-                    if (symbol.ToSymbolType() == SymbolType.Token)
+                }
+                else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
+                {
+                    var rule = parsingTable[symbol, token.Symbol];
+                    if (rule == null)
                     {
-                        if (symbol == token.Symbol)
-                        {
-                            lastToken = tokenizer.Pop();
-                        }
-                        else
-                        {
-                            Error = Error.CreateSyntaxError(symbol, token, StackTrace);
-                            return null;
-                        }
+                        Error = Error.CreateSyntaxError(symbol, token, StackTrace);
+                        return null;
                     }
-                    else if (symbol.ToSymbolType() == SymbolType.NonTerminal)
+                    else
                     {
-                        var rule = parsingTable[symbol, token.Symbol];
-                        if (rule == null)
-                        {
-                            Error = Error.CreateSyntaxError(symbol, token, StackTrace);
-                            return null;
-                        }
-                        else
-                        {
-                            symbolStack.Push(rule.Reverse);
-                        }
-                    }
-                    else if (symbol.ToSymbolType() == SymbolType.Semantic)
-                    {
-                        astFactory.ProcessAction(semanticStack, symbol, lastToken);
+                        symbolStack.Push(rule.Reverse);
                     }
                 }
-                return semanticStack.Peek();
+                else if (symbol.ToSymbolType() == SymbolType.Semantic)
+                {
+                    astFactory.ProcessAction(semanticStack, symbol, lastToken);
+                }
             }
-            catch (Exception e)
-            {
-                Error = Error.CreateExceptionError(e, StackTrace);
-                return null;
-            }
+            return semanticStack.Peek();
         }
 
         private int w1 = 15;
