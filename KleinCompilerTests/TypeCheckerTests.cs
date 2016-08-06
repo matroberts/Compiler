@@ -63,7 +63,8 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(program, Is.Null);
-            Assert.That(parser.Error.ToString(), Is.EqualTo("Syntax Error: Attempting to parse symbol 'Program' found token PrintKeyword 'print'"));
+            Assert.That(parser.Error.Message, Is.EqualTo("Attempting to parse symbol 'Program' found token PrintKeyword 'print'"));
+            Assert.That(parser.Error.ErrorType, Is.EqualTo(Error.ErrorTypeEnum.Syntax));
         }
 
         [Test]
@@ -741,7 +742,8 @@ namespace KleinCompilerTests
 
             // assert
             Assert.That(program, Is.Null);
-            Assert.That(parser.Error.ToString(), Is.EqualTo("Syntax Error: Attempting to parse symbol 'FactorTail' found token PrintKeyword 'print'"));
+            Assert.That(parser.Error.Message, Is.EqualTo("Attempting to parse symbol 'FactorTail' found token PrintKeyword 'print'"));
+            Assert.That(parser.Error.ErrorType, Is.EqualTo(Error.ErrorTypeEnum.Syntax));
         }
 
         #endregion

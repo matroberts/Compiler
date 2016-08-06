@@ -104,7 +104,7 @@ namespace KleinPrograms.Tests
                                               @".\kleinf.ps1 ..\..\Programs\scanner\reserved-words-and-symbols.kln");
 
             Assert.That(result.Errors.Count, Is.EqualTo(1));
-            Assert.That(result.Errors[0].Exception.Message, Does.StartWith("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
+            Assert.That(result.Errors[0].Exception.Message, Does.Contain("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace KleinPrograms.Tests
                                                @".\kleinp.ps1 ..\..\Programs\scanner\reserved-words-and-symbols.kln");
 
             Assert.That(result.HasErrors, Is.True);
-            Assert.That(result.Errors[0].Exception.Message, Does.StartWith("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
+            Assert.That(result.Errors[0].Exception.Message, Does.Contain("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
         }
     }
 }

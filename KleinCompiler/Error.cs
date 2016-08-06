@@ -55,7 +55,7 @@ namespace KleinCompiler
 
         public override string ToString()
         {
-            string output = $"{ErrorType} Error: {Message}";
+            string output = $"{FilePosition} {ErrorType} Error: {Message}";
             if (string.IsNullOrWhiteSpace(StackTrace) == false)
                 output += $"\r\n\r\n{StackTrace}";
             return output;
