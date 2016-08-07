@@ -63,6 +63,9 @@
     <None Include="kleins.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="kleinv.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="primefactor.kln" />
     <None Include="Programs\fullprograms\00-shortest.kln" />

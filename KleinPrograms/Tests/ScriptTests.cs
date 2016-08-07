@@ -139,5 +139,16 @@ namespace KleinPrograms.Tests
             Assert.That(result.HasErrors, Is.True);
             Assert.That(result.Errors[0].Exception.Message, Does.Contain("Syntax Error: Attempting to parse symbol 'Program' found token IntegerType 'integer'"));
         }
+
+        [Test]
+        public void Kleinv_ShouldOutput_TheSymbolTable()
+        {
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
+                                               @".\kleinv.ps1 ..\..\Programs\fullprograms\circular-prime.kln | Out-String");
+
+            Assert.That(result.HasErrors, Is.False);
+            Assert.That(result.Output.Count, Is.EqualTo(1));
+            Assert.That(result.Output[0].ToString(), Does.Contain("circularPrimesTo       (integer):integer                 main   "));
+        }
     }
 }
