@@ -12,7 +12,7 @@ namespace KleinCompiler.AbstractSyntaxTree
         {
             foreach (var definition in definitions)
             {
-                functionInfo.Add(definition.Name, new FunctionInfo(definition.FunctionType, definition.Formals));
+                functionInfo.Add(definition.Name, new FunctionInfo(definition.Name, definition.FunctionType, definition.Formals));
             }
         }
 
@@ -22,6 +22,13 @@ namespace KleinCompiler.AbstractSyntaxTree
                 return null;
             return functionInfo[identifier].FunctionType;
         }
+
+        public void AddCaller(string identifier, string caller)
+        {
+            functionInfo[identifier].AddCaller(caller);
+        }
+
+        public IEnumerable<FunctionInfo> FunctionInfos => functionInfo.Values;
 
         public string CurrentFunction { get; set; }
         public bool FormalExists(string identifier)
@@ -43,13 +50,18 @@ namespace KleinCompiler.AbstractSyntaxTree
 
     public class FunctionInfo
     {
-        public FunctionInfo(FunctionType functionType, ReadOnlyCollection<Formal> formals)
+        public FunctionInfo(string name, FunctionType functionType, ReadOnlyCollection<Formal> formals)
         {
+            Name = name;
             FunctionType = functionType;
             Formals = formals;
         }
+
+        public string Name { get; }
         public FunctionType FunctionType { get; }
         public ReadOnlyCollection<Formal> Formals { get; }
-        public List<string> Callers { get; } = new List<string>();
+        private List<string> callers { get; } = new List<string>();
+        public IEnumerable<string> Callers => callers;
+        public void AddCaller(string caller) => callers.Add(caller);
     }
 }

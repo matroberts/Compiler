@@ -268,6 +268,55 @@ namespace KleinCompilerTests
 
         #endregion
 
+        #region SymbolTable
+
+        [Test]
+        public void SymbolTable_ShouldRecordTheCallerOfAFunction()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              secondary()
+                          secondary() : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            program.CheckType();
+
+            // act
+            var functionInfos = Ast.SymbolTable.FunctionInfos.ToList();
+
+            // assert
+            Assert.That(functionInfos.Count, Is.EqualTo(2));
+            Assert.That(functionInfos.Single(fi => fi.Name=="main").Callers, Is.Empty);
+            Assert.That(functionInfos.Single(fi => fi.Name=="secondary").Callers, Is.EquivalentTo(new [] {"main"} ));
+        }
+
+        [Test]
+        public void SymbolTable_ShouldRecordTheCallerOfAFunction2()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              secondary(tertiary())
+                          secondary(x:boolean) : boolean
+                              not x
+                          tertiary() : boolean
+                              true";
+            var parser = new Parser();
+            var program = (Program)parser.Parse(new Tokenizer(input));
+            program.CheckType();
+
+            // act
+            var functionInfos = Ast.SymbolTable.FunctionInfos.ToList();
+
+            // assert
+            Assert.That(functionInfos.Count, Is.EqualTo(3));
+            Assert.That(functionInfos.Single(fi => fi.Name == "main").Callers, Is.Empty);
+            Assert.That(functionInfos.Single(fi => fi.Name == "secondary").Callers, Is.EquivalentTo(new[] { "main" }));
+            Assert.That(functionInfos.Single(fi => fi.Name == "tertiary").Callers, Is.EquivalentTo(new[] { "main" }));
+        }
+
+        #endregion
+
         #region Identifier and visible identifiers in a function - note that identifiers in the ast only refer to variables
 
         [Test]

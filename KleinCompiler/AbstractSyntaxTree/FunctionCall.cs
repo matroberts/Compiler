@@ -61,6 +61,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if(functionType.CheckArgs(Actuals.Select(a => a.Type)) == false)
                 return TypeValidationResult.Invalid(Position, $"Function {Name}{functionType} called with mismatched arguments {Name}{ActualsTypeString}");
 
+            SymbolTable.AddCaller(Name, SymbolTable.CurrentFunction);
             Type = functionType.ReturnType;
             return TypeValidationResult.Valid(Type);
         }
