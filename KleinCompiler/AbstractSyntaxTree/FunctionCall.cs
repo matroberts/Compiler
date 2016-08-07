@@ -54,13 +54,14 @@ namespace KleinCompiler.AbstractSyntaxTree
                     return result;
             }
 
-            if (SymbolTable.Exists(Name) == false)
+            var functionType = SymbolTable.FunctionType(Name);
+            if(functionType == null)
                 return TypeValidationResult.Invalid(Position, $"Function '{Name}' has no definition");
 
-            if(SymbolTable.Type(Name).CheckArgs(Actuals.Select(a => a.Type)) == false)
-                return TypeValidationResult.Invalid(Position, $"Function {Name}{SymbolTable.Type(Name)} called with mismatched arguments {Name}{ActualsTypeString}");
+            if(functionType.CheckArgs(Actuals.Select(a => a.Type)) == false)
+                return TypeValidationResult.Invalid(Position, $"Function {Name}{functionType} called with mismatched arguments {Name}{ActualsTypeString}");
 
-            this.Type = SymbolTable.Type(Name).ReturnType;
+            Type = functionType.ReturnType;
             return TypeValidationResult.Valid(Type);
         }
 

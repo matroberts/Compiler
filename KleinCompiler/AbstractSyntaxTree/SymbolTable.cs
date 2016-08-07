@@ -7,19 +7,21 @@ namespace KleinCompiler.AbstractSyntaxTree
 {
     public class SymbolTable
     {
-        private Dictionary<string, FunctionType> identifierTypes = new Dictionary<string, FunctionType>();
-        private Dictionary<string, ReadOnlyCollection<Formal>> identifierFormals = new Dictionary<string, ReadOnlyCollection<Formal>>();
+        private Dictionary<string, FunctionInfo> functionInfo = new Dictionary<string, FunctionInfo>();
         public SymbolTable(ReadOnlyCollection<Definition> definitions)
         {
             foreach (var definition in definitions)
             {
-                identifierTypes.Add(definition.Name, definition.FunctionType);
-                identifierFormals.Add(definition.Name, definition.Formals);
+                functionInfo.Add(definition.Name, new FunctionInfo(definition.FunctionType, definition.Formals));
             }
         }
 
-        public FunctionType Type(string identifier) => identifierTypes[identifier];
-        public bool Exists(string identifier) => identifierTypes.ContainsKey(identifier);
+        public FunctionType FunctionType(string identifier)
+        {
+            if (functionInfo.ContainsKey(identifier) == false)
+                return null;
+            return functionInfo[identifier].FunctionType;
+        }
 
         public string CurrentFunction { get; set; }
         public bool FormalExists(string identifier)
@@ -27,7 +29,7 @@ namespace KleinCompiler.AbstractSyntaxTree
             if(string.IsNullOrWhiteSpace(CurrentFunction))
                 throw new Exception("CurrentFunction must be set before you can access FormalExists");
 
-            return identifierFormals[CurrentFunction].Any(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase));
+            return functionInfo[CurrentFunction].Formals.Any(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase));
         }
 
         public PrimitiveType FormalType(string identifier)
@@ -35,7 +37,19 @@ namespace KleinCompiler.AbstractSyntaxTree
             if (string.IsNullOrWhiteSpace(CurrentFunction))
                 throw new Exception("CurrentFunction must be set before you can access FormalType");
 
-            return identifierFormals[CurrentFunction].First(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase)).PrimitiveType;
+            return functionInfo[CurrentFunction].Formals.First(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase)).PrimitiveType;
         }
+    }
+
+    public class FunctionInfo
+    {
+        public FunctionInfo(FunctionType functionType, ReadOnlyCollection<Formal> formals)
+        {
+            FunctionType = functionType;
+            Formals = formals;
+        }
+        public FunctionType FunctionType { get; }
+        public ReadOnlyCollection<Formal> Formals { get; }
+        public List<string> Callers { get; } = new List<string>();
     }
 }
