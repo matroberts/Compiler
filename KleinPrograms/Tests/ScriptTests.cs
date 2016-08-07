@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
 
 namespace KleinPrograms.Tests
@@ -115,7 +116,7 @@ namespace KleinPrograms.Tests
 
             Assert.That(result.HasErrors, Is.False);
             Assert.That(result.Output.Count, Is.EqualTo(1));
-//            Assert.That(result.Output[0].BaseObject, Is.TypeOf<Ast>());
+            Assert.That(result.Output[0].BaseObject, Is.TypeOf<Program>());
         }
 
         [Test]

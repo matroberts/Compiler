@@ -8,7 +8,7 @@ using KleinCompiler.AbstractSyntaxTree;
 namespace KleinCmdlets
 {
     [Cmdlet("Parse", "KleinProgram")]
-    [OutputType(typeof(Ast))]
+    [OutputType(typeof(Program))]
     public class ParseKleinProgram : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path and name of the klein file to parse")]
@@ -17,17 +17,15 @@ namespace KleinCmdlets
         protected override void ProcessRecord()
         {
             var input = File.ReadAllText(Path);
-            var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var complier = new Compiler();
+            var error = complier.Compile(input);
 
-            if (ast == null)
+            if (error.ErrorType != Error.ErrorTypeEnum.No)
             {
-                var exceptionMessage = $"{parser.Error}";
-                var filePosition = new FilePositionCalculator(input).FilePosition(parser.Error.Position);
-                exceptionMessage += $"\r\n at {Path} {filePosition}";
+                var exceptionMessage = $"{Path}{error}";
                 throw new Exception(exceptionMessage);
             }
-            WriteObject(ast);
+            WriteObject(complier.Program);
         }
     }
 }
