@@ -368,7 +368,7 @@ STEPRESULT stepTM (void)
   { /* RR instructions */
     case opHALT :
     /***********************************/
-      printf("HALT: %1d,%1d,%1d\n",r,s,t);
+      //printf("HALT: %1d,%1d,%1d\n",r,s,t);
       return srHALT ;
       /* break; */
 
@@ -391,7 +391,7 @@ STEPRESULT stepTM (void)
       break;
 
     case opOUT :  
-      printf ("OUT instruction prints: %d\n", reg[r] ) ;
+      printf ("%d\n", reg[r] ) ;
       break;
     case opADD :  reg[r] = reg[s] + reg[t] ;  break;
     case opSUB :  reg[r] = reg[s] - reg[t] ;  break;
@@ -680,7 +680,7 @@ int main( int argc, char * argv[] )
     stepResult = stepTM ();
     stepcnt++;
   }
-  printf("Number of instructions executed = %d\n",stepcnt);
+  //printf("Number of instructions executed = %d\n",stepcnt);
 
   return 0;
 }
