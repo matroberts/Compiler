@@ -65,4 +65,12 @@ public static class Extensions
             stack.Push(symbol);
         }
     }
+
+    public static void ToConsole(this string[] strings)
+    {
+        foreach (var s in strings)
+        {
+            Console.Write(s);
+        }
+    }
 }

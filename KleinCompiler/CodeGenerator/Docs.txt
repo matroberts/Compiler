@@ -1,9 +1,11 @@
 ﻿resisters
 =========
 r0 = 0
-r1 = 1
-r2 = result
-r5 = return address
+r1 = 1 or const?
+r2 
+r3
+r4
+r5 - used for address manipulation
 r6 = status = top of stack (last address of program state, i.e. last address that caller can initialize)
 r7 = program counter
 
@@ -11,16 +13,15 @@ stack frame
 ===========
   returned value
   value of arguments
-  control link                         <- return address - address in instruction memory
-  access link                          <- callers value of status register - address in data memory
-  program state 0,1,....6              <- values of registers r0...r7
+  return address                       <- (control link) return address - address in instruction memory
+  register state 0,1,....6             <- values of registers r0...r6, which include accesslink=status in r6
+  local data objects
 
 m(0)     return value
 m(1)     arguments 0, 1, 2, ..., n-1
 ....
 m(n)
 m(n+1)   control link = return address after function call (address in )
-m(n+1)   access link = value of status register for caller
 m(n+1+1) register 0
 ......
 m(n+1+7) register 6
@@ -28,5 +29,5 @@ m(n+1+7) register 6
 * calling sequence caller
 *  evalueate arguments and store in stack frame
 *  store return address in control link field
-*  store current value of status in stack frame
+*  store registers into stack frame
 *  set value of status to at end of new stack frame

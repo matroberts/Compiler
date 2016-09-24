@@ -97,8 +97,6 @@ namespace KleinCompiler.CodeGenerator
         public int Register5 => 6;
         public int Register6 => 7;
         public int TopOfStack => Register6+1;  // one past the top of the stack
-
-        public int Negative => 0;
     }
 
     public class NegativeStackOffset

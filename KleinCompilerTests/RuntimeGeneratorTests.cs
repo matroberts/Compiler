@@ -1,44 +1,54 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using KleinCompiler.CodeGenerator;
 using NUnit.Framework;
 
 namespace KleinCompilerTests
 {
+    public class TinyMachine
+    {
+        private readonly string exePath;
+
+        public TinyMachine(string exePath)
+        {
+            this.exePath = exePath;
+        }
+
+        public string[] Execute(string path)
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = exePath,
+                    Arguments = path,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                }
+            };
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            return output.Trim().Split(new []{"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+        }
+    }
+
     [TestFixture]
     public class RuntimeGeneratorTests
     {
-        [Test]
-        public void Test()
-        {
-            int linenumber = 0;
-            int functionAddress = 1000;
-            string output = RuntimeGenerator.CallingProcedureCallingSequence(ref linenumber, functionAddress);
+        public string ExeName => "TinyMachine.exe";
+        public string ExePath => Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\TinyMachineGo\bin\Debug\", ExeName);
 
-            Assert.That(linenumber, Is.EqualTo(10));
-            Console.WriteLine(output);
-
-        }
-
-        [Test]
-        public void StackOffset()
-        {
-            var offset = new StackOffset();
-            var negative = new NegativeStackOffset();
-
-            Assert.That(offset.TopOfStack + negative.ReturnValue, Is.EqualTo(offset.ReturnValue));
-            Assert.That(offset.TopOfStack + negative.Register0, Is.EqualTo(offset.Register0));
-            Assert.That(offset.TopOfStack + negative.Register1, Is.EqualTo(offset.Register1));
-            Assert.That(offset.TopOfStack + negative.Register2, Is.EqualTo(offset.Register2));
-            Assert.That(offset.TopOfStack + negative.Register3, Is.EqualTo(offset.Register3));
-            Assert.That(offset.TopOfStack + negative.Register4, Is.EqualTo(offset.Register4));
-            Assert.That(offset.TopOfStack + negative.Register5, Is.EqualTo(offset.Register5));
-            Assert.That(offset.TopOfStack + negative.Register6, Is.EqualTo(offset.Register6));
-        }
+        public string TestFile => "Test.tm";
+        public string TestFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, TestFile);
 
         [Test]
         public void TestSettingRegisters()
         {
+            Console.WriteLine(ExePath);
+            Console.WriteLine(TestFilePath);
             // 0: jump to main method
             // 1: function
             // n: main
@@ -54,7 +64,14 @@ namespace KleinCompilerTests
                           RuntimeGenerator.Halt(ref linenumber);
             string jump = RuntimeGenerator.InitialJump(addressOfMain);
 
-            File.WriteAllText(@"C:\github\Compiler\TinyMachine\bin\Debug\Test.tm", jump+func+main);
+            File.WriteAllText(TestFilePath, jump+func+main);
+            string[] output = new TinyMachine(ExePath).Execute(TestFilePath);
+            Assert.That(output, Is.EqualTo(new [] { "0", "19", "19", "19", "19", "23", "0" }));
+            // r0 = 0     because not changed to another value...this register always has zero in it
+            // r1-r4 = 19 because thats what we set it too
+            // r5 = 23    becasue r5 is used for address manipulation, and this contained the return address of the method during the procedure call setup
+            // r6 = 0     because this is the value of the top of the stack, when the procedure call has finised
         }
+        // be able to generate programs which just call series of zero argument functions, and print stuff
     }
 }
