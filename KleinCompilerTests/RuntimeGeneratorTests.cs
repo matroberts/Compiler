@@ -47,8 +47,6 @@ namespace KleinCompilerTests
         [Test]
         public void TestSettingRegisters()
         {
-            Console.WriteLine(ExePath);
-            Console.WriteLine(TestFilePath);
             // 0: jump to main method
             // 1: function
             // n: main
@@ -58,18 +56,16 @@ namespace KleinCompilerTests
                           RuntimeGenerator.CalledProcedureReturnSequence(ref linenumber);
             int addressOfMain = linenumber;
             string main = RuntimeGenerator.SetRegisters1To5(ref linenumber, 19) +
-                          RuntimeGenerator.CallingProcedureCallingSequence(ref linenumber, 1) +
-                          RuntimeGenerator.CallingProcedureReturnSequence(ref linenumber) +
+                          RuntimeGenerator.CallProcedure(ref linenumber, 1, "func") +
                           RuntimeGenerator.PrintRegisters(ref linenumber) + 
                           RuntimeGenerator.Halt(ref linenumber);
             string jump = RuntimeGenerator.InitialJump(addressOfMain);
 
             File.WriteAllText(TestFilePath, jump+func+main);
             string[] output = new TinyMachine(ExePath).Execute(TestFilePath);
-            Assert.That(output, Is.EqualTo(new [] { "0", "19", "19", "19", "19", "23", "0" }));
+            Assert.That(output, Is.EqualTo(new [] { "0", "19", "19", "19", "19", "19", "0" }));
             // r0 = 0     because not changed to another value...this register always has zero in it
-            // r1-r4 = 19 because thats what we set it too
-            // r5 = 23    becasue r5 is used for address manipulation, and this contained the return address of the method during the procedure call setup
+            // r1-r5 = 19 because thats what we set it too
             // r6 = 0     because this is the value of the top of the stack, when the procedure call has finised
         }
         // be able to generate programs which just call series of zero argument functions, and print stuff
