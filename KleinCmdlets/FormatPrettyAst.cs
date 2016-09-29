@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
+using KleinCompiler.FrontEndCode;
 
 namespace KleinCmdlets
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using KleinCompiler;
 using KleinCompiler.CodeGenerator;
+using KleinCompiler.FrontEndCode;
 
 [AttributeUsage(AttributeTargets.Field)]
 public class SymbolTypeAttribute : Attribute

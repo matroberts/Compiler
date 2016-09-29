@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     // adapted from http://stackoverflow.com/a/35840759
     public class FilePositionCalculator

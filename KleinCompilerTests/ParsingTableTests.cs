@@ -1,4 +1,5 @@
 ﻿using KleinCompiler;
+using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
 namespace KleinCompilerTests

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
+using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
 namespace KleinCompilerTests

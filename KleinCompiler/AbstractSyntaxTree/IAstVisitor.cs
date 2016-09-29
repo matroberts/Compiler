@@ -1,7 +1,4 @@
-﻿using System;
-using KleinCompiler.AbstractSyntaxTree;
-
-namespace KleinCompiler
+﻿namespace KleinCompiler.AbstractSyntaxTree
 {
     public interface IAstVisitor
     {

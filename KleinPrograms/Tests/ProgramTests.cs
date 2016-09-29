@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using KleinCompiler;
+using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
 namespace KleinPrograms.Tests

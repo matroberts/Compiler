@@ -1,5 +1,6 @@
 ﻿using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
+using KleinCompiler.FrontEndCode;
 using NUnit.Framework.Constraints;
 
 namespace KleinCompilerTests

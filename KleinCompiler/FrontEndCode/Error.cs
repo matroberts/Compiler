@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using KleinCompiler.AbstractSyntaxTree;
+﻿using KleinCompiler.AbstractSyntaxTree;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     public class Error
     {

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using KleinCompiler.AbstractSyntaxTree;
+using KleinCompiler.FrontEndCode;
 
 namespace KleinCompiler
 {

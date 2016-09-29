@@ -2,6 +2,7 @@
 using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
 using KleinCompiler.CodeGenerator;
+using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
 namespace KleinCompilerTests

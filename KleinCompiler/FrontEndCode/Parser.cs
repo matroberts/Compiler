@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using KleinCompiler.AbstractSyntaxTree;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     /*
     The parser acts on the basis of the current token i in the input stream and 

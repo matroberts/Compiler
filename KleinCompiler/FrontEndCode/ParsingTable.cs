@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     public class ParsingTable
     {

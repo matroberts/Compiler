@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using KleinCompiler.AbstractSyntaxTree;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     public interface IAstFactory
     {

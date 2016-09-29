@@ -2,7 +2,7 @@
 using System.Text;
 using KleinCompiler.AbstractSyntaxTree;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     public class PrettyPrinter : IAstVisitor
     {

@@ -1,4 +1,4 @@
-﻿namespace KleinCompiler
+﻿namespace KleinCompiler.FrontEndCode
 {
     public enum SymbolType
     {

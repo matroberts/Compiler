@@ -6,6 +6,7 @@ using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 using KleinCompiler;
+using KleinCompiler.FrontEndCode;
 
 namespace KleinCmdlets
 {

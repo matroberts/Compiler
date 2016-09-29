@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
-namespace KleinCompiler
+namespace KleinCompiler.FrontEndCode
 {
     public class Rule
     {
