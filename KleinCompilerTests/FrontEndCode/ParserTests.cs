@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using KleinCompiler.AbstractSyntaxTree;
 using KleinCompiler.FrontEndCode;
@@ -550,7 +551,8 @@ main(x: integer) : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            ConsoleWriteLine.If(program == null, parser.Error.ToString());
+            if(program == null)
+                Console.WriteLine(parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(0, new Identifier(0, "x"))
@@ -572,7 +574,8 @@ main(x: integer, y : integer) : integer
             var program = (Program)parser.Parse(new Tokenizer(input));
 
             // assert
-            ConsoleWriteLine.If(program == null, parser.Error.ToString());
+            if(program == null)
+                Console.WriteLine(parser.Error.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(0, new Identifier(0, "x")),
