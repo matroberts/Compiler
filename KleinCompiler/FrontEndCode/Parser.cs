@@ -36,20 +36,18 @@ namespace KleinCompiler.FrontEndCode
         {
             this.parsingTable = parsingTable;
             this.astFactory = astFactory;
-            this.Error = Error.CreateNoError();
         }
 
         private ParsingTable parsingTable;
         private IAstFactory astFactory;
         private Stack<Symbol> symbolStack = new Stack<Symbol>();
         private Stack<Ast> semanticStack = new Stack<Ast>();
-        public Error Error { get; private set; }
 
         public bool EnableStackTrace { get; set; } = false;
         private readonly StringBuilder stackTraceBuilder = new StringBuilder();
         public string StackTrace => stackTraceBuilder.ToString();
 
-        public Ast Parse(Tokenizer tokenizer)
+        public Ast Parse(Tokenizer tokenizer, ErrorRecord errorRecord)
         {
             symbolStack.Push(parsingTable.LastSymbol);
             symbolStack.Push(parsingTable.FirstSymbol);
@@ -67,7 +65,7 @@ namespace KleinCompiler.FrontEndCode
 
                 if (token is ErrorToken)
                 {
-                    Error = Error.CreateLexicalError(token as ErrorToken, StackTrace);
+                    errorRecord.AddLexicalError(token as ErrorToken, StackTrace);
                     return null;
                 }
 
@@ -79,7 +77,7 @@ namespace KleinCompiler.FrontEndCode
                     }
                     else
                     {
-                        Error = Error.CreateSyntaxError(symbol, token, StackTrace);
+                        errorRecord.AddSyntaxError(symbol, token, StackTrace);
                         return null;
                     }
                 }
@@ -88,7 +86,7 @@ namespace KleinCompiler.FrontEndCode
                     var rule = parsingTable[symbol, token.Symbol];
                     if (rule == null)
                     {
-                        Error = Error.CreateSyntaxError(symbol, token, StackTrace);
+                        errorRecord.AddSyntaxError(symbol, token, StackTrace);
                         return null;
                     }
                     else

@@ -145,7 +145,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) {EnableStackTrace = true};
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
@@ -165,7 +165,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
@@ -185,7 +185,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Identifier(0, "x")));
@@ -199,7 +199,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
@@ -223,7 +223,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator
@@ -247,7 +247,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
@@ -271,7 +271,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new TimesOperator
@@ -295,7 +295,7 @@ R8                              | identifier MakeIdentifier
 
             // act
             var parser = new Parser(ArithmeticGrammarParserTableFactory.Create(), new ArithmeticGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new PlusOperator

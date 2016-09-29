@@ -20,7 +20,7 @@ namespace KleinCompiler.FrontEndCode
         public int Lines => _newlinePositions.Count;
 
         /// <summary>
-        /// Returns the line number and character line position in the file
+        /// Returns the line number and character line position in the file.
         /// Uses one based indexing, i.e. first character in the file is at postion (1,1)  
         /// </summary>
         /// <param name="position">zero based character position in the string</param>

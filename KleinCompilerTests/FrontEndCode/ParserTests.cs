@@ -21,7 +21,7 @@ namespace KleinCompilerTests.FrontEndCode
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -45,7 +45,7 @@ main () : boolean
 
             //act
             var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -69,11 +69,12 @@ main () : boolean
 
             //act
             var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var ast = parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             Assert.That(ast, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo($"Unknown character '!'"));
+            Assert.That(errorRecord.Message, Is.EqualTo($"Unknown character '!'"));
         }
 
         [Test]
@@ -84,11 +85,12 @@ main () : boolean
 
             // act
             var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var ast = parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             Assert.That(ast, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo($"Attempting to parse symbol 'Program' found token End"));
+            Assert.That(errorRecord.Message, Is.EqualTo($"Attempting to parse symbol 'Program' found token End"));
         }
 
         [Test]
@@ -99,11 +101,12 @@ main () : boolean
 
             // act
             var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var ast = parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             Assert.That(ast, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo($"Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
+            Assert.That(errorRecord.Message, Is.EqualTo($"Attempting to parse symbol 'OpenBracket' found token Identifier 'secondary'"));
         }
 
         [Test]
@@ -118,7 +121,7 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser();
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program
@@ -171,7 +174,7 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -193,7 +196,7 @@ circularPrimesTo(x: integer):integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -222,7 +225,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -269,7 +272,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(bop));
@@ -298,7 +301,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(bop));
@@ -312,7 +315,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new Identifier(0, "x")));
@@ -326,7 +329,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
@@ -350,7 +353,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new PlusOperator
@@ -374,7 +377,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new TimesOperator
@@ -402,7 +405,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NotOperator
@@ -421,7 +424,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new NegateOperator
@@ -444,7 +447,7 @@ subsidiary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new IfThenElse
@@ -472,7 +475,7 @@ secondary() : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
@@ -494,7 +497,7 @@ secondary(x : integer) : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
@@ -519,7 +522,7 @@ secondary(x : integer, y : integer) : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Expr, Is.AstEqual(new FunctionCall
@@ -548,11 +551,12 @@ main(x: integer) : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var program = (Program)parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             if(program == null)
-                Console.WriteLine(parser.Error.ToString());
+                Console.WriteLine(errorRecord.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(0, new Identifier(0, "x"))
@@ -571,11 +575,12 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser() { EnableStackTrace = true };
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var program = (Program)parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             if(program == null)
-                Console.WriteLine(parser.Error.ToString());
+                Console.WriteLine(errorRecord.ToString());
             Assert.That(program.Definitions[0].Body.Prints, Is.AstEqual(new ReadOnlyCollection<Print>(new List<Print>
                                                                                                         {
                                                                                                             new Print(0, new Identifier(0, "x")),
@@ -611,7 +616,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             var equalsOperator = program.Definitions[0].Body.Expr as EqualsOperator;
@@ -638,7 +643,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as BinaryOperator).Position, Is.EqualTo(42));
@@ -653,7 +658,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as UnaryOperator).Position, Is.EqualTo(27));
@@ -667,7 +672,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as IfThenElse).Position, Is.EqualTo(27));
@@ -681,7 +686,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as Identifier).Position, Is.EqualTo(27));
@@ -695,7 +700,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as IntegerLiteral).Position, Is.EqualTo(27));
@@ -709,7 +714,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as BooleanLiteral).Position, Is.EqualTo(27));
@@ -723,7 +728,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Expr as BooleanLiteral).Position, Is.EqualTo(27));
@@ -737,7 +742,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             //41
             // assert
             Assert.That((program.Definitions[0].Body.Prints[0] as Print).Position, Is.EqualTo(27));
@@ -751,7 +756,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That((program.Definitions[0].Body.Expr as FunctionCall).Position, Is.EqualTo(27));
@@ -765,7 +770,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That((program.Definitions[0].Body.Expr as FunctionCall).Actuals[0].Position, Is.EqualTo(37));
@@ -779,7 +784,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Formals[0].Position, Is.EqualTo(5));
@@ -793,7 +798,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Body.Position, Is.EqualTo(27));
@@ -807,7 +812,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[1].Position, Is.EqualTo(29));
@@ -821,7 +826,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Position, Is.EqualTo(5));
@@ -835,7 +840,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Formals[0].TypeDeclaration.Position, Is.EqualTo(8));
@@ -849,7 +854,7 @@ main(x: integer, y : integer) : integer
 
             // act
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(program.Definitions[0].Formals[0].TypeDeclaration.Position, Is.EqualTo(8));

@@ -20,7 +20,7 @@ namespace KleinCompilerTests.FrontEndCode
                           main() : integer
                               1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -38,7 +38,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @" secondary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -58,12 +58,13 @@ namespace KleinCompilerTests.FrontEndCode
             var parser = new Parser();
 
             // act
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var program = (Program)parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             Assert.That(program, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo("Attempting to parse symbol 'Program' found token PrintKeyword 'print'"));
-            Assert.That(parser.Error.ErrorType, Is.EqualTo(Error.ErrorTypeEnum.Syntax));
+            Assert.That(errorRecord.Message, Is.EqualTo("Attempting to parse symbol 'Program' found token PrintKeyword 'print'"));
+            Assert.That(errorRecord.ErrorType, Is.EqualTo(ErrorTypeEnum.Syntax));
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : integer
                               1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -94,7 +95,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program) parser.Parse(new Tokenizer(input));
+            var program = (Program) parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -114,7 +115,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @" main() : boolean
                               1";
             var parser = new Parser();
-            var program = (Program) parser.Parse(new Tokenizer(input));
+            var program = (Program) parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -132,7 +133,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main(x: integer, y:boolean) : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -150,7 +151,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @" main(x: integer, x:integer) : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -174,7 +175,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program) parser.Parse(new Tokenizer(input));
+            var program = (Program) parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -194,7 +195,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -214,7 +215,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary(x : boolean) : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -234,7 +235,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary(x : boolean) : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -254,7 +255,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary(x : boolean) : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -278,7 +279,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             program.CheckType();
 
             // act
@@ -301,7 +302,7 @@ namespace KleinCompilerTests.FrontEndCode
                           tertiary() : boolean
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             program.CheckType();
 
             // act
@@ -327,7 +328,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary(x : integer) : boolean
                               x < 2";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -347,7 +348,7 @@ namespace KleinCompilerTests.FrontEndCode
                           secondary(y : integer) : boolean
                               x < 2";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -369,7 +370,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : boolean
                               not false";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -386,7 +387,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : boolean
                               not 1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -404,7 +405,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : boolean
                               not (1 < true)";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -426,7 +427,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : integer
                               - 1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -443,7 +444,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : integer
                               - true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -461,7 +462,7 @@ namespace KleinCompilerTests.FrontEndCode
             var input = @"main() : integer
                               - (0 < true)";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -496,7 +497,7 @@ namespace KleinCompilerTests.FrontEndCode
         {
             // arrange
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -556,7 +557,7 @@ namespace KleinCompilerTests.FrontEndCode
         {
             // arrange
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -583,7 +584,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   false";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -605,7 +606,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   2";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -627,7 +628,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   false";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -650,7 +651,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   false";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -673,7 +674,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   false";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -696,7 +697,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   0 < (-true)";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -719,7 +720,7 @@ namespace KleinCompilerTests.FrontEndCode
                               else
                                   1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -743,7 +744,7 @@ namespace KleinCompilerTests.FrontEndCode
                               print(true)
                               true";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -763,7 +764,7 @@ namespace KleinCompilerTests.FrontEndCode
                               true";
 
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // act
             var result = program.CheckType();
@@ -786,12 +787,13 @@ namespace KleinCompilerTests.FrontEndCode
             var parser = new Parser();
 
             // act
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var errorRecord = new ErrorRecord(input);
+            var program = (Program)parser.Parse(new Tokenizer(input), errorRecord);
 
             // assert
             Assert.That(program, Is.Null);
-            Assert.That(parser.Error.Message, Is.EqualTo("Attempting to parse symbol 'FactorTail' found token PrintKeyword 'print'"));
-            Assert.That(parser.Error.ErrorType, Is.EqualTo(Error.ErrorTypeEnum.Syntax));
+            Assert.That(errorRecord.Message, Is.EqualTo("Attempting to parse symbol 'FactorTail' found token PrintKeyword 'print'"));
+            Assert.That(errorRecord.ErrorType, Is.EqualTo(ErrorTypeEnum.Syntax));
         }
 
         #endregion

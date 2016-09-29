@@ -63,9 +63,9 @@
     <Compile Include="BackEndCode\ThreeAddressCodeFactory.cs" />
     <Compile Include="BackEndCode\RuntimeGenerator.cs" />
     <Compile Include="FrontEnd.cs" />
+    <Compile Include="FrontEndCode\ErrorRecord.cs" />
     <Compile Include="FrontEndCode\PrettyPrinter.cs" />
     <Compile Include="AbstractSyntaxTree\IAstVisitor.cs" />
-    <Compile Include="FrontEndCode\Error.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FrontEndCode\FilePositionCalculator.cs" />
     <Compile Include="FrontEndCode\Parser.cs" />

@@ -21,7 +21,7 @@ namespace KleinCmdlets
 
             if (program == null)
             {
-                var exceptionMessage = $"{Path}{frontEnd.Error}";
+                var exceptionMessage = $"{Path}{frontEnd.ErrorRecord}";
                 throw new Exception(exceptionMessage);
             }
             WriteObject(program);

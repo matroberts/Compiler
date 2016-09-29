@@ -24,7 +24,7 @@ namespace KleinCompilerTests.BackEndCode
             var input = @"main() : integer
                               1";
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
             var result = program.CheckType();
             Assert.That(result.HasError, Is.False, result.Message);
             PrettyPrinter.ToConsole(program);

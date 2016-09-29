@@ -25,7 +25,7 @@ namespace KleinPrograms.Tests
                 if (frontEnd.Compile(input) == null)
                 {
                     allPass = false;
-                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.Error.FilePosition} {frontEnd.Error}");
+                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.ErrorRecord.FilePosition} {frontEnd.ErrorRecord}");
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace KleinPrograms.Tests
                 if (frontEnd.Compile(input) == null)
                 {
                     allPass = false;
-                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.Error.FilePosition} {frontEnd.Error}");
+                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.ErrorRecord.FilePosition} {frontEnd.ErrorRecord}");
                 }
             }
             ConsoleWriteLine.If(allPass != true, result.ToString());
@@ -69,9 +69,9 @@ namespace KleinPrograms.Tests
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\scanner", filename);
             var frontEnd = new FrontEnd();
             frontEnd.Compile(File.ReadAllText(file));
-            var error = frontEnd.Error;
+            var error = frontEnd.ErrorRecord;
 
-            Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
+            Assert.That(error.ErrorType, Is.Not.EqualTo(ErrorTypeEnum.No));
             Assert.That(error.ToString(), Is.EqualTo(message));
         }
 
@@ -90,9 +90,9 @@ namespace KleinPrograms.Tests
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\parser", filename);
             var frontEnd = new FrontEnd();
             frontEnd.Compile(File.ReadAllText(file));
-            var error = frontEnd.Error;
+            var error = frontEnd.ErrorRecord;
 
-            Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
+            Assert.That(error.ErrorType, Is.Not.EqualTo(ErrorTypeEnum.No));
             Assert.That(error.ToString(), Is.EqualTo(message));
         }
 
@@ -123,9 +123,9 @@ namespace KleinPrograms.Tests
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\typeerrors", filename);
             var frontEnd = new FrontEnd();
             frontEnd.Compile(File.ReadAllText(file));
-            var error = frontEnd.Error;
+            var error = frontEnd.ErrorRecord;
 
-            Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
+            Assert.That(error.ErrorType, Is.Not.EqualTo(ErrorTypeEnum.No));
             Assert.That(error.ToString(), Is.EqualTo(message));
         }
 

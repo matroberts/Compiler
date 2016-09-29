@@ -6,23 +6,23 @@ namespace KleinCompiler
 {
     public class FrontEnd
     {
-        public Error Error { get; private set; }
+        public ErrorRecord ErrorRecord { get; private set; }
+        
         public Program Compile(string input)
         {
-            Error.FilePositionCalculator = new FilePositionCalculator(input);
+            ErrorRecord = new ErrorRecord(input);
 
             var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input));
+            var program = (Program)parser.Parse(new Tokenizer(input), ErrorRecord);
             if (program == null)
             {
-                Error = parser.Error;
                 return null;
             }
 
             var result = program.CheckType();
             if (result.HasError)
             {
-                Error = Error.CreateSemanticError(result);
+                ErrorRecord.AddSemanticError(result);
                 return null;
             }
 

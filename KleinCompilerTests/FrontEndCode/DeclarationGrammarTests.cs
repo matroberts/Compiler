@@ -176,7 +176,7 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -197,7 +197,7 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -218,7 +218,7 @@ R12                             | boolean MakeBooleanType
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
@@ -244,7 +244,7 @@ subsidiary() : integer";
 
             // act
             var parser = new Parser(DeclarationGrammarParsingTableFactory.Create(), new DeclarationGrammarAstFactory()) { EnableStackTrace = true };
-            var ast = parser.Parse(new Tokenizer(input));
+            var ast = parser.Parse(new Tokenizer(input), new ErrorRecord(input));
 
             // assert
             Assert.That(ast, Is.AstEqual(new Program(
