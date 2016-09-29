@@ -62,7 +62,7 @@
     <Compile Include="AstFactory.cs" />
     <Compile Include="CodeGenerator\ThreeAddressCodeFactory.cs" />
     <Compile Include="CodeGenerator\RuntimeGenerator.cs" />
-    <Compile Include="Compiler.cs" />
+    <Compile Include="FrontEnd.cs" />
     <Compile Include="PrettyPrinter.cs" />
     <Compile Include="IAstVisitor.cs" />
     <Compile Include="Error.cs" />

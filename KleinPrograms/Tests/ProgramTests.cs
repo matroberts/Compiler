@@ -20,11 +20,11 @@ namespace KleinPrograms.Tests
             foreach (var file in files)
             {
                 var input = File.ReadAllText(file);
-                var error = new Compiler().Compile(input);
-                if (error.ErrorType != Error.ErrorTypeEnum.No)
+                var frontEnd = new FrontEnd();
+                if (frontEnd.Compile(input) == null)
                 {
                     allPass = false;
-                    result.AppendLine($"{Path.GetFileName(file)}{error.FilePosition} {error.ToString()}");
+                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.Error.FilePosition} {frontEnd.Error}");
                 }
                 else
                 {
@@ -45,11 +45,11 @@ namespace KleinPrograms.Tests
             foreach (var file in files)
             {
                 var input = File.ReadAllText(file);
-                var error = new Compiler().Compile(input);
-                if (error.ErrorType != Error.ErrorTypeEnum.No)
+                var frontEnd = new FrontEnd();
+                if (frontEnd.Compile(input) == null)
                 {
                     allPass = false;
-                    result.AppendLine($"{Path.GetFileName(file)}{error.FilePosition} {error.ToString()}");
+                    result.AppendLine($"{Path.GetFileName(file)}{frontEnd.Error.FilePosition} {frontEnd.Error}");
                 }
             }
             ConsoleWriteLine.If(allPass != true, result.ToString());
@@ -66,8 +66,9 @@ namespace KleinPrograms.Tests
         public void ScannerErrors_Compiler_ShouldProduceCorrectErrorMessages(string filename, string message)
         {
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\scanner", filename);
-            var input = File.ReadAllText(file);
-            var error = new Compiler().Compile(input);
+            var frontEnd = new FrontEnd();
+            frontEnd.Compile(File.ReadAllText(file));
+            var error = frontEnd.Error;
 
             Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
             Assert.That(error.ToString(), Is.EqualTo(message));
@@ -86,8 +87,9 @@ namespace KleinPrograms.Tests
         public void ParserErrors_Compiler_ShouldProduceCorrectErrorMessages(string filename, string message)
         {
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\parser", filename);
-            var input = File.ReadAllText(file);
-            var error = new Compiler().Compile(input);
+            var frontEnd = new FrontEnd();
+            frontEnd.Compile(File.ReadAllText(file));
+            var error = frontEnd.Error;
 
             Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
             Assert.That(error.ToString(), Is.EqualTo(message));
@@ -118,11 +120,11 @@ namespace KleinPrograms.Tests
         public void TypeErrors_Compiler_ShouldProduceCorrectErrorMessages(string filename, string message)
         {
             var file = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\typeerrors", filename);
-            var input = File.ReadAllText(file);
-            var error = new Compiler().Compile(input);
+            var frontEnd = new FrontEnd();
+            frontEnd.Compile(File.ReadAllText(file));
+            var error = frontEnd.Error;
 
             Assert.That(error.ErrorType, Is.Not.EqualTo(Error.ErrorTypeEnum.No));
-            Console.WriteLine(error.ToString());
             Assert.That(error.ToString(), Is.EqualTo(message));
         }
 

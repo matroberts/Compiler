@@ -16,16 +16,15 @@ namespace KleinCmdlets
 
         protected override void ProcessRecord()
         {
-            var input = File.ReadAllText(Path);
-            var complier = new Compiler();
-            var error = complier.Compile(input);
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(File.ReadAllText(Path));
 
-            if (error.ErrorType != Error.ErrorTypeEnum.No)
+            if (program == null)
             {
-                var exceptionMessage = $"{Path}{error}";
+                var exceptionMessage = $"{Path}{frontEnd.Error}";
                 throw new Exception(exceptionMessage);
             }
-            WriteObject(complier.Program);
+            WriteObject(program);
         }
     }
 }
