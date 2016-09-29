@@ -60,8 +60,8 @@
     <Compile Include="AbstractSyntaxTree\TypeValidationResult.cs" />
     <Compile Include="AbstractSyntaxTree\UnaryOperator.cs" />
     <Compile Include="FrontEndCode\AstFactory.cs" />
-    <Compile Include="CodeGenerator\ThreeAddressCodeFactory.cs" />
-    <Compile Include="CodeGenerator\RuntimeGenerator.cs" />
+    <Compile Include="BackEndCode\ThreeAddressCodeFactory.cs" />
+    <Compile Include="BackEndCode\RuntimeGenerator.cs" />
     <Compile Include="FrontEnd.cs" />
     <Compile Include="FrontEndCode\PrettyPrinter.cs" />
     <Compile Include="AbstractSyntaxTree\IAstVisitor.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeGenerator\Docs.txt" />
+    <Content Include="BackEndCode\Docs.txt" />
     <Content Include="Docs\FirstAndFollow.txt" />
     <Content Include="Docs\Klein Language Specification.html" />
     <Content Include="Docs\ParsingTable.txt" />

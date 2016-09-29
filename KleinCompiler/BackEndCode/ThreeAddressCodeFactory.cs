@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KleinCompiler.AbstractSyntaxTree;
 
-namespace KleinCompiler.CodeGenerator
+namespace KleinCompiler.BackEndCode
 {
     public class ThreeAddressCodeFactory : IAstVisitor
     {

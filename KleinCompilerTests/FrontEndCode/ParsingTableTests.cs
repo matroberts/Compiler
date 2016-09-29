@@ -1,8 +1,7 @@
-﻿using KleinCompiler;
-using KleinCompiler.FrontEndCode;
+﻿using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.FrontEndCode
 {
     [TestFixture]
     public class ParsingTableTests

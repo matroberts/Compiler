@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using KleinCompiler;
-using KleinCompiler.CodeGenerator;
+using KleinCompiler.BackEndCode;
 using KleinCompiler.FrontEndCode;
 
 [AttributeUsage(AttributeTargets.Field)]

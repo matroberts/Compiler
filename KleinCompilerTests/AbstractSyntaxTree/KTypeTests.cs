@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.AbstractSyntaxTree
 {
     [TestFixture]
     public class KTypeTests

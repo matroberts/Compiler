@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-using KleinCompiler.CodeGenerator;
+﻿using KleinCompiler.BackEndCode;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.BackEndCode
 {
     [TestFixture]
     public class StackOffsetTests

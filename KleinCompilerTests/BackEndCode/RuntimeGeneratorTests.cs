@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using KleinCompiler.CodeGenerator;
+using KleinCompiler.BackEndCode;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.BackEndCode
 {
     public class TinyMachine
     {

@@ -44,26 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArithmeticGrammarTests.cs" />
-    <Compile Include="AstTests.cs" />
-    <Compile Include="CodeGeneratorTests.cs" />
+    <Compile Include="FrontEndCode\ArithmeticGrammarTests.cs" />
+    <Compile Include="AbstractSyntaxTree\AstTests.cs" />
+    <Compile Include="BackEndCode\CodeGeneratorTests.cs" />
     <Compile Include="ConsoleWriteLine.cs" />
-    <Compile Include="DeclarationGrammarTests.cs" />
+    <Compile Include="FrontEndCode\DeclarationGrammarTests.cs" />
     <Compile Include="EqualAstConstraint.cs" />
     <Compile Include="ExtensionTests.cs" />
-    <Compile Include="FilePositionCalculatorTest.cs" />
-    <Compile Include="ParserTests.cs" />
-    <Compile Include="ParsingTableTests.cs" />
-    <Compile Include="PrettyPrinterTests.cs" />
-    <Compile Include="RuleTests.cs" />
-    <Compile Include="RuntimeGeneratorTests.cs" />
-    <Compile Include="StackOffsetTests.cs" />
-    <Compile Include="SymbolTests.cs" />
-    <Compile Include="TokenizerTests.cs" />
-    <Compile Include="TokenTests.cs" />
+    <Compile Include="FrontEndCode\FilePositionCalculatorTest.cs" />
+    <Compile Include="FrontEndCode\ParserTests.cs" />
+    <Compile Include="FrontEndCode\ParsingTableTests.cs" />
+    <Compile Include="FrontEndCode\PrettyPrinterTests.cs" />
+    <Compile Include="FrontEndCode\RuleTests.cs" />
+    <Compile Include="BackEndCode\RuntimeGeneratorTests.cs" />
+    <Compile Include="BackEndCode\StackOffsetTests.cs" />
+    <Compile Include="FrontEndCode\SymbolTests.cs" />
+    <Compile Include="FrontEndCode\TokenizerTests.cs" />
+    <Compile Include="FrontEndCode\TokenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="KTypeTests.cs" />
-    <Compile Include="TypeCheckerTests.cs" />
+    <Compile Include="AbstractSyntaxTree\KTypeTests.cs" />
+    <Compile Include="FrontEndCode\TypeCheckerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="debug.bat" />

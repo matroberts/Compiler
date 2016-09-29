@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using KleinCompiler;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KleinCompiler.AbstractSyntaxTree;
 using KleinCompiler.FrontEndCode;
+using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.FrontEndCode
 {
     [TestFixture]
     public class PrettyPrinterTests

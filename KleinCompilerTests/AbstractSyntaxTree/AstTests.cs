@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using KleinCompiler;
+﻿using System.Collections.Generic;
 using KleinCompiler.AbstractSyntaxTree;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.AbstractSyntaxTree
 {
     [TestFixture]
     public class AstTests

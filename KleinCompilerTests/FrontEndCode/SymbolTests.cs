@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using KleinCompiler;
 using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.FrontEndCode
 {
     [TestFixture]
     public class SymbolTests

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KleinCompiler.CodeGenerator
+﻿namespace KleinCompiler.BackEndCode
 {
     public class RuntimeGenerator
     {

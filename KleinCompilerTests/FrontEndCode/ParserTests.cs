@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
 using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.FrontEndCode
 {
     [TestFixture]
     public class ParserTests

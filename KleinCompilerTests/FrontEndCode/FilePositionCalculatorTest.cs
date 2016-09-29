@@ -1,10 +1,7 @@
-﻿using System;
-using KleinCompiler;
-using KleinCompiler.FrontEndCode;
+﻿using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
-using NUnit.Framework.Api;
 
-namespace KleinCompilerTests
+namespace KleinCompilerTests.FrontEndCode
 {
     [TestFixture]
     public class FilePositionCalculatorTest
