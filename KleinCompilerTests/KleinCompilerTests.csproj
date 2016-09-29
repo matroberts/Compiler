@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ArithmeticGrammarTests.cs" />
     <Compile Include="AstTests.cs" />
+    <Compile Include="CodeGeneratorTests.cs" />
     <Compile Include="ConsoleWriteLine.cs" />
     <Compile Include="DeclarationGrammarTests.cs" />
     <Compile Include="EqualAstConstraint.cs" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using KleinCompiler;
+using KleinCompiler.CodeGenerator;
 
 [AttributeUsage(AttributeTargets.Field)]
 public class SymbolTypeAttribute : Attribute
@@ -72,5 +74,22 @@ public static class Extensions
         {
             Console.Write(s);
         }
+    }
+
+    public static void ToConsole(this List<Tac> tacs)
+    {
+        foreach (var tac in tacs)
+        {
+            Console.WriteLine(tac);
+        }
+    }
+    public static string ToString2(this List<Tac> tacs)
+    {
+        var sb = new StringBuilder();
+        foreach (var tac in tacs)
+        {
+            sb.AppendLine(tac.ToString());
+        }
+        return sb.ToString();
     }
 }

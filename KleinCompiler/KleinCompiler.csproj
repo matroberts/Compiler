@@ -60,6 +60,7 @@
     <Compile Include="AbstractSyntaxTree\TypeValidationResult.cs" />
     <Compile Include="AbstractSyntaxTree\UnaryOperator.cs" />
     <Compile Include="AstFactory.cs" />
+    <Compile Include="CodeGenerator\ThreeAddressCodeFactory.cs" />
     <Compile Include="CodeGenerator\RuntimeGenerator.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="PrettyPrinter.cs" />
@@ -85,9 +86,6 @@
     <Content Include="Docs\Rules.txt" />
     <Content Include="Docs\Tiny Machine Specification.html" />
     <Content Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerator\Playing.tm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
