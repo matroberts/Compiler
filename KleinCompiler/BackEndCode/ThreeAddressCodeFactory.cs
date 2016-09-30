@@ -1,41 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using KleinCompiler.AbstractSyntaxTree;
 
 namespace KleinCompiler.BackEndCode
 {
+
+
+
     public class ThreeAddressCodeFactory : IAstVisitor
     {
-        private List<Tac> threeAddressCodes = new List<Tac>();
+        private ThreeAddressCode ThreeAddressCode = new ThreeAddressCode();
 
         private int tempCounter = 0;
         private string MakeNewTemp() => $"t{tempCounter++}";
 
-        public List<Tac> Generate(Ast ast)
+        public ThreeAddressCode Generate(Ast ast)
         {
             ast.Accept(this);
-            return threeAddressCodes;
+            return ThreeAddressCode;
         }
 
         public void Visit(Program program)
         {
             // call main
-            threeAddressCodes.Add(new Tac(Op.BeginCall, null, null, null));
+            ThreeAddressCode.BeginCall();
             var mainResult = MakeNewTemp();
-            threeAddressCodes.Add(new Tac(Op.Call, "main", null, mainResult));
+            ThreeAddressCode.Call("main", mainResult);
 
             // send result of main to print
-            threeAddressCodes.Add(new Tac(Op.BeginCall, null, null, null));
-            threeAddressCodes.Add(new Tac(Op.Param, mainResult, null, null));
-            threeAddressCodes.Add(new Tac(Op.Call, "print", null, MakeNewTemp()));
-            threeAddressCodes.Add(new Tac(Op.Stop, null, null, null));
+            ThreeAddressCode.BeginCall();
+            ThreeAddressCode.Param(mainResult);
+            ThreeAddressCode.Call("print", MakeNewTemp());
+            ThreeAddressCode.Halt();
 
             // declare print function
-            threeAddressCodes.Add(new Tac(Op.Begin, "print", null, null));
-            threeAddressCodes.Add(new Tac(Op.DoPrint, "arg0", null, null));
-            threeAddressCodes.Add(new Tac(Op.Return, "arg0", null, null));
-            threeAddressCodes.Add(new Tac(Op.End, null, null, null));
+            ThreeAddressCode.Begin("print");
+            ThreeAddressCode.DoPrint("arg0");
+            ThreeAddressCode.Return("arg0");
+            ThreeAddressCode.End("print");
 
             foreach (var definition in program.Definitions)
             {
@@ -45,9 +49,9 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
-            threeAddressCodes.Add(new Tac(Op.Begin, definition.Name, null, null));
+            ThreeAddressCode.Begin(definition.Name);
             definition.Body.Accept(this);
-            threeAddressCodes.Add(new Tac(Op.End, definition.Name, null, null));
+            ThreeAddressCode.End(definition.Name);
         }
 
         public void Visit(Body body)
@@ -57,7 +61,7 @@ namespace KleinCompiler.BackEndCode
                 //TODO
             }
             body.Expr.Accept(this);
-            threeAddressCodes.Add(new Tac(Op.Return, threeAddressCodes.Last().Result, null, null));
+            ThreeAddressCode.Return(ThreeAddressCode.Tacs.Last().Result);
         }
 
         public void Visit(Formal node)
@@ -147,7 +151,7 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(IntegerLiteral literal)
         {
-            threeAddressCodes.Add(new Tac(Op.Assign, literal.Value.ToString(), null, MakeNewTemp()));
+            ThreeAddressCode.Assign(literal.Value.ToString(), MakeNewTemp());
         }
 
         public void Visit(FunctionCall node)
@@ -158,6 +162,66 @@ namespace KleinCompiler.BackEndCode
         public void Visit(Actual node)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class ThreeAddressCode
+    {
+        public List<Tac> Tacs { get; private set; } = new List<Tac>();
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var tac in Tacs)
+            {
+                sb.AppendLine(tac.ToString());
+            }
+            return sb.ToString();
+        }
+
+        public void Begin(string name)
+        {
+            Tacs.Add(new Tac(Op.Begin, name, null, null));
+        }
+
+        public void End(string name)
+        {
+            Tacs.Add(new Tac(Op.End, name, null, null));
+        }
+
+        public void Return(string variableName)
+        {
+            Tacs.Add(new Tac(Op.Return, variableName, null, null));
+        }
+
+        public void BeginCall()
+        {
+            Tacs.Add(new Tac(Op.BeginCall, null, null, null));
+        }
+
+        public void Call(string functionName, string returnVariable)
+        {
+            Tacs.Add(new Tac(Op.Call, functionName, null, returnVariable));
+        }
+
+        public void Param(string variableName)
+        {
+            Tacs.Add(new Tac(Op.Param, variableName, null, null));
+        }
+
+        public void Halt()
+        {
+            Tacs.Add(new Tac(Op.Stop, null, null, null));
+        }
+
+        public void DoPrint(string arg0)
+        {
+            Tacs.Add(new Tac(Op.DoPrint, arg0, null, null));
+        }
+
+        public void Assign(string variableOrConstant, string returnVariable)
+        {
+            Tacs.Add(new Tac(Op.Assign, variableOrConstant, null, returnVariable));
         }
     }
 
@@ -176,6 +240,7 @@ namespace KleinCompiler.BackEndCode
      *   Recieve   t                                          copy result from stack frame into t
      *   Assign    t1              null          t2           t1 variable or constant, t2 result in a variable
      */
+
 
 
     public struct Tac

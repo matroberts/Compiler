@@ -68,29 +68,4 @@ public static class Extensions
             stack.Push(symbol);
         }
     }
-
-    public static void ToConsole(this string[] strings)
-    {
-        foreach (var s in strings)
-        {
-            Console.Write(s);
-        }
-    }
-
-    public static void ToConsole(this List<Tac> tacs)
-    {
-        foreach (var tac in tacs)
-        {
-            Console.WriteLine(tac);
-        }
-    }
-    public static string ToString2(this List<Tac> tacs)
-    {
-        var sb = new StringBuilder();
-        foreach (var tac in tacs)
-        {
-            sb.AppendLine(tac.ToString());
-        }
-        return sb.ToString();
-    }
 }

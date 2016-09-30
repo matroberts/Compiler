@@ -1,4 +1,5 @@
 ﻿using System;
+using KleinCompiler;
 using KleinCompiler.AbstractSyntaxTree;
 using KleinCompiler.BackEndCode;
 using KleinCompiler.FrontEndCode;
@@ -23,14 +24,15 @@ namespace KleinCompilerTests.BackEndCode
             // arrange
             var input = @"main() : integer
                               1";
-            var parser = new Parser();
-            var program = (Program)parser.Parse(new Tokenizer(input), new ErrorRecord(input));
-            var result = program.CheckType();
-            Assert.That(result.HasError, Is.False, result.Message);
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
             PrettyPrinter.ToConsole(program);
-            var tacs = new ThreeAddressCodeFactory().Generate(program);
-            Console.WriteLine(tacs.ToString2());
-            Assert.That(tacs.ToString2(), Is.EqualTo(@"BeginCall
+            var tac = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tac.ToString());
+            Assert.That(tac.ToString(), Is.EqualTo(@"BeginCall
 t0 := Call main
 BeginCall
 Param t0
@@ -40,7 +42,7 @@ Stop
 Begin print
 DoPrint arg0
 Return arg0
-End 
+End print
 
 Begin main
 t2 := 1
