@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace KleinCompilerTests.BackEndCode
 {
     [TestFixture]
-    public class CodeGeneratorTests
+    public class ThreeAddressCodeFactoryTests
     {
 //        var input = @"main() : integer
 //                              1
@@ -17,9 +17,8 @@ namespace KleinCompilerTests.BackEndCode
 //                          tertiary() : integer
 //                              17";
 
-        // the result returned by main is printed to stdout
         [Test]
-        public void Test()
+        public void SimplestPossibleProgram_ShouldCallMain_AndShouldPrintMainsResult()
         {
             // arrange
             var input = @"main() : integer
@@ -29,26 +28,33 @@ namespace KleinCompilerTests.BackEndCode
             var program = frontEnd.Compile(input);
             Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
 
-            PrettyPrinter.ToConsole(program);
+            // act
             var tac = new ThreeAddressCodeFactory().Generate(program);
-            Console.WriteLine(tac.ToString());
-            Assert.That(tac.ToString(), Is.EqualTo(@"BeginCall
+
+            // assert
+            Assert.That(tac.ToString(), Is.EqualTo(@"
+BeginCall
 t0 := Call main
 BeginCall
 Param t0
 t1 := Call print
-Stop 
+Halt 
 
-Begin print
+BeginFunc print
 DoPrint arg0
 Return arg0
-End print
+EndFunc print
 
-Begin main
+BeginFunc main
 t2 := 1
 Return t2
-End main
+EndFunc main
 "));
         }
+
+//        PrettyPrinter.ToConsole(program);
+//            Console.WriteLine(tac.ToString());
+
+
     }
 }

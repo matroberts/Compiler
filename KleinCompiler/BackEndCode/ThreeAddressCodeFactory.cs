@@ -6,9 +6,6 @@ using KleinCompiler.AbstractSyntaxTree;
 
 namespace KleinCompiler.BackEndCode
 {
-
-
-
     public class ThreeAddressCodeFactory : IAstVisitor
     {
         private ThreeAddressCode ThreeAddressCode = new ThreeAddressCode();
@@ -36,10 +33,10 @@ namespace KleinCompiler.BackEndCode
             ThreeAddressCode.Halt();
 
             // declare print function
-            ThreeAddressCode.Begin("print");
+            ThreeAddressCode.BeginFunc("print");
             ThreeAddressCode.DoPrint("arg0");
             ThreeAddressCode.Return("arg0");
-            ThreeAddressCode.End("print");
+            ThreeAddressCode.EndFunc("print");
 
             foreach (var definition in program.Definitions)
             {
@@ -49,9 +46,9 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
-            ThreeAddressCode.Begin(definition.Name);
+            ThreeAddressCode.BeginFunc(definition.Name);
             definition.Body.Accept(this);
-            ThreeAddressCode.End(definition.Name);
+            ThreeAddressCode.EndFunc(definition.Name);
         }
 
         public void Visit(Body body)
@@ -167,11 +164,12 @@ namespace KleinCompiler.BackEndCode
 
     public class ThreeAddressCode
     {
-        public List<Tac> Tacs { get; private set; } = new List<Tac>();
+        public List<Tac> Tacs { get; } = new List<Tac>();
 
         public override string ToString()
         {
             var sb = new StringBuilder();
+            sb.AppendLine();
             foreach (var tac in Tacs)
             {
                 sb.AppendLine(tac.ToString());
@@ -179,14 +177,14 @@ namespace KleinCompiler.BackEndCode
             return sb.ToString();
         }
 
-        public void Begin(string name)
+        public void BeginFunc(string name)
         {
-            Tacs.Add(new Tac(Op.Begin, name, null, null));
+            Tacs.Add(new Tac(Op.BeginFunc, name, null, null));
         }
 
-        public void End(string name)
+        public void EndFunc(string name)
         {
-            Tacs.Add(new Tac(Op.End, name, null, null));
+            Tacs.Add(new Tac(Op.EndFunc, name, null, null));
         }
 
         public void Return(string variableName)
@@ -211,7 +209,7 @@ namespace KleinCompiler.BackEndCode
 
         public void Halt()
         {
-            Tacs.Add(new Tac(Op.Stop, null, null, null));
+            Tacs.Add(new Tac(Op.Halt, null, null, null));
         }
 
         public void DoPrint(string arg0)
@@ -224,24 +222,6 @@ namespace KleinCompiler.BackEndCode
             Tacs.Add(new Tac(Op.Assign, variableOrConstant, null, returnVariable));
         }
     }
-
-    /*
-     *   Three Address Code
-     *   ==================
-     *   Op        arg1            arg2          result       notes
-     *   --------  --------------  ------------  -----------  ----------
-     *   Stop      null            null          null         exit the program
-     *   Begin     name            null          null         marks the beginning of a function 'name'
-     *   End       name            null          null         marks the end of a function 'name'
-     *   Return    t               null          null         write t into the stack frames return slot
-     *   BeginCall null            null          null         marks the beginning of a function call
-     *   Param     t               null          null         put t into the new functions stack frame
-     *   Call      name            null          t            jump to the function, put the result in t
-     *   Recieve   t                                          copy result from stack frame into t
-     *   Assign    t1              null          t2           t1 variable or constant, t2 result in a variable
-     */
-
-
 
     public struct Tac
     {
@@ -261,12 +241,12 @@ namespace KleinCompiler.BackEndCode
         {
             switch (Operation)
             {
-                case Op.Begin:
+                case Op.BeginFunc:
                     return $"\r\n{Operation} {Arg1}";
-                case Op.End:
+                case Op.EndFunc:
                 case Op.Param:
                 case Op.Return:
-                case Op.Stop:
+                case Op.Halt:
                 case Op.DoPrint:
                     return $"{Operation} {Arg1}";
                 case Op.Assign:
@@ -283,9 +263,9 @@ namespace KleinCompiler.BackEndCode
 
     public enum Op
     {
-        Stop,
-        Begin,
-        End,
+        Halt,
+        BeginFunc,
+        EndFunc,
         Return,
         BeginCall,
         Param,

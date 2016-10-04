@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="FrontEndCode\ArithmeticGrammarTests.cs" />
     <Compile Include="AbstractSyntaxTree\AstTests.cs" />
-    <Compile Include="BackEndCode\CodeGeneratorTests.cs" />
+    <Compile Include="BackEndCode\ThreeAddressCodeFactoryTests.cs" />
     <Compile Include="FrontEndCode\DeclarationGrammarTests.cs" />
     <Compile Include="EqualAstConstraint.cs" />
     <Compile Include="ExtensionTests.cs" />
