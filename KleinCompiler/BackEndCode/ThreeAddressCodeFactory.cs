@@ -8,35 +8,35 @@ namespace KleinCompiler.BackEndCode
 {
     public class ThreeAddressCodeFactory : IAstVisitor
     {
-        private ThreeAddressCode ThreeAddressCode = new ThreeAddressCode();
+        private Tacs tacs = new Tacs();
 
         private int tempCounter = 0;
         private string MakeNewTemp() => $"t{tempCounter++}";
 
-        public ThreeAddressCode Generate(Ast ast)
+        public Tacs Generate(Ast ast)
         {
             ast.Accept(this);
-            return ThreeAddressCode;
+            return tacs;
         }
 
         public void Visit(Program program)
         {
             // call main
-            ThreeAddressCode.Tacs.Add(Tac.BeginCall());
+            tacs.Add(Tac.BeginCall());
             var mainResult = MakeNewTemp();
-            ThreeAddressCode.Tacs.Add(Tac.Call("main", mainResult));
+            tacs.Add(Tac.Call("main", mainResult));
 
             // send result of main to print
-            ThreeAddressCode.Tacs.Add(Tac.BeginCall());
-            ThreeAddressCode.Tacs.Add(Tac.Param(mainResult));
-            ThreeAddressCode.Tacs.Add(Tac.Call("print", MakeNewTemp()));
-            ThreeAddressCode.Tacs.Add(Tac.Halt);
+            tacs.Add(Tac.BeginCall());
+            tacs.Add(Tac.Param(mainResult));
+            tacs.Add(Tac.Call("print", MakeNewTemp()));
+            tacs.Add(Tac.Halt);
 
             // declare print function
-            ThreeAddressCode.Tacs.Add(Tac.BeginFunc("print"));
-            ThreeAddressCode.Tacs.Add(Tac.DoPrint("arg0"));
-            ThreeAddressCode.Tacs.Add(Tac.Return("arg0"));
-            ThreeAddressCode.Tacs.Add(Tac.EndFunc("print"));
+            tacs.Add(Tac.BeginFunc("print"));
+            tacs.Add(Tac.DoPrint("arg0"));
+            tacs.Add(Tac.Return("arg0"));
+            tacs.Add(Tac.EndFunc("print"));
 
             foreach (var definition in program.Definitions)
             {
@@ -46,9 +46,9 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
-            ThreeAddressCode.Tacs.Add(Tac.BeginFunc(definition.Name));
+            tacs.Add(Tac.BeginFunc(definition.Name));
             definition.Body.Accept(this);
-            ThreeAddressCode.Tacs.Add(Tac.EndFunc(definition.Name));
+            tacs.Add(Tac.EndFunc(definition.Name));
         }
 
         public void Visit(Body body)
@@ -58,7 +58,7 @@ namespace KleinCompiler.BackEndCode
                 //TODO
             }
             body.Expr.Accept(this);
-            ThreeAddressCode.Tacs.Add(Tac.Return(ThreeAddressCode.Tacs.Last().Result));
+            tacs.Add(Tac.Return(tacs.Last().Result));
         }
 
         public void Visit(Formal node)
@@ -148,7 +148,7 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(IntegerLiteral literal)
         {
-            ThreeAddressCode.Tacs.Add(Tac.Assign(literal.Value.ToString(), MakeNewTemp()));
+            tacs.Add(Tac.Assign(literal.Value.ToString(), MakeNewTemp()));
         }
 
         public void Visit(FunctionCall node)
@@ -162,15 +162,13 @@ namespace KleinCompiler.BackEndCode
         }
     }
 
-    public class ThreeAddressCode
+    public class Tacs : List<Tac>
     {
-        public List<Tac> Tacs { get; } = new List<Tac>();
-
         public override string ToString()
         {
             var sb = new StringBuilder();
             sb.AppendLine();
-            foreach (var tac in Tacs)
+            foreach (var tac in this)
             {
                 sb.AppendLine(tac.ToString());
             }
@@ -180,6 +178,19 @@ namespace KleinCompiler.BackEndCode
 
     public struct Tac
     {
+        public enum Op
+        {
+            Halt,
+            BeginFunc,
+            EndFunc,
+            Return,
+            BeginCall,
+            Param,
+            Call,
+            Assign,
+            DoPrint
+        }
+
         public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
         public static Tac Return(string variableName) => new Tac(Op.Return, variableName, null, null);
@@ -189,7 +200,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Halt => new Tac(Op.Halt, null, null, null);
         public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
-        public Tac(Op operation, string arg1, string arg2, string result)
+        private Tac(Op operation, string arg1, string arg2, string result)
         {
             Operation = operation;
             Result = result;
@@ -225,16 +236,5 @@ namespace KleinCompiler.BackEndCode
         }
     }
 
-    public enum Op
-    {
-        Halt,
-        BeginFunc,
-        EndFunc,
-        Return,
-        BeginCall,
-        Param,
-        Call,
-        Assign,
-        DoPrint
-    }
+
 }
