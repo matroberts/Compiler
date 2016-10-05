@@ -22,21 +22,21 @@ namespace KleinCompiler.BackEndCode
         public void Visit(Program program)
         {
             // call main
-            ThreeAddressCode.BeginCall();
+            ThreeAddressCode.Tacs.Add(Tac.BeginCall());
             var mainResult = MakeNewTemp();
-            ThreeAddressCode.Call("main", mainResult);
+            ThreeAddressCode.Tacs.Add(Tac.Call("main", mainResult));
 
             // send result of main to print
-            ThreeAddressCode.BeginCall();
-            ThreeAddressCode.Param(mainResult);
-            ThreeAddressCode.Call("print", MakeNewTemp());
-            ThreeAddressCode.Halt();
+            ThreeAddressCode.Tacs.Add(Tac.BeginCall());
+            ThreeAddressCode.Tacs.Add(Tac.Param(mainResult));
+            ThreeAddressCode.Tacs.Add(Tac.Call("print", MakeNewTemp()));
+            ThreeAddressCode.Tacs.Add(Tac.Halt);
 
             // declare print function
-            ThreeAddressCode.BeginFunc("print");
-            ThreeAddressCode.DoPrint("arg0");
-            ThreeAddressCode.Return("arg0");
-            ThreeAddressCode.EndFunc("print");
+            ThreeAddressCode.Tacs.Add(Tac.BeginFunc("print"));
+            ThreeAddressCode.Tacs.Add(Tac.DoPrint("arg0"));
+            ThreeAddressCode.Tacs.Add(Tac.Return("arg0"));
+            ThreeAddressCode.Tacs.Add(Tac.EndFunc("print"));
 
             foreach (var definition in program.Definitions)
             {
@@ -46,9 +46,9 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
-            ThreeAddressCode.BeginFunc(definition.Name);
+            ThreeAddressCode.Tacs.Add(Tac.BeginFunc(definition.Name));
             definition.Body.Accept(this);
-            ThreeAddressCode.EndFunc(definition.Name);
+            ThreeAddressCode.Tacs.Add(Tac.EndFunc(definition.Name));
         }
 
         public void Visit(Body body)
@@ -58,7 +58,7 @@ namespace KleinCompiler.BackEndCode
                 //TODO
             }
             body.Expr.Accept(this);
-            ThreeAddressCode.Return(ThreeAddressCode.Tacs.Last().Result);
+            ThreeAddressCode.Tacs.Add(Tac.Return(ThreeAddressCode.Tacs.Last().Result));
         }
 
         public void Visit(Formal node)
@@ -148,7 +148,7 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(IntegerLiteral literal)
         {
-            ThreeAddressCode.Assign(literal.Value.ToString(), MakeNewTemp());
+            ThreeAddressCode.Tacs.Add(Tac.Assign(literal.Value.ToString(), MakeNewTemp()));
         }
 
         public void Visit(FunctionCall node)
@@ -176,55 +176,19 @@ namespace KleinCompiler.BackEndCode
             }
             return sb.ToString();
         }
-
-        public void BeginFunc(string name)
-        {
-            Tacs.Add(new Tac(Op.BeginFunc, name, null, null));
-        }
-
-        public void EndFunc(string name)
-        {
-            Tacs.Add(new Tac(Op.EndFunc, name, null, null));
-        }
-
-        public void Return(string variableName)
-        {
-            Tacs.Add(new Tac(Op.Return, variableName, null, null));
-        }
-
-        public void BeginCall()
-        {
-            Tacs.Add(new Tac(Op.BeginCall, null, null, null));
-        }
-
-        public void Call(string functionName, string returnVariable)
-        {
-            Tacs.Add(new Tac(Op.Call, functionName, null, returnVariable));
-        }
-
-        public void Param(string variableName)
-        {
-            Tacs.Add(new Tac(Op.Param, variableName, null, null));
-        }
-
-        public void Halt()
-        {
-            Tacs.Add(new Tac(Op.Halt, null, null, null));
-        }
-
-        public void DoPrint(string arg0)
-        {
-            Tacs.Add(new Tac(Op.DoPrint, arg0, null, null));
-        }
-
-        public void Assign(string variableOrConstant, string returnVariable)
-        {
-            Tacs.Add(new Tac(Op.Assign, variableOrConstant, null, returnVariable));
-        }
     }
 
     public struct Tac
     {
+        public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
+        public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
+        public static Tac Return(string variableName) => new Tac(Op.Return, variableName, null, null);
+        public static Tac BeginCall() => new Tac(Op.BeginCall, null, null, null);
+        public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
+        public static Tac Param(string variableName) => new Tac(Op.Param, variableName, null, null);
+        public static Tac Halt => new Tac(Op.Halt, null, null, null);
+        public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
+        public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public Tac(Op operation, string arg1, string arg2, string result)
         {
             Operation = operation;
