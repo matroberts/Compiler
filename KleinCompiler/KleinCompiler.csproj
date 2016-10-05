@@ -59,6 +59,7 @@
     <Compile Include="AbstractSyntaxTree\KType.cs" />
     <Compile Include="AbstractSyntaxTree\TypeValidationResult.cs" />
     <Compile Include="AbstractSyntaxTree\UnaryOperator.cs" />
+    <Compile Include="BackEndCode\TemplateEngine.cs" />
     <Compile Include="FrontEndCode\AstFactory.cs" />
     <Compile Include="BackEndCode\ThreeAddressCodeFactory.cs" />
     <Compile Include="BackEndCode\RuntimeGenerator.cs" />

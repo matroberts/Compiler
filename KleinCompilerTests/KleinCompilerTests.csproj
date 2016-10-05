@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackEndCode\TemplateEngineTests.cs" />
     <Compile Include="FrontEndCode\ArithmeticGrammarTests.cs" />
     <Compile Include="AbstractSyntaxTree\AstTests.cs" />
     <Compile Include="BackEndCode\ThreeAddressCodeFactoryTests.cs" />
