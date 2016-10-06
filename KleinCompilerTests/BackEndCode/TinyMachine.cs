@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace KleinCompilerTests.BackEndCode
 {
@@ -15,7 +18,7 @@ namespace KleinCompilerTests.BackEndCode
             this.TestFilePath = testFilePath;
         }
 
-        public string[] Execute(string objectCode)
+        public TinyOut Execute(string objectCode)
         {
             File.WriteAllText(TestFilePath, objectCode);
 
@@ -33,7 +36,19 @@ namespace KleinCompilerTests.BackEndCode
             process.Start();
             string output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
-            return output.Trim().Split(new []{"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+            return new TinyOut(output.Trim().Split(new []{"\r\n"}, StringSplitOptions.RemoveEmptyEntries));
+        }
+    }
+
+    public class TinyOut : List<string>
+    {
+        public TinyOut(IEnumerable<string> enumerableOfStrings) : base(enumerableOfStrings)
+        {
+        }
+
+        public override string ToString()
+        {
+            return string.Join(", ", this);
         }
     }
 }

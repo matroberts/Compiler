@@ -63,10 +63,10 @@ namespace KleinCompilerTests.BackEndCode
             var output = new CodeGenerator().Generate(tacs);
 
             // Act
-            string[] stdout = new TinyMachine(ExePath, TestFilePath).Execute(output);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
 
             // Assert
-            Assert.That(stdout, Is.EqualTo(new[] { "1", "3", "2" }));
+            Assert.That(tinyOut, Is.EqualTo(new[] { "1", "3", "2" }));
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace KleinCompilerTests.BackEndCode
             var output = new CodeGenerator().Generate(tacs);
 
             // Act
-            string[] stdout = new TinyMachine(ExePath, TestFilePath).Execute(output);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
 
             // Assert
-            Assert.That(stdout, Is.EqualTo(new[] { "0", "11", "11", "11", "11", "11", "0" }));
+            Assert.That(tinyOut, Is.EqualTo(new[] { "0", "11", "11", "11", "11", "11", "0"}), tinyOut.ToString());
         }
 
         // return value
