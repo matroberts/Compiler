@@ -30,7 +30,7 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.BeginCall());
             tacs.Add(Tac.Param(mainResult));
             tacs.Add(Tac.Call("print", MakeNewTemp()));
-            tacs.Add(Tac.Halt);
+            tacs.Add(Tac.Halt());
 
             // declare print function
             tacs.Add(Tac.BeginFunc("print"));
@@ -188,7 +188,8 @@ namespace KleinCompiler.BackEndCode
             Param,
             Call,
             Assign,
-            DoPrint
+            DoPrint, 
+            DoPrintConst, // print the value of the const passed in arg0
         }
 
         public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
@@ -197,9 +198,11 @@ namespace KleinCompiler.BackEndCode
         public static Tac BeginCall() => new Tac(Op.BeginCall, null, null, null);
         public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
         public static Tac Param(string variableName) => new Tac(Op.Param, variableName, null, null);
-        public static Tac Halt => new Tac(Op.Halt, null, null, null);
-        public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
+        public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
+        public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
+        public static Tac DoPrintConst(string arg0) => new Tac(Op.DoPrintConst, arg0, null, null);
+
         private Tac(Op operation, string arg1, string arg2, string result)
         {
             Operation = operation;
@@ -223,6 +226,7 @@ namespace KleinCompiler.BackEndCode
                 case Op.Return:
                 case Op.Halt:
                 case Op.DoPrint:
+                case Op.DoPrintConst:
                     return $"{Operation} {Arg1}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";

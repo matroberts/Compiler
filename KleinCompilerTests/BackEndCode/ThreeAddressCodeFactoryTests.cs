@@ -1,8 +1,5 @@
-﻿using System;
-using KleinCompiler;
-using KleinCompiler.AbstractSyntaxTree;
+﻿using KleinCompiler;
 using KleinCompiler.BackEndCode;
-using KleinCompiler.FrontEndCode;
 using NUnit.Framework;
 
 namespace KleinCompilerTests.BackEndCode
