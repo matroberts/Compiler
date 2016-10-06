@@ -47,17 +47,17 @@ namespace KleinCompilerTests.BackEndCode
         }
 
         [Test]
-        public void ASimpleProgram_WithFunctionCall_ShouldExecuteCorrectly()
+        public void WhenFunctionIsCalled_ExecutionShouldJumpToTheFunction_WhenFunctionFinishes_ExectionShouldReturn()
         {
             // Arrange
             var tacs = new Tacs
             {
-                Tac.PrintConst("1"),
+                Tac.PrintValue(1),
                 Tac.Call("main", "t0"),
-                Tac.PrintConst("2"),
+                Tac.PrintValue(2),
                 Tac.Halt(),
                 Tac.BeginFunc("main"),
-                Tac.PrintConst("3"),
+                Tac.PrintValue(3),
                 Tac.EndFunc("main")
             };
             var output = new CodeGenerator().Generate(tacs);
@@ -68,5 +68,39 @@ namespace KleinCompilerTests.BackEndCode
             // Assert
             Assert.That(stdout, Is.EqualTo(new[] { "1", "3", "2" }));
         }
+
+        [Test]
+        public void WhenReturningFromAFunctionCall_TheRegistersShouldBeRestoredToTheirPreCallValues()
+        {
+            // Arrange
+            var tacs = new Tacs
+            {
+                Tac.SetRegisterValue(1, 11),
+                Tac.SetRegisterValue(2, 11),
+                Tac.SetRegisterValue(3, 11),
+                Tac.SetRegisterValue(4, 11),
+                Tac.SetRegisterValue(5, 11),
+                Tac.Call("main", "t0"),
+                Tac.PrintRegisters(),
+                Tac.Halt(),
+                Tac.BeginFunc("main"),
+                Tac.SetRegisterValue(1, 22),
+                Tac.SetRegisterValue(2, 22),
+                Tac.SetRegisterValue(3, 22),
+                Tac.SetRegisterValue(4, 22),
+                Tac.SetRegisterValue(5, 22),
+                Tac.EndFunc("main")
+            };
+            var output = new CodeGenerator().Generate(tacs);
+
+            // Act
+            string[] stdout = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // Assert
+            Assert.That(stdout, Is.EqualTo(new[] { "0", "11", "11", "11", "11", "11", "0" }));
+        }
+
+        // return value
+        // passed parameters
     }
 }

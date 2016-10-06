@@ -189,7 +189,9 @@ namespace KleinCompiler.BackEndCode
             Call,
             Assign,
             DoPrint, 
-            PrintConst, // print the value of the const passed in arg0
+            PrintValue,       // For testing, print the value of the const passed in arg0
+            SetRegisterValue, // For testing, sets the value of the register in arg0, to the value in arg1
+            PrintRegisters,   // For testing, prints out the values of all the registers
         }
 
         public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
@@ -201,7 +203,9 @@ namespace KleinCompiler.BackEndCode
         public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
-        public static Tac PrintConst(string arg0) => new Tac(Op.PrintConst, arg0, null, null);
+        public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
+        public static Tac SetRegisterValue(int register, int value) => new Tac(Op.SetRegisterValue, register.ToString(), value.ToString(), null);
+        public static Tac PrintRegisters() => new Tac(Op.PrintRegisters, null, null, null);
 
         private Tac(Op operation, string arg1, string arg2, string result)
         {
@@ -226,14 +230,17 @@ namespace KleinCompiler.BackEndCode
                 case Op.Return:
                 case Op.Halt:
                 case Op.DoPrint:
-                case Op.PrintConst:
+                case Op.PrintValue:
                     return $"{Operation} {Arg1}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";
                 case Op.BeginCall:
+                case Op.PrintRegisters:
                     return $"{Operation}";
                 case Op.Call:
                     return $"{Result} := {Operation} {Arg1}";
+                case Op.SetRegisterValue:
+                    return $"r{Arg1} := {Arg2}";
                 default:
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }

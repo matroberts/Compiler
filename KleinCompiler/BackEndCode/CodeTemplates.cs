@@ -4,8 +4,7 @@
     {
         public static string Halt(ref int lineNumber)
         {
-            return $@"
-{lineNumber++}: HALT 0,0,0
+            return $@"{lineNumber++}: HALT 0,0,0
 ";
         }
 
@@ -20,14 +19,14 @@
         public static string BeginFunc(ref int lineNumber, string name)
         {
             return $@"
-* BeginFunc '{name}'";
+* BeginFunc '{name}'
+";
         }
 
         public static string EndFunc(ref int lineNumber, string name)
         {
             var offset = new NegativeStackOffset();
-            return $@"
-{lineNumber++}: ST 2, {offset.ReturnValue}(6) ; store result of function r2, in result postion in stack frame
+            return $@"{lineNumber++}: ST 2, {offset.ReturnValue}(6) ; store result of function r2, in result postion in stack frame
 {lineNumber++}: LD 7, {offset.ReturnAddress}(6) ; jump to caller.  i.e.load r7 with address of caller from stack frame
 * EndFunc '{name}'
 ";
@@ -59,6 +58,25 @@
 {lineNumber++}: LD 5, {noffset.Register5}(6)
 {lineNumber++}: LD 6, {noffset.Register6}(6)  ; r6 stack position gets loaded last
 * End Call '{name}'
+";
+        }
+
+        public static string SetRegisterValue(ref int lineNumber, string register, string value)
+        {
+            return $@"{lineNumber++}: LDC {register}, {value}(0) ; set registers {register} to value {value}
+";
+        }
+
+        public static string PrintRegisters(ref int lineNumber)
+        {
+            return $@"* output the values of all the registers
+{lineNumber++}: OUT 0,0,0 
+{lineNumber++}: OUT 1,0,0
+{lineNumber++}: OUT 2,0,0
+{lineNumber++}: OUT 3,0,0
+{lineNumber++}: OUT 4,0,0
+{lineNumber++}: OUT 5,0,0
+{lineNumber++}: OUT 6,0,0
 ";
         }
     }

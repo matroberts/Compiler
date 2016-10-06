@@ -38,11 +38,17 @@ namespace KleinCompiler.BackEndCode
                         break;
                     case Tac.Op.DoPrint:
                         break;
-                    case Tac.Op.PrintConst:
+                    case Tac.Op.SetRegisterValue:
+                        sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, tac.Arg1, tac.Arg2));
+                        break;
+                    case Tac.Op.PrintValue:
                         sb.Append(CodeTemplates.DoPrintConst(ref lineNumber, tac.Arg1));
                         break;
+                    case Tac.Op.PrintRegisters:
+                        sb.Append(CodeTemplates.PrintRegisters(ref lineNumber));
+                        break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(tac.Operation.ToString());
                 }
             }
 
