@@ -189,7 +189,7 @@ namespace KleinCompiler.BackEndCode
             Call,
             Assign,
             DoPrint, 
-            DoPrintConst, // print the value of the const passed in arg0
+            PrintConst, // print the value of the const passed in arg0
         }
 
         public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
@@ -201,7 +201,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
-        public static Tac DoPrintConst(string arg0) => new Tac(Op.DoPrintConst, arg0, null, null);
+        public static Tac PrintConst(string arg0) => new Tac(Op.PrintConst, arg0, null, null);
 
         private Tac(Op operation, string arg1, string arg2, string result)
         {
@@ -226,7 +226,7 @@ namespace KleinCompiler.BackEndCode
                 case Op.Return:
                 case Op.Halt:
                 case Op.DoPrint:
-                case Op.DoPrintConst:
+                case Op.PrintConst:
                     return $"{Operation} {Arg1}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";

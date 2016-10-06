@@ -52,26 +52,21 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs
             {
-                Tac.DoPrintConst("1"),
+                Tac.PrintConst("1"),
                 Tac.Call("main", "t0"),
-                Tac.DoPrintConst("2"),
+                Tac.PrintConst("2"),
                 Tac.Halt(),
                 Tac.BeginFunc("main"),
-                Tac.DoPrintConst("3"),
+                Tac.PrintConst("3"),
                 Tac.EndFunc("main")
             };
-
-            // Act
             var output = new CodeGenerator().Generate(tacs);
 
+            // Act
+            string[] stdout = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
             // Assert
-            File.WriteAllText(TestFilePath, output);
-            string[] stdout = new TinyMachine(ExePath).Execute(TestFilePath);
             Assert.That(stdout, Is.EqualTo(new[] { "1", "3", "2" }));
-            foreach (var s in stdout)
-            {
-                Console.WriteLine(s);
-            }
         }
     }
 }
