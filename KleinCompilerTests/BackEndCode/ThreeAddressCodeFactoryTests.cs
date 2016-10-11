@@ -40,7 +40,7 @@ t1 := Call print
 Halt 
 
 BeginFunc print
-DoPrint arg0
+PrintVariable arg0
 Return arg0
 EndFunc print
 

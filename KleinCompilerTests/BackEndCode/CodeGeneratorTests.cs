@@ -23,7 +23,7 @@ namespace KleinCompilerTests.BackEndCode
             var tacs = new Tacs
             {
                 Tac.Call("main", "t0"),
-                Tac.BeginFunc("main"),
+                Tac.BeginFunc("main", 0),
                 Tac.EndFunc("main")
             };
 
@@ -46,8 +46,10 @@ namespace KleinCompilerTests.BackEndCode
             Assert.That(jumpLineNumber, Is.EqualTo(functionLineNumber));
         }
 
+        #region StackFrame Tests
+
         [Test]
-        public void WhenFunctionIsCalled_ExecutionShouldJumpToTheFunction_WhenFunctionFinishes_ExectionShouldReturn()
+        public void TestStackFrameReturnAddress_WhenFunctionIsCalled_ExecutionShouldJumpToTheFunction_WhenFunctionFinishes_ExectionShouldReturn()
         {
             // Arrange
             var tacs = new Tacs
@@ -56,7 +58,7 @@ namespace KleinCompilerTests.BackEndCode
                 Tac.Call("main", "t0"),
                 Tac.PrintValue(2),
                 Tac.Halt(),
-                Tac.BeginFunc("main"),
+                Tac.BeginFunc("main", 0),
                 Tac.PrintValue(3),
                 Tac.EndFunc("main")
             };
@@ -70,7 +72,7 @@ namespace KleinCompilerTests.BackEndCode
         }
 
         [Test]
-        public void WhenReturningFromAFunctionCall_TheRegistersShouldBeRestoredToTheirPreCallValues()
+        public void TestStackFrameRegisterState_WhenReturningFromAFunctionCall_TheRegistersShouldBeRestoredToTheirPreCallValues()
         {
             // Arrange
             var tacs = new Tacs
@@ -80,15 +82,17 @@ namespace KleinCompilerTests.BackEndCode
                 Tac.SetRegisterValue(3, 11),
                 Tac.SetRegisterValue(4, 11),
                 Tac.SetRegisterValue(5, 11),
+                Tac.SetRegisterValue(6, 11),
                 Tac.Call("main", "t0"),
                 Tac.PrintRegisters(),
                 Tac.Halt(),
-                Tac.BeginFunc("main"),
+                Tac.BeginFunc("main", 0),
                 Tac.SetRegisterValue(1, 22),
                 Tac.SetRegisterValue(2, 22),
                 Tac.SetRegisterValue(3, 22),
                 Tac.SetRegisterValue(4, 22),
                 Tac.SetRegisterValue(5, 22),
+                // cant mess with r6 because this is the stack pointer
                 Tac.EndFunc("main")
             };
             var output = new CodeGenerator().Generate(tacs);
@@ -97,10 +101,75 @@ namespace KleinCompilerTests.BackEndCode
             var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
 
             // Assert
-            Assert.That(tinyOut, Is.EqualTo(new[] { "0", "11", "11", "11", "11", "11", "0"}), tinyOut.ToString());
+            Assert.That(tinyOut, Is.EqualTo(new[] { "0", "11", "11", "11", "11", "11", "11"}), tinyOut.ToString());
         }
 
+        [Test]
+        public void TestStackFrameArguments_ArgumentsToTheFunctionCallShouldBeStoredInTheStackFrame_AndBeAvailableWithinTheFunction()
+        {
+            // Arrange
+            var tacs = new Tacs()
+            {
+                Tac.Assign("13", "t0"),
+                Tac.BeginCall(),
+                Tac.Param("t0"),
+                Tac.Call("print", "t1"),
+                Tac.Halt(),
+                Tac.BeginFunc("print", 1),
+                Tac.PrintVariable("arg0"),
+                Tac.EndFunc("print")
+            };
+
+            var output = new CodeGenerator().Generate(tacs);
+
+            // Act
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // Assert
+            Assert.That(tinyOut, Is.EqualTo(new[] {"13"}), tinyOut.ToString());
+        }
+
+        [Test]
+        public void TestStackFrameArguments2_ArgumentsToTheFunctionCallShouldBeStoredInTheStackFrame_AndBeAvailableWithinTheFunction()
+        {
+            // Arrange
+            var tacs = new Tacs()
+            {
+                Tac.Assign("13", "t0"),
+                Tac.Assign("17", "t1"),
+                Tac.Assign("23", "t2"),
+                Tac.BeginCall(),
+                Tac.Param("t0"),
+                Tac.Param("t1"),
+                Tac.Param("t2"),
+                Tac.Call("print", "t4"),
+                Tac.Halt(),
+                Tac.BeginFunc("print", 3),
+                Tac.PrintVariable("arg0"),
+                Tac.PrintVariable("arg1"),
+                Tac.PrintVariable("arg2"),
+                Tac.EndFunc("print")
+            };
+
+            var output = new CodeGenerator().Generate(tacs);
+
+            // Act
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // Assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "13", "17", "23" }), tinyOut.ToString());
+        }
+
+        #endregion
+
+        //        Console.WriteLine(tacs);
+        //            Console.WriteLine(output);
+
+
+        // test that stack pointer is being set in a function call
+        // print stack frame helper method
+
         // return value
-        // passed parameters
+        // command line args
     }
 }

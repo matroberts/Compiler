@@ -58,7 +58,7 @@
     <Compile Include="FrontEndCode\ParsingTableTests.cs" />
     <Compile Include="FrontEndCode\PrettyPrinterTests.cs" />
     <Compile Include="FrontEndCode\RuleTests.cs" />
-    <Compile Include="BackEndCode\StackOffsetTests.cs" />
+    <Compile Include="BackEndCode\StackFrameTests.cs" />
     <Compile Include="FrontEndCode\SymbolTests.cs" />
     <Compile Include="FrontEndCode\TokenizerTests.cs" />
     <Compile Include="FrontEndCode\TokenTests.cs" />

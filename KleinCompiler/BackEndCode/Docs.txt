@@ -6,28 +6,20 @@ r2
 r3
 r4
 r5 - used for address manipulation
-r6 = status = top of stack (last address of program state, i.e. last address that caller can initialize)
+r6 = stackpointer (last address that caller can initialize + 1), and beginning of temp memory
 r7 = program counter
 
 stack frame
 ===========
-  returned value
-  return address                       <- (control link) return address - address in instruction memory
-  value of arguments
-  register state 0,1,....6             <- values of registers r0...r6, which include accesslink=status in r6
-  local data objects
+                 returned value
+                 arg0
+                 arg1
+                 ....
+                 return address                       <- address to return too in memory
+                 register state 0,1,....6             <- values of registers r0...r6, which includes stack pointer in r6
+stackpointer --> t0
+                 t1                                   <- so sp+n is the address of tn
+                 t2
+                 ....                               
 
-m(0)     return value
-m(1)     arguments 0, 1, 2, ..., n-1
-....
-m(n)
-m(n+1)   control link = return address after function call (address in )
-m(n+1+1) register 0
-......
-m(n+1+7) register 6
 
-* calling sequence caller
-*  evalueate arguments and store in stack frame
-*  store return address in control link field
-*  store registers into stack frame
-*  set value of status to at end of new stack frame

@@ -33,8 +33,8 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Halt());
 
             // declare print function
-            tacs.Add(Tac.BeginFunc("print"));
-            tacs.Add(Tac.DoPrint("arg0"));
+            tacs.Add(Tac.BeginFunc("print", 1));
+            tacs.Add(Tac.PrintVariable("arg0"));
             tacs.Add(Tac.Return("arg0"));
             tacs.Add(Tac.EndFunc("print"));
 
@@ -46,7 +46,7 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
-            tacs.Add(Tac.BeginFunc(definition.Name));
+            tacs.Add(Tac.BeginFunc(definition.Name, definition.Formals.Count));
             definition.Body.Accept(this);
             tacs.Add(Tac.EndFunc(definition.Name));
         }
@@ -188,13 +188,13 @@ namespace KleinCompiler.BackEndCode
             Param,
             Call,
             Assign,
-            DoPrint, 
+            PrintVariable, 
             PrintValue,       // For testing, print the value of the const passed in arg0
             SetRegisterValue, // For testing, sets the value of the register in arg0, to the value in arg1
             PrintRegisters,   // For testing, prints out the values of all the registers
         }
 
-        public static Tac BeginFunc(string name) => new Tac(Op.BeginFunc, name, null, null);
+        public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
         public static Tac Return(string variableName) => new Tac(Op.Return, variableName, null, null);
         public static Tac BeginCall() => new Tac(Op.BeginCall, null, null, null);
@@ -202,7 +202,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Param(string variableName) => new Tac(Op.Param, variableName, null, null);
         public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
-        public static Tac DoPrint(string arg0) => new Tac(Op.DoPrint, arg0, null, null);
+        public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
         public static Tac SetRegisterValue(int register, int value) => new Tac(Op.SetRegisterValue, register.ToString(), value.ToString(), null);
         public static Tac PrintRegisters() => new Tac(Op.PrintRegisters, null, null, null);
@@ -229,7 +229,7 @@ namespace KleinCompiler.BackEndCode
                 case Op.Param:
                 case Op.Return:
                 case Op.Halt:
-                case Op.DoPrint:
+                case Op.PrintVariable:
                 case Op.PrintValue:
                     return $"{Operation} {Arg1}";
                 case Op.Assign:
