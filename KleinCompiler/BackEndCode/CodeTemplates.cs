@@ -23,10 +23,16 @@
 ";
         }
 
+        public static string Return(ref int lineNumber, StackFrame stackFrame, string variable)
+        {
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(variable)}(6) ; return variable '{variable}'
+{lineNumber++}: ST 2, {stackFrame.ReturnValue}(6)
+";
+        }
+
         public static string EndFunc(ref int lineNumber, StackFrame stackFrame, string name)
         {
-            return $@"{lineNumber++}: ST 2, {stackFrame.ReturnValue}(6) ; store result of function r2, in result postion in stack frame
-{lineNumber++}: LD 7, {stackFrame.ReturnAddress}(6) ; jump to caller.  i.e.load r7 with address of caller from stack frame
+            return $@"{lineNumber++}: LD 7, {stackFrame.ReturnAddress}(6) ; jump to caller
 * EndFunc '{name}'
 ";
         }
@@ -112,7 +118,5 @@
         {
             return int.Parse(variable.TrimStart('t'));
         }
-
-
     }
 }

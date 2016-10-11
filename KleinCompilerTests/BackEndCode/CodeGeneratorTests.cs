@@ -160,6 +160,30 @@ namespace KleinCompilerTests.BackEndCode
             Assert.That(tinyOut, Is.EqualTo(new[] { "13", "17", "23" }), tinyOut.ToString());
         }
 
+        [Test]
+        public void TestStackFrameReturnValue_TheValueReturnedFromTheFunction_ShouldBeStoredInTheStackFrame_AnIsAutomaticallyAssignedToTheReturnVariable()
+        {
+            // Arrange
+            var tacs = new Tacs()
+            {
+                Tac.BeginCall(),
+                Tac.Call("returnthirteen", "t0"),
+                Tac.PrintVariable("t0"),
+                Tac.Halt(),
+                Tac.BeginFunc("returnthirteen", 0),
+                Tac.Assign("13", "t0"),
+                Tac.Return("t0"),
+                Tac.EndFunc("returnthirteen")
+            };
+
+            var output = new CodeGenerator().Generate(tacs);
+
+            // Act
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // Assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "13" }), tinyOut.ToString());
+        }
         #endregion
 
         //        Console.WriteLine(tacs);
@@ -169,7 +193,6 @@ namespace KleinCompilerTests.BackEndCode
         // test that stack pointer is being set in a function call
         // print stack frame helper method
 
-        // return value
         // command line args
     }
 }

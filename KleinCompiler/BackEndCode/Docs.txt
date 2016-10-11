@@ -16,9 +16,15 @@ stack frame
                  arg1
                  ....
                  return address                       <- address to return too in memory
-                 register state 0,1,....6             <- values of registers r0...r6, which includes stack pointer in r6
-stackpointer --> t0
-                 t1                                   <- so sp+n is the address of tn
+                 register0                            <- register state
+                 register1
+                 register2
+                 register3
+                 register4
+                 register5
+                 register6                            <- register 6 holds the stack pointer
+stackpointer --> t0                                   <- temp variables (address t(n) = stackpointer+n)
+                 t1                                   
                  t2
                  ....                               
 

@@ -196,10 +196,10 @@ namespace KleinCompiler.BackEndCode
 
         public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
-        public static Tac Return(string variableName) => new Tac(Op.Return, variableName, null, null);
+        public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
         public static Tac BeginCall() => new Tac(Op.BeginCall, null, null, null);
         public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
-        public static Tac Param(string variableName) => new Tac(Op.Param, variableName, null, null);
+        public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
         public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);

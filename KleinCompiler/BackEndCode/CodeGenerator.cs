@@ -9,10 +9,12 @@ namespace KleinCompiler.BackEndCode
         public string Generate(Tacs tacs)
         {
             var symbolTable = new Dictionary<string, object>();
-            StackFrame stackFrame = null;
             int lineNumber = 0;
             int numberArguments = 0;
             var sb = new StringBuilder();
+
+            StackFrame stackFrame = new StackFrame(0);
+
             for (int index = 0; index < tacs.Count; index++)
             {
                 var tac = tacs[index];
@@ -25,6 +27,9 @@ namespace KleinCompiler.BackEndCode
                         symbolTable.Add(tac.Arg1, lineNumber);
                         stackFrame = new StackFrame(int.Parse(tac.Arg2));
                         sb.Append(CodeTemplates.BeginFunc(ref lineNumber, tac.Arg1));
+                        break;
+                    case Tac.Op.Return:
+                        sb.Append(CodeTemplates.Return(ref lineNumber, stackFrame, tac.Arg1));
                         break;
                     case Tac.Op.EndFunc:
                         sb.Append(CodeTemplates.EndFunc(ref lineNumber, stackFrame, tac.Arg1));
