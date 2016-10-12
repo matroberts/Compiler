@@ -34,11 +34,11 @@ namespace KleinCompilerTests.BackEndCode
             // assert
             Assert.That(tac.ToString(), Is.EqualTo(@"
 Init 0 
-BeginCall main 0
-t0 := Call main
-BeginCall print 1
+t0 := BeginCall main 0
+Call main 
+t1 := BeginCall print 1
 Param t0 
-t1 := Call print
+Call print 
 Halt  
 
 BeginFunc print 1

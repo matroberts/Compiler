@@ -25,16 +25,16 @@ namespace KleinCompiler.BackEndCode
             var main = program.Definitions.Single(d => d.Name == "main");
             tacs.Add(Tac.Init(main.Formals.Count));
             // call main
-            tacs.Add(Tac.BeginCall(main.Name, main.Formals.Count));
+            tacs.Add(Tac.BeginCall(main.Name, main.Formals.Count, "t0"));
             for (int i = 0; i < main.Formals.Count; i++)
             {
                 tacs.Add(Tac.Param($"arg{i}"));
             }
-            tacs.Add(Tac.Call("main", "t0"));
+            tacs.Add(Tac.Call("main"));
             // call print
-            tacs.Add(Tac.BeginCall("print", 1));
+            tacs.Add(Tac.BeginCall("print", 1, "t1"));
             tacs.Add(Tac.Param("t0"));
-            tacs.Add(Tac.Call("print", "t1"));
+            tacs.Add(Tac.Call("print"));
             tacs.Add(Tac.Halt());
 
             // declare print function
@@ -207,8 +207,8 @@ namespace KleinCompiler.BackEndCode
         public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
         public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
-        public static Tac BeginCall(string functionName, int numberArguments) => new Tac(Op.BeginCall, functionName, numberArguments.ToString(), null);
-        public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
+        public static Tac BeginCall(string functionName, int numberArguments, string returnVariable) => new Tac(Op.BeginCall, functionName, numberArguments.ToString(), returnVariable);
+        public static Tac Call(string functionName) => new Tac(Op.Call, functionName, null, null);
         public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
@@ -240,15 +240,15 @@ namespace KleinCompiler.BackEndCode
                 case Op.Halt:
                 case Op.PrintVariable:
                 case Op.PrintValue:
-                case Op.BeginCall:
                 case Op.Init:
+                case Op.Call:
                     return $"{Operation} {Arg1} {Arg2}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";
                 case Op.PrintRegisters:
                     return $"{Operation}";
-                case Op.Call:
-                    return $"{Result} := {Operation} {Arg1}";
+                case Op.BeginCall:
+                    return $"{Result} := {Operation} {Arg1} {Arg2}";
                 case Op.SetRegisterValue:
                     return $"r{Arg1} := {Arg2}";
                 default:

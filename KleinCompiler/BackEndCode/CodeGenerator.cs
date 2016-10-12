@@ -44,7 +44,7 @@ namespace KleinCompiler.BackEndCode
                         break;
                     case Tac.Op.BeginCall:
                         argNum = 0;
-                        newStackFrame = new NewStackFrame(stackFrame.Address(LookAheadAndGetCallReturnVariable(tacs, index)), int.Parse(tac.Arg2));
+                        newStackFrame = new NewStackFrame(stackFrame.Address(tac.Result), int.Parse(tac.Arg2));
                         calleeStackFrame = new StackFrame(int.Parse(tac.Arg2));
                         sb.Append(CodeTemplates.BeginCall(tac.Arg1));
                         break;
@@ -79,16 +79,6 @@ namespace KleinCompiler.BackEndCode
 
             // fill in the addresses of the function calls from the symbol table
             return TemplateEngine.Render(sb.ToString(), symbolTable);
-        }
-
-        private string LookAheadAndGetCallReturnVariable(Tacs tacs, int index)
-        {
-            for (int i = index; i < tacs.Count; i++)
-            {
-                if (tacs[i].Operation == Tac.Op.Call)
-                    return tacs[i].Result;
-            }
-            throw new ArgumentException($"Could not find a 'Call' operation, following the 'Param' statement at index '{index}'.");
         }
     }
 }
