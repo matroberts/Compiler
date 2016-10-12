@@ -56,10 +56,10 @@
 ";
         }
 
-        public static string Assign(ref int lineNumber, string variable, string value)
+        public static string Assign(ref int lineNumber, StackFrame stackFrame, string variable, string value)
         {
             return $@"{lineNumber++}: LDC 2, {value}(0) ; {variable} := {value}   
-{lineNumber++}: ST 2, {GetVariableAddressOffset(variable)}(6) 
+{lineNumber++}: ST 2, {stackFrame.Address(variable)}(6) 
 ";
         }
 
@@ -109,11 +109,6 @@
             return $@"{lineNumber++}: LD 2, {stackFrame.Address(variable)}(6) ; print variable '{variable}'
 {lineNumber++}: OUT 2, 0, 0
 ";
-        }
-
-        private static int GetVariableAddressOffset(string variable)
-        {
-            return int.Parse(variable.TrimStart('t'));
         }
     }
 }
