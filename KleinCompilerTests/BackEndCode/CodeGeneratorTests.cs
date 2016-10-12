@@ -115,7 +115,7 @@ namespace KleinCompilerTests.BackEndCode
             {
                 Tac.Init(0),
                 Tac.Assign("13", "t0"),
-                Tac.BeginCall(),
+                Tac.BeginCall("print", 1),
                 Tac.Param("t0"),
                 Tac.Call("print", "t1"),
                 Tac.Halt(),
@@ -143,7 +143,7 @@ namespace KleinCompilerTests.BackEndCode
                 Tac.Assign("13", "t0"),
                 Tac.Assign("17", "t1"),
                 Tac.Assign("23", "t2"),
-                Tac.BeginCall(),
+                Tac.BeginCall("print", 3),
                 Tac.Param("t0"),
                 Tac.Param("t1"),
                 Tac.Param("t2"),
@@ -172,7 +172,7 @@ namespace KleinCompilerTests.BackEndCode
             var tacs = new Tacs()
             {
                 Tac.Init(0),
-                Tac.BeginCall(),
+                Tac.BeginCall("returnthirteen", 1),
                 Tac.Call("returnthirteen", "t0"),
                 Tac.PrintVariable("t0"),
                 Tac.Halt(),
@@ -199,12 +199,12 @@ namespace KleinCompilerTests.BackEndCode
             {
                 Tac.Init(3),
 
-                Tac.BeginCall(),
+                Tac.BeginCall("main", 3),
                 Tac.Param("arg0"),
                 Tac.Param("arg1"),
                 Tac.Param("arg2"),
                 Tac.Call("main", "t0"),
-                Tac.BeginCall(),
+                Tac.BeginCall("print", 1),
                 Tac.Param("t0"),
                 Tac.Call("print", "t1"),
                 Tac.Halt(),

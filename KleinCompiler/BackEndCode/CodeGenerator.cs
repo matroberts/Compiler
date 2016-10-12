@@ -10,9 +10,10 @@ namespace KleinCompiler.BackEndCode
         {
             var symbolTable = new Dictionary<string, object>();
             int lineNumber = 0;
-            int numberArguments = 0;
             var sb = new StringBuilder();
             StackFrame stackFrame = null;
+            NewStackFrame newStackFrame = null;
+            int argNum = 0;
 
             for (int index = 0; index < tacs.Count; index++)
             {
@@ -41,16 +42,16 @@ namespace KleinCompiler.BackEndCode
                         stackFrame = null;
                         break;
                     case Tac.Op.BeginCall:
-                        numberArguments = 0;
-                        sb.Append(CodeTemplates.BeginCall());
+                        argNum = 0;
+                        newStackFrame = new NewStackFrame(stackFrame.Address(LookAheadAndGetCallReturnVariable(tacs, index)), int.Parse(tac.Arg2));
+                        sb.Append(CodeTemplates.BeginCall(tac.Arg1));
                         break;
                     case Tac.Op.Param:
-                        numberArguments++;
-                        var returnVariable = LookAheadAndGetCallReturnVariable(tacs, index);
-                        sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, tac.Arg1, numberArguments, returnVariable));
+                        sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, newStackFrame, tac.Arg1, argNum));
+                        argNum++;
                         break;
                     case Tac.Op.Call:
-                        sb.Append(CodeTemplates.Call(ref lineNumber, tac.Arg1, numberArguments, tac.Result));
+                        sb.Append(CodeTemplates.Call(ref lineNumber, tac.Arg1, argNum, tac.Result));
                         break;
                     case Tac.Op.Assign:
                         sb.Append(CodeTemplates.Assign(ref lineNumber, tac.Result, tac.Arg1));

@@ -63,19 +63,17 @@
 ";
         }
 
-        public static string BeginCall()
+        public static string BeginCall(string functionName)
         {
             return $@"
-* BeginCall
+* BeginCall '{functionName}'
 ";
         }
 
-        public static string Param(ref int lineNumber, StackFrame stackFrame, string variable, int numberArguments, string returnVariable)
+        public static string Param(ref int lineNumber, StackFrame stackFrame, NewStackFrame newStackFrame, string variable, int argNum)
         {
-            // the new stackframe begins at the address of the returnVariable
-            var newStackFrame = new NewStackFrame(stackFrame.Address(returnVariable), numberArguments);
-            return $@"{lineNumber++}: LD 2, {stackFrame.Address(variable)}(6) ; param{numberArguments-1} {variable}
-{lineNumber++}: ST 2, {newStackFrame.Argn(numberArguments-1)}(6) ; return variable {returnVariable}, so store in new stack frame at {newStackFrame.Argn(numberArguments - 1)} 
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(variable)}(6) ; param{argNum} := {variable}
+{lineNumber++}: ST 2, {newStackFrame.Argn(argNum)}(6)
 ";
         }
 
