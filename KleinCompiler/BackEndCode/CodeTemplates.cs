@@ -77,9 +77,8 @@
 ";
         }
 
-        public static string Call(ref int lineNumber, string name, int numberArguments, string returnVariable)
+        public static string Call(ref int lineNumber, NewStackFrame newStackFrame, string name, int numberArguments)
         {
-            var newStackFrame = new NewStackFrame(GetVariableAddressOffset(returnVariable), numberArguments);
             var stackFrame = new StackFrame(numberArguments);  // when completing the call, still in the stack frame of the callee
 
             return $@"* Call '{name}'
