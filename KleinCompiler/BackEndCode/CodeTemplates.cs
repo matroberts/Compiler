@@ -77,10 +77,8 @@
 ";
         }
 
-        public static string Call(ref int lineNumber, NewStackFrame newStackFrame, string name, int numberArguments)
+        public static string Call(ref int lineNumber, NewStackFrame newStackFrame, StackFrame calleeStackFrame, string name)
         {
-            var stackFrame = new StackFrame(numberArguments);  // when completing the call, still in the stack frame of the callee
-
             return $@"* Call '{name}'
 {lineNumber++}: ST 0, {newStackFrame.Register0}(6)   ; store registers in stack frame
 {lineNumber++}: ST 1, {newStackFrame.Register1}(6)
@@ -93,13 +91,13 @@
 {lineNumber++}: ST 5, {newStackFrame.ReturnAddress}(6)   ; store return address in stack frame
 {lineNumber++}: LDA 6, {newStackFrame.NewStackPointer}(6)  ; set value of stack pointer (r6) to one past top of new stack frame
 {lineNumber++}: LDA 7, [{name}](0)  ; jump to function
-{lineNumber++}: LD 0, {stackFrame.Register0}(6)  ; **return point**,  restore registers from stack frame
-{lineNumber++}: LD 1, {stackFrame.Register1}(6)
-{lineNumber++}: LD 2, {stackFrame.Register2}(6)
-{lineNumber++}: LD 3, {stackFrame.Register3}(6)
-{lineNumber++}: LD 4, {stackFrame.Register4}(6)
-{lineNumber++}: LD 5, {stackFrame.Register5}(6)
-{lineNumber++}: LD 6, {stackFrame.Register6}(6)  ; r6 stack pointer gets loaded last
+{lineNumber++}: LD 0, {calleeStackFrame.Register0}(6)  ; **return point**,  restore registers from stack frame
+{lineNumber++}: LD 1, {calleeStackFrame.Register1}(6)
+{lineNumber++}: LD 2, {calleeStackFrame.Register2}(6)
+{lineNumber++}: LD 3, {calleeStackFrame.Register3}(6)
+{lineNumber++}: LD 4, {calleeStackFrame.Register4}(6)
+{lineNumber++}: LD 5, {calleeStackFrame.Register5}(6)
+{lineNumber++}: LD 6, {calleeStackFrame.Register6}(6)  ; r6 stack pointer gets loaded last
 * End Call '{name}'
 ";
         }

@@ -13,6 +13,7 @@ namespace KleinCompiler.BackEndCode
             var sb = new StringBuilder();
             StackFrame stackFrame = null;
             NewStackFrame newStackFrame = null;
+            StackFrame calleeStackFrame = null;
             int argNum = 0;
 
             for (int index = 0; index < tacs.Count; index++)
@@ -44,6 +45,7 @@ namespace KleinCompiler.BackEndCode
                     case Tac.Op.BeginCall:
                         argNum = 0;
                         newStackFrame = new NewStackFrame(stackFrame.Address(LookAheadAndGetCallReturnVariable(tacs, index)), int.Parse(tac.Arg2));
+                        calleeStackFrame = new StackFrame(int.Parse(tac.Arg2));
                         sb.Append(CodeTemplates.BeginCall(tac.Arg1));
                         break;
                     case Tac.Op.Param:
@@ -51,7 +53,9 @@ namespace KleinCompiler.BackEndCode
                         argNum++;
                         break;
                     case Tac.Op.Call:
-                        sb.Append(CodeTemplates.Call(ref lineNumber, newStackFrame, tac.Arg1, argNum));
+                        sb.Append(CodeTemplates.Call(ref lineNumber, newStackFrame, calleeStackFrame, tac.Arg1));
+                        newStackFrame = null;
+                        calleeStackFrame = null;
                         break;
                     case Tac.Op.Assign:
                         sb.Append(CodeTemplates.Assign(ref lineNumber, stackFrame, tac.Result, tac.Arg1));
