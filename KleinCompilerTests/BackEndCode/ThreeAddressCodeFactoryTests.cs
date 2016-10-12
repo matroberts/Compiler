@@ -1,4 +1,5 @@
-﻿using KleinCompiler;
+﻿using System;
+using KleinCompiler;
 using KleinCompiler.BackEndCode;
 using NUnit.Framework;
 
@@ -29,25 +30,20 @@ namespace KleinCompilerTests.BackEndCode
 
             // act
             var tac = new ThreeAddressCodeFactory().Generate(program);
-
+            Console.WriteLine(tac);
             // assert
             Assert.That(tac.ToString(), Is.EqualTo(@"
-BeginCall
-t0 := Call main
-BeginCall
-Param t0
-t1 := Call print
-Halt 
+Init main 0
+Halt  
 
-BeginFunc print
-PrintVariable arg0
-Return arg0
-EndFunc print
+BeginFunc print 1
+PrintVariable arg0 
+EndFunc print 
 
-BeginFunc main
-t2 := 1
-Return t2
-EndFunc main
+BeginFunc main 0
+t0 := 1
+Return t0 
+EndFunc main 
 "));
         }
 

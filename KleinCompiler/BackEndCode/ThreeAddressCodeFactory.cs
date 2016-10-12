@@ -21,21 +21,14 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Program program)
         {
-            // call main
-            tacs.Add(Tac.BeginCall());
-            var mainResult = MakeNewTemp();
-            tacs.Add(Tac.Call("main", mainResult));
-
-            // send result of main to print
-            tacs.Add(Tac.BeginCall());
-            tacs.Add(Tac.Param(mainResult));
-            tacs.Add(Tac.Call("print", MakeNewTemp()));
+            // init is a special op code which calls main with the command line arguments, then calls print on the result
+            var main = program.Definitions.Single(d => d.Name == "main");
+            tacs.Add(Tac.Init(main.Name, main.Formals.Count));
             tacs.Add(Tac.Halt());
 
             // declare print function
             tacs.Add(Tac.BeginFunc("print", 1));
             tacs.Add(Tac.PrintVariable("arg0"));
-            tacs.Add(Tac.Return("arg0"));
             tacs.Add(Tac.EndFunc("print"));
 
             foreach (var definition in program.Definitions)
@@ -46,6 +39,9 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Definition definition)
         {
+            // temps are local to the function so reset the counter for each func
+            // (makes it easy to work out where the temp is stored in the stack frame)
+            tempCounter = 0;
             tacs.Add(Tac.BeginFunc(definition.Name, definition.Formals.Count));
             definition.Body.Accept(this);
             tacs.Add(Tac.EndFunc(definition.Name));
@@ -180,6 +176,7 @@ namespace KleinCompiler.BackEndCode
     {
         public enum Op
         {
+            Init,
             Halt,
             BeginFunc,
             EndFunc,
@@ -194,13 +191,14 @@ namespace KleinCompiler.BackEndCode
             PrintRegisters,   // For testing, prints out the values of all the registers
         }
 
+        public static Tac Init(string functionName, int numberOfArguments) => new Tac(Op.Init, functionName, numberOfArguments.ToString(), null);
+        public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
         public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
         public static Tac BeginCall() => new Tac(Op.BeginCall, null, null, null);
         public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
         public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
-        public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
@@ -224,14 +222,15 @@ namespace KleinCompiler.BackEndCode
             switch (Operation)
             {
                 case Op.BeginFunc:
-                    return $"\r\n{Operation} {Arg1}";
+                    return $"\r\n{Operation} {Arg1} {Arg2}";
                 case Op.EndFunc:
                 case Op.Param:
                 case Op.Return:
                 case Op.Halt:
                 case Op.PrintVariable:
                 case Op.PrintValue:
-                    return $"{Operation} {Arg1}";
+                case Op.Init:
+                    return $"{Operation} {Arg1} {Arg2}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";
                 case Op.BeginCall:

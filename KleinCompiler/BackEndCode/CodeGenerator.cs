@@ -12,7 +12,6 @@ namespace KleinCompiler.BackEndCode
             int lineNumber = 0;
             int numberArguments = 0;
             var sb = new StringBuilder();
-
             StackFrame stackFrame = new StackFrame(0);
 
             for (int index = 0; index < tacs.Count; index++)
@@ -20,6 +19,23 @@ namespace KleinCompiler.BackEndCode
                 var tac = tacs[index];
                 switch (tac.Operation)
                 {
+                    case Tac.Op.Init:
+                        // make the initial stack frame line up with the command line arguments
+                        var numArgs = int.Parse(tac.Arg2);
+                        stackFrame = new StackFrame(numArgs);
+                        sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, 6, new NewStackFrame(0, numArgs).NewStackPointer));
+                        // call main with the command line args
+                        sb.Append(CodeTemplates.BeginCall());
+                        for (int i = 0; i < numArgs; i++)
+                        {
+                            sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, $"arg{i}", i+1, "t0"));
+                        }
+                        sb.Append(CodeTemplates.Call(ref lineNumber, tac.Arg1, numArgs, "t0"));
+                        // call print with the result of main
+                        sb.Append(CodeTemplates.BeginCall());
+                        sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, "t0", 1, "t1"));
+                        sb.Append(CodeTemplates.Call(ref lineNumber, "print", 1, "t1"));
+                        break;
                     case Tac.Op.Halt:
                         sb.Append(CodeTemplates.Halt(ref lineNumber));
                         break;
@@ -42,7 +58,7 @@ namespace KleinCompiler.BackEndCode
                     case Tac.Op.Param:
                         numberArguments++;
                         var returnVariable = LookAheadAndGetCallReturnVariable(tacs, index);
-                        sb.Append(CodeTemplates.Param(ref lineNumber, tac.Arg1, numberArguments, returnVariable));
+                        sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, tac.Arg1, numberArguments, returnVariable));
                         break;
                     case Tac.Op.Call:
                         sb.Append(CodeTemplates.Call(ref lineNumber, tac.Arg1, numberArguments, tac.Result));
@@ -54,7 +70,7 @@ namespace KleinCompiler.BackEndCode
                         sb.Append(CodeTemplates.PrintVariable(ref lineNumber, stackFrame, tac.Arg1));
                         break;
                     case Tac.Op.SetRegisterValue:
-                        sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, tac.Arg1, tac.Arg2));
+                        sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, int.Parse(tac.Arg1), int.Parse(tac.Arg2)));
                         break;
                     case Tac.Op.PrintValue:
                         sb.Append(CodeTemplates.PrintValue(ref lineNumber, tac.Arg1));

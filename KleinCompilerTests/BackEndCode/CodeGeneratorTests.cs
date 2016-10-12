@@ -184,13 +184,46 @@ namespace KleinCompilerTests.BackEndCode
             // Assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "13" }), tinyOut.ToString());
         }
+
+        [Test]
+        public void TestStackFrameCommandLineArguments_TheInitialStackFrameIsSetUp_SoThatCommandLineArguments_FallInTheArgumentSlotsOfTheInitalStackFrame()
+        {
+            // Arrange
+            var tacs = new Tacs()
+            {
+                Tac.Init("main", 3),
+                Tac.Halt(),
+
+                Tac.BeginFunc("print", 1),
+                Tac.PrintVariable("arg0"),
+                Tac.EndFunc("print"),
+
+                Tac.BeginFunc("main", 3),
+                Tac.PrintVariable("arg0"),
+                Tac.PrintVariable("arg1"),
+                Tac.PrintVariable("arg2"),
+                Tac.Assign("13", "t0"),
+                Tac.Return("t0"),
+                Tac.EndFunc("main")
+            };
+
+            var output = new CodeGenerator().Generate(tacs);
+            Console.WriteLine(tacs);
+            Console.WriteLine(output);
+
+            // Act
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 29, 31, 37);
+
+            // Assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "29", "31", "37", "13" }), tinyOut.ToString());
+
+        }
         #endregion
 
         //        Console.WriteLine(tacs);
         //            Console.WriteLine(output);
 
 
-        // test that stack pointer is being set in a function call
         // print stack frame helper method
 
         // command line args

@@ -18,7 +18,7 @@ namespace KleinCompilerTests.BackEndCode
             this.TestFilePath = testFilePath;
         }
 
-        public TinyOut Execute(string objectCode)
+        public TinyOut Execute(string objectCode, params int[] args)
         {
             File.WriteAllText(TestFilePath, objectCode);
 
@@ -27,7 +27,7 @@ namespace KleinCompilerTests.BackEndCode
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = ExePath,
-                    Arguments = TestFilePath,
+                    Arguments = TestFilePath + " " + string.Join(" ", args),
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
                     UseShellExecute = false,

@@ -37,7 +37,7 @@
 ";
         }
 
-        public static string SetRegisterValue(ref int lineNumber, string register, string value)
+        public static string SetRegisterValue(ref int lineNumber, int register, int value)
         {
             return $@"{lineNumber++}: LDC {register}, {value}(0) ; set registers {register} to value {value}
 ";
@@ -70,11 +70,11 @@
 ";
         }
 
-        public static string Param(ref int lineNumber, string variable, int numberArguments, string returnVariable)
+        public static string Param(ref int lineNumber, StackFrame stackFrame, string variable, int numberArguments, string returnVariable)
         {
             // the new stackframe begins at the address of the returnVariable
-            var newStackFrame = new NewStackFrame(GetVariableAddressOffset(returnVariable), numberArguments);
-            return $@"{lineNumber++}: LD 2, {GetVariableAddressOffset(variable)}(6) ; param{numberArguments-1} {variable}
+            var newStackFrame = new NewStackFrame(stackFrame.Address(returnVariable), numberArguments);
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(variable)}(6) ; param{numberArguments-1} {variable}
 {lineNumber++}: ST 2, {newStackFrame.Argn(numberArguments-1)}(6) ; return variable {returnVariable}, so store in new stack frame at {newStackFrame.Argn(numberArguments - 1)} 
 ";
         }
