@@ -22,6 +22,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs
             {
+                Tac.Init(0),
                 Tac.Call("main", "t0"),
                 Tac.BeginFunc("main", 0),
                 Tac.EndFunc("main")
@@ -54,6 +55,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs
             {
+                Tac.Init(0),
                 Tac.PrintValue(1),
                 Tac.Call("main", "t0"),
                 Tac.PrintValue(2),
@@ -77,6 +79,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs
             {
+                Tac.Init(0),
                 Tac.SetRegisterValue(1, 11),
                 Tac.SetRegisterValue(2, 11),
                 Tac.SetRegisterValue(3, 11),
@@ -110,6 +113,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs()
             {
+                Tac.Init(0),
                 Tac.Assign("13", "t0"),
                 Tac.BeginCall(),
                 Tac.Param("t0"),
@@ -135,6 +139,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs()
             {
+                Tac.Init(0),
                 Tac.Assign("13", "t0"),
                 Tac.Assign("17", "t1"),
                 Tac.Assign("23", "t2"),
@@ -166,6 +171,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs()
             {
+                Tac.Init(0),
                 Tac.BeginCall(),
                 Tac.Call("returnthirteen", "t0"),
                 Tac.PrintVariable("t0"),
@@ -191,7 +197,7 @@ namespace KleinCompilerTests.BackEndCode
             // Arrange
             var tacs = new Tacs()
             {
-                Tac.Init("main", 3),
+                Tac.Init(3),
 
                 Tac.BeginCall(),
                 Tac.Param("arg0"),
@@ -227,13 +233,5 @@ namespace KleinCompilerTests.BackEndCode
             Assert.That(tinyOut, Is.EqualTo(new[] { "29", "31", "37", "13" }), tinyOut.ToString());
         }
         #endregion
-
-        //        Console.WriteLine(tacs);
-        //            Console.WriteLine(output);
-
-
-        // print stack frame helper method
-
-        // command line args
     }
 }

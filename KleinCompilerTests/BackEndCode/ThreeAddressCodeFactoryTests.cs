@@ -33,7 +33,7 @@ namespace KleinCompilerTests.BackEndCode
             Console.WriteLine(tac);
             // assert
             Assert.That(tac.ToString(), Is.EqualTo(@"
-Init main 0
+Init 0 
 BeginCall
 t0 := Call main
 BeginCall

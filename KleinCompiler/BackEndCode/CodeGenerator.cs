@@ -12,7 +12,7 @@ namespace KleinCompiler.BackEndCode
             int lineNumber = 0;
             int numberArguments = 0;
             var sb = new StringBuilder();
-            StackFrame stackFrame = new StackFrame(0);
+            StackFrame stackFrame = null;
 
             for (int index = 0; index < tacs.Count; index++)
             {
@@ -21,7 +21,7 @@ namespace KleinCompiler.BackEndCode
                 {
                     case Tac.Op.Init:
                         // make the initial stack frame line up with the command line arguments
-                        var numArgs = int.Parse(tac.Arg2);
+                        var numArgs = int.Parse(tac.Arg1);
                         stackFrame = new StackFrame(numArgs);
                         sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, 6, new NewStackFrame(0, numArgs).NewStackPointer));
                         break;

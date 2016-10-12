@@ -23,7 +23,7 @@ namespace KleinCompiler.BackEndCode
         {
             // the init op code sets up the call stack, to read command line arguments
             var main = program.Definitions.Single(d => d.Name == "main");
-            tacs.Add(Tac.Init(main.Name, main.Formals.Count));
+            tacs.Add(Tac.Init(main.Formals.Count));
             // call main
             tacs.Add(Tac.BeginCall());
             for (int i = 0; i < main.Formals.Count; i++)
@@ -202,7 +202,7 @@ namespace KleinCompiler.BackEndCode
             PrintRegisters,   // For testing, prints out the values of all the registers
         }
 
-        public static Tac Init(string functionName, int numberOfArguments) => new Tac(Op.Init, functionName, numberOfArguments.ToString(), null);
+        public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
         public static Tac Halt() => new Tac(Op.Halt, null, null, null);
         public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
