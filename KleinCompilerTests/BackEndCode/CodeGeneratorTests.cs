@@ -192,6 +192,15 @@ namespace KleinCompilerTests.BackEndCode
             var tacs = new Tacs()
             {
                 Tac.Init("main", 3),
+
+                Tac.BeginCall(),
+                Tac.Param("arg0"),
+                Tac.Param("arg1"),
+                Tac.Param("arg2"),
+                Tac.Call("main", "t0"),
+                Tac.BeginCall(),
+                Tac.Param("t0"),
+                Tac.Call("print", "t1"),
                 Tac.Halt(),
 
                 Tac.BeginFunc("print", 1),
@@ -216,7 +225,6 @@ namespace KleinCompilerTests.BackEndCode
 
             // Assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "29", "31", "37", "13" }), tinyOut.ToString());
-
         }
         #endregion
 

@@ -21,9 +21,20 @@ namespace KleinCompiler.BackEndCode
 
         public void Visit(Program program)
         {
-            // init is a special op code which calls main with the command line arguments, then calls print on the result
+            // the init op code sets up the call stack, to read command line arguments
             var main = program.Definitions.Single(d => d.Name == "main");
             tacs.Add(Tac.Init(main.Name, main.Formals.Count));
+            // call main
+            tacs.Add(Tac.BeginCall());
+            for (int i = 0; i < main.Formals.Count; i++)
+            {
+                tacs.Add(Tac.Param($"arg{i}"));
+            }
+            tacs.Add(Tac.Call("main", "t0"));
+            // call print
+            tacs.Add(Tac.BeginCall());
+            tacs.Add(Tac.Param("t0"));
+            tacs.Add(Tac.Call("print", "t1"));
             tacs.Add(Tac.Halt());
 
             // declare print function

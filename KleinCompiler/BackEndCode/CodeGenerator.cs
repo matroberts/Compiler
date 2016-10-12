@@ -24,17 +24,6 @@ namespace KleinCompiler.BackEndCode
                         var numArgs = int.Parse(tac.Arg2);
                         stackFrame = new StackFrame(numArgs);
                         sb.Append(CodeTemplates.SetRegisterValue(ref lineNumber, 6, new NewStackFrame(0, numArgs).NewStackPointer));
-                        // call main with the command line args
-                        sb.Append(CodeTemplates.BeginCall());
-                        for (int i = 0; i < numArgs; i++)
-                        {
-                            sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, $"arg{i}", i+1, "t0"));
-                        }
-                        sb.Append(CodeTemplates.Call(ref lineNumber, tac.Arg1, numArgs, "t0"));
-                        // call print with the result of main
-                        sb.Append(CodeTemplates.BeginCall());
-                        sb.Append(CodeTemplates.Param(ref lineNumber, stackFrame, "t0", 1, "t1"));
-                        sb.Append(CodeTemplates.Call(ref lineNumber, "print", 1, "t1"));
                         break;
                     case Tac.Op.Halt:
                         sb.Append(CodeTemplates.Halt(ref lineNumber));
