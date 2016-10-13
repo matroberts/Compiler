@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ackermann.kln" />
+    <None Include="kleinc.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="kleinf.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -9,11 +9,7 @@ namespace KleinCmdlets
     [OutputType(typeof(string))]
     public class FormatPrettyAst : Cmdlet
     {
-        [Parameter(Position = 0, 
-                   Mandatory = true, 
-                   HelpMessage = "Klein Ast that you want to pretty print", 
-                   ValueFromPipeline = true, 
-                   ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Klein Ast that you want to pretty print", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
         public Ast Ast { get; set; }
 
         protected override void ProcessRecord()

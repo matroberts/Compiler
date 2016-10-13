@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
@@ -149,6 +150,18 @@ namespace KleinPrograms.Tests
             Assert.That(result.HasErrors, Is.False);
             Assert.That(result.Output.Count, Is.EqualTo(1));
             Assert.That(result.Output[0].ToString(), Does.Contain("circularPrimesTo       (integer):integer                 main   "));
+        }
+
+        [Test]
+        public void Kleinc_ShouldCompileTheKlienProgram_AndWriteItToFileWithExtension_tm()
+        {
+            File.Delete("print-one.tm");
+            var result = ScriptRunner.Execute(TestContext.CurrentContext.TestDirectory,
+                                   @".\kleinc.ps1 ..\..\Programs\fullprograms\print-one.kln | Out-String");
+
+            Assert.That(result.HasErrors, Is.False);
+            Assert.That(File.Exists("print-one.tm"), Is.True);
+            Assert.That(File.ReadAllLines("print-one.tm")[0], Is.EqualTo("0: LDC 6, 9(0) ; set registers 6 to value 9"));
         }
     }
 }
