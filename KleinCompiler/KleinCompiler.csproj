@@ -82,12 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BackEndCode\Docs-StackFrame.txt" />
-    <Content Include="Docs\FirstAndFollow.txt" />
-    <Content Include="Docs\Klein Language Specification.html" />
-    <Content Include="Docs\ParsingTable.txt" />
-    <Content Include="Docs\Project01.html" />
-    <Content Include="Docs\Rules.txt" />
-    <Content Include="Docs\Tiny Machine Specification.html" />
+    <Content Include="FrontEndCode\Docs-FirstAndFollow.txt" />
+    <Content Include="Spec\Klein Language Specification.html" />
+    <Content Include="FrontEndCode\Docs-ParsingTable.txt" />
+    <Content Include="FrontEndCode\Docs-Rules.txt" />
+    <Content Include="Spec\Tiny Machine Specification.html" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
