@@ -81,7 +81,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BackEndCode\Docs.txt" />
+    <Content Include="BackEndCode\Docs-StackFrame.txt" />
     <Content Include="Docs\FirstAndFollow.txt" />
     <Content Include="Docs\Klein Language Specification.html" />
     <Content Include="Docs\ParsingTable.txt" />

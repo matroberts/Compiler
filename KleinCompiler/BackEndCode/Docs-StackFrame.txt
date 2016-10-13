@@ -1,0 +1,88 @@
+﻿Resisters
+=========
+r0 = 0
+r1 = const register
+r2 
+r3
+r4
+r5 - used for address manipulation
+r6 = stackpointer (last address that caller can initialize + 1), and beginning of temp memory
+r7 = program counter
+
+Stackframe
+==========
+Memory is organised as a single call stack.
+The stack frame contains both function call info and the temporary memory for the function call.
+The stack pointer (register6) points to the first slot of temporary memory in the stack frame.
+
+                 returned value
+                 arg0
+                 arg1
+                 ....
+                 return address                       <- address to return too in memory
+                 register0                            <- register state
+                 register1
+                 register2
+                 register3
+                 register4
+                 register5
+                 register6                            <- register 6 holds the stack pointer
+stackpointer --> t0                                   <- temp variables (address t(n) = stackpointer+n)
+                 t1                                   
+                 t2
+                 ....         
+                 
+
+How Stackframes stack
+=====================
+When a function is called the returned value is assigned the a temporary variable, e.g.
+                        t4 := Call 'NewFunc'
+                         ^
+                         result variable
+
+When the function call is made the new stackframe is started at the memory address of the result variable. 
+This way the return value is automatically assigned to the result variable.
+
+current stack frame    returned value
+                       args
+                       return address
+                       registers
+                       t0
+                       t1
+                       t2
+                       t3
+                       t4   <-------------    new stack frame    returned value
+                                                                 args
+                                                                 return address
+                                                                 etc.
+
+StackFrame object
+=================
+The StackFrame object is used by the code generator to calculate addresses offsets in the current stackframe,
+such that absoluteaddress = addressoffset + stackpointer.
+The StackFrame object must be initialised with the number of arguments in the functions call.
+The object contains a method Address(string variable) which will return the address offset 
+of a temporary variable, t3 say, or a function argument arg2 say.
+
+NewStackFrame object
+====================
+The NewStackFrame object is used by the code generator to calculate address offsets in a new stack frame,
+which needs to be initialised when a function call is made.
+The NewStackFrame object is initialised with the number of arguments AND the offset of the new stack.
+
+Command Line Arguments
+======================
+The following picture shows the memory layout of the command line arguments and a stack frame side by side:
+
+command line args       stackframe
+-----------------       ----------
+max memory address      return value
+arg0                    arg0
+arg1                    arg1
+arg2                    arg2
+                        etc.
+
+The runtime expoits this coinidence to read the command line arguments.
+When the program starts execution an initial stack frame is made (in the code generator), and the 
+stack pointer initialised so that the initial stack frame lines up with the commandline arguments.
+This means the commandline args can be treated as if they were arguments to a function call.
