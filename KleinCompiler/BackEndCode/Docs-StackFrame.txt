@@ -12,7 +12,8 @@ r7 = program counter
 Stackframe
 ==========
 Memory is organised as a single call stack.
-The stack frame contains both function call info and the temporary memory for the function call.
+The stack frame contains both function call data (args, registers etc.) 
+and the temporary memory for the function call.
 The stack pointer (register6) points to the first slot of temporary memory in the stack frame.
 
                  returned value
@@ -66,8 +67,8 @@ of a temporary variable, t3 say, or a function argument arg2 say.
 
 NewStackFrame object
 ====================
-The NewStackFrame object is used by the code generator to calculate address offsets in a new stack frame,
-which needs to be initialised when a function call is made.
+When a function call is made, a new stackframe must be initialised with arguments, registers etc.
+The NewStackFrame object is used by the code generator to calculate address offsets in a new stack frame.
 The NewStackFrame object is initialised with the number of arguments AND the offset of the new stack.
 
 Command Line Arguments
@@ -84,5 +85,5 @@ arg2                    arg2
 
 The runtime expoits this coinidence to read the command line arguments.
 When the program starts execution an initial stack frame is made (in the code generator), and the 
-stack pointer initialised so that the initial stack frame lines up with the commandline arguments.
+stack pointer set so that the initial stack frame lines up with the commandline arguments.
 This means the commandline args can be treated as if they were arguments to a function call.
