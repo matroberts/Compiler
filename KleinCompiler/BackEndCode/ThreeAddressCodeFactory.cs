@@ -62,7 +62,7 @@ namespace KleinCompiler.BackEndCode
         {
             foreach (var print in body.Prints)
             {
-                //TODO
+                print.Accept(this);
             }
             body.Expr.Accept(this);
             tacs.Add(Tac.Return(tacs.Last().Result));
@@ -83,9 +83,13 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(Print node)
+        public void Visit(Print print)
         {
-            throw new NotImplementedException();
+            print.Expr.Accept(this);
+            var temp = tacs.Last().Result;
+            tacs.Add(Tac.BeginCall("print", 1, MakeNewTemp()));
+            tacs.Add(Tac.Param(temp));
+            tacs.Add(Tac.Call("print"));
         }
 
         public void Visit(IfThenElse node)

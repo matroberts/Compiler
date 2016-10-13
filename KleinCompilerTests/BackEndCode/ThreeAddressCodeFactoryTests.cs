@@ -62,10 +62,25 @@ EndFunc main
             Assert.That(tinyOut, Is.EqualTo(new[] { "1" }));
         }
 
+        [Test]
+        public void Homework5_ProgramShouldRunCorrectly()
+        {
+            // arrange
+            var input = @"main() : integer
+                              print(1)
+                              1";
 
-//        PrettyPrinter.ToConsole(program);
-//            Console.WriteLine(tac.ToString());
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
 
 
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "1", "1" }));
+        }
     }
 }

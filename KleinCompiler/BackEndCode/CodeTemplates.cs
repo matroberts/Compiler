@@ -65,8 +65,7 @@
 
         public static string BeginCall(string functionName)
         {
-            return $@"
-* BeginCall '{functionName}'
+            return $@"* BeginCall '{functionName}'
 ";
         }
 
