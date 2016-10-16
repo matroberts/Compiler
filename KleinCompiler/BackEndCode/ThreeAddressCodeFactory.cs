@@ -30,11 +30,11 @@ namespace KleinCompiler.BackEndCode
             {
                 tacs.Add(Tac.Param($"arg{i}"));
             }
-            tacs.Add(Tac.Call("main"));
+            tacs.Add(Tac.Call("main", "t0"));
             // call print
             tacs.Add(Tac.BeginCall("print", 1, "t1"));
             tacs.Add(Tac.Param("t0"));
-            tacs.Add(Tac.Call("print"));
+            tacs.Add(Tac.Call("print", "t1"));
             tacs.Add(Tac.Halt());
 
             // declare print function
@@ -87,9 +87,10 @@ namespace KleinCompiler.BackEndCode
         {
             print.Expr.Accept(this);
             var temp = tacs.Last().Result;
-            tacs.Add(Tac.BeginCall("print", 1, MakeNewTemp()));
+            var returnVariable = MakeNewTemp();
+            tacs.Add(Tac.BeginCall("print", 1, returnVariable));
             tacs.Add(Tac.Param(temp));
-            tacs.Add(Tac.Call("print"));
+            tacs.Add(Tac.Call("print", returnVariable));
         }
 
         public void Visit(IfThenElse node)
@@ -162,9 +163,22 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Assign(literal.Value.ToString(), MakeNewTemp()));
         }
 
-        public void Visit(FunctionCall node)
+        public void Visit(FunctionCall functionCall)
         {
-            throw new NotImplementedException();
+            var args = new List<string>();
+            foreach (var actual in functionCall.Actuals)
+            {
+                actual.Expr.Accept(this);
+                args.Add(tacs.Last().Result);
+            }
+
+            var returnValue = MakeNewTemp();
+            tacs.Add(Tac.BeginCall(functionCall.Name, functionCall.Actuals.Count, returnValue));
+            foreach (var arg in args)
+            {
+                tacs.Add(Tac.Param(arg));
+            }
+            tacs.Add(Tac.Call(functionCall.Name, returnValue));
         }
 
         public void Visit(Actual node)
@@ -212,7 +226,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
         public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
         public static Tac BeginCall(string functionName, int numberArguments, string returnVariable) => new Tac(Op.BeginCall, functionName, numberArguments.ToString(), returnVariable);
-        public static Tac Call(string functionName) => new Tac(Op.Call, functionName, null, null);
+        public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
         public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
@@ -245,13 +259,13 @@ namespace KleinCompiler.BackEndCode
                 case Op.PrintVariable:
                 case Op.PrintValue:
                 case Op.Init:
-                case Op.Call:
-                    return $"{Operation} {Arg1} {Arg2}";
+                case Op.BeginCall:
+                    return $"{Operation} {Arg1} {Arg2} {Result}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";
                 case Op.PrintRegisters:
                     return $"{Operation}";
-                case Op.BeginCall:
+                case Op.Call:
                     return $"{Result} := {Operation} {Arg1} {Arg2}";
                 case Op.SetRegisterValue:
                     return $"r{Arg1} := {Arg2}";
