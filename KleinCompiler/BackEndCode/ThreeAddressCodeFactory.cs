@@ -114,9 +114,13 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(PlusOperator node)
+        public void Visit(PlusOperator plus)
         {
-            throw new NotImplementedException();
+            plus.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            plus.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.Plus(leftOperand, rightOperand, MakeNewTemp()));
         }
 
         public void Visit(MinusOperator node)
@@ -217,6 +221,7 @@ namespace KleinCompiler.BackEndCode
             Call,
             Assign,
             PrintVariable, 
+            Plus,
             PrintValue,       // For testing, print the value of the const passed in arg0
             SetRegisterValue, // For testing, sets the value of the register in arg0, to the value in arg1
             PrintRegisters,   // For testing, prints out the values of all the registers
@@ -231,6 +236,9 @@ namespace KleinCompiler.BackEndCode
         public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
         public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
         public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
+
+        public static Tac Plus(string leftOperand, string rightOperand, string result) => new Tac(Op.Plus, leftOperand, rightOperand, result);
+
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
         public static Tac SetRegisterValue(int register, int value) => new Tac(Op.SetRegisterValue, register.ToString(), value.ToString(), null);

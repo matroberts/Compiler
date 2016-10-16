@@ -67,6 +67,9 @@ namespace KleinCompiler.BackEndCode
                             sb.Append(CodeTemplates.AssignConst(ref lineNumber, stackFrame, tac.Result, tac.Arg1));
                         }
                         break;
+                    case Tac.Op.Plus:
+                        sb.Append(CodeTemplates.Plus(ref lineNumber, stackFrame, tac.Arg1, tac.Arg2, tac.Result));
+                        break;
                     case Tac.Op.PrintVariable:
                         sb.Append(CodeTemplates.PrintVariable(ref lineNumber, stackFrame, tac.Arg1));
                         break;
