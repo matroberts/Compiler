@@ -53,6 +53,7 @@ namespace KleinCompiler.BackEndCode
             // temps are local to the function so reset the counter for each func
             // (makes it easy to work out where the temp is stored in the stack frame)
             tempCounter = 0;
+            Ast.SymbolTable.CurrentFunction = definition.Name;
             tacs.Add(Tac.BeginFunc(definition.Name, definition.Formals.Count));
             definition.Body.Accept(this);
             tacs.Add(Tac.EndFunc(definition.Name));
@@ -148,9 +149,10 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(Identifier node)
+        public void Visit(Identifier identifier)
         {
-            throw new NotImplementedException();
+            var arg = $"arg{Ast.SymbolTable.ArgumentNumber(identifier.Value)}";
+            tacs.Add(Tac.Assign(arg, MakeNewTemp()));
         }
 
         public void Visit(BooleanLiteral node)

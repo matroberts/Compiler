@@ -19,6 +19,8 @@ namespace KleinCompilerTests.BackEndCode
         [Test]
         public void TheValueReturnedFromMain_ShouldBeSentToStdOut()
         {
+            // Tests Visit Program, Definition, Body and IntegerLiteral
+
             // arrange
             var input = @"main() : integer
                               1";
@@ -57,6 +59,8 @@ EndFunc main
         [Test]
         public void PrintExpressions_ProgramShouldSendTheirValueToStdOut()
         {
+            // Tests Visit Print
+
             // arrange
             var input = @"main() : integer
                               print(1)
@@ -65,7 +69,6 @@ EndFunc main
             var frontEnd = new FrontEnd();
             var program = frontEnd.Compile(input);
             Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
-
 
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
@@ -78,6 +81,8 @@ EndFunc main
         [Test]
         public void NestedFunctionCalls_ShouldWorkCorrectly()
         {
+            // Test Visit Function Call
+
             // arrange
             var input = @"main() : integer
                               secondary()
@@ -92,12 +97,36 @@ EndFunc main
 
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
-            Console.WriteLine(tacs);
             var output = new CodeGenerator().Generate(tacs);
             var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
             
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "17" }));
+        }
+
+        [Test]
+        public void ArgumentsShouldBePassedThrouh_NestedFunctionCalls()
+        {
+            // Tests Visit FunctionCall and Identifier
+            // arrange
+            var input = @"main(n : integer) : integer
+                              secondary(n)
+                          secondary(n: integer) : integer
+                              tertiary(n)
+                          tertiary(n : integer) : integer
+                              n";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "19" }));
         }
     }
 }

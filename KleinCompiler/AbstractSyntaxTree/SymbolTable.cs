@@ -39,6 +39,14 @@ namespace KleinCompiler.AbstractSyntaxTree
             return functionInfo[CurrentFunction].Formals.Any(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase));
         }
 
+        public int ArgumentNumber(string identifier)
+        {
+            if (string.IsNullOrWhiteSpace(CurrentFunction))
+                throw new Exception("CurrentFunction must be set before you can access ArgumentNumber");
+
+            return functionInfo[CurrentFunction].Formals.ToList().FindIndex(f => f.Name.Equals(identifier, StringComparison.OrdinalIgnoreCase));
+        }
+
         public PrimitiveType FormalType(string identifier)
         {
             if (string.IsNullOrWhiteSpace(CurrentFunction))
