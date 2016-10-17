@@ -126,7 +126,7 @@
 
         public static string Minus(ref int lineNumber, StackFrame stackFrame, string leftOperand, string rightOperand, string resultVariable)
         {
-            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} + {rightOperand}
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} - {rightOperand}
 {lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
 {lineNumber++}: SUB 2, 2, 3
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
@@ -135,7 +135,7 @@
 
         public static string Times(ref int lineNumber, StackFrame stackFrame, string leftOperand, string rightOperand, string resultVariable)
         {
-            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} + {rightOperand}
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} * {rightOperand}
 {lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
 {lineNumber++}: MUL 2, 2, 3
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
@@ -144,9 +144,17 @@
 
         public static string Divide(ref int lineNumber, StackFrame stackFrame, string leftOperand, string rightOperand, string resultVariable)
         {
-            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} + {rightOperand}
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} / {rightOperand}
 {lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
 {lineNumber++}: DIV 2, 2, 3
+{lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
+";
+        }
+
+        public static string Negate(ref int lineNumber, StackFrame stackFrame, string rightOperand, string resultVariable)
+        {
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(rightOperand)}(6) ; {resultVariable} := - {rightOperand}
+{lineNumber++}: SUB 2, 0, 2
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
 ";
         }

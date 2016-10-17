@@ -160,9 +160,11 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(NegateOperator node)
+        public void Visit(NegateOperator negate)
         {
-            throw new NotImplementedException();
+            negate.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.Negate(rightOperand, MakeNewTemp()));
         }
 
         public void Visit(Identifier identifier)
@@ -237,6 +239,7 @@ namespace KleinCompiler.BackEndCode
             Minus,
             Times,
             Divide,
+            Negate,
 
             PrintVariable,
             PrintValue,       // For testing, print the value of the const passed in arg0
@@ -258,6 +261,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Minus(string leftOperand, string rightOperand, string result) => new Tac(Op.Minus, leftOperand, rightOperand, result);
         public static Tac Times(string leftOperand, string rightOperand, string result) => new Tac(Op.Times, leftOperand, rightOperand, result);
         public static Tac Divide(string leftOperand, string rightOperand, string result) => new Tac(Op.Divide, leftOperand, rightOperand, result);
+        public static Tac Negate(string rightOperand, string result) => new Tac(Op.Negate, null, rightOperand, result);
 
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);

@@ -216,5 +216,27 @@ EndFunc main
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "9" }));
         }
+
+        [Test]
+        public void Negate_ShouldNegateTheVariable()
+        {
+            // Tests Visit Negate
+
+            // arrange
+            var input = @"main(n : integer) : integer
+                              -n";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "-19" }));
+        }
     }
 }
