@@ -123,5 +123,14 @@
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
 ";
         }
+
+        public static string Minus(ref int lineNumber, StackFrame stackFrame, string leftOperand, string rightOperand, string resultVariable)
+        {
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; {resultVariable} := {leftOperand} + {rightOperand}
+{lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
+{lineNumber++}: SUB 2, 2, 3
+{lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
+";
+        }
     }
 }
