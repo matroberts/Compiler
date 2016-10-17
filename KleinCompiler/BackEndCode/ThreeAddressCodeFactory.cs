@@ -146,9 +146,13 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Times(leftOperand, rightOperand, MakeNewTemp()));
         }
 
-        public void Visit(DivideOperator node)
+        public void Visit(DivideOperator divide)
         {
-            throw new NotImplementedException();
+            divide.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            divide.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.Divide(leftOperand, rightOperand, MakeNewTemp()));
         }
 
         public void Visit(NotOperator node)
@@ -232,6 +236,7 @@ namespace KleinCompiler.BackEndCode
             Plus,
             Minus,
             Times,
+            Divide,
 
             PrintVariable,
             PrintValue,       // For testing, print the value of the const passed in arg0
@@ -252,6 +257,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Plus(string leftOperand, string rightOperand, string result) => new Tac(Op.Plus, leftOperand, rightOperand, result);
         public static Tac Minus(string leftOperand, string rightOperand, string result) => new Tac(Op.Minus, leftOperand, rightOperand, result);
         public static Tac Times(string leftOperand, string rightOperand, string result) => new Tac(Op.Times, leftOperand, rightOperand, result);
+        public static Tac Divide(string leftOperand, string rightOperand, string result) => new Tac(Op.Divide, leftOperand, rightOperand, result);
 
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
@@ -297,9 +303,5 @@ namespace KleinCompiler.BackEndCode
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }
         }
-
-
     }
-
-
 }

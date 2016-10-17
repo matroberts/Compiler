@@ -76,6 +76,9 @@ namespace KleinCompiler.BackEndCode
                     case Tac.Op.Times:
                         sb.Append(CodeTemplates.Times(ref lineNumber, stackFrame, tac.Arg1, tac.Arg2, tac.Result));
                         break;
+                    case Tac.Op.Divide:
+                        sb.Append(CodeTemplates.Divide(ref lineNumber, stackFrame, tac.Arg1, tac.Arg2, tac.Result));
+                        break;
                     case Tac.Op.PrintVariable:
                         sb.Append(CodeTemplates.PrintVariable(ref lineNumber, stackFrame, tac.Arg1));
                         break;
