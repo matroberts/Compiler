@@ -238,5 +238,25 @@ EndFunc main
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "-19" }));
         }
+
+        [Test]
+        public void AllArithmaticTogether_ShouldNestAndAll_ThatAndMiraculouslyWork()
+        {
+            // arrange
+            var input = @"main(n : integer, m : integer) : integer
+                              -(n-1)/2 * (m+1)";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 9, 11);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "-48" }));
+        }
     }
 }
