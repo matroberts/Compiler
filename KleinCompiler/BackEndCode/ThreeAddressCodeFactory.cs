@@ -137,9 +137,13 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(TimesOperator node)
+        public void Visit(TimesOperator times)
         {
-            throw new NotImplementedException();
+            times.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            times.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.Times(leftOperand, rightOperand, MakeNewTemp()));
         }
 
         public void Visit(DivideOperator node)
@@ -224,9 +228,12 @@ namespace KleinCompiler.BackEndCode
             Param,
             Call,
             Assign,
-            PrintVariable, 
+
             Plus,
             Minus,
+            Times,
+
+            PrintVariable,
             PrintValue,       // For testing, print the value of the const passed in arg0
             SetRegisterValue, // For testing, sets the value of the register in arg0, to the value in arg1
             PrintRegisters,   // For testing, prints out the values of all the registers
@@ -244,6 +251,7 @@ namespace KleinCompiler.BackEndCode
 
         public static Tac Plus(string leftOperand, string rightOperand, string result) => new Tac(Op.Plus, leftOperand, rightOperand, result);
         public static Tac Minus(string leftOperand, string rightOperand, string result) => new Tac(Op.Minus, leftOperand, rightOperand, result);
+        public static Tac Times(string leftOperand, string rightOperand, string result) => new Tac(Op.Times, leftOperand, rightOperand, result);
 
         public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
         public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
@@ -289,6 +297,8 @@ namespace KleinCompiler.BackEndCode
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }
         }
+
+
     }
 
 

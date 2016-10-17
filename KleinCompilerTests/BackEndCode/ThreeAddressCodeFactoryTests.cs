@@ -172,5 +172,27 @@ EndFunc main
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "18" }));
         }
+
+        [Test]
+        public void Times_ShouldMultiplyTheTwoVariable()
+        {
+            // Tests Visit Times
+
+            // arrange
+            var input = @"main(n : integer) : integer
+                              n*2";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "38" }));
+        }
     }
 }
