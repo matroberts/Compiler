@@ -269,7 +269,7 @@ EndFunc main
         #region boolean logic
 
         [Test]
-        public void Equality_ShouldCompareTheArgs()
+        public void BooleanLiteral_ShouldBeAssigned()
         {
             // arrange
             var input = @"main() : boolean
@@ -286,6 +286,27 @@ EndFunc main
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "1" }));
+        }
+
+        [Test, Ignore("InProgress")]
+        public void Equality_ShouldWork()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              1 = 0";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tacs);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "0" }));
         }
 
         #endregion

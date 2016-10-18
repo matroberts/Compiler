@@ -16,6 +16,8 @@ namespace KleinCompilerTests.BackEndCode
         public string TestFile => "Test.tm";
         public string TestFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, TestFile);
 
+        #region Function Address and Labels
+
         [Test]
         public void CodeGenerator_ShouldFillInAddressOfFunctionCallCorrectly_InObjectCode()
         {
@@ -47,6 +49,33 @@ namespace KleinCompilerTests.BackEndCode
 
             Assert.That(jumpLineNumber, Is.EqualTo(functionLineNumber));
         }
+
+        [Test, Ignore("InProgress")]
+        public void CodeGenerator_ShouldFillInAddressOfLabelsCorrectly()
+        {
+            // Arrange
+            var tacs = new Tacs()
+            {
+                Tac.Init(0),
+                Tac.Goto("label0"),
+                Tac.PrintValue(1),
+                Tac.Label("label0", null),
+                Tac.PrintValue(2),
+            };
+
+            var output = new CodeGenerator().Generate(tacs);
+            Console.WriteLine(tacs);
+            Console.WriteLine(output);
+
+            // Act
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // Assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "2" }), tinyOut.ToString());
+        }
+
+        #endregion
+
 
         #region StackFrame Tests
 
@@ -226,8 +255,6 @@ namespace KleinCompilerTests.BackEndCode
             };
 
             var output = new CodeGenerator().Generate(tacs);
-            Console.WriteLine(tacs);
-            Console.WriteLine(output);
 
             // Act
             var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 29, 31, 37);

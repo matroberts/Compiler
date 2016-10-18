@@ -94,13 +94,19 @@ namespace KleinCompiler.BackEndCode
                     case Tac.Op.PrintRegisters:
                         sb.Append(CodeTemplates.PrintRegisters(ref lineNumber));
                         break;
+                    case Tac.Op.Goto:
+                        sb.Append(CodeTemplates.Goto(ref lineNumber, tac.Arg1));
+                        break;
+                    case Tac.Op.Label:
+                        sb.Append(CodeTemplates.Label(ref lineNumber, tac.Arg1));
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(tac.Operation.ToString());
                 }
             }
 
             // fill in the addresses of the function calls from the symbol table
-            return TemplateEngine.Render(sb.ToString(), symbolTable);
+            return TemplateEngine.RenderFunctions(sb.ToString(), symbolTable);
         }
     }
 }

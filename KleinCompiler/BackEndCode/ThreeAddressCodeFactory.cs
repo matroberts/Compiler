@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using KleinCompiler.AbstractSyntaxTree;
 
@@ -12,6 +13,8 @@ namespace KleinCompiler.BackEndCode
 
         private int tempCounter = 0;
         private string MakeNewTemp() => $"t{tempCounter++}";
+        private int labelCounter = 0;
+        private string MakeNewLabel() => $"label{labelCounter++}";
 
         public Tacs Generate(Ast ast)
         {
@@ -104,9 +107,21 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(EqualsOperator node)
+        public void Visit(EqualsOperator equals)
         {
-            throw new NotImplementedException();
+            equals.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            equals.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            var result = MakeNewTemp();
+            var label1 = MakeNewLabel();
+            var label2 = MakeNewLabel();
+            tacs.Add(Tac.IfEqual(leftOperand, rightOperand, label1));
+            tacs.Add(Tac.Assign("0", result));
+            tacs.Add(Tac.Goto(label2));
+            tacs.Add(Tac.Label(label1, result));
+            tacs.Add(Tac.Assign("1", result));
+            tacs.Add(Tac.Label(label2, result));
         }
 
         public void Visit(OrOperator node)
@@ -246,6 +261,10 @@ namespace KleinCompiler.BackEndCode
             PrintValue,       // For testing, print the value of the const passed in arg0
             SetRegisterValue, // For testing, sets the value of the register in arg0, to the value in arg1
             PrintRegisters,   // For testing, prints out the values of all the registers
+
+            IfEqual,
+            Goto,
+            Label
         }
 
         public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
@@ -295,6 +314,8 @@ namespace KleinCompiler.BackEndCode
                 case Op.PrintValue:
                 case Op.Init:
                 case Op.BeginCall:
+                case Op.Goto:
+                case Op.Label:
                     return $"{Operation} {Arg1} {Arg2} {Result}";
                 case Op.Assign:
                     return $"{Result} := {Arg1}";
@@ -304,9 +325,17 @@ namespace KleinCompiler.BackEndCode
                     return $"{Result} := {Operation} {Arg1} {Arg2}";
                 case Op.SetRegisterValue:
                     return $"r{Arg1} := {Arg2}";
+                case Op.IfEqual:
+                    return $"If {Arg1} = {Arg2} goto {Result}";
                 default:
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }
         }
+
+        public static Tac IfEqual(string leftOperand, string rightOperand, string label) => new Tac(Op.IfEqual, leftOperand, rightOperand, label);
+
+        public static Tac Goto(string label) => new Tac(Op.Goto, label, null, null);
+
+        public static Tac Label(string label, string variable) => new Tac(Op.Label, label, null, variable);
     }
 }

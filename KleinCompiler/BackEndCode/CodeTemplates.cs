@@ -96,7 +96,7 @@
 {lineNumber++}: LDA 5, 3(7)  ; calculate address of **return point** 
 {lineNumber++}: ST 5, {newStackFrame.ReturnAddress}(6)   ; store return address in stack frame
 {lineNumber++}: LDA 6, {newStackFrame.NewStackPointer}(6)  ; set value of stack pointer (r6) to one past top of new stack frame
-{lineNumber++}: LDA 7, [{name}](0)  ; jump to function
+{lineNumber++}: LDA 7, [func:{name}](0)  ; jump to function
 {lineNumber++}: LD 0, {calleeStackFrame.Register0}(6)  ; **return point**,  restore registers from stack frame
 {lineNumber++}: LD 1, {calleeStackFrame.Register1}(6)
 {lineNumber++}: LD 2, {calleeStackFrame.Register2}(6)
@@ -156,6 +156,18 @@
             return $@"{lineNumber++}: LD 2, {stackFrame.Address(rightOperand)}(6) ; {resultVariable} := - {rightOperand}
 {lineNumber++}: SUB 2, 0, 2
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
+";
+        }
+
+        public static string Goto(ref int lineNumber, string label)
+        {
+            return $@"{lineNumber++}: LDA 7, [{label}](0)  ; jump to label {label}
+";
+        }
+
+        public static string Label(ref int lineNumber, string label)
+        {
+            return $@"* {label}
 ";
         }
     }
