@@ -50,7 +50,7 @@ namespace KleinCompilerTests.BackEndCode
             Assert.That(jumpLineNumber, Is.EqualTo(functionLineNumber));
         }
 
-        [Test, Ignore("InProgress")]
+        [Test]
         public void CodeGenerator_ShouldFillInAddressOfLabelsCorrectly()
         {
             // Arrange
@@ -61,11 +61,10 @@ namespace KleinCompilerTests.BackEndCode
                 Tac.PrintValue(1),
                 Tac.Label("label0", null),
                 Tac.PrintValue(2),
+                Tac.Halt()
             };
 
             var output = new CodeGenerator().Generate(tacs);
-            Console.WriteLine(tacs);
-            Console.WriteLine(output);
 
             // Act
             var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
@@ -75,7 +74,6 @@ namespace KleinCompilerTests.BackEndCode
         }
 
         #endregion
-
 
         #region StackFrame Tests
 

@@ -104,9 +104,10 @@ namespace KleinCompiler.BackEndCode
                         throw new ArgumentOutOfRangeException(tac.Operation.ToString());
                 }
             }
-
-            // fill in the addresses of the function calls from the symbol table
-            return TemplateEngine.RenderFunctions(sb.ToString(), symbolTable);
+            var output = sb.ToString();
+            var labels = LabelFinder.FindLabels(output);
+            var withLabels = TemplateEngine.RenderLabels(output, labels);
+            return TemplateEngine.RenderFunctions(withLabels, symbolTable);
         }
     }
 }

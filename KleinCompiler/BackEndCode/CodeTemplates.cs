@@ -161,13 +161,13 @@
 
         public static string Goto(ref int lineNumber, string label)
         {
-            return $@"{lineNumber++}: LDA 7, [{label}](0)  ; jump to label {label}
+            return $@"{lineNumber++}: LDA 7, [label:{label}](0)  ; jump to label {label}
 ";
         }
 
         public static string Label(ref int lineNumber, string label)
         {
-            return $@"* {label}
+            return $@"* label:{label}
 ";
         }
     }
