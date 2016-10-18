@@ -15,6 +15,7 @@ namespace KleinCompilerTests.BackEndCode
         public string TestFile => "Test.tm";
         public string TestFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, TestFile);
 
+        #region functions
 
         [Test]
         public void TheValueReturnedFromMain_ShouldBeSentToStdOut()
@@ -128,6 +129,10 @@ EndFunc main
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "19" }));
         }
+
+        #endregion
+
+        #region arithmatic
 
         [Test]
         public void Plus_ShouldAddTheTwoVaraibles()
@@ -258,5 +263,31 @@ EndFunc main
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "-48" }));
         }
+
+        #endregion
+
+        #region boolean logic
+
+        [Test]
+        public void Equality_ShouldCompareTheArgs()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              true";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "1" }));
+        }
+
+        #endregion
     }
 }

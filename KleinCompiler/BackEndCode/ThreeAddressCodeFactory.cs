@@ -173,9 +173,10 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Assign(arg, MakeNewTemp()));
         }
 
-        public void Visit(BooleanLiteral node)
+        public void Visit(BooleanLiteral booleanLiteral)
         {
-            throw new NotImplementedException();
+            var booleanValue = booleanLiteral.Value ? "1" : "0";
+            tacs.Add(Tac.Assign(booleanValue, MakeNewTemp()));
         }
 
         public void Visit(IntegerLiteral literal)
