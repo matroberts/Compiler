@@ -136,9 +136,23 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Label(label2, result));
         }
 
-        public void Visit(OrOperator node)
+        public void Visit(OrOperator or)
         {
-            throw new NotImplementedException();
+            var trueLabel = MakeNewLabel();
+            var endLabel = MakeNewLabel();
+
+            or.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            tacs.Add(Tac.IfTrue(leftOperand, trueLabel));
+            or.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.IfTrue(rightOperand, trueLabel));
+            var resultVariable = MakeNewTemp();
+            tacs.Add(Tac.Assign("0", resultVariable));
+            tacs.Add(Tac.Goto(endLabel));
+            tacs.Add(Tac.Label(trueLabel, resultVariable));
+            tacs.Add(Tac.Assign("1", resultVariable));
+            tacs.Add(Tac.Label(endLabel, resultVariable));
         }
 
         public void Visit(PlusOperator plus)
@@ -295,29 +309,9 @@ namespace KleinCompiler.BackEndCode
             Label,
             IfLessThan,
             Not,
-            IfFalse
+            IfFalse,
+            IfTrue
         }
-
-        public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
-        public static Tac Halt() => new Tac(Op.Halt, null, null, null);
-        public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
-        public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
-        public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
-        public static Tac BeginCall(string functionName, int numberArguments, string returnVariable) => new Tac(Op.BeginCall, functionName, numberArguments.ToString(), returnVariable);
-        public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
-        public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
-        public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
-
-        public static Tac Plus(string leftOperand, string rightOperand, string result) => new Tac(Op.Plus, leftOperand, rightOperand, result);
-        public static Tac Minus(string leftOperand, string rightOperand, string result) => new Tac(Op.Minus, leftOperand, rightOperand, result);
-        public static Tac Times(string leftOperand, string rightOperand, string result) => new Tac(Op.Times, leftOperand, rightOperand, result);
-        public static Tac Divide(string leftOperand, string rightOperand, string result) => new Tac(Op.Divide, leftOperand, rightOperand, result);
-        public static Tac Negate(string rightOperand, string result) => new Tac(Op.Negate, null, rightOperand, result);
-
-        public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
-        public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
-        public static Tac SetRegisterValue(int register, int value) => new Tac(Op.SetRegisterValue, register.ToString(), value.ToString(), null);
-        public static Tac PrintRegisters() => new Tac(Op.PrintRegisters, null, null, null);
 
         private Tac(Op operation, string arg1, string arg2, string result)
         {
@@ -359,22 +353,40 @@ namespace KleinCompiler.BackEndCode
                 case Op.IfEqual:
                 case Op.IfLessThan:
                 case Op.IfFalse:
+                case Op.IfTrue:
                     return $"{Arg1} {Operation} {Arg2} goto {Result}";
                 default:
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }
         }
 
+        public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
+        public static Tac Halt() => new Tac(Op.Halt, null, null, null);
+        public static Tac BeginFunc(string name, int numberArgs) => new Tac(Op.BeginFunc, name, numberArgs.ToString(), null);
+        public static Tac EndFunc(string name) => new Tac(Op.EndFunc, name, null, null);
+        public static Tac Return(string variable) => new Tac(Op.Return, variable, null, null);
+        public static Tac BeginCall(string functionName, int numberArguments, string returnVariable) => new Tac(Op.BeginCall, functionName, numberArguments.ToString(), returnVariable);
+        public static Tac Call(string functionName, string returnVariable) => new Tac(Op.Call, functionName, null, returnVariable);
+        public static Tac Param(string variable) => new Tac(Op.Param, variable, null, null);
+        public static Tac Assign(string variableOrConstant, string returnVariable) => new Tac(Op.Assign, variableOrConstant, null, returnVariable);
+
+        public static Tac Plus(string leftOperand, string rightOperand, string result) => new Tac(Op.Plus, leftOperand, rightOperand, result);
+        public static Tac Minus(string leftOperand, string rightOperand, string result) => new Tac(Op.Minus, leftOperand, rightOperand, result);
+        public static Tac Times(string leftOperand, string rightOperand, string result) => new Tac(Op.Times, leftOperand, rightOperand, result);
+        public static Tac Divide(string leftOperand, string rightOperand, string result) => new Tac(Op.Divide, leftOperand, rightOperand, result);
+        public static Tac Negate(string rightOperand, string result) => new Tac(Op.Negate, null, rightOperand, result);
+
+        public static Tac PrintVariable(string variable) => new Tac(Op.PrintVariable, variable, null, null);
+        public static Tac PrintValue(int value) => new Tac(Op.PrintValue, value.ToString(), null, null);
+        public static Tac SetRegisterValue(int register, int value) => new Tac(Op.SetRegisterValue, register.ToString(), value.ToString(), null);
+        public static Tac PrintRegisters() => new Tac(Op.PrintRegisters, null, null, null);
+
         public static Tac IfEqual(string leftOperand, string rightOperand, string label) => new Tac(Op.IfEqual, leftOperand, rightOperand, label);
-
         public static Tac Goto(string label) => new Tac(Op.Goto, label, null, null);
-
         public static Tac Label(string label, string variable) => new Tac(Op.Label, label, null, variable);
-
         public static Tac IfLessThan(string leftOperand, string rightOperand, string label) => new Tac(Op.IfLessThan, leftOperand, rightOperand, label);
-
         public static Tac Not(string rightOperand, string variable) => new Tac(Op.Not, null, rightOperand, variable);
-
         public static Tac IfFalse(string operand, string label) => new Tac(Op.IfFalse, null, operand, label);
+        public static Tac IfTrue(string operand, string label) => new Tac(Op.IfTrue, null, operand, label);
     }
 }
