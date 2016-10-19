@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 namespace KleinCompiler.BackEndCode
 {
     // based on http://stackoverflow.com/a/34679657
-    public class TemplateEngine
+    public static class TemplateEngine
     {
         private static readonly Regex FunctionRegex = new Regex(@"\[func:(\w*?)]");
 
-        public static string RenderFunctions(string templateString, Dictionary<string, object> parameters)
+        public static string RenderFunctions(this string templateString, Dictionary<string, object> parameters)
         {
             return FunctionRegex.Replace(templateString, match =>
             {
@@ -22,7 +22,7 @@ namespace KleinCompiler.BackEndCode
 
         private static readonly Regex LabelRegex = new Regex(@"\[label:(\w*?)]");
 
-        public static string RenderLabels(string templateString, Dictionary<string, object> parameters)
+        public static string RenderLabels(this string templateString, Dictionary<string, object> parameters)
         {
             return LabelRegex.Replace(templateString, match =>
             {

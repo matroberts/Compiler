@@ -104,10 +104,9 @@ namespace KleinCompiler.BackEndCode
                         throw new ArgumentOutOfRangeException(tac.Operation.ToString());
                 }
             }
-            var output = sb.ToString();
-            var labels = LabelFinder.FindLabels(output);
-            var withLabels = TemplateEngine.RenderLabels(output, labels);
-            return TemplateEngine.RenderFunctions(withLabels, symbolTable);
+            var template = sb.ToString();
+            var labels = LabelFinder.FindLabels(template);
+            return template.RenderFunctions(symbolTable).RenderLabels(labels);
         }
     }
 }
