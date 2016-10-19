@@ -182,9 +182,11 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Divide(leftOperand, rightOperand, MakeNewTemp()));
         }
 
-        public void Visit(NotOperator node)
+        public void Visit(NotOperator not)
         {
-            throw new NotImplementedException();
+            not.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.Not(rightOperand, MakeNewTemp()));
         }
 
         public void Visit(NegateOperator negate)
@@ -277,7 +279,8 @@ namespace KleinCompiler.BackEndCode
             IfEqual,
             Goto,
             Label,
-            IfLessThan
+            IfLessThan,
+            Not
         }
 
         public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
@@ -353,5 +356,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Label(string label, string variable) => new Tac(Op.Label, label, null, variable);
 
         public static Tac IfLessThan(string leftOperand, string rightOperand, string label) => new Tac(Op.IfLessThan, leftOperand, rightOperand, label);
+
+        public static Tac Not(string rightOperand, string variable) => new Tac(Op.Not, null, rightOperand, variable);
     }
 }

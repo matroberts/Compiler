@@ -188,5 +188,14 @@
 {lineNumber++}: JLT 2, [label:{label}](0)
 ";
         }
+
+        public static string Not(ref int lineNumber, StackFrame stackFrame, string rightOperand, string resultVariable)
+        {
+            return $@"{lineNumber++}: LDC 2, 1(0) ; {resultVariable} := not {rightOperand}
+{lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
+{lineNumber++}: SUB 2, 2, 3
+{lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
+";
+        }
     }
 }
