@@ -102,9 +102,21 @@ namespace KleinCompiler.BackEndCode
             throw new NotImplementedException();
         }
 
-        public void Visit(LessThanOperator node)
+        public void Visit(LessThanOperator lessThan)
         {
-            throw new NotImplementedException();
+            lessThan.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            lessThan.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            var result = MakeNewTemp();
+            var label1 = MakeNewLabel();
+            var label2 = MakeNewLabel();
+            tacs.Add(Tac.IfLessThan(leftOperand, rightOperand, label1));
+            tacs.Add(Tac.Assign("0", result));
+            tacs.Add(Tac.Goto(label2));
+            tacs.Add(Tac.Label(label1, result));
+            tacs.Add(Tac.Assign("1", result));
+            tacs.Add(Tac.Label(label2, result));
         }
 
         public void Visit(EqualsOperator equals)
@@ -264,7 +276,8 @@ namespace KleinCompiler.BackEndCode
 
             IfEqual,
             Goto,
-            Label
+            Label,
+            IfLessThan
         }
 
         public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
@@ -326,7 +339,8 @@ namespace KleinCompiler.BackEndCode
                 case Op.SetRegisterValue:
                     return $"r{Arg1} := {Arg2}";
                 case Op.IfEqual:
-                    return $"If {Arg1} = {Arg2} goto {Result}";
+                case Op.IfLessThan:
+                    return $"{Arg1} {Operation} {Arg2} goto {Result}";
                 default:
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
             }
@@ -337,5 +351,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac Goto(string label) => new Tac(Op.Goto, label, null, null);
 
         public static Tac Label(string label, string variable) => new Tac(Op.Label, label, null, variable);
+
+        public static Tac IfLessThan(string leftOperand, string rightOperand, string label) => new Tac(Op.IfLessThan, leftOperand, rightOperand, label);
     }
 }

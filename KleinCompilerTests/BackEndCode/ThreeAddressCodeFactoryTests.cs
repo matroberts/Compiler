@@ -328,6 +328,47 @@ EndFunc main
             Assert.That(tinyOut, Is.EqualTo(new[] { "1" }));
         }
 
+        [Test]
+        public void LessThan_IfLeftIsLessThanRight_1_ShouldBeReturned()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              7 < 9";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tacs);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "1" }));
+        }
+
+        [Test]
+        public void LessThan_IfLeftEqualToRight_0_ShouldBeReturned()
+        {
+            // arrange
+            var input = @"main() : boolean
+                              7 < 7";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tacs);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "0" }));
+        }
         #endregion
     }
 }

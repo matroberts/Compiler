@@ -179,5 +179,14 @@
 {lineNumber++}: JEQ 2, [label:{label}](0)
 ";
         }
+
+        public static string IfLessThan(ref int lineNumber, StackFrame stackFrame, string leftOperand, string rightOperand, string label)
+        {
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(leftOperand)}(6) ; If {leftOperand} < {rightOperand} Goto {label}
+{lineNumber++}: LD 3, {stackFrame.Address(rightOperand)}(6)
+{lineNumber++}: SUB 2, 2, 3
+{lineNumber++}: JLT 2, [label:{label}](0)
+";
+        }
     }
 }
