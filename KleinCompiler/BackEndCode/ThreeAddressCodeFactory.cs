@@ -159,9 +159,23 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Minus(leftOperand, rightOperand, MakeNewTemp()));
         }
 
-        public void Visit(AndOperator node)
+        public void Visit(AndOperator and)
         {
-            throw new NotImplementedException();
+            var falseLabel = MakeNewLabel();
+            var endLabel = MakeNewLabel();
+
+            and.Left.Accept(this);
+            var leftOperand = tacs.Last().Result;
+            tacs.Add(Tac.IfFalse(leftOperand, falseLabel));
+            and.Right.Accept(this);
+            var rightOperand = tacs.Last().Result;
+            tacs.Add(Tac.IfFalse(rightOperand, falseLabel));
+            var resultVariable = MakeNewTemp();
+            tacs.Add(Tac.Assign("1", resultVariable));
+            tacs.Add(Tac.Goto(endLabel));
+            tacs.Add(Tac.Label(falseLabel, resultVariable));
+            tacs.Add(Tac.Assign("0", resultVariable));
+            tacs.Add(Tac.Label(endLabel, resultVariable));
         }
 
         public void Visit(TimesOperator times)
@@ -280,7 +294,8 @@ namespace KleinCompiler.BackEndCode
             Goto,
             Label,
             IfLessThan,
-            Not
+            Not,
+            IfFalse
         }
 
         public static Tac Init(int numberOfArguments) => new Tac(Op.Init, numberOfArguments.ToString(), null, null);
@@ -343,6 +358,7 @@ namespace KleinCompiler.BackEndCode
                     return $"r{Arg1} := {Arg2}";
                 case Op.IfEqual:
                 case Op.IfLessThan:
+                case Op.IfFalse:
                     return $"{Arg1} {Operation} {Arg2} goto {Result}";
                 default:
                     return $"{Result} := {Arg1} {Operation} {Arg2}";
@@ -358,5 +374,7 @@ namespace KleinCompiler.BackEndCode
         public static Tac IfLessThan(string leftOperand, string rightOperand, string label) => new Tac(Op.IfLessThan, leftOperand, rightOperand, label);
 
         public static Tac Not(string rightOperand, string variable) => new Tac(Op.Not, null, rightOperand, variable);
+
+        public static Tac IfFalse(string operand, string label) => new Tac(Op.IfFalse, null, operand, label);
     }
 }

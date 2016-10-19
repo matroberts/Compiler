@@ -197,5 +197,12 @@
 {lineNumber++}: ST 2, {stackFrame.Address(resultVariable)}(6)
 ";
         }
+
+        public static string IfFalse(ref int lineNumber, StackFrame stackFrame, string operand, string label)
+        {
+            return $@"{lineNumber++}: LD 2, {stackFrame.Address(operand)}(6) ; IfFalse {operand} Goto {label}
+{lineNumber++}: JEQ 2, [label:{label}](0)
+";
+        }
     }
 }

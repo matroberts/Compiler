@@ -109,6 +109,9 @@ namespace KleinCompiler.BackEndCode
                     case Tac.Op.Not:
                         sb.Append(CodeTemplates.Not(ref lineNumber, stackFrame, tac.Arg2, tac.Result));
                         break;
+                    case Tac.Op.IfFalse:
+                        sb.Append(CodeTemplates.IfFalse(ref lineNumber, stackFrame, tac.Arg2, tac.Result));
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(tac.Operation.ToString());
                 }
