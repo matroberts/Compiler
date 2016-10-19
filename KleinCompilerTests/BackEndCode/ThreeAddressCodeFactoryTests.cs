@@ -528,6 +528,54 @@ EndFunc main
             Assert.That(tinyOut, Is.EqualTo(new[] { "0" }));
         }
 
+        [Test]
+        public void IfThenElse_IfConditionTrue_ThenBranchShouldExecute()
+        {
+            // arrange
+            var input = @"main() : integer
+                              if true then
+                                  17
+                               else
+                                  19";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tacs);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "17" }));
+        }
+
+        [Test]
+        public void IfThenElse_IfConditionFalse_ElseBranchShouldExecute()
+        {
+            // arrange
+            var input = @"main() : integer
+                              if false then
+                                  17
+                               else
+                                  19";
+
+            var frontEnd = new FrontEnd();
+            var program = frontEnd.Compile(input);
+            Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
+
+            // act
+            var tacs = new ThreeAddressCodeFactory().Generate(program);
+            Console.WriteLine(tacs);
+            var output = new CodeGenerator().Generate(tacs);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+            // assert
+            Assert.That(tinyOut, Is.EqualTo(new[] { "19" }));
+        }
+
         #endregion
     }
 }

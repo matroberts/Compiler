@@ -97,9 +97,22 @@ namespace KleinCompiler.BackEndCode
             tacs.Add(Tac.Call("print", returnVariable));
         }
 
-        public void Visit(IfThenElse node)
+        public void Visit(IfThenElse ifthenelse)
         {
-            throw new NotImplementedException();
+            var elseLabel = MakeNewLabel();
+            var endLabel = MakeNewLabel();
+            var resultVariable = MakeNewTemp();
+
+            ifthenelse.IfExpr.Accept(this);
+            var ifoperand = tacs.Last().Result;
+            tacs.Add(Tac.IfFalse(ifoperand, elseLabel));
+            ifthenelse.ThenExpr.Accept(this);
+            tacs.Add(Tac.Assign(tacs.Last().Result, resultVariable));
+            tacs.Add(Tac.Goto(endLabel));
+            tacs.Add(Tac.Label(elseLabel, resultVariable));
+            ifthenelse.ElseExpr.Accept(this);
+            tacs.Add(Tac.Assign(tacs.Last().Result, resultVariable));
+            tacs.Add(Tac.Label(endLabel, resultVariable));
         }
 
         public void Visit(LessThanOperator lessThan)
