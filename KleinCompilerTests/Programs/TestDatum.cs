@@ -9,13 +9,9 @@ namespace KleinCompilerTests.Programs
 {
     public class TestDatum
     {
-        public static List<TestDatum> ArgsAndAsserts(string input)
+        public static List<TestDatum> GetTestData(string input)
         {
             var testDataLine = new Regex(@"^\s*//\s*Args(.*)Assert(.*)$", RegexOptions.Multiline);
-            foreach (var match in testDataLine.Matches(input))
-            {
-                Console.WriteLine(match);
-            }
             return testDataLine.Matches(input)
                 .Cast<Match>()
                 .Select(m => new TestDatum(m.Groups[1].Value, m.Groups[2].Value))
@@ -30,6 +26,11 @@ namespace KleinCompilerTests.Programs
 
         public string Args { get; }
         public List<string> Asserts { get; }
+
+        public override string ToString()
+        {
+            return $"Args {Args} Assert {string.Join(", ", Asserts)}";
+        }
     }
 
     [TestFixture]
@@ -41,7 +42,7 @@ namespace KleinCompilerTests.Programs
             string input = @"// Args 2 Assert 7
 ";
 
-            var testData = TestDatum.ArgsAndAsserts(input);
+            var testData = TestDatum.GetTestData(input);
 
             Assert.That(testData.Count, Is.EqualTo(1));
             Assert.That(testData[0].Args, Is.EqualTo(" 2 "));
@@ -54,7 +55,7 @@ namespace KleinCompilerTests.Programs
             string input = @"// Args 2 Assert 7, 9, 13
 ";
 
-            var testData = TestDatum.ArgsAndAsserts(input);
+            var testData = TestDatum.GetTestData(input);
 
             Assert.That(testData.Count, Is.EqualTo(1));
             Assert.That(testData[0].Args, Is.EqualTo(" 2 "));
@@ -68,7 +69,7 @@ namespace KleinCompilerTests.Programs
 // Args 3 Assert 7, 9, 13
 // Args 5 Assert 7, 9, 13";
 
-            var testData = TestDatum.ArgsAndAsserts(input);
+            var testData = TestDatum.GetTestData(input);
 
             Assert.That(testData.Count, Is.EqualTo(3));
         }
@@ -88,7 +89,7 @@ namespace KleinCompilerTests.Programs
       else
          n* n";
 
-            var testData = TestDatum.ArgsAndAsserts(input);
+            var testData = TestDatum.GetTestData(input);
 
             Assert.That(testData.Count, Is.EqualTo(1));
             Assert.That(testData[0].Args, Is.EqualTo(" 2 "));

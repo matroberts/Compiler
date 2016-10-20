@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,21 +24,24 @@ namespace KleinCompilerTests.Programs
         {
             var folder = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\KleinPrograms\Programs\fullprograms");
             var files = Directory.GetFiles(folder, "*.kln");
-            bool allPass = true;
-            var result = new StringBuilder();
+            Assert.That(files.Length, Is.GreaterThan(0));
+
             foreach (var file in files)
             {
                 var input = File.ReadAllText(file);
                 var frontEnd = new FrontEnd();
                 var program = frontEnd.Compile(input);
                 Assert.That(program, Is.Not.Null, frontEnd.ErrorRecord.ToString());
-
                 var tacs = new ThreeAddressCodeFactory().Generate(program);
                 var output = new CodeGenerator().Generate(tacs);
-                var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output);
+
+                foreach (var testDatum in TestDatum.GetTestData(input))
+                {
+                    Console.WriteLine($"{Path.GetFileName(file)}      {testDatum}");
+                    var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, testDatum.Args);
+                    Assert.That(tinyOut, Is.EquivalentTo(testDatum.Asserts));
+                }
             }
-            Assert.That(files.Length, Is.GreaterThan(0));
-            Assert.That(allPass, NUnit.Framework.Is.True);
         }
     }
 }

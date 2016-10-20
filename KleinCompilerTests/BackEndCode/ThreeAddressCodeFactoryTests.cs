@@ -124,7 +124,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "19" }));
@@ -150,7 +150,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "20" }));
@@ -172,7 +172,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "18" }));
@@ -194,7 +194,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "38" }));
@@ -216,7 +216,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "9" }));
@@ -238,7 +238,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 19);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "19");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "-19" }));
@@ -258,7 +258,7 @@ EndFunc main
             // act
             var tacs = new ThreeAddressCodeFactory().Generate(program);
             var output = new CodeGenerator().Generate(tacs);
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 9, 11);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "9 11");
 
             // assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "-48" }));

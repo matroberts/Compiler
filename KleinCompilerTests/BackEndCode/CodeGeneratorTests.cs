@@ -255,7 +255,7 @@ namespace KleinCompilerTests.BackEndCode
             var output = new CodeGenerator().Generate(tacs);
 
             // Act
-            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, 29, 31, 37);
+            var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, "29 31 37");
 
             // Assert
             Assert.That(tinyOut, Is.EqualTo(new[] { "29", "31", "37", "13" }), tinyOut.ToString());
