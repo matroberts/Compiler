@@ -1,3 +1,4 @@
+// Args 17 Assert 17
 main(n : integer) : integer
   n
 

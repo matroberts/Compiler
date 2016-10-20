@@ -1,3 +1,6 @@
+// Args 1 Assert 1
+// Args 10 Assert 10
+
 main(n : integer) : integer
   if f(n+1,n) = 3*n+2 then n
                       else 0

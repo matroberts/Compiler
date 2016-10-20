@@ -1,3 +1,4 @@
+// Args  Assert 4, 4
 main() : integer
   print(4)
   4

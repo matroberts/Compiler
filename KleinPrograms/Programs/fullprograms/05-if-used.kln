@@ -2,6 +2,9 @@
 // test: if expression as a value
 // -------------------------------
 
+// Args 0 Assert 6
+// Args -1 Assert 16
+// Args 3 Assert 15
 main(n : integer) : integer
   6 + if n < 0
       then

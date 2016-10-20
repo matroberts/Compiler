@@ -1,3 +1,5 @@
+// Args 9 Assert 9,9
+
 main( n : integer ) : integer
   printAndReturn(n)
 

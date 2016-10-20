@@ -1,3 +1,4 @@
+// Args 9 Assert 10
 main(n : integer) : integer
   inc(n)
 
