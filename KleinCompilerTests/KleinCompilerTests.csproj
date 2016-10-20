@@ -63,6 +63,8 @@
     <Compile Include="FrontEndCode\SymbolTests.cs" />
     <Compile Include="FrontEndCode\TokenizerTests.cs" />
     <Compile Include="FrontEndCode\TokenTests.cs" />
+    <Compile Include="Programs\TestDatum.cs" />
+    <Compile Include="Programs\FullProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AbstractSyntaxTree\KTypeTests.cs" />
     <Compile Include="FrontEndCode\TypeCheckerTests.cs" />
