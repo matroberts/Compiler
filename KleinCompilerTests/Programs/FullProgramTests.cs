@@ -39,7 +39,8 @@ namespace KleinCompilerTests.Programs
                 {
                     Console.WriteLine($"{Path.GetFileName(file)}      {testDatum}");
                     var tinyOut = new TinyMachine(ExePath, TestFilePath).Execute(output, testDatum.Args);
-                    Assert.That(tinyOut, Is.EquivalentTo(testDatum.Asserts));
+                    Console.WriteLine(tinyOut);
+                    Assert.That(tinyOut, Is.EquivalentTo(testDatum.Asserts), Path.GetFileName(file));
                 }
             }
         }

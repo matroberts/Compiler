@@ -1,3 +1,4 @@
+// Args  Assert 1,1
 main() : boolean
   print(true)
   true

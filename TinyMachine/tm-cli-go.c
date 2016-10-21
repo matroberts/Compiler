@@ -26,6 +26,9 @@
                       University of Northern Iowa
          Augmented use of fgets() with strcspn(), to remove EOL
          characters.  Fixes TM commands that require arguments.
+
+      October 2016 Mat Roberts
+         Made print errors if the program terminates early
 */
 
 #include <stdio.h>
@@ -42,7 +45,7 @@
 
 /******* const *******/
 #define   IADDR_SIZE  1024 /* increase for large programs */
-#define   DADDR_SIZE  1024 /* increase for large programs */
+#define   DADDR_SIZE  10*1024 /* increase for large programs */
 #define   NO_REGS 8
 #define   PC_REG  7
 
@@ -679,6 +682,10 @@ int main( int argc, char * argv[] )
     iloc = reg[PC_REG] ;
     stepResult = stepTM ();
     stepcnt++;
+  }
+  if (stepResult != srHALT)
+  {
+      printf("%s\n", stepResultTab[stepResult]);
   }
   //printf("Number of instructions executed = %d\n",stepcnt);
 

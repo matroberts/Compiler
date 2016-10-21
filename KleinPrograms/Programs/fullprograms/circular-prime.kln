@@ -8,7 +8,9 @@
   311 are prime.
 
   https://en.wikipedia.org/wiki/Circular_prime
+  http://primes.utm.edu/glossary/xpage/CircularPrime.html
 }
+// Args 100 Assert 2, 3, 5, 7, 11, 13, 17, 31, 37, 71, 73, 79, 97, 13
 
 main(x:integer):integer
   circularPrimesTo(x)

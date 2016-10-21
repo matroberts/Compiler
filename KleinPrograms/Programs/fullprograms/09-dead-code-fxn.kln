@@ -1,3 +1,6 @@
+// Args 8 Assert 16
+// Args -4 Assert -14
+
 main(n : integer) : integer
   if not (n < 0) then
     2 * n

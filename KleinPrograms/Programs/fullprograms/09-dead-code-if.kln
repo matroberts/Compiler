@@ -1,3 +1,4 @@
+// Args 7 Assert 14
 main(n : integer) : integer
   if true then
     2 * n
